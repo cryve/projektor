@@ -1,6 +1,16 @@
 <template name="project">
-    <li>
-        <button class="delete">&times;</button>
+    <li class="{{#if private}}private{{/if}}">
+        {{#if isOwner}}
+            <button class="delete">&times;</button>
+            <button class="toggle-private">
+                {{#if private}}
+                    Set Public
+                {{else}}
+                    Set Private
+                {{/if}}
+            </button>
+        {{/if}}
+        
         <strong>{{title}}</strong> by {{username}}
     </li>
 </template>
