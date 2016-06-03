@@ -1,0 +1,21 @@
+<body>
+    <div class="container">
+        <header>
+            <h1>HAW Projektor</h1>
+            
+            {{> loginButtons }}
+            
+            {{#if currentUser}}
+                <form class="new-project">
+                    <input type="text" name="title" placeholder="Type to add new project" />
+                </form>
+            {{/if}}
+        </header>
+        
+        <ul>
+            {{#each projects}}
+                {{>project}}
+            {{/each}}
+        </ul>
+    </div>
+</body>
