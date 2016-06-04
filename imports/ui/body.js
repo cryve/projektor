@@ -13,6 +13,9 @@ Template.body.helpers({
    projects() {
        return Projects.find({}, { sort: { createdAt: -1 } });
    },
+    projectCount() {
+        return Projects.find().count();
+    }
 });
 
 Template.body.events({
