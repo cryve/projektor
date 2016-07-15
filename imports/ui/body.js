@@ -2,8 +2,8 @@ import { Template } from 'meteor/templating';
 
 import { Projects } from '../api/projects.js';
 
-import './project.js'
-import './body.html'
+import './project.js';
+import './body.html';
 
 Template.body.onCreated(function bodyOnCreated() {
     Meteor.subscribe('projects');    
