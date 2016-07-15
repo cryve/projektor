@@ -25,3 +25,9 @@
 * Team-Chat
 * Privatnachrichten
 * Projektor Mobile App
+
+## Meteor Tutorials
+* [Offizielles Einstiegstutorial](https://www.meteor.com/tutorials/blaze/creating-an-app)
+* [Whatsapp Clone erstellen](http://www.angular-meteor.com/tutorials/whatsapp/meteor/bootstrapping)
+* [Intermediate Meteor: Recipe App - Video Tutorial](https://www.youtube.com/watch?v=BI8IslJHSag&list=PLLnpHn493BHFYZUSK62aVycgcAouqBt7V)
+* [Umfrage App erstellen](https://scotch.io/tutorials/learn-meteor-js-from-scratch-build-a-polling-app)
