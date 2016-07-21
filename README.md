@@ -14,12 +14,13 @@
 * Login mit HAW-Account
 * Taggen und Suchen
 * Rechte-System (darf bearbeiten/darf nicht bearbeiten)
+* Mitgliedsprofil
 
 ### COULD
 * Schnittstelle zum Showcase
 * Projekte Kategorien zuordnen
 * Projekte kommentieren
-* Mitgliedsprofil
+
 
 ### WONT
 * Team-Chat
