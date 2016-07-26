@@ -15,7 +15,7 @@ if (Meteor.isServer) {
         });
     });
 }
-
+  
 
 Meteor.methods({
     'projects.insert'(title) {
