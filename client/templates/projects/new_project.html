@@ -1,0 +1,24 @@
+<template name="newProject">
+  <div id="form-main">
+    <div id="form-div">
+      <form class="form" id="form1">
+          
+        <div class="title-image"></div>
+        <p class="project-title">
+          <input name="title" type="text" class="validate[required,custom[onlyLetter],length[0,100]] feedback-input" placeholder="Projektname" id="title" />
+        </p>
+        
+         
+        <p class="project-description">
+          <textarea name="description" class="validate[required,length[6,300]] feedback-input" id="description" placeholder="Projekt Beschreibung"></textarea>
+        </p>
+      
+      
+        <div class="submit">
+          <input type="submit" value="SEND" id="button-blue"/>
+          <div class="ease"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>

@@ -7,6 +7,12 @@
   text-align: center;
 }
 
+.title-image{
+  width:450px;
+  height:250px;
+  background-color: aqua;
+}
+
 
 
 #feedback-page{
@@ -43,7 +49,7 @@
 	border-radius: 0;
 	line-height: 22px;
 	background-color: #fbfbfb;
-	padding: 13px 13px 13px 54px;
+	padding: 13px 13px 13px 13px;
 	margin-bottom: 10px;
 	width:100%;
 	-webkit-box-sizing: border-box;
@@ -68,41 +74,9 @@
 }
 
 /* Icons ---------------------------------- */
-#name{
-	background-image: url(http://rexkirby.com/kirbyandson/images/name.svg);
-	background-size: 30px 30px;
-	background-position: 11px 8px;
-	background-repeat: no-repeat;
-}
 
-#name:focus{
-	background-image: url(http://rexkirby.com/kirbyandson/images/name.svg);
-	background-size: 30px 30px;
-	background-position: 8px 5px;
-  background-position: 11px 8px;
-	background-repeat: no-repeat;
-}
 
-#email{
-	background-image: url(http://rexkirby.com/kirbyandson/images/email.svg);
-	background-size: 30px 30px;
-	background-position: 11px 8px;
-	background-repeat: no-repeat;
-}
 
-#email:focus{
-	background-image: url(http://rexkirby.com/kirbyandson/images/email.svg);
-	background-size: 30px 30px;
-  background-position: 11px 8px;
-	background-repeat: no-repeat;
-}
-
-#comment{
-	background-image: url(http://rexkirby.com/kirbyandson/images/comment.svg);
-	background-size: 30px 30px;
-	background-position: 11px 8px;
-	background-repeat: no-repeat;
-}
 
 textarea {
     width: 100%;
