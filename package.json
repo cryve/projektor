@@ -1,5 +1,5 @@
 {
-  "name": "projekt",
+  "name": "projektor",
   "private": true,
   "scripts": {
     "start": "meteor run"
