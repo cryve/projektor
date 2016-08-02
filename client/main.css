@@ -13,7 +13,15 @@
   background-color: aqua;
 }
 
-
+.cardDesign{
+     float: left;
+     width: 30%;
+     margin-right: 3.33333%;
+     padding: 20px;
+     margin-bottom:30px;
+     background: #eee;
+     box-sizing: border-box;
+}
 
 #feedback-page{
 	text-align:center;
