@@ -1,6 +1,10 @@
+import {Projects} from "../../../imports/api/projects.js" ;
+import {Template} from "meteor/templating" ;
+import "./new_project.html" ;
+
 Template.newProject.helpers({
-  posts: function() {
-    return Posts.find();
+  projects: function() {
+    return Projects.find();
   }
 });
 
