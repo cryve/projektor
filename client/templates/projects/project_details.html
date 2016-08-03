@@ -1,25 +1,8 @@
 <template name="projectDetails">
-  <div id="form-main">
-    <div id="form-div">
-      
-          
-        <div class="title-image"></div>
-        <button id="upload">Upload New Profile Image</button>
-        <p class="project-title">
-          <input name="title" type="text" class="validate[required,custom[onlyLetter],length[0,100]] feedback-input" placeholder="Projektname" id="title" />
-        </p>
-        
-         
-        <p class="project-description">
-          <textarea name="description" class="validate[required,length[6,300]] feedback-input" id="description" placeholder="Projekt Beschreibung"></textarea>
-        </p>
-      
-      
-        <div class="submit">
-          <input type="submit" value="SEND" id="button-blue"/>
-          <div class="ease"></div>
-        </div>
-  
-    </div>
-  </div>
+  {{#with projectDetails}}
+    <h2>{{title}}</h2>   
+
+    <h2>{{_id}}</h2>
+    <p class="project-description">{{description}}</p>
+  {{/with}}
 </template>
