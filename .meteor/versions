@@ -25,6 +25,7 @@ ejson@1.0.12
 es5-shim@4.6.13
 fastclick@1.0.12
 geojson-utils@1.0.9
+handlebars@1.0.7
 hot-code-push@1.0.4
 html-tools@1.0.10
 htmljs@1.0.10
@@ -54,6 +55,7 @@ modules@0.7.5
 modules-runtime@0.7.5
 mongo@1.1.10
 mongo-id@1.0.5
+natestrauser:filepicker-plus@2.0.0
 npm-mongo@1.5.45
 observe-sequence@1.0.12
 ordered-dict@1.0.8

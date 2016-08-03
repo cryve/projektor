@@ -18,3 +18,4 @@ Template.newProject.events({
     target.description.value = '' ;
   },
 })
+

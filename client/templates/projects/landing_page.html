@@ -1,0 +1,20 @@
+<template name="landingPage">
+  
+  <div  class="new-project-button"> 
+
+    <a href="{{pathFor 'newProject'}}"> <button>Projekt erstellen</button> </a>
+
+  </div>  
+  
+  <div class="project-cards">
+    <ul>
+
+      {{#each projects}}
+        {{>projectCard}}
+      {{/each}}
+
+    </ul>
+  </div>
+  
+</template>
+          
