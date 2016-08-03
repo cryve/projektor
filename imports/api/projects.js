@@ -10,10 +10,17 @@ Meteor.methods({
         check(description, String);
         
         Projects.insert({
+            //id: new Id,
+            //owner: this.userId,
+            createdAt: new Date(),
             title,
             description,
-            createdAt: new Date(),
-            //owner: this.userId,
+            //tags: tags,
+            //deadline: deadline,
+            //member: [],
+            //
+            
+            
         });
     },
   
