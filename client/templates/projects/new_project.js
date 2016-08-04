@@ -10,12 +10,19 @@ Template.newProject.events({
     const target = event.target;
     const title = target.title.value;
     const description = target.description.value;
+    const skills = target.skills.value;
+    const contacts = target.contacts.value;
+    const deadline = target.deadline.value;
     
-    Meteor.call('projects.insert', title, description);
+    Meteor.call('projects.insert', title, description, skills, contacts, deadline );
     
     // clear form
     target.title.value = '' ;
     target.description.value = '' ;
+    target.skills.value = '' ;
+    target.contacts.value = '' ;
+    target.deadline.value = '' ;
+
   },
 })
 
