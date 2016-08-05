@@ -12,7 +12,7 @@ Meteor.methods({
         check(description, String);
         check(skills, String);
         check(contacts, String);
-        check(deadline, String);
+        check(deadline, String)
         check(tags, Match.Maybe([String])); // optional input, but if present must be string array
 
         
