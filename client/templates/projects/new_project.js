@@ -14,15 +14,7 @@ Template.newProject.events({
                            
   'submit .new-project'(event){
     
-    function formatDate(value){
-      var month = value.getMonth()+1
-      if (month > 9){
-        return value.getDate() + "/" + month + "/" + value.getFullYear();
-      }
-      else{
-        return value.getDate() + "/" + "0" + month + "/" + value.getFullYear();
-      }
-    }
+   
     
     console.log("submitting...");
     event.preventDefault();
@@ -32,7 +24,7 @@ Template.newProject.events({
     const description = target.description.value;
     const skills = target.skills.value;
     const contacts = target.contacts.value;
-    const deadline = formatDate(new Date(target.deadline.value));
+    const deadline = new Date(Date.parse(target.deadline.value));
     const tags = $("#tags-input").tagsinput("items");
     
     Meteor.call('projects.insert', title, description, skills, contacts, deadline, tags );
