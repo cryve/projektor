@@ -5,6 +5,7 @@ import "./new_project.html" ;
 Template.newProject.onRendered(function() {
   // Initialize bootstrap tagsinput for tags field
   $("#tags-input").tagsinput();
+  $("#skills").tagsinput();
 });
 
 Template.newProject.events({
@@ -42,6 +43,7 @@ Template.newProject.events({
     target.contacts.value = '' ;
     target.deadline.value = '' ;
     $("#tags-input").tagsinput("removeAll");
+    $("#skills").tagsiinput("removeAll");
 
 
   },
