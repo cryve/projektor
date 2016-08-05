@@ -16,7 +16,7 @@ Template.newProject.events({
     const target = event.target;
     const title = target.title.value;
     const description = target.description.value;
-    const skills = target.skills.value;
+    const $("#skills").tagsinput("items");
     const contacts = target.contacts.value;
     const deadline = target.deadline.value;
     const tags = $("#tags-input").tagsinput("items");
@@ -30,7 +30,7 @@ Template.newProject.events({
     target.contacts.value = '' ;
     target.deadline.value = '' ;
     $("#tags-input").tagsinput("removeAll");
-    $("#skills").tagsiinput("removeAll");
+    $("#skills").tagsinput("removeAll");
 
 
   },

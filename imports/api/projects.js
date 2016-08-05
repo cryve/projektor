@@ -10,7 +10,7 @@ Meteor.methods({
     'projects.insert'(title, description, skills, contacts, deadline, tags) {
         check(title, String);
         check(description, String);
-        check(skills, String);
+        check(skills, [String]);
         check(contacts, String);
         check(deadline, String);
         check(tags, Match.Maybe([String])); // optional input, but if present must be string array
