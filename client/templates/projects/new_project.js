@@ -9,20 +9,25 @@ Template.newProject.onRendered(function() {
 });
 
 Template.newProject.events({
+  
+  
+                           
   'submit .new-project'(event){
+    
+   
+    
     console.log("submitting...");
     event.preventDefault();
-    
+
     const target = event.target;
     const title = target.title.value;
     const description = target.description.value;
     const $("#skills").tagsinput("items");
     const contacts = target.contacts.value;
-    const deadline = target.deadline.value;
+    const deadline = new Date(Date.parse(target.deadline.value));
     const tags = $("#tags-input").tagsinput("items");
     
     Meteor.call('projects.insert', title, description, skills, contacts, deadline, tags );
-
     // clear form
     target.title.value = '' ;
     target.description.value = '' ;
