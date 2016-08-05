@@ -9,7 +9,7 @@ Template.projectDetails.helpers({
 
    deadlineString(){
       var deadlineValue = this.deadline;
-      var month = deadlineValue.getMonth()+1;
+      var month = deadlineValue.getMonth() + 1;
       if (month > 9){
         return deadlineValue.getDate() + "." + month + "." + deadlineValue.getFullYear();
       }

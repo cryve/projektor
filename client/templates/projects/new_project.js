@@ -18,10 +18,13 @@ Template.newProject.events({
     const description = target.description.value;
     const skills = $("#skills").tagsinput("items");
     const contacts = target.contacts.value;
-    const deadline = target.deadline.value;
+    const deadline = new Date(Date.parse(target.deadline.value));
     const tags = $("#tags-input").tagsinput("items");
     
     Meteor.call('projects.insert', title, description, skills, contacts, deadline, tags );
+
+    console.log(title);
+   
 
     // clear form
     target.title.value = '' ;
@@ -32,7 +35,12 @@ Template.newProject.events({
     $("#tags-input").tagsinput("removeAll");
     $("#skills").tagsinput("removeAll");
 
-
+    Router.go("landingPage");
   },
+  
+  
 })
+
+
+  
 
