@@ -2,6 +2,11 @@ import {Template} from "meteor/templating" ;
 import {Projects} from "../../../imports/api/projects.js" ;
 import "./new_project.html" ;
 
+Template.newProject.onRendered(function() {
+  // Initialize bootstrap tagsinput for tags field
+  $("#tags-input").tagsinput();
+});
+
 Template.newProject.events({
   'submit .new-project'(event){
     console.log("submitting...");
@@ -13,15 +18,18 @@ Template.newProject.events({
     const skills = target.skills.value;
     const contacts = target.contacts.value;
     const deadline = target.deadline.value;
+    const tags = $("#tags-input").tagsinput("items");
     
-    Meteor.call('projects.insert', title, description, skills, contacts, deadline );
-    
+    Meteor.call('projects.insert', title, description, skills, contacts, deadline, tags );
+
     // clear form
     target.title.value = '' ;
     target.description.value = '' ;
     target.skills.value = '' ;
     target.contacts.value = '' ;
     target.deadline.value = '' ;
+    $("#tags-input").tagsinput("removeAll");
+
 
   },
 })
