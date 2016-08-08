@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 
-import { Projects } from '../../../imports/api/projects.js';
+import { Projects } from '../../../lib/collections/projects.js';
 
 import './like_button.html';
 

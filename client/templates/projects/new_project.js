@@ -1,5 +1,5 @@
 import {Template} from "meteor/templating" ;
-import {Projects} from "../../../imports/api/projects.js" ;
+import {Projects} from "../../../lib/collections/projects.js" ;
 import "./new_project.html" ;
 
 Template.newProject.onRendered(function() {
