@@ -15,17 +15,6 @@ Template.projectEdit.helpers({
   },
   initSkills() {    
     return this.skills && this.skills.toString();
-  },
-  deadlineString() {
-    var deadlineValue = this.deadline;
-    if(deadlineValue) {
-      var month = deadlineValue.getMonth() + 1;
-      if (month > 9) {
-        return deadlineValue.getFullYear() + "-" + month + "-" + deadlineValue.getDate();
-      }
-      return deadlineValue.getFullYear() + "-" + "0" + month + "-" + deadlineValue.getDate();
-
-    }
   }
 });
 
