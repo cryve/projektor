@@ -35,5 +35,7 @@ Template.projectEdit.events({
       tags: $("#tags-input").tagsinput("items")
     }
     Meteor.call('projects.update', currentProjectId, newProjectProperties);
+    
+    Router.go("projectDetails", {_id: this._id, title: this.title});
   }
 });
