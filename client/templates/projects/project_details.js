@@ -8,13 +8,15 @@ Template.projectDetails.helpers({
   
 
    deadlineString(){
-      var deadlineValue = this.deadline;
-      var month = deadlineValue.getMonth() + 1;
-      if (month > 9){
-        return deadlineValue.getDate() + "." + month + "." + deadlineValue.getFullYear();
-      }
+      const deadlineValue = this.deadline;
+      if(deadlineValue) {
+        const month = deadlineValue.getMonth() + 1;
+        if (month > 9) {
+          return deadlineValue.getDate() + "." + month + "." + deadlineValue.getFullYear();
+        }
         return deadlineValue.getDate() + "." + "0" + month + "." + deadlineValue.getFullYear();
- 
+      }
+      
      
     }
   

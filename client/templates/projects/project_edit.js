@@ -9,20 +9,42 @@ Template.projectEdit.onRendered(function() {
 });
 
 Template.projectEdit.helpers({
-  initTags() {
+  initTags() {    
     // first check if this.tags is accessible for the client already - TODO: Better solution?
-    this.tags && $("#tags-input").tagsinput("add", this.tags.toString()); 
-  },  
-  initSkills() {
-    this.skills && $("#skills").tagsinput("add", this.skills.toString());  
+    return this.tags && this.tags.toString();
+  },
+  initSkills() {    
+    return this.skills && this.skills.toString();
   },
   deadlineString() {
     var deadlineValue = this.deadline;
-    var month = deadlineValue.getMonth() + 1;
-    if (month > 9) {
-      return deadlineValue.getFullYear() + "-" + month + "-" + deadlineValue.getDate();
+    if(deadlineValue) {
+      var month = deadlineValue.getMonth() + 1;
+      if (month > 9) {
+        return deadlineValue.getFullYear() + "-" + month + "-" + deadlineValue.getDate();
+      }
+      return deadlineValue.getFullYear() + "-" + "0" + month + "-" + deadlineValue.getDate();
+
     }
-    return deadlineValue.getFullYear() + "-" + "0" + month + "-" + deadlineValue.getDate();
   }
 });
 
+Template.projectEdit.events({
+  'submit .edit-project'(event) {
+    event.preventDefault();
+    const currentProjectId = this._id;
+    const target = event.target;
+    
+    console.log(target.title.value);
+    
+    const newProjectProperties = {
+      title: target.title.value,
+      description: target.description.value,
+      skills: $("#skills").tagsinput("items"),
+      contacts: target.contacts.value,
+      deadline: new Date(Date.parse(target.deadline.value)),
+      tags: $("#tags-input").tagsinput("items")
+    }
+    Meteor.call('projects.update', currentProjectId, newProjectProperties);
+  }
+});
