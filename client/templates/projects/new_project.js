@@ -1,6 +1,9 @@
 import {Template} from "meteor/templating" ;
 import {Projects} from "../../../lib/collections/projects.js" ;
+import {Images} from "../../../lib/images.collection.js";
 import "./new_project.html" ;
+
+
 
 Template.newProject.onRendered(function() {
   // Initialize bootstrap tagsinput for tags field
@@ -21,7 +24,9 @@ Template.newProject.events({
     const deadline = new Date(Date.parse(target.deadline.value));
     const tags = $("#tags-input").tagsinput("items");
     
-    Meteor.call('projects.insert', title, description, skills, contacts, deadline, tags );
+    console.log(Images.findOne(this.path));
+    const coverImgPath = Images.findOne(this.path);
+    Meteor.call('projects.insert', title, description, skills, contacts, deadline, tags, coverImgPath);
 
     console.log(title);
    
