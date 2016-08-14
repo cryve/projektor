@@ -1,6 +1,7 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Videos, Images } from '../../../lib/images.collection.js';
+import {Projects} from "../../../lib/collections/projects.js" ;
 
 import './image_upload.html';
 
@@ -44,6 +45,8 @@ Template.uploadForm.events({
             alert('File "' + fileObj.name + '" successfully uploaded');
           }
           template.currentUpload.set(false);
+          const coverImgPath = fileObj.path;
+          console.log(coverImgPath);
         });
 
         uploadInstance.start();

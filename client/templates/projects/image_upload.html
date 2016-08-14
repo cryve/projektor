@@ -9,7 +9,7 @@
 
 <template name="uploadForm">
   {{#with currentUpload}}
-    Uploading <b>{{file.name}}</b>: 
+    Uploading <b>{{file.name}} </b>: 
     <span id="progress">{{progress.get}}%</span>
   {{else}}
     <input id="fileInput" type="file" />
@@ -18,7 +18,7 @@
 </template>
 
 <template name="uploadedFiles">
-  <a href="{{file.link}}?download=true" download="{{file.name}}">{{file.name}}</a>
+  <a href="{{file.link}}?download=true" download="{{file.name}}">{{file.name}} </a>
 </template>
 
 <template name='file'>

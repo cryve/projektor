@@ -1,8 +1,8 @@
 <template name="projectEdit">
       <form class="edit-project">
         
-        <p><input name="tags" type="text" id="tags-input" data-role="tagsinput" /></p>
-        {{initTags}}
+        <p><input name="tags" type="text" value="{{initTags}}" id="tags-input" data-role="tagsinput" /></p>
+        
         
         <p class="project-title">
           <input name="title" type="text" value="{{title}}" class="validate[required,custom[onlyLetter],length[0,100]] feedback-input" placeholder="Projektname" id="title" />
@@ -14,18 +14,18 @@
         </p>
         
         <p class="project-deadline">
-          <input name="deadline" value="{{deadlineString}}" type="date" class="validate[required,custom[onlyLetter],length[0,100]] feedback-input" placeholder="Deadline" id="deadline" />
+          <input name="deadline" value="{{formDate deadline}}" type="date" class="validate[required,custom[onlyLetter],length[0,100]] feedback-input" placeholder="Deadline" id="deadline" />
         </p>
         
         <p class="project-skills">
-          <textarea type="text" value="{{skills}}" name="skills" id="skills" data-role="tagsinput" placeholder="Welche Fähigkeiten suchst du?"></textarea>
-          {{initSkills}}
+          <input type="text" name="skills" value="{{initSkills}}" id="skills" data-role="tagsinput" placeholder="Welche Fähigkeiten suchst du?" />
         </p>
         
         <p class="project-contacts">
-          <textarea name="contacts" value="{{contatcs}}" class="validate[required,length[6,300]] feedback-input" id="contacts" placeholder="Kontaktmöglichkeiten"></textarea>
+          <textarea name="contacts" value="{{contacts}}" class="validate[required,length[6,300]] feedback-input" id="contacts" placeholder="Kontaktmöglichkeiten"></textarea>
         </p>    
         
-        <input type="submit" value="SEND" id="button-blue"/>
+        <input type="submit" value="Speichern" id="button-blue"/>
+        <a href="{{pathFor 'projectDetails'}}">Abbrechen</a>
       </form>
 </template>

@@ -1,6 +1,8 @@
 import {Template} from "meteor/templating" ;
 import {Projects} from "../../../lib/collections/projects.js" ;
 import {Images} from "../../../lib/images.collection.js";
+import {coverImgPath} from "./image_upload.js" ;
+
 import "./new_project.html" ;
 
 
@@ -23,10 +25,10 @@ Template.newProject.events({
     const contacts = target.contacts.value;
     const deadline = new Date(Date.parse(target.deadline.value));
     const tags = $("#tags-input").tagsinput("items");
-    
-    console.log(Images.findOne(this.path));
-    const coverImgPath = Images.findOne(this.path);
-    Meteor.call('projects.insert', title, description, skills, contacts, deadline, tags, coverImgPath);
+    const member = Meteor.userId();
+    console.log(Images.findOne());
+    const coverImgPath = "coverImgPath";
+    Meteor.call('projects.insert', title, description, skills, contacts, deadline, tags, coverImgPath, member);
 
     console.log(title);
    
