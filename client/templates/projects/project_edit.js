@@ -4,8 +4,16 @@ import "./project_edit.html";
 import { Projects } from '../../../lib/collections/projects.js';
 
 Template.projectEdit.onRendered(function() {
-  $("#tags-input").tagsinput();
-  $("#skills").tagsinput();
+  $("#tags-input").tagsinput({
+    maxTags: 10, // max 10 tags allowed
+    maxChars: 20, // max 10 chars per tag allowed
+    trimValue: true // removes whitespace around a tag
+  });
+  $("#skills").tagsinput({
+    maxTags: 10, // max 10 tags allowed
+    maxChars: 20, // max 10 chars per tag allowed
+    trimValue: true // removes whitespace around a tag
+  });
 });
 
 Template.projectEdit.helpers({
@@ -28,6 +36,7 @@ Template.projectEdit.events({
     
     const newProjectProperties = {
       title: target.title.value,
+      subtitle: target.subtitle.value,
       description: target.description.value,
       skills: $("#skills").tagsinput("items"),
       contacts: target.contacts.value,

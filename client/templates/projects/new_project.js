@@ -9,8 +9,16 @@ import "./new_project.html" ;
 
 Template.newProject.onRendered(function() {
   // Initialize bootstrap tagsinput for tags field
-  $("#tags-input").tagsinput();
-  $("#skills").tagsinput();
+  $("#tags-input").tagsinput({
+    maxTags: 10, // max 10 tags allowed
+    maxChars: 20, // max 10 chars per tag allowed
+    trimValue: true // removes whitespace around a tag
+  });
+  $("#skills").tagsinput({
+    maxTags: 10, // max 10 tags allowed
+    maxChars: 20, // max 10 chars per tag allowed
+    trimValue: true // removes whitespace around a tag
+  });
 });
 
 Template.newProject.events({
@@ -20,6 +28,7 @@ Template.newProject.events({
     
     const target = event.target;
     const title = target.title.value;
+    const subtitle = target.subtitle.value;
     const description = target.description.value;
     const skills = $("#skills").tagsinput("items");
     const contacts = target.contacts.value;
@@ -28,13 +37,15 @@ Template.newProject.events({
     const member = Meteor.userId();
     console.log(Images.findOne());
     const coverImgPath = "coverImgPath";
-    Meteor.call('projects.insert', title, description, skills, contacts, deadline, tags, coverImgPath, member);
+    Meteor.call('projects.insert', title,subtitle, description, skills, contacts, deadline, tags, coverImgPath, member);
+
 
     console.log(title);
    
 
     // clear form
     target.title.value = '' ;
+    target.subtitle.value = '' ;
     target.description.value = '' ;
     target.skills.value = '' ;
     target.contacts.value = '' ;
