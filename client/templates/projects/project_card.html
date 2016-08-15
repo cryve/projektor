@@ -1,7 +1,8 @@
 <template name="projectCard">
   <div class="cardDesign"> 
     <a href="{{pathFor 'projectDetails'}}"> <h3> {{title}} </h3> </a>
-    <p><h4>{{subtitle}}</h4></p>
+    <p><img src="{{coverImgPath}}" alt="{{name}}" /></p>
+    <p>{{subtitle}}</p>
     <p>{{tags}}</p>
     <p>{{readableDate deadline}}</p>
     <p>{{description}}</p>

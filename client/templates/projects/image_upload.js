@@ -45,8 +45,7 @@ Template.uploadForm.events({
             alert('File "' + fileObj.name + '" successfully uploaded');
           }
           template.currentUpload.set(false);
-          const coverImgPath = fileObj.path;
-          console.log(coverImgPath);
+          console.log(fileObj._downloadRoute);
         });
 
         uploadInstance.start();
