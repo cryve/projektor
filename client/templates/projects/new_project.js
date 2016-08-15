@@ -1,7 +1,7 @@
 import {Template} from "meteor/templating" ;
 import {Projects} from "../../../lib/collections/projects.js" ;
 import {Images} from "../../../lib/images.collection.js";
-import {coverImgPath} from "./image_upload.js" ;
+import {fileObj} from "./image_upload.js" ;
 
 import "./new_project.html" ;
 
@@ -36,7 +36,8 @@ Template.newProject.events({
     const tags = $("#tags-input").tagsinput("items");
     const member = Meteor.userId();
     console.log(Images.findOne());
-    const coverImgPath = "coverImgPath";
+    console.log($("#imageLink").attr("href"));
+    const coverImgPath = $("#imageLink").attr("href");
     Meteor.call('projects.insert', title,subtitle, description, skills, contacts, deadline, tags, coverImgPath, member);
 
 
