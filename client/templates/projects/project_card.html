@@ -1,8 +1,9 @@
 <template name="projectCard">
   <div class="cardDesign">
     <div class="cover-image">
-      <img src="/img/img_example_01.jpg" alt="{{name}}" />
+      <img src="/img/img_example_01.jpg" alt="{{name}}" />      
     </div>
+    <p>Projektleiter: {{getUsername owner}}</p>
     <h3><a href="{{pathFor 'projectDetails'}}">{{title}}</a></h3>
     <p>{{subtitle}}</p>
     <ul class="card-taglist">

@@ -34,15 +34,11 @@ Template.newProject.events({
     const contacts = target.contacts.value;
     const deadline = new Date(Date.parse(target.deadline.value));
     const tags = $("#tags-input").tagsinput("items");
-    const member = Meteor.userId();
+    const owner = Meteor.userId();
     console.log(Images.findOne());
     console.log($("#imageLink").attr("href"));
     const coverImgPath = $("#imageLink").attr("href");
-    Meteor.call('projects.insert', title,subtitle, description, skills, contacts, deadline, tags, coverImgPath, member);
-
-
-    console.log(title);
-   
+    Meteor.call('projects.insert', title, subtitle, description, skills, contacts, deadline, tags, coverImgPath, owner);   
 
     // clear form
     target.title.value = '' ;

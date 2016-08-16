@@ -13,3 +13,10 @@ Template.registerHelper("readableDate", (date) => {
 Template.registerHelper("formDate", (date) => {
   return moment(date).format("YYYY-MM-DD");
 });
+
+Template.registerHelper("getUsername", (userId) => {
+  console.log(userId);
+  var user = Meteor.users.findOne({_id: userId});
+  console.log(user.emails[0].address);
+  return user && user.emails[0].address;
+});
