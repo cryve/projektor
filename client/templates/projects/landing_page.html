@@ -1,10 +1,10 @@
 <template name="landingPage">
   
-  <div  class="new-project-button"> 
-
-    <a href="{{pathFor 'newProject'}}"> <button>Projekt erstellen</button> </a>
-
-  </div>  
+  {{#if currentUser}}
+    <div  class="new-project-button"> 
+      <a href="{{pathFor 'newProject'}}"> <button>Projekt erstellen</button> </a>
+    </div>  
+  {{/if}}
   
   <div class="project-cards">
     <ul>
