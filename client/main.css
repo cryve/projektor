@@ -14,14 +14,43 @@
 }
 
 .cardDesign{
-     float: left;
-     width: 30%;
-     margin-right: 3.33333%;
-     padding: 20px;
-     margin-bottom:30px;
-     background: #eee;
-     box-sizing: border-box;
+  float: left;
+  position: relative;
+  width: 330px;
+  height: 500px;
+  margin-right: 3.33333%;
+  padding: 20px 20px 20px 20px;
+  margin-bottom:30px;
+  background-color: whitesmoke;
+  box-sizing: border-box;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
+.cover-image {
+  width: 290px;
+  height: 290px;
+  overflow: hidden;
+}
+
+.card-taglist li {
+  display: inline;
+  list-style-type: none;
+}
+
+.card-footer-list li {
+  display: inline;
+  list-style-type: none;
+  color: lightgrey;
+}
+
+.card-footer {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  width: 290px;
+  
+}
+
 
 #feedback-page{
 	text-align:center;
