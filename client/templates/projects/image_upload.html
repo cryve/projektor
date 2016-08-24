@@ -1,10 +1,20 @@
 <template name="uploadImage">
-  <h1>Simplest upload form!</h1>
-  {{> uploadForm}}
+  <div class="modal fade" id="uploadModal">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+      
+        <div class="modal-body">
+          <h1>Drag files here</h1>
+          <p>or</p>
+          {{> uploadForm}}
 
-  {{> uploadedFiles}}
-  
-  {{> file}}
+          {{> uploadedFiles}}
+
+          {{> file}}
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <template name="uploadForm">

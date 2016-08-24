@@ -5,6 +5,8 @@ import {Projects} from "../../../lib/collections/projects.js" ;
 
 import './image_upload.html';
 
+
+
 Template.uploadedFiles.helpers({
   uploadedFiles: function () {
     return Images.find();
@@ -44,8 +46,8 @@ Template.uploadForm.events({
           } else {
             alert('File "' + fileObj.name + '" successfully uploaded');
           }
+          
           template.currentUpload.set(false);
-          console.log(fileObj._downloadRoute);
         });
 
         uploadInstance.start();
@@ -56,7 +58,7 @@ Template.uploadForm.events({
 
 Template.file.helpers({
   imageFile: function () {
-    return Images.findOne();
+   return Images.findOne();
   },
   
 });

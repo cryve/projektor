@@ -4,6 +4,7 @@ import {Images} from "../../../lib/images.collection.js";
 import {fileObj} from "./image_upload.js" ;
 
 import "./new_project.html" ;
+import "./image_upload.html" ;
 
 
 
@@ -52,6 +53,11 @@ Template.newProject.events({
 
     Router.go("landingPage");
   },
+  
+  'click #upload': function(event) {
+    event.preventDefault();
+    $('#uploadModal').modal('show');
+  }
   
   
 })
