@@ -13,23 +13,62 @@
   background-color: aqua;
 }
 
-.cardDesign{
+.card-container {
   float: left;
   position: relative;
   width: 330px;
-  height: 500px;
+  height: 450px;
   margin-right: 3.33333%;
-  padding: 20px 20px 20px 20px;
   margin-bottom:30px;
   background-color: whitesmoke;
   box-sizing: border-box;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+.card-cover {
+  height: 250px;
+  position: relative;
+}
+
 .cover-image {
-  width: 290px;
-  height: 290px;
-  overflow: hidden;
+  height: 250px;
+  width: 330px;
+}
+
+.member-icons {
+  bottom: 2px;
+  right: 4px;
+  position: absolute;
+}
+
+.member-icons li {
+  display: inline;
+  list-style-type: none;
+}
+
+.member-icon {
+  width: 20px;
+  height: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.owner-icon {
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+}
+
+.card-infos {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  padding-top: 10px;
+  position: relative;
+  height: 200px;
+}
+
+.card-taglist {
+  padding-left: 0px;
 }
 
 .card-taglist li {
@@ -37,7 +76,7 @@
   list-style-type: none;
 }
 
-.card-footer-list li {
+.card-footer li {
   display: inline;
   list-style-type: none;
   color: lightgrey;
@@ -45,9 +84,8 @@
 
 .card-footer {
   position: absolute;
+  padding-left: 0px;
   bottom: 20px;
-  left: 20px;
-  width: 290px;
   
 }
 
