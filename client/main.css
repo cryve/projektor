@@ -1,7 +1,11 @@
 
 
 .header-title{
-  text-align: center;
+  width: auto;
+  height: 50px;
+  padding: 20px;
+  background-color: grey;
+  color: white;
 }
 .new-project-button{
   text-align: center;
@@ -87,6 +91,36 @@
   padding-left: 0px;
   bottom: 20px;
   
+}
+
+.gallery-viewer {
+  width: 500px;
+  height: 300px;
+}
+
+.gallery-nav-thumbs {
+  padding-left: 0px;
+}
+
+.gallery-nav-thumb {
+  display: inline;
+  list-style-type: none;
+}
+
+.gallery-thumb {
+  width: 100px;
+  height: 75px;
+}
+
+.gallery-thumb-cover {
+  border-style: solid;
+  border-color: red;
+  border-width: 4px;
+}
+
+.big-img {
+  width: 500px;
+  height: 300px;
 }
 
 

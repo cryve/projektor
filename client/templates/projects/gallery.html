@@ -1,0 +1,19 @@
+<template name="gallery">
+  <div class="gallery-viewer">    
+    {{#if getShowingUpload}}
+      {{>uploadImage uploadSlot=getUploadToSlot}}
+    {{else}}
+      <img class="big-img" src="{{getImgURL coverImg}}"/>
+    {{/if}}
+  </div>
+  <ul class="gallery-nav-thumbs">
+    <li class="gallery-nav-thumb"><img class="gallery-thumb gallery-thumb-cover" src="{{getImgURL coverImg}}" /></li>
+    {{#each image in galleryImgs}}
+      {{#if image}}
+        <li class="gallery-nav-thumb"><img class="gallery-thumb" src="{{getImgURL image}}" data-slot="{{@index}}"/></li>
+      {{else}}
+        <li class="gallery-nav-thumb" id="gallery-nav-thumb-empty"><img class="gallery-thumb" src="" data-slot="{{@index}}"/></li>
+      {{/if}}
+    {{/each}}
+  </ul>
+</template>

@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { Videos, Images } from '../../../lib/images.collection.js';
-import {Projects} from "../../../lib/collections/projects.js" ;
+import { Videos, Images } from '/lib/images.collection.js';
+import { Projects } from "/lib/collections/projects.js" ;
 
 import './image_upload.html';
 
@@ -43,6 +43,7 @@ Template.uploadForm.events({
             alert('Error during upload: ' + error.reason);
           } else {
             alert('File "' + fileObj.name + '" successfully uploaded');
+            console.log("Storing image with URL " + fileObj._id + "in slot: " + this.uploadSlot);
           }
           template.currentUpload.set(false);
           console.log(fileObj._downloadRoute);

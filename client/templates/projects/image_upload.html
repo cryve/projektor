@@ -1,10 +1,5 @@
 <template name="uploadImage">
-  <h1>Simplest upload form!</h1>
-  {{> uploadForm}}
-
-  {{> uploadedFiles}}
-  
-  {{> file}}
+  {{> uploadForm uploadSlot=uploadSlot}}
 </template>
 
 <template name="uploadForm">
@@ -12,8 +7,9 @@
     Uploading <b>{{file.name}} </b>: 
     <span id="progress">{{progress.get}}%</span>
   {{else}}
+    <p>Fuer Slot {{uploadSlot}} Bilder hier hinziehen</p>
+    <p>oder</p>    
     <input id="fileInput" type="file" />
-    <p><small>Upload <code>Images</code> or <code>Videos</code> , with size less or equal to 10MB</small></p>
   {{/with}}
 </template>
 

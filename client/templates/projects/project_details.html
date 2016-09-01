@@ -1,6 +1,9 @@
 <template name="projectDetails">
     <h2>{{title}}</h2>
     <h4>{{subtitle}}</h4>
+    <div class="gallery">
+      {{>gallery coverImg=coverImg galleryImgs=images}}
+    </div>    
     <p>{{tags}}</p>
     <p>{{readableDate deadline}}</p>
     <p>{{description}}</p>

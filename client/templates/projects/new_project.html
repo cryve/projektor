@@ -1,11 +1,15 @@
 <template name="newProject">
+  {{> quickForm collection=getProjectsCollection id="newProject" type="insert"}}
+  
+  <!--
   <div id="form-main">
     <div id="form-div">
       <form class="new-project" id="form1">
-         
-        <div>{{>uploadImage}}</div>
+        <div class="image-uploader">
+            {{>uploadImage}}
+        </div>
         
-        <button id="upload">Upload New Profile Image</button>
+        </div>
         
         <p><input name="tags" type="text" id="tags-input" data-role="tagsinput" /></p>
         
@@ -45,4 +49,5 @@
       </form>
     </div>
   </div>
+-->
 </template>

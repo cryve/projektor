@@ -1,7 +1,6 @@
 import {Template} from "meteor/templating" ;
-import {Projects} from "../../../lib/collections/projects.js" ;
-import {Images} from "../../../lib/images.collection.js";
-import {fileObj} from "./image_upload.js" ;
+import {Projects} from "/lib/collections/projects.js" ;
+import {Images} from "/lib/images.collection.js";
 
 import "./new_project.html" ;
 
@@ -19,6 +18,12 @@ Template.newProject.onRendered(function() {
     maxChars: 20, // max 10 chars per tag allowed
     trimValue: true // removes whitespace around a tag
   });
+});
+
+Template.newProject.helpers({
+  getProjectsCollection() {
+    return Projects;
+  }
 });
 
 Template.newProject.events({
