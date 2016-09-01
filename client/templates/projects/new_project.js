@@ -3,9 +3,10 @@ import {Projects} from "/lib/collections/projects.js" ;
 import {Images} from "/lib/images.collection.js";
 
 import "./new_project.html" ;
+//import "./image_upload.html" ;
 
 
-
+/*
 Template.newProject.onRendered(function() {
   // Initialize bootstrap tagsinput for tags field
   $("#tags-input").tagsinput({
@@ -20,11 +21,15 @@ Template.newProject.onRendered(function() {
   });
 });
 
+*/
+
 Template.newProject.helpers({
   getProjectsCollection() {
     return Projects;
   }
 });
+
+/*
 
 Template.newProject.events({
   'submit .new-project'(event){
@@ -56,11 +61,10 @@ Template.newProject.events({
     $("#skills").tagsinput("removeAll");
 
     Router.go("landingPage");
-  },
-  
-  
+  }, 
 })
 
+*/
 
   
 

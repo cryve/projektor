@@ -39,7 +39,6 @@ email@1.1.17
 es5-shim@4.6.14
 fastclick@1.0.12
 geojson-utils@1.0.9
-handlebars@1.0.7
 hot-code-push@1.0.4
 html-tools@1.0.10
 htmljs@1.0.10
@@ -73,7 +72,6 @@ modules-runtime@0.7.6
 momentjs:moment@2.14.4
 mongo@1.1.12
 mongo-id@1.0.5
-natestrauser:filepicker-plus@2.0.0
 npm-bcrypt@0.9.1
 npm-mongo@1.5.49
 observe-sequence@1.0.12
