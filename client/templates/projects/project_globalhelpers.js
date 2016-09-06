@@ -5,6 +5,7 @@
 */
 
 import { Template } from 'meteor/templating';
+import {Projects} from "/lib/collections/projects.js" ;
 
 Template.registerHelper("readableDate", (date) => {
   return moment(date).format("DD.MM.YYYY");
@@ -19,4 +20,8 @@ Template.registerHelper("getUsername", (userId) => {
   var user = Meteor.users.findOne({_id: userId});
   console.log(user.emails[0].address);
   return user && user.emails[0].address;
+});
+
+Template.registerHelper("getProjectsCollection", () => {
+    return Projects;
 });
