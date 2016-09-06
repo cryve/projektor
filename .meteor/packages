@@ -23,6 +23,7 @@ insecure@1.0.7                # Allow all DB writes from clients (for prototypin
 iron:router                   # router
 ajduke:bootstrap-tagsinput    # Enable bootstrap-tagsinput for tag forms
 ostrio:files                  # File uploading
+ostrio:autoform-files         # File uploading inside autoform
 momentjs:moment               # Time and date conversions
 shell-server
 aldeed:collection2            # Use Schemas to store in collections
