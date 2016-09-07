@@ -30,3 +30,5 @@ aldeed:autoform               # Form generation based on Schemas
 accounts-ui                   # Meteors account packages
 accounts-password             # Meteors account packages
 twbs:bootstrap                # Bootstrap CSS framework support
+comerc:bs-typeahead
+accounts-facebook

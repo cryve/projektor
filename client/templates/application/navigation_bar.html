@@ -20,7 +20,9 @@
           <li><a href="#">Volle Projekte</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">User</a></li>
+
+            <li><a href="{{pathFor 'userProfile' data=currentUser.username}}">Profil</a></li>         
+          
           <li>{{> loginButtons }}</li>
         </ul>
       </div> <!-- navbar-collapse -->
