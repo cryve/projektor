@@ -1,0 +1,14 @@
+<template name="editProfile">
+  {{#autoForm collection=getEditUserCollection id="editProfile" type="update"}}
+    <fieldset>
+      <legend>Profil bearbeiten</legend>
+      {{> afQuickField name="firstName" }}
+      {{> afQuickField name="secondName" }}
+      {{> afQuickField name="profilePicture" initialCount=1 minCount=1 maxCount=1}}
+      {{> afQuickField name="age" }}
+      {{> afQuickField name="skills" }}
+    </fieldset>
+    <button type="submit" class="btn btn-primary">Profil speichern</button>
+  {{/autoForm}}
+    
+</template>

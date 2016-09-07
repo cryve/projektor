@@ -5,6 +5,8 @@
 */
 
 import { Template } from 'meteor/templating';
+import {Projects} from "/lib/collections/projects.js" ;
+import {EditUser} from "/lib/collections/users.js" ;
 
 Template.registerHelper("readableDate", (date) => {
   return moment(date).format("DD.MM.YYYY");
@@ -20,3 +22,6 @@ Template.registerHelper("getUsername", (userId) => {
   console.log(user.emails[0].address);
   return user && user.emails[0].address;
 });
+
+Template.registerHelper("getProjectsCollection", Projects);
+Template.registerHelper("getEditUserCollection", EditUser);

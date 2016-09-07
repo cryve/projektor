@@ -1,51 +1,16 @@
 <template name="newProject">
-  {{> quickForm collection=getProjectsCollection id="newProject" type="insert"}}
-  
-  <!--
-  <div id="form-main">
-    <div id="form-div">
-      <form class="new-project" id="form1">
-        <div class="image-uploader">
-            {{>uploadImage}}
-        </div>
-        
-        <p><input name="tags" type="text" id="tags-input" data-role="tagsinput" /></p>
-        
-        <p class="project-title">
-          <input name="title" type="text" class="validate[required,custom[onlyLetter],length[0,100]] feedback-input" placeholder="Projektname" id="title" />
-        </p>
-        
-        <p class="project-subtitle">
-          <input name="subtitle" type="text" placeholder="Beschreibender Untertitel" id="subtitle" />
-        </p>
-         
-        <p class="project-description">
-          <textarea name="description" class="validate[required,length[6,300]] feedback-input" id="description" placeholder="Projekt Beschreibung"></textarea>
-        </p>
-        
-        <p class="project-deadline">
-          <input name="deadline" type="date" class="validate[required,custom[onlyLetter],length[0,100]] feedback-input" placeholder="Deadline" id="deadline" />
-        </p>
-        
-        <p class="project-skills">
-          <input type="text" name="skills" id="skills" data-role="tagsinput" placeholder="Welche Fähigkeiten suchst du?"/>
-        </p>
-        
-        <p class="project-contacts">
-          <textarea name="contacts" class="validate[required,length[6,300]] feedback-input" id="contacts" placeholder="Kontaktmöglichkeiten"></textarea>
-        </p>
-        
-        
-        
-        
-      
-      
-        <div class="submit">
-          <input type="submit" value="SEND" id="button-blue"/>
-          <div class="ease"></div>
-        </div>
-      </form>
-    </div>
-  </div>
--->
+  {{#autoForm collection=getProjectsCollection id="newProject" type="insert"}}
+    <fieldset>
+      <legend>Neues Projekt anlegen</legend>
+      {{> afQuickField name="title" }}
+      {{> afQuickField name="subtitle" }}
+      {{> afQuickField name="pictures" initialCount=5 minCount=5 maxCount=5}}
+      {{> afQuickField name="description" rows=6 }}
+      {{> afQuickField name="deadline" }} 
+      {{> afQuickField name="tags" }}
+      {{> afQuickField name="jobs" }}
+      {{> afQuickField name="scopes" }}
+    </fieldset>
+    <button type="submit" class="btn btn-primary">Projekt anlegen</button>
+  {{/autoForm}}
 </template>
