@@ -22,6 +22,6 @@ Template.registerHelper("getUsername", (userId) => {
   return user && user.emails[0].address;
 });
 
-Template.registerHelper("getProjectsCollection", () => {
-    return Projects;
-});
+Template.registerHelper("getProjectsCollection", Projects);
+
+Template.registerHelper("Schemas", Schemas);
