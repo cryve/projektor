@@ -1,5 +1,5 @@
 <template name="newProject">
-  {{#autoForm schema=Schemas.Projects collection=getProjectsCollection id="newProject" type="insert"}}
+  {{#autoForm collection=getProjectsCollection id="newProject" type="insert"}}
     <fieldset>
       <legend>Neues Projekt anlegen</legend>
       {{> afQuickField name="title" }}

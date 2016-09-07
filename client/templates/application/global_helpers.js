@@ -23,5 +23,3 @@ Template.registerHelper("getUsername", (userId) => {
 });
 
 Template.registerHelper("getProjectsCollection", Projects);
-
-Template.registerHelper("Schemas", Schemas);
