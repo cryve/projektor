@@ -31,8 +31,14 @@ aldeed:autoform               # Form generation based on Schemas
 yogiben:autoform-tags         # Combines bootstrap tagsinput with autoform
 comerc:bs-typeahead           # Adds Bootstraps typeahead library
 comerc:autoform-typeahead     # Combines Bootstrap typeahead with autoform
-accounts-ui                   # Meteors account packages
 accounts-password             # Meteors account packages
 twbs:bootstrap                # Bootstrap CSS framework support
-accounts-facebook
-typ:accounts-ldap
+#accounts-facebook
+#typ:accounts-ldap
+natestrauser:x-editable-bootstrap
+raix:handlebar-helpers
+#tdamsma:meteor-accounts-ldap
+#useraccounts:bootstrap
+#useraccounts:iron-routing
+accounts-ui
+babrahams:editable-text

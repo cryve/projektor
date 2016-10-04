@@ -2,8 +2,59 @@
   
     <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Roboto'>
     <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css'>
-    <link rel="stylesheet" href="css/style.css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+  
 
+    
+        {{#if $eq currentUser._id this._id}}
+  
+            {{>editProfile}}
+
+        {{else}}
+
+            {{>normalProfile}}
+
+        {{ /if }}
+    
+
+
+</template>
+
+<template name="editProfile">
+  <figure class="snip1336">
+    <div class="switch">
+      <input type="checkbox" checked>
+        <label>
+          <span class="fontawesome-ok"></span>
+          <span class="fontawesome-remove"></span>
+          <div></div>
+        </label>
+    </div>
+    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample87.jpg" alt="sample87" />
+      <figcaption>
+        <img src="/img/samples/member_icon02.png" alt="profile-sample4" class="profile" />
+        <h1>{{currentUser.profile.firstname}} {{currentUser.profile.lastname}}<br><span>{{currentUser.profile.study}}</span></h1>
+        <br>
+        <p class="aboutMe"><h3>About me:</h3>{{currentUser.profile.aboutMe}}</p>
+        <p><h3>Skills:</h3>{{currentUser.profile.skills}}</p>
+      </figcaption>
+  </figure>
+  <div class="project-cards">
+    <ul>
+      
+        {{#each projects}}
+      
+            {{>projectCard}}
+         
+        {{/each}}
+
+    </ul>
+  </div>
+    
+      
+</template>
+
+<template name="normalProfile">
     <aside class="profile-card">
       <header>
         <!-- here’s the avatar -->
@@ -13,7 +64,8 @@
 
         <!-- the username -->
         <h1>
-                {{currentUser.username}}
+              {{currentUser.lastname}} 
+          
               </h1>
 
         <!-- and role or location -->
@@ -57,5 +109,4 @@
         </li>
       </ul>
     </aside>
-    <a href="{{pathFor 'editProfile' data=currentUser.username}}">Profil bearbeiten</a>
 </template>

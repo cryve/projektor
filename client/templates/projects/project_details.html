@@ -1,14 +1,65 @@
 <template name="projectDetails">
-    <h2>{{title}}</h2>
-    <h4>{{subtitle}}</h4>
-    <div class="gallery">
-      {{>gallery coverImg=coverImg galleryImgs=images}}
-    </div>    
-    <p>{{tags}}</p>
-    <p>{{readableDate deadline}}</p>
-    <p>{{description}}</p>
-    <p>{{skills}}</p>
-    <p>{{contacts}}</p>
-    <p> {{>likeButton}} </p> 
-    <a href="{{ pathFor 'projectEdit' }}">Projekt bearbeiten</a>
+  <div class="row">
+    <div class="col-md-8">
+      <h2>{{title}}</h2>
+      <h4>{{subtitle}}</h4>  
+    </div>
+    <div class="col-md-4">
+      <p><a href="{{ pathFor 'projectEdit' }}">Projekt bearbeiten</a></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="gallery">
+        {{>gallery coverImg=coverImg galleryImgs=pictures}}
+      </div>
+      <h4>Beschreibung</h4>
+      <p>{{description}}</p>
+      <h4>Tags</h4>
+      <ul class="card-taglist">
+          {{#each tag in tags}}
+            <li><span class="label label-default">{{tag}}</span></li>
+          {{/each}}    
+      </ul>
+    </div>
+    <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+      <div class="sidebar-module sidebar-module-inset">
+        <h4>Team</h4>
+        <ul class="list-unstyled">
+          <li>
+            <p>{{getFullUsername owner.userId}} <em>(Projektleiter)</em></p>
+            <p><em>{{owner.role}}</em></p>
+            <br>
+          </li>
+          {{#each member in team}}
+            <li>
+              <p>{{getFullUsername member.userId}}</p>
+              <p><em>{{member.role}}</em></p>
+              <br>
+            </li>
+          {{/each}}
+        </ul>      
+      </div>
+      <div class="sidebar-module sidebar-module-inset">
+        <h4>Gesucht</h4>
+        <ul class="list-unstyled">
+          <li>Offener Job 1</li>
+          <li>Offener Job 2</li>
+          <li>Offener Job 3</li>
+        </ul>      
+      </div>
+      <div class="sidebar-module">
+        <h4>Kontakt</h4>
+        <p>{{contact}}</p>
+      </div>
+      <div class="sidebar-module">
+        <h4>Projektanlass</h4>
+        <p>{{arrayToString occasions}}</p>
+        <h4>Betreuer</h4>
+        <p>{{arrayToString supervisors}}</p>
+        <h4>Deadline</h4>
+        <p>{{readableDate deadline}}</p>
+      </div>
+    </div> 
+  </div>
 </template>

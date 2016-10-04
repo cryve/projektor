@@ -8,3 +8,6 @@ AutoForm.addHooks(["projectEdit"], {
     Router.go("projectDetails", {_id: this.docId, title: this.currentDoc.title});
   }  
 });
+
+
+
