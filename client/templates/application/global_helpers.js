@@ -32,6 +32,8 @@ Template.registerHelper("getFullUsername", (userId) => {
 
 Template.registerHelper("getProjectsCollection", Projects);
 
+
+
 Template.registerHelper("arrayToString", (array) => {
   return array.join(", ");
 });

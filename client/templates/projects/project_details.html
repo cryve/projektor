@@ -1,65 +1,165 @@
-<template name="projectDetails">
-  <div class="row">
-    <div class="col-md-8">
-      <h2>{{title}}</h2>
-      <h4>{{subtitle}}</h4>  
-    </div>
-    <div class="col-md-4">
-      <p><a href="{{ pathFor 'projectEdit' }}">Projekt bearbeiten</a></p>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-8">
-      <div class="gallery">
-        {{>gallery coverImg=coverImg galleryImgs=pictures}}
+<template name="projectDetails">    
+    <div class="container">
+      <div class="row">
+          <div class="col-lg-12">
+              <h1 class="page-header">
+                <span class="">{{title}}</span><br>
+                <small>{{subtitle}}</small>
+              </h1>
+          </div>
       </div>
-      <h4>Beschreibung</h4>
-      <p>{{description}}</p>
-      <h4>Tags</h4>
-      <ul class="card-taglist">
-          {{#each tag in tags}}
-            <li><span class="label label-default">{{tag}}</span></li>
-          {{/each}}    
-      </ul>
-    </div>
-    <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
-      <div class="sidebar-module sidebar-module-inset">
-        <h4>Team</h4>
-        <ul class="list-unstyled">
-          <li>
-            <p>{{getFullUsername owner.userId}} <em>(Projektleiter)</em></p>
-            <p><em>{{owner.role}}</em></p>
-            <br>
-          </li>
-          {{#each member in team}}
-            <li>
-              <p>{{getFullUsername member.userId}}</p>
-              <p><em>{{member.role}}</em></p>
-              <br>
-            </li>
-          {{/each}}
-        </ul>      
-      </div>
-      <div class="sidebar-module sidebar-module-inset">
-        <h4>Gesucht</h4>
-        <ul class="list-unstyled">
-          <li>Offener Job 1</li>
-          <li>Offener Job 2</li>
-          <li>Offener Job 3</li>
-        </ul>      
-      </div>
-      <div class="sidebar-module">
-        <h4>Kontakt</h4>
-        <p>{{contact}}</p>
-      </div>
-      <div class="sidebar-module">
-        <h4>Projektanlass</h4>
-        <p>{{arrayToString occasions}}</p>
-        <h4>Betreuer</h4>
-        <p>{{arrayToString supervisors}}</p>
-        <h4>Deadline</h4>
-        <p>{{readableDate deadline}}</p>
-      </div>
-    </div> 
-  </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-md-8 col-lg-8">
+              <div class="panel panel-default">
+                <div class="panel-header">
+                    <div class="row">         
+                      <div class="col-sm-12">
+                          {{#if $eq pictures.[0] null}}
+                          {{else}}
+                            <img class="img-responsive" src={{getImgURL pictures.[0]}} alt="">
+                        {{/if}}
+                      </div>                  
+                    </div>
+                </div> <!-- /.panel-header -->
+                  
+                  <div class="panel-body">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <ul class="list-inline thumbnails">
+                        
+                        {{#if $eq currentUser._id owner.userId}}
+                          {{#autoForm id="projectDetails" doc=this collection=getProjectsCollection type="update"}}
+                          {{currentUser._id}}
+                          {{> afQuickField name="pictures" initialCount=5 minCount=5 maxCount=5}}
+                            <li>
+                              <img class="img-responsive" src="https://unsplash.it/115/65?random=1" alt="">
+                            </li>
+                          {{/autoForm}}
+                        {{else}}
+                          {{#each image in pictures}}
+                            {{#if $eq image null}}
+                        
+                            {{else}}
+                            <li>
+                              <img class="img-responsive" src= {{getImgURL image}} alt="">
+                            </li>
+                            {{/if}}
+                          {{/each}}
+                        {{/if}}
+                        
+                      </ul>
+                    </div> <!-- /.col-sm-12 gallery thumbnails -->
+                  </div> <!-- /.row -->
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <h3>Beschreibung</h3>
+                      <p>{{description}}</p>
+                    </div> <!-- /.col description -->
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <h3>Tags</h3>
+                      <ul class="list-inline">
+                        {{#each tag in tags}}
+                          <li><span class="label label-default">{{tag}}</span></li>
+                        {{/each}}  
+                      </ul>                    
+                    </div> <!-- /.col Tags -->            
+                  
+                  </div> <!-- /.row Tags -->
+                  
+                </div> <!-- /.panel-body -->
+              </div> <!-- /.panel -->
+            </div> <!-- /.col-sm-10 -->
+
+            <div class="col-lg-4">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h2 class="panel-title">Team</h2>
+                </div>
+                  
+                <div class="panel-body">
+                  <ul class="media-list">
+                    <li class="media">
+                      <div class="media-left">
+                        <a href="#">
+                          <img class="media-object img-circle" src="http://lorempixel.com/50/50/people/1" alt="...">
+                        </a>
+                      </div>
+                      <div class="media-body">
+                        <h4 class="media-heading"><a href="#">{{getFullUsername owner.userId}}</a></h4>
+                        <p class="text-muted">Projektleiter</p>
+                      </div>
+                    </li>
+                    {{#each member in team}}
+                      <li class="media">
+                        <div class="media-left">
+                          <a href="#">
+                            <img class="media-object img-circle" src="http://lorempixel.com/50/50/people/2" alt="...">
+                          </a>
+                        </div>
+                        <div class="media-body">
+                          <h4 class="media-heading"><a href="#">{{getFullUsername member.userId}}</a></h4>
+                          <p class="text-muted">{{member.role}}</p>
+                        </div>
+                      </li>
+                    {{/each}}
+                    
+                  </ul>
+                </div>              
+              </div> <!-- /.panel-default -->
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h2 class="panel-title">Gesuchte Fähigkeiten</h2>
+                </div>
+                <div class="panel-body">
+                  <ul>
+                      <li>Lorem Ipsum</li>
+                      <li>Dolor Sit Amet</li>
+                      <li>Consectetur</li>
+                      <li>Adipiscing Elit</li>
+                  </ul>                
+                </div>                
+              </div> <!-- /.panel Wanted Skills -->
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h2 class="panel-title">Kontakt</h2>
+                </div>
+                <div class="panel-body">
+                  <ul class="list-unstyled">
+                      <li><span class="glyphicon glyphicon-envelope"></span> <a href="#">mitmachen@projekt.de</a></li>
+                      <li><span class="glyphicon glyphicon-home"></span> <a href="#">www.projekt.de</a> </li>
+                      <li><span class="glyphicon glyphicon-earphone"></span> 0123 45678910</li>
+                      <li><span class="glyphicon glyphicon-facetime-video"></span> Skype: nickname</li>
+                  </ul>                
+                </div>                
+              </div> <!-- /.panel Contact -->     
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h2 class="panel-title">Details</h2>
+                </div>
+                <div class="panel-body">
+                  <dl class="dl">
+                    <dt>Projektanlass</dt>
+                    <dd>{{arrayToString occasions}}</dd>
+                    <dt>Betreuer</dt>
+                    <dd>{{arrayToString supervisors}}</dd>
+                    <dt>Deadline</dt>
+                    <dd>{{readableDate deadline}}</dd>
+                    
+                  </dl>            
+                </div>                
+              </div> <!-- /.panel Wanted Skills -->
+              
+            </div>
+
+        </div><!-- /.row -->
+      </div> <!-- /.container -->
+
+      <hr>
+
+      <footer>
+        <p>&copy; 2016 HAW Projektor</p>
+      </footer>
 </template>

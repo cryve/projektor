@@ -1,39 +1,56 @@
 <template name="projectCard">
-  <div class="card-container">
+   
+        <div class="col-lg-3">
+          <div class="panel panel-default">
+            <div class="panel-header">
+              <div class="cover">
+                <div class="member-icons-box">
+                  <ul class="member-icons list-inline">
+                    <li><img class="img-circle" src="http://lorempixel.com/20/20/people/1"></li>
+                    <li><img class="img-circle" src="http://lorempixel.com/20/20/people/2"></li>
+                    <li><img class="img-circle" src="http://lorempixel.com/20/20/people/3"></li>
+                  </ul> 
+                </div> <!-- /.member-icons-box -->
+                {{#if $neq pictures.[0] null}}
+                  <img class="img-responsive" src={{getImgURL pictures.[0]}} alt="">
+                      
+                {{/if}}
+              </div> <!-- /.cover -->
+            </div> <!-- /.panel-header -->
+            <div class="panel-body">
+              <h3><a href="{{pathFor 'projectDetails'}}">{{title}}</a> <small><br>{{subtitle}}</small></h3>
+              <ul class="list-unstyled">
+                {{#if $lte tags 3}}
+                  {{#each tag in tags}}
+                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{tag}}</li>
+                  {{/each}}
+                {{else}}
+                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{tags.[0]}}</li>
+                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{tags.[1]}}</li>
+                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{tags.[2]}} (+1)</li>
+                {{/if}}
+              </ul>
+                 {{#if $lte tags 4}}
+                  {{#each tag in tags}}
+                  <span class="label label-default">{{tag}}</span>
+                  {{/each}}
+                {{else}}
+                  <span class="label label-default">{{tags.[0]}}</span>
+                  <span class="label label-default">{{tags.[1]}}</span>
+                  <span class="label label-default">{{tags.[2]}}</span>
+                  <span class="label label-default">...</span>
+                {{/if}}
+              
+            </div> <!-- /.panel-body -->
+            <div class="panel-footer text-center">
+              <ul class="list-inline">
+                <li class="text-muted"><span class="glyphicon glyphicon-time"></span> <small>vor 6 Tagen</small></li>
+                <li class="text-muted"><span class="glyphicon glyphicon-calendar"></span> <small>{{readableDate deadline}}</small></li>
+                <li class="text-muted"><span class="glyphicon glyphicon-heart"></span> <small>{{likes}}</small></li>
+              </ul>
+            </div> <!-- /.panel-footer -->
+          </div> <!-- /.panel project card -->
+        </div> <!-- /.col-lg-3 project card -->
+        
     
-    <div class="card-cover">
-      <img class="cover-image" src="/img/img_example_01.jpg" alt="{{name}}" />
-      <ul class="member-icons">
-        <li><a href="#" data-toggle="tooltip" title="{{! getUsername owner }}" data-placement="bottom"><img class="member-icon owner-icon" src="/img/samples/member_icon01.png" /></a></li>
-        <li><img class="member-icon" src="/img/samples/member_icon02.png"/></li>
-        <li><img class="member-icon" src="/img/samples/member_icon02.png"/></li>
-        <li><img class="member-icon" src="/img/samples/member_icon02.png"/></li>
-      </ul>
-    </div>
-    
-    <!--<p>Projektleiter: {{getUsername owner}}</p>-->
-    
-    <div class="card-infos">
-      <h3>
-        <a href="{{pathFor 'projectDetails'}}">{{title}}</a>
-      </h3>
-      <p>{{subtitle}}</p>
-      
-      <hr>
-      
-      <ul class="card-taglist">
-        {{#each tag in tags}}
-          <li><span class="label label-default">{{tag}}</span></li>
-        {{/each}}    
-      </ul>
-      
-      <ul class="card-footer">
-        <li>Deadline: {{readableDate deadline}}</li>
-        <li>Likes: {{likes}}</li>
-        <li>2 freie Pl&auml;tze</li>
-      </ul>
-      
-    </div>
-         
-  </div>
 </template>

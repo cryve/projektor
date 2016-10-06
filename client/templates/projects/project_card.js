@@ -8,4 +8,16 @@ Template.projectCard.onRendered(function() {
   $('[data-toggle="tooltip"]').tooltip();
 });
   
-  
+Template.projectCard.helpers({
+   projects() {
+       return Projects.find({}, { sort: { createdAt: -1 } });
+   },
+   getImgURL(imgId) { 
+      console.log(imgId);
+      var image = Images.findOne(imgId);    
+      return image.link();
+    },
+    
+
+});
+
