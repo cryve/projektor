@@ -1,0 +1,36 @@
+body {
+    padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    padding-left: 70px;
+    padding-right: 70px;
+}
+
+
+hr {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.member-icons-box {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 5px;
+  background-color: white;
+  border-top-left-radius: 2px;
+}
+
+.member-icons {
+  margin: 0;
+}
+
+.panel-body > h3 {
+  margin-top: 0;
+}
+
+.navbar-inverse .navbar-brand {
+  color: white;
+}
+
+.cover {
+  position: relative;
+}
