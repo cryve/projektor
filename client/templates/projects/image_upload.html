@@ -4,11 +4,10 @@
 
 <template name="uploadForm">
   {{#with currentUpload}}
-    Uploading <b>{{file.name}} </b>: 
+    Uploading <b>{{file.name}}</b>: 
     <span id="progress">{{progress.get}}%</span>
   {{else}}
-    <p>Fuer Slot {{uploadSlot}} Bilder hier hinziehen</p>
-    <p>oder</p>    
+      
     <input id="fileInput" type="file" />
   {{/with}}
 </template>

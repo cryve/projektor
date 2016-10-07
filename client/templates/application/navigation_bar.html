@@ -12,8 +12,10 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <a href="{{pathFor 'newProject'}}"><button class="btn btn-primary navbar-btn">Neues Projekt erstellen</button></a>
+          {{#if currentUser}}
           <a href="{{pathFor 'userProfile' _id=currentUser._id}}"><button class="btn btn-primary navbar-btn navbar-right">Profil</button></a>
-          <button class="btn btn-primary navbar-btn navbar-right">{{> loginButtons }}</button>
+          {{/if}}
+          {{> loginButtons }}
           
         </div><!--/.navbar-collapse -->
       </div> <!-- /.container -->

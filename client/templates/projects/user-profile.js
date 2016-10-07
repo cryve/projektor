@@ -16,45 +16,13 @@ Template.editProfile.helpers({
     
    getImgURL(imgId) { 
     console.log(imgId);
-    var image = Images.findOne(imgId);    
-    return image.link();
+     
+    var image = Images.findOne(imgId);   
+    
+    return image && image.link();
   },
  
 });
   
 
-var Schemas = {};
 
-Schemas.UserProfile = new SimpleSchema({
-	avatar: {
-      type: String,
-      label: "Bilder hochladen",
-      optional: true,
-      autoform: {
-        afFieldInput: {
-          type: "fileUpload",
-          collection: "Images",
-          previewTemplate: 'stopPreview',
-          
-
-        },
-      },
-    },
-	
-});
-
-Schemas.User = new SimpleSchema({
-	profile: {
-		type: Schemas.UserProfile,
-		optional: true
-	},
-
-});
-Meteor.users.attachSchema(Schemas.User);
-
-
-Meteor.users.allow({
-	  insert: function () { return true; },
-	  update: function () { return true; },
-	  remove: function () { return true; }
-});

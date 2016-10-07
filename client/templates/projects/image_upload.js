@@ -45,7 +45,13 @@ Template.uploadForm.events({
             alert('Error during upload: ' + error.reason);
           } else {
             alert('File "' + fileObj.name + '" successfully uploaded');
-            console.log("Storing image with URL " + fileObj._id + "in slot: " + this.uploadSlot);
+            console.log("Storing image with URL " + fileObj._id + " in slot: " + this.uploadSlot);
+            
+            
+            Meteor.users.update( { _id: Meteor.userId() }, { $set: { 'profile.avatar': fileObj._id }} );
+            
+            
+            
           }
           
           template.currentUpload.set(false);
