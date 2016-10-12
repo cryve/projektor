@@ -42,3 +42,4 @@ raix:handlebar-helpers
 #useraccounts:iron-routing
 accounts-ui
 babrahams:editable-text
+cfs:graphicsmagick

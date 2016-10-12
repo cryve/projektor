@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
-import { Projects } from '../../../lib/collections/projects.js';
-import {Images} from "../../../lib/images.collection.js";
+import { Projects } from '/lib/collections/projects.js';
+import {ImagesGallery} from "/lib/images.collection.js";
 
 import './project_details.html';
 
@@ -13,7 +13,7 @@ Template.projectDetails.helpers({
     
    getImgURL(imgId) { 
     console.log(imgId);
-    var image = Images.findOne(imgId);    
+    var image = ImagesGallery.findOne(imgId);    
     return image.link();
   },
  

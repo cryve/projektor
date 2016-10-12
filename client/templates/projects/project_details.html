@@ -29,13 +29,11 @@
                       <ul class="list-inline thumbnails">
                         
                         {{#if $eq currentUser._id owner.userId}}
-                          {{#autoForm id="projectDetails" doc=this collection=getProjectsCollection type="update"}}
-                          {{currentUser._id}}
-                          {{> afQuickField name="pictures" initialCount=5 minCount=5 maxCount=5}}
+                        
                             <li>
                               <img class="img-responsive" src="https://unsplash.it/115/65?random=1" alt="">
                             </li>
-                          {{/autoForm}}
+                        
                         {{else}}
                           {{#each image in pictures}}
                             {{#if $eq image null}}
@@ -51,6 +49,12 @@
                       </ul>
                     </div> <!-- /.col-sm-12 gallery thumbnails -->
                   </div> <!-- /.row -->
+                    {{>uploadFormCrop slot="0"}}
+                    {{>uploadFormCrop slot="1"}}
+                    {{>uploadFormCrop slot="2"}}
+                    {{>uploadFormCrop slot="3"}}
+                    {{>uploadFormCrop slot="4"}}
+                    
                   <div class="row">
                     <div class="col-sm-12">
                       <h3>Beschreibung</h3>
