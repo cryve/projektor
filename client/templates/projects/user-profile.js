@@ -14,13 +14,7 @@ Template.editProfile.helpers({
    },
     
     
-   getImgURL(imgId) { 
-    console.log(imgId);
-     
-    var image = Images.findOne(imgId);   
-    
-    return image && image.link();
-  },
+
  
 });
   

@@ -1,19 +1,38 @@
-<template name="gallery">
-  <div class="gallery-viewer">    
-    {{#if getShowingUpload}}
-      {{>uploadImage uploadSlot=getUploadToSlot}}
-    {{else}}
-      <img class="big-img" src="{{getImgURL coverImg}}"/>
-    {{/if}}
-  </div>
-  <ul class="gallery-nav-thumbs">
-    <li class="gallery-nav-thumb"><img class="gallery-thumb gallery-thumb-cover" src="{{getImgURL coverImg}}" /></li>
-    {{#each image in galleryImgs}}
-      {{#if image}}
-        <li class="gallery-nav-thumb"><img class="gallery-thumb" src="{{getImgURL image}}" data-slot="{{@index}}"/></li>
+<template name="editGallery">
+  {{#each image in pictures}}
+      {{#if $eq image null}}
+        <li>
+          <div class="well thumbnail-placeholder"></div>
+        </li>                      
       {{else}}
-        <li class="gallery-nav-thumb" id="gallery-nav-thumb-empty"><img class="gallery-thumb" src="" data-slot="{{@index}}"/></li>
+        <li>
+          <img class="img-responsive"  src= {{getImgURL image "thumbnail115"}} alt="">
+        </li>
       {{/if}}
     {{/each}}
-  </ul>
+</template>
+
+
+
+<template name="galleryPreview">
+  {{#if $eq pictures.[0] null}}
+  {{else}}
+    <img class="img-responsive" src={{getImgURL pictures.[0] "preview"}} alt="">
+  {{/if}}
+</template>
+
+<template name="galleryThumbsnail">
+  
+    {{#each image in pictures}}
+      {{#if $eq image null}}
+                              
+      {{else}}
+        <li>
+          <img class="img-responsive" data-slotTest="{{@index}}" src= {{getImgURL image "thumbnail115"}} alt="">
+        </li>
+      {{/if}}
+    {{/each}}
+  
+    
+  
 </template>
