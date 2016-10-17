@@ -1,6 +1,5 @@
 <template name="newProject">
   
-  {{#if currentUser}}
   {{#autoForm collection=getProjectsCollection id="newProject" type="insert"}}
     <fieldset>
       <legend>Neues Projekt anlegen</legend>
@@ -17,49 +16,5 @@
     </fieldset>
     <button type="submit" class="btn btn-primary">Projekt anlegen</button>
   {{/autoForm}}
-  {{else}}
-      <div class="container">
-      <div class="row">
-        <div class="jumbotron text-center">
-          <h1>Willkommen beim HAW Projektor!</h1>
-          <p>Erstelle deine eigenen Projekte und lade zum Mitmachen ein.</p>
-          <p>Mach mit bei Projekten deiner Kommilitonen und werde Teil des Teams.</p>
-          <p>Zeige, woran du gerade arbeitest und was dich interessiert.</p>
-        </div>
-          <h2 class="text-center">Einfach mit deinem HAW-Account anmelden.</h2>
-        <br>
-          <form class="form-horizontal">
-            <div class="form-group">
-              <label for="inputUserId" class="col-sm-5 control-label">Benutzerkennung</label>
-              <div class="col-sm-3">
-                <input type="email" class="form-control" id="inputUserId" placeholder="">              
-                <p class="help-block">Deine HAW-Benutzerkennung für die Online-Services der HAW, z.B. abc123.</p>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="inputPassword" class="col-sm-5 control-label">Passwort</label>
-              <div class="col-sm-3">
-                <input type="password" class="form-control" id="inputPassword" placeholder="">
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="col-sm-offset-5 col-sm-3">
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox"> Angemeldet bleiben.
-                  </label>
-                </div>
-              </div>
-            </div>
 
-            <div class="form-group">
-              <div class="col-sm-offset-5 col-sm-3">
-                <button type="submit" class="btn btn-primary">Anmelden</button>
-              </div>
-            </div>
-          </form>
-        
-      </div> <!-- /.row -->
-    </div> <!-- /.container -->
-  {{/if}}
 </template>

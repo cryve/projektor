@@ -11,7 +11,15 @@
           <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-blackboard"></span> HAW Projektor</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <a href="{{pathFor 'newProject'}}"><button class="btn btn-primary navbar-btn">Neues Projekt erstellen</button></a>
+          <a href="
+                   {{#if currentUser}}
+                    {{pathFor 'newProject'}}
+                   {{else}}
+                    {{pathFor 'loginPage'}}
+                   {{/if}}
+          ">
+            <button class="btn btn-primary navbar-btn">Neues Projekt erstellen</button>
+          </a>
           {{#if currentUser}}
           <a href="{{pathFor 'userProfile' _id=currentUser._id}}"><button class="btn btn-primary navbar-btn navbar-right">Profil</button></a>
           {{/if}}
