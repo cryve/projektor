@@ -3,14 +3,17 @@
 </template>
 
 <template name="uploadFormCrop">
-  {{slot}}
-  {{projectId}}
   {{#with currentUploadCrop}}
     Uploading <b>{{file.name}}</b>: 
     <span id="progress">{{progress.get}}%</span>
   {{else}}
-      
-    <input id="fileInput" type="file" />
+      <div class="wrapper">
+      <div class="file-upload">
+        <input type="file" id="fileInput" />
+        <i class="fa fa-upload"></i>
+      </div>
+    </div>
+    <!--<input id="fileInput" type="file" />-->
   {{/with}}
 </template>
 

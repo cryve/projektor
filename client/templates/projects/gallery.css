@@ -3,3 +3,46 @@
   width: 115px;
     
 }
+
+
+.wrapper {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+.wrapper .file-upload {
+  height: 50px;
+  top:5.5%;
+  width: 50px;
+  border-radius: 100px;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  overflow: hidden;
+  background-image: linear-gradient(to bottom, rgba(37, 144, 235, 0.4) 50%, rgba(255, 255, 255, 0.4) 50%);
+  background-size: 100% 200%;
+  transition: all 1s;
+  color: #FFFFFF;
+  font-size: 30px;
+
+}
+.wrapper .file-upload input[type='file'] {
+  height: 60px;
+  width: 75px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.wrapper .file-upload:hover {
+  background-position: 0 -100%;
+  color: #2590EB;
+  cursor: pointer;
+}
+

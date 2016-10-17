@@ -29,20 +29,17 @@
                         {{#if getEditMode}}
                           {{>editGallery}}
                         {{else}}
+                        
                           {{>galleryThumbsnail}}
                         {{/if}}
 
                       </ul>
-                      {{>uploadFormCrop slot=0 pictures=pictures projectId=_id }}
-                      {{>uploadFormCrop slot=1 pictures=pictures projectId=_id }}
-                      {{>uploadFormCrop slot=2 pictures=pictures projectId=_id }}
-                      {{>uploadFormCrop slot=3 pictures=pictures projectId=_id }}
-                      {{>uploadFormCrop slot=4 pictures=pictures projectId=_id }}
+                   
                       {{#if $eq currentUser._id owner.userId}}
 
                           <button id="edit-gallery-button" class="btn btn-primary navbar-btn navbar-right">Gallerie bearbeiten</button>
 
-                        {{/if}}
+                      {{/if}}
                     </div> <!-- /.col-sm-12 gallery thumbnails -->
                   </div> <!-- /.row -->
                     
