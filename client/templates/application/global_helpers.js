@@ -35,6 +35,13 @@ Template.registerHelper("getProjectsCollection", Projects);
 
 
 Template.registerHelper("arrayToString", (array) => {
-  return array.join(", ");
+  return array && array.join(", ");
 });
+
+Template.registerHelper("getImgURL", (imgId, version) => {
+    var image = ImagesGallery.findOne(imgId);
+    return image && image.link(version);
+  });
+  
+
 

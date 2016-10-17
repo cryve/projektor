@@ -15,10 +15,7 @@
                 <div class="panel-header">
                     <div class="row">         
                       <div class="col-sm-12">
-                          {{#if $eq pictures.[0] null}}
-                          {{else}}
-                            <img class="img-responsive" src={{getImgURL pictures.[0]}} alt="">
-                        {{/if}}
+                        {{>galleryPreview}}
                       </div>                  
                     </div>
                 </div> <!-- /.panel-header -->
@@ -26,34 +23,29 @@
                   <div class="panel-body">
                   <div class="row">
                     <div class="col-sm-12">
+                      
                       <ul class="list-inline thumbnails">
                         
-                        {{#if $eq currentUser._id owner.userId}}
-                        
-                            <li>
-                              <img class="img-responsive" src="https://unsplash.it/115/65?random=1" alt="">
-                            </li>
-                        
+                        {{#if getEditMode}}
+                          {{>editGallery}}
                         {{else}}
-                          {{#each image in pictures}}
-                            {{#if $eq image null}}
-                        
-                            {{else}}
-                            <li>
-                              <img class="img-responsive" src= {{getImgURL image}} alt="">
-                            </li>
-                            {{/if}}
-                          {{/each}}
+                          {{>galleryThumbsnail}}
                         {{/if}}
-                        
+
                       </ul>
+                      {{>uploadFormCrop slot=0 pictures=pictures projectId=_id }}
+                      {{>uploadFormCrop slot=1 pictures=pictures projectId=_id }}
+                      {{>uploadFormCrop slot=2 pictures=pictures projectId=_id }}
+                      {{>uploadFormCrop slot=3 pictures=pictures projectId=_id }}
+                      {{>uploadFormCrop slot=4 pictures=pictures projectId=_id }}
+                      {{#if $eq currentUser._id owner.userId}}
+
+                          <button id="edit-gallery-button" class="btn btn-primary navbar-btn navbar-right">Gallerie bearbeiten</button>
+
+                        {{/if}}
                     </div> <!-- /.col-sm-12 gallery thumbnails -->
                   </div> <!-- /.row -->
-                    {{>uploadFormCrop slot="0"}}
-                    {{>uploadFormCrop slot="1"}}
-                    {{>uploadFormCrop slot="2"}}
-                    {{>uploadFormCrop slot="3"}}
-                    {{>uploadFormCrop slot="4"}}
+                    
                     
                   <div class="row">
                     <div class="col-sm-12">

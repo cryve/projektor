@@ -4,17 +4,23 @@ import {ImagesGallery} from "/lib/images.collection.js";
 
 import './project_details.html';
 
-Template.projectDetails.helpers({
+Template.projectDetails.onCreated(function() {
+  this.editMode = new ReactiveVar(false);
   
-   projects() {
-       return Projects.find({}, { sort: { createdAt: -1 } });
-   },
+});
+
+Template.projectDetails.helpers({
+
+  getEditMode(){
+    return Template.instance().editMode.get();
+  }
+});
+
+Template.projectDetails.events({
+
+"click #edit-gallery-button" (event){
+    const target = event.target;
+    Template.instance().editMode.set(true);
     
-    
-   getImgURL(imgId) { 
-    console.log(imgId);
-    var image = ImagesGallery.findOne(imgId);    
-    return image.link();
-  },
- 
+  }               
 });

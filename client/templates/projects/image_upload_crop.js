@@ -45,11 +45,16 @@ Template.uploadFormCrop.events({
           if (error) {
             alert('Error during upload: ' + error.reason);
           } else {
-            alert('File "' + fileObj.name + '" successfully uploaded to' + this.slot);
+            var currentArray = template.data.pictures;
+            var currentSlot = template.data.slot;
+            alert('File "' + fileObj.name + '" successfully uploaded to ' + currentSlot);
             console.log("Storing image with URL " + fileObj._id + " in slot: ");
+            currentArray[currentSlot] = fileObj._id;
+            Projects.update( { _id: template.data.projectId }, { $set: { 'pictures': currentArray }} );
+        
+         
             
             
-            Projects.update( { _id: this._id }, { $set: { 'pictures.[0]': fileObj._id }} );
             
             
             

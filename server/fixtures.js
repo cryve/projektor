@@ -4,7 +4,7 @@ Projects.insert({
   createdAt: new Date(),
   title: "Beispielprojekt",
   coverImg: "kzhYWad3tTBY3qoQv",
-  pictures: ["SvmoTB9rnsEWQmKaM", "", "", ""],
+  pictures: ["SvmoTB9rnsEWQmKaM", "", "", "", ""],
   subtitle: "Ein Beispiel für ein Projekt",
   description: "Dieses Projekt dient nur als Beispiel. Es zeigt den Entwicklern, ob das Layout funktioniert und wie andere Projekte später wirken. Mehr gibt's hier nicht zu sehen.",
   team: [{userId: "userId1", role: "3D-Design, Kaffee kochen"}, {userId: "userId2", role: "Level-Design, C# programmieren"}, {userId: "userId3", role: "Bug fixing, Testing"}],

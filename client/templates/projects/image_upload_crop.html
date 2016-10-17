@@ -3,6 +3,8 @@
 </template>
 
 <template name="uploadFormCrop">
+  {{slot}}
+  {{projectId}}
   {{#with currentUploadCrop}}
     Uploading <b>{{file.name}}</b>: 
     <span id="progress">{{progress.get}}%</span>

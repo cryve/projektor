@@ -2,6 +2,14 @@ import { Images } from '/lib/images.collection.js';
 
 import "./gallery.html";
 
+/*Template.galleryThumbsnail.onCreated(function){
+  this.gallerySlot = new ReactiveVar()
+};
+
+Template.galleryThumbsnail.events({
+  
+});
+
 Template.gallery.onCreated(function() {
   this.showingUpload = new ReactiveVar(false);
   this.uploadToSlot = new ReactiveVar();
@@ -9,10 +17,6 @@ Template.gallery.onCreated(function() {
 });
 
 Template.gallery.helpers({
-  getImgURL(imgId) { 
-    var image = Images.findOne(imgId);    
-    return image.link();
-  },
   getShowingUpload() {
     return Template.instance().showingUpload.get();
   },
@@ -22,6 +26,7 @@ Template.gallery.helpers({
 });
 
 Template.gallery.events({
+  
   "click .gallery-nav-thumb" (event) {
     const target = event.target;
     const imgPath = target.src;
@@ -36,4 +41,4 @@ Template.gallery.events({
     console.log("showingUpload: " + Template.instance().showingUpload.get());
   }
                         
-});
+}); */
