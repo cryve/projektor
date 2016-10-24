@@ -15,7 +15,37 @@
                 <div class="panel-header">
                     <div class="row">         
                       <div class="col-sm-12">
-                        {{>galleryPreview}}
+                        {{#if getEditMode}}
+                          {{> uploadFormCrop slot=slot pictures=pictures projectId=_id }}
+                          {{#if getRefreshPreview}}
+                            {{#if $eq coverImg result}}
+                              {{> deleteImageButton slot=slot pictures=pictures projectId=_id }}
+                              {{> titleImage}}        
+                            {{else}}
+                              {{#if result}}
+                                {{> deleteImageButton slot=slot pictures=pictures projectId=_id }}
+                                {{> setTitleImageButton slot=slot pictures=pictures projectId=_id }}
+                                {{> galleryPreview result}}
+                              {{else}}
+                                {{> previewPlaceholder}}  
+                              {{/if}}
+                            {{/if}}
+                            
+                            
+                          {{else}}
+                            {{> deleteImageButton slot=slot pictures=pictures projectId=_id }}
+                            {{> titleImage}}
+                          {{/if}}
+                        {{else}}
+                          
+                          {{#if getRefreshPreview}}
+                            {{> galleryPreview result}}
+                          {{else}}
+                            {{> titleImage}}
+                          {{/if}}
+                        {{/if}}
+
+                        
                       </div>                  
                     </div>
                 </div> <!-- /.panel-header -->
@@ -25,20 +55,55 @@
                     <div class="col-sm-12">
                       
                       <ul class="list-inline thumbnails">
-                        
-                        {{#if getEditMode}}
-                          {{>editGallery}}
-                        {{else}}
-                        
-                          {{>galleryThumbsnail}}
-                        {{/if}}
+                          {{#if getEditMode}}
+                            {{#each image in pictures}}
+                              <div class="mergeInputImage">
+                             <!--{{>uploadFormCrop slot=1 pictures=pictures projectId=_id }}
+                                 {{>uploadFormCrop slot=2 pictures=pictures projectId=_id }}
+                                 {{>uploadFormCrop slot=3 pictures=pictures projectId=_id }}
+                                 {{>uploadFormCrop slot=4 pictures=pictures projectId=_id }}-->
+                                  {{#if $eq image null}}
+                                    <li>
+                                      <button data-value="{{image}}" data-slot={{@index}} type="button" class="edit_button">
+                                        <div class="well thumbnail-placeholder"></div>
+                                      </button>
+                                    </li>                      
+                                  {{else}}
+                                    <li>
+                                      <button data-value="{{image}}" data-slot={{@index}} type="button" class="edit_button ">
+                                        <img class="img-responsive "  src= {{getImgURL image "thumbnail115"}} alt="">
+                                      </button>
+                                    </li>
+                                  {{/if}}
+                                </div>
+                            {{/each}} 
+                          {{else}}
+                            {{#each image in pictures}}
+                              {{#if image }}
+                                <li>
+                                  <button data-value="{{image}}" data-slot={{@index}} type="button" class="edit_button ">
+
+                                    <img class="img-responsive" src= {{getImgURL image "thumbnail115"}} alt="">
+
+                                  </button>
+                                </li>
+                              {{else}}
+                               
+                              {{/if}}
+                            {{/each}}
+                          {{/if}}
 
                       </ul>
                    
                       {{#if $eq currentUser._id owner.userId}}
-
+                        {{#if getEditMode}}
+                          <button id="finished-button" class="btn btn-primary navbar-btn navbar-right">Fertig</button>
+                        {{else}}
                           <button id="edit-gallery-button" class="btn btn-primary navbar-btn navbar-right">Gallerie bearbeiten</button>
-
+                          
+                        {{/if}} 
+                        
+                          
                       {{/if}}
                     </div> <!-- /.col-sm-12 gallery thumbnails -->
                   </div> <!-- /.row -->

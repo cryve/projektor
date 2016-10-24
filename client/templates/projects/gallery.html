@@ -1,50 +1,66 @@
-<template name="editGallery">
+<!--<template name="editGallery">
   <link rel='stylesheet prefetch' href='http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css'>
+  
   {{#each image in pictures}}
   
     <div class="mergeInputImage">
-     {{>uploadFormCrop slot=@index pictures=pictures projectId=_id }}
-
-     <!--{{>uploadFormCrop slot=1 pictures=pictures projectId=_id }}
+      {{>uploadFormCrop slot=@index pictures=pictures projectId=_id }}
+     {{>uploadFormCrop slot=1 pictures=pictures projectId=_id }}
      {{>uploadFormCrop slot=2 pictures=pictures projectId=_id }}
      {{>uploadFormCrop slot=3 pictures=pictures projectId=_id }}
-     {{>uploadFormCrop slot=4 pictures=pictures projectId=_id }}-->
+     {{>uploadFormCrop slot=4 pictures=pictures projectId=_id }}
       {{#if $eq image null}}
         <li>
           <div class="well thumbnail-placeholder"></div>
         </li>                      
       {{else}}
         <li>
+          
           <img class="img-responsive"  src= {{getImgURL image "thumbnail115"}} alt="">
+          
         </li>
       {{/if}}
     </div>
   
     {{/each}}
     
+</template>-->
+<template name="previewPlaceholder">
+  <div class="well preview-placeholder"></div>
 </template>
 
+
+<template name="setTitleImageButton">
+
+      <button id="title-image-button" class="btn btn-primary navbar-btn navbar-right">Titelbild</button>
+
+</template>
+
+<template name="deleteImageButton">
+
+      <button id="delete-image-button" class="btn btn-primary navbar-btn navbar-right">Löschen</button>
+
+</template>
+
+<template name="titleImage">
+
+      <img class="img-responsive" src={{getImgURL coverImg "preview"}} alt="">
+
+</template>
+
+<!--<template name="galleryPreviewEdit">
+    
+    {{#if $eq pictures.[0] null}}
+      Empty Picture
+    {{else}}
+      <img class="img-responsive" src={{getImgURL result "preview"}} alt="">
+    {{/if}}
+</template>-->
 
 
 <template name="galleryPreview">
-  {{#if $eq pictures.[0] null}}
-  {{else}}
-    <img class="img-responsive" src={{getImgURL pictures.[0] "preview"}} alt="">
-  {{/if}}
+  
+    <img class="img-responsive" src={{getImgURL result "preview"}} alt="">
+
 </template>
 
-<template name="galleryThumbsnail">
-  
-    {{#each image in pictures}}
-      {{#if $eq image null}}
-                              
-      {{else}}
-        <li>
-          <img class="img-responsive" data-slotTest="{{@index}}" src= {{getImgURL image "thumbnail115"}} alt="">
-        </li>
-      {{/if}}
-    {{/each}}
-  
-    
-  
-</template>

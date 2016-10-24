@@ -4,6 +4,12 @@
     
 }
 
+.preview-placeholder{
+  height: 500px;
+  width: 750px;
+    
+}
+
 
 .wrapper {
   width: 100%;
@@ -46,3 +52,7 @@
   cursor: pointer;
 }
 
+.edit_button {
+  border:none; 
+  background:none;
+} 

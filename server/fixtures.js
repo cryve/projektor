@@ -2,8 +2,8 @@ import { Projects } from '/lib/collections/projects.js';
 
 Projects.insert({
   createdAt: new Date(),
+  coverImg: "sdsdsdsdsd",
   title: "Beispielprojekt",
-  coverImg: "kzhYWad3tTBY3qoQv",
   pictures: ["SvmoTB9rnsEWQmKaM", "", "", "", ""],
   subtitle: "Ein Beispiel für ein Projekt",
   description: "Dieses Projekt dient nur als Beispiel. Es zeigt den Entwicklern, ob das Layout funktioniert und wie andere Projekte später wirken. Mehr gibt's hier nicht zu sehen.",

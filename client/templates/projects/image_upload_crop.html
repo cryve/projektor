@@ -7,12 +7,9 @@
     Uploading <b>{{file.name}}</b>: 
     <span id="progress">{{progress.get}}%</span>
   {{else}}
-      <div class="wrapper">
-      <div class="file-upload">
-        <input type="file" id="fileInput" />
-        <i class="fa fa-upload"></i>
-      </div>
-    </div>
+
+        <input type="file" id="fileInput" class="btn btn-primary navbar-btn navbar-right" />
+
     <!--<input id="fileInput" type="file" />-->
   {{/with}}
 </template>
