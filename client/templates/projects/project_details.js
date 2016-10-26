@@ -31,7 +31,21 @@ Template.projectDetails.helpers({
   slot: function() {
  
     return Session.get('slot');
-  }
+  },
+  
+    getFirstImageId(){
+    console.log("fdhsfkkfjsdf")
+       for (var i = 0; i < this.pictures.length; i++) {
+
+          if (this.pictures[i] != null){
+              console.log(this.pictures[i]);
+              console.log("dfsdfsdfdsfdsfdsfdsfds")
+              Session.set('slot', i)
+              return Session.set('result', this.pictures[i] )
+          }
+       }
+ 
+    }
 });
 
 
@@ -42,6 +56,7 @@ Template.projectDetails.events({
     const target = event.target;
     Template.instance().editMode.set(true);
     Template.instance().finishedMode.set(false);
+
     
   },
   
@@ -49,6 +64,7 @@ Template.projectDetails.events({
     const target = event.target;
     Template.instance().finishedMode.set(true);
     Template.instance().editMode.set(false);
+
   },
   'click .edit_button': function(event){
       const target = event.target;
@@ -58,6 +74,7 @@ Template.projectDetails.events({
       Template.instance().refreshPreview.set(true);
       Session.set('result', result);
       Session.set('slot', slot);
+
       
   } 
 });

@@ -47,10 +47,21 @@ Template.uploadFormCrop.events({
           } else {
             var currentArray = template.data.pictures;
             var currentSlot = template.data.slot;
+            var currentCover = template.data.coverImg;
             alert('File "' + fileObj.name + '" successfully uploaded to ' + currentSlot);
-            currentArray[currentSlot] = fileObj._id;
-            console.log("Storing image with URL " + fileObj._id + " in slot: " + currentSlot);
-            Projects.update( { _id: template.data.projectId }, { $set: { 'pictures': currentArray }} );
+            if(currentCover == currentArray[currentSlot] ){
+              ImagesGallery.remove({_id: currentArray[currentSlot]}); 
+              currentArray[currentSlot] = fileObj._id;
+              Projects.update( { _id: template.data.projectId }, { $set: { 'pictures': currentArray }} );
+              Projects.update( { _id: template.data.projectId }, { $set: { 'coverImg': fileObj._id }} );
+            }  
+            else{
+              ImagesGallery.remove({_id: currentArray[currentSlot]}); 
+              currentArray[currentSlot] = fileObj._id;
+              console.log("Storing image with URL " + fileObj._id + " in slot: " + currentSlot);
+              Projects.update( { _id: template.data.projectId }, { $set: { 'pictures': currentArray }} );
+            }
+            Session.set('result', fileObj._id);
           }
           
           template.currentUploadCrop.set(false);

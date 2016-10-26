@@ -11,9 +11,11 @@
                     <li><img class="img-circle" src="http://lorempixel.com/20/20/people/3"></li>
                   </ul> 
                 </div> <!-- /.member-icons-box -->
-          
-                  <img class="img-responsive" src={{getImgURL coverImg "cover"}} alt="">
-   
+                  {{#if $eq coverImg null}}
+                    
+                  {{else}}
+                  <img class="img-responsive" src={{getImgURL this.coverImg "cover"}} alt="">
+                  {{/if}}
               </div> <!-- /.cover -->
             </div> <!-- /.panel-header -->
             <div class="panel-body">
