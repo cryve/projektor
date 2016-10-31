@@ -36,6 +36,8 @@ twbs:bootstrap                # Bootstrap CSS framework support
 #accounts-facebook
 #typ:accounts-ldap
 natestrauser:x-editable-bootstrap
+natestrauser:select2
+zimme:select2-bootstrap3-css
 raix:handlebar-helpers
 #tdamsma:meteor-accounts-ldap
 #useraccounts:bootstrap
