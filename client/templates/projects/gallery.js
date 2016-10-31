@@ -1,44 +1,97 @@
-import { Images } from '/lib/images.collection.js';
+import { Projects } from '/lib/collections/projects.js';
+import {ImagesGallery} from "/lib/images.collection.js";
 
 import "./gallery.html";
 
-/*Template.galleryThumbsnail.onCreated(function){
-  this.gallerySlot = new ReactiveVar()
-};
-
-Template.galleryThumbsnail.events({
-  
+Template.deleteImageButton.onCreated (function(){
+  this.setEmptyPreview = new ReactiveVar(false);
 });
 
-Template.gallery.onCreated(function() {
-  this.showingUpload = new ReactiveVar(false);
-  this.uploadToSlot = new ReactiveVar();
-  
+Template.setTitleImageButton.onCreated(function() {
+  this.setCover = new ReactiveVar(false);
 });
 
-Template.gallery.helpers({
-  getShowingUpload() {
-    return Template.instance().showingUpload.get();
+Template.setTitleImageButton.helpers({
+
+  getSetCover(){
+    return Template.instance().setCover.get();
   },
-  getUploadToSlot() {
-    return Template.instance().uploadToSlot.get();
-  }
 });
 
-Template.gallery.events({
-  
-  "click .gallery-nav-thumb" (event) {
-    const target = event.target;
-    const imgPath = target.src;
-    $(".big-img").attr("src", imgPath);
-    Template.instance().showingUpload.set(false);    
+Template.deleteImageButton.helpers ({
+  getSetEmptyPreview(){
+    return Template.instance().setEmptyPreview.get();
   },
-  "click #gallery-nav-thumb-empty" (event) {
-    const target = event.target;    
-    let currentSlot = target.dataset.slot;
-    Template.instance().uploadToSlot.set(currentSlot);
-    Template.instance().showingUpload.set(true);
-    console.log("showingUpload: " + Template.instance().showingUpload.get());
-  }
-                        
-}); */
+});
+
+Template.galleryPreview.helpers({
+  getValue(){
+    return Template.instance().valuePreview.get();
+  },
+  
+   result: function() {
+    return Session.get('result');
+  },
+  
+
+});
+
+
+Template.setTitleImageButton.events({
+
+  "click #title-image-button" (event, template){
+   const target = event.target;
+   var currentArray = template.data.pictures;
+   var currentSlot = template.data.slot;
+   Projects.update( { _id: template.data.projectId }, { $set: { 'coverImg': currentArray[currentSlot] }} );
+   Template.instance().setCover.set(true);
+    
+  },
+
+});
+
+
+Template.deleteImageButton.events({
+  
+   "click #delete-image-button" (event, template){
+   var currentArray = template.data.pictures;
+   var currentSlot = template.data.slot;
+   var currentCover = template.data.coverImg;
+   console.log(currentArray[currentSlot]);
+   console.log(currentCover);
+   if (currentArray[currentSlot] != null){
+    ImagesGallery.remove({_id: currentArray[currentSlot]}); 
+   };
+     
+   if(currentCover === currentArray[currentSlot] ){
+     currentArray[currentSlot] = null; 
+     var newCoverImage = null;
+     
+     for (var i = 0; i < 5; i++) {
+      
+        if (currentArray[i] != null){
+            newCoverImage = currentArray[i];
+            break;
+        }
+     }
+     console.log(newCoverImage);
+     Projects.update( { _id: template.data.projectId }, { $set: { 'coverImg': newCoverImage }} ); 
+   } 
+   currentArray[currentSlot] = null;   
+   Projects.update( { _id: template.data.projectId }, { $set: { 'pictures': currentArray }} );  
+   Template.instance().setEmptyPreview.set(true);
+   Session.set('result', undefined)
+  
+  },
+  
+});
+
+/*Template.previewPlaceholder.events({
+  
+   "click #set-preview" (event){
+     const target = event.target;
+     console.log("hfjdhjdjdjd")
+     Template.instance().setEmptyPreview.set(true);
+   }
+});*/
+

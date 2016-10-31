@@ -15,7 +15,59 @@
                 <div class="panel-header">
                     <div class="row">         
                       <div class="col-sm-12">
-                        {{>galleryPreview}}
+                        {{#if getEditMode}}
+                          {{> uploadFormCrop slot=slot pictures=pictures projectId=_id coverImg=this.coverImg}}
+                          {{#if $eq coverImg null OR getSetEmptyPreview}}
+                            {{> previewPlaceholder}}
+                              {{else}}
+                                {{#if getRefreshPreview}}
+                                  {{#if $eq coverImg result}}
+                                      {{> deleteImageButton slot=slot pictures=pictures projectId=_id coverImg=this.coverImg }}
+                                      {{> titleImage coverImg=coverImg}} 
+                                  {{else}}
+                                    {{#if result}}
+                                      {{> deleteImageButton slot=slot pictures=pictures projectId=_id coverImg=this.coverImg}}
+                                      {{> setTitleImageButton slot=slot pictures=pictures projectId=_id coverImg=this.coverImg}}
+                                      {{> galleryPreview result}}
+                                    {{else}}
+                                      {{> previewPlaceholder}}  
+                                    {{/if}}
+                                  {{/if}}
+
+
+                                {{else}}
+                                  {{getFirstImageId}}
+                                  
+                                  {{#if $eq coverImg result}}
+                                    {{#if getSetEmptyPreview}}
+                                      {{> previewPlaceholder}}
+                                    {{else}}
+                                      {{> deleteImageButton slot=slot pictures=pictures projectId=_id coverImg=this.coverImg }}
+                                      {{> galleryPreview result}}
+                                    {{/if}}
+                                  {{else}}
+                                    {{> deleteImageButton slot=slot pictures=pictures projectId=_id coverImg=this.coverImg }}
+                                    {{> setTitleImageButton slot=slot pictures=pictures projectId=_id coverImg=this.coverImg}}
+                                    {{> galleryPreview result}}
+                                  {{/if}}
+                                {{/if}}
+                              {{/if}}
+
+ 
+                        {{else}}
+                          {{#if $eq coverImg null}}
+                            
+                          {{else}}
+                            {{#if getRefreshPreview}}
+                              {{> galleryPreview result}}
+                            {{else}}
+                              {{getFirstImageId}}
+                              {{> galleryPreview result}}
+                            {{/if}}
+                          {{/if}}
+                        {{/if}}
+
+                        
                       </div>                  
                     </div>
                 </div> <!-- /.panel-header -->
@@ -25,24 +77,56 @@
                     <div class="col-sm-12">
                       
                       <ul class="list-inline thumbnails">
-                        
-                        {{#if getEditMode}}
-                          {{>editGallery}}
-                        {{else}}
-                          {{>galleryThumbsnail}}
-                        {{/if}}
+                          {{#if getEditMode}}
+                            {{#each image in pictures}}
+                              <div class="mergeInputImage">
+                             <!--{{>uploadFormCrop slot=1 pictures=pictures projectId=_id }}
+                                 {{>uploadFormCrop slot=2 pictures=pictures projectId=_id }}
+                                 {{>uploadFormCrop slot=3 pictures=pictures projectId=_id }}
+                                 {{>uploadFormCrop slot=4 pictures=pictures projectId=_id }}-->
+                                  {{#if $eq image null}}
+                                    <li>
+                                      <button data-value="{{image}}" data-slot={{@index}} type="button" class="edit_button">
+                                        <div class="well thumbnail-placeholder"></div>
+                                      </button>
+                                    </li>                      
+                                  {{else}}
+                                    <li>
+                                      <button data-value="{{image}}" data-slot={{@index}} type="button" class="edit_button ">
+                                        <img class="img-responsive "  src= {{getImgURL image "thumbnail115"}} alt="">
+                                      </button>
+                                    </li>
+                                  {{/if}}
+                                </div>
+                            {{/each}} 
+                          {{else}}
+                            {{#each image in pictures}}
+                              {{#if image }}
+                                <li>
+                                  <button data-value="{{image}}" data-slot={{@index}} type="button" class="edit_button ">
+
+                                    <img class="img-responsive" src= {{getImgURL image "thumbnail115"}} alt="">
+
+                                  </button>
+                                </li>
+                              {{else}}
+                               
+                              {{/if}}
+                            {{/each}}
+                          {{/if}}
 
                       </ul>
-                      {{>uploadFormCrop slot=0 pictures=pictures projectId=_id }}
-                      {{>uploadFormCrop slot=1 pictures=pictures projectId=_id }}
-                      {{>uploadFormCrop slot=2 pictures=pictures projectId=_id }}
-                      {{>uploadFormCrop slot=3 pictures=pictures projectId=_id }}
-                      {{>uploadFormCrop slot=4 pictures=pictures projectId=_id }}
+                   
                       {{#if $eq currentUser._id owner.userId}}
-
+                        {{#if getEditMode}}
+                          <button id="finished-button" class="btn btn-primary navbar-btn navbar-right">Fertig</button>
+                        {{else}}
                           <button id="edit-gallery-button" class="btn btn-primary navbar-btn navbar-right">Gallerie bearbeiten</button>
-
-                        {{/if}}
+                          
+                        {{/if}} 
+                        
+                          
+                      {{/if}}
                     </div> <!-- /.col-sm-12 gallery thumbnails -->
                   </div> <!-- /.row -->
                     
