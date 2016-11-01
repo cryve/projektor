@@ -54,10 +54,12 @@ Template.projectDetails.events({
 
   "click #edit-gallery-button" (event){
     if(!this.pictures) {
+      Session.set('slot', 0);
       var picturesEmpty = ["", "", "", "", ""];
       Projects.update(this._id, {$set: {pictures: picturesEmpty}});
       Projects.update(this._id, {$set: {coverImg: null}});      
     }
+    
     const target = event.target;
     Template.instance().editMode.set(true);
     Template.instance().finishedMode.set(false);
