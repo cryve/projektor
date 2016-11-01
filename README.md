@@ -1,9 +1,6 @@
 # projektor
 
 ## Termine
-* Nächstes Meeting: 10.08.2016
-* Deadline: 14.09.2016
-* Präsentation: 21.09.2016 (Semester-Auftakt - Projekt-Präsentation, im Forum)
 
 ## Anforderungen
 ### MUST

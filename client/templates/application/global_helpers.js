@@ -1,6 +1,6 @@
-/* 
+/*
 - use this file for template helpers used in multiple templates
-- reference: 
+- reference:
  - https://guide.meteor.com/blaze.html#global-helpers
 */
 
@@ -31,9 +31,8 @@ Template.registerHelper("getUsername", (userId) => {
 
 
 Template.registerHelper("getFullUsername", (userId) => {
-   //var name = Meteor.users.findOne({_id: userId});
-  var name = "Max Mustermann";
-  return name;
+  var user = Meteor.users.findOne({_id: userId});
+  return user && user.profile.firstname + " " + user.profile.lastname;
 });
 
 Template.registerHelper("getProjectsCollection", Projects);
@@ -47,7 +46,10 @@ Template.registerHelper("arrayToString", (array) => {
 Template.registerHelper("getImgURL", (imgId, version) => {
     var image = ImagesGallery.findOne(imgId);
     return image && image.link(version);
-  });
-  
+});
 
-
+Template.registerHelper("getAvatarURL", (userId) => {
+  //var user = Meteor.users.findOne({_id: userId});
+  //var avatar = Images.findOne(user.profile.avatar);
+  //return avatar && avatar.link(thumb50);
+});

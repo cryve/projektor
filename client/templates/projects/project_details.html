@@ -1,4 +1,4 @@
-<template name="projectDetails">    
+<template name="projectDetails">
     <div class="container">
       <div class="row">
           <div class="col-lg-12">
@@ -13,7 +13,7 @@
             <div class="col-md-8 col-lg-8">
               <div class="panel panel-default">
                 <div class="panel-header">
-                    <div class="row">         
+                    <div class="row">
                       <div class="col-sm-12">
                         {{#if getEditMode}}
                           {{> uploadFormCrop slot=slot pictures=pictures projectId=_id coverImg=this.coverImg}}
@@ -23,21 +23,21 @@
                                 {{#if getRefreshPreview}}
                                   {{#if $eq coverImg result}}
                                       {{> deleteImageButton slot=slot pictures=pictures projectId=_id coverImg=this.coverImg }}
-                                      {{> titleImage coverImg=coverImg}} 
+                                      {{> titleImage coverImg=coverImg}}
                                   {{else}}
                                     {{#if result}}
                                       {{> deleteImageButton slot=slot pictures=pictures projectId=_id coverImg=this.coverImg}}
                                       {{> setTitleImageButton slot=slot pictures=pictures projectId=_id coverImg=this.coverImg}}
                                       {{> galleryPreview result}}
                                     {{else}}
-                                      {{> previewPlaceholder}}  
+                                      {{> previewPlaceholder}}
                                     {{/if}}
                                   {{/if}}
 
 
                                 {{else}}
                                   {{getFirstImageId}}
-                                  
+
                                   {{#if $eq coverImg result}}
                                       {{> deleteImageButton slot=slot pictures=pictures projectId=_id coverImg=this.coverImg }}
                                       {{> galleryPreview result}}
@@ -49,10 +49,10 @@
                                 {{/if}}
                               {{/if}}
 
- 
+
                         {{else}}
                           {{#if $eq coverImg null}}
-                            
+
                           {{else}}
                             {{#if getRefreshPreview}}
                               {{> galleryPreview result}}
@@ -63,15 +63,15 @@
                           {{/if}}
                         {{/if}}
 
-                        
-                      </div>                  
+
+                      </div>
                     </div>
                 </div> <!-- /.panel-header -->
-                  
+
                   <div class="panel-body">
                   <div class="row">
                     <div class="col-sm-12">
-                      
+
                       <ul class="list-inline thumbnails">
                           {{#if getEditMode}}
                             {{#each image in pictures}}
@@ -85,7 +85,7 @@
                                       <button data-value="{{image}}" data-slot={{@index}} type="button" class="edit_button">
                                         <div class="well thumbnail-placeholder"></div>
                                       </button>
-                                    </li>                      
+                                    </li>
                                   {{else}}
                                     <li>
                                       <button data-value="{{image}}" data-slot={{@index}} type="button" class="edit_button ">
@@ -94,7 +94,7 @@
                                     </li>
                                   {{/if}}
                                 </div>
-                            {{/each}} 
+                            {{/each}}
                           {{else}}
                             {{#each image in pictures}}
                               {{#if image }}
@@ -106,27 +106,27 @@
                                   </button>
                                 </li>
                               {{else}}
-                               
+
                               {{/if}}
                             {{/each}}
                           {{/if}}
 
                       </ul>
-                   
+
                       {{#if $eq currentUser._id owner.userId}}
                         {{#if getEditMode}}
                           <button id="finished-button" class="btn btn-primary navbar-btn navbar-right">Fertig</button>
                         {{else}}
                           <button id="edit-gallery-button" class="btn btn-primary navbar-btn navbar-right">Gallerie bearbeiten</button>
-                          
-                        {{/if}} 
-                        
-                          
+
+                        {{/if}}
+
+
                       {{/if}}
                     </div> <!-- /.col-sm-12 gallery thumbnails -->
                   </div> <!-- /.row -->
-                    
-                    
+
+
                   <div class="row">
                     <div class="col-sm-12">
                       <h3>Beschreibung</h3>
@@ -139,12 +139,12 @@
                       <ul class="list-inline">
                         {{#each tag in tags}}
                           <li><span class="label label-default">{{tag}}</span></li>
-                        {{/each}}  
-                      </ul>                    
-                    </div> <!-- /.col Tags -->            
-                  
+                        {{/each}}
+                      </ul>
+                    </div> <!-- /.col Tags -->
+
                   </div> <!-- /.row Tags -->
-                  
+
                 </div> <!-- /.panel-body -->
               </div> <!-- /.panel -->
             </div> <!-- /.col-sm-10 -->
@@ -154,7 +154,7 @@
                 <div class="panel-heading">
                   <h2 class="panel-title">Team</h2>
                 </div>
-                  
+
                 <div class="panel-body">
                   <ul class="media-list">
                     <li class="media">
@@ -181,9 +181,9 @@
                         </div>
                       </li>
                     {{/each}}
-                    
+
                   </ul>
-                </div>              
+                </div>
               </div> <!-- /.panel-default -->
               <div class="panel panel-default">
                 <div class="panel-heading">
@@ -195,8 +195,8 @@
                       <li>Dolor Sit Amet</li>
                       <li>Consectetur</li>
                       <li>Adipiscing Elit</li>
-                  </ul>                
-                </div>                
+                  </ul>
+                </div>
               </div> <!-- /.panel Wanted Skills -->
               <div class="panel panel-default">
                 <div class="panel-heading">
@@ -208,9 +208,9 @@
                       <li><span class="glyphicon glyphicon-home"></span> <a href="#">www.projekt.de</a> </li>
                       <li><span class="glyphicon glyphicon-earphone"></span> 0123 45678910</li>
                       <li><span class="glyphicon glyphicon-facetime-video"></span> Skype: nickname</li>
-                  </ul>                
-                </div>                
-              </div> <!-- /.panel Contact -->     
+                  </ul>
+                </div>
+              </div> <!-- /.panel Contact -->
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <h2 class="panel-title">Details</h2>
@@ -223,11 +223,11 @@
                     <dd>{{arrayToString supervisors}}</dd>
                     <dt>Deadline</dt>
                     <dd>{{readableDate deadline}}</dd>
-                    
-                  </dl>            
-                </div>                
+
+                  </dl>
+                </div>
               </div> <!-- /.panel Wanted Skills -->
-              
+
             </div>
 
         </div><!-- /.row -->

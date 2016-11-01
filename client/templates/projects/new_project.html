@@ -1,20 +1,183 @@
 <template name="newProject">
-  
-  {{#autoForm collection=getProjectsCollection id="newProject" type="insert"}}
-    <fieldset>
-      <legend>Neues Projekt anlegen</legend>
-      {{> afQuickField name="title" }}
-      {{> afQuickField name="subtitle" }}
-      {{> afQuickField name="pictures" initialCount=5 minCount=5 maxCount=5}}
-      {{> afQuickField name="description" rows=6 }}
-      {{> afQuickField name="deadline" }}
-      {{> afQuickField name="tags" }}
-      {{> afQuickField name="jobs" }}      
-      {{> afQuickField name="contact" rows=3 }}
-      {{> afQuickField name="occasions" }}
-      {{> afQuickField name="supervisors" }}
-    </fieldset>
-    <button type="submit" class="btn btn-primary">Projekt anlegen</button>
-  {{/autoForm}}
+  <div class="container">
+      <div class="row">
+          <div class="col-lg-12">
+              <h1 class="page-header">
+                <span id="title" class="editable required-editable" data-pk="{{_id}}"></span> <span class="editable-icon glyphicon glyphicon-pencil text-primary"></span><br>
+                <small><span id="subtitle" data-pk="{{_id}}"></span></small>
+              </h1>
+          </div>
+      </div> <!-- /.row -->
+      <div class="row">
+        <div class="col-md-8 col-lg-8">
+          <div class="panel panel-default">
+            <div class="panel-header">
+              <div class="well img-placeholder">
+                <div class="center-block text-center">
+                  <h4 class="text-info">Bild hierhin ziehen und ablegen<br>oder</h4>
+                <button class="btn btn-info">Bild auswählen</button>
+                </div>
+              </div>
+            </div> <!-- /.panel-header -->
 
+                  <div class="panel-body">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <ul class="list-inline thumbnails">
+                        <li>
+                          <a href="#">
+                          <img class="img-responsive" src="https://unsplash.it/115/65?random=1" alt="">
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <div class="well thumbnail-placeholder"></div>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <img class="img-responsive" src="https://unsplash.it/115/65?random=3" alt="">
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <div class="well thumbnail-placeholder"></div>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <div class="well thumbnail-placeholder"></div>
+                          </a>
+                        </li>
+                      </ul>
+                    </div> <!-- /.col-sm-12 gallery thumbnails -->
+                  </div> <!-- /.row -->
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <h3>Beschreibung</h3>
+                      <p><span id="edit-description" data-pk="{{_id}}"></span></p>
+                    </div> <!-- /.col description -->
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <h3>Tags</h3>
+                      <span
+                        id="edit-tags"
+                        data-type="select2"
+                        data-placeholder="Tag hinzufügen"
+                        data-emptytext="Tags hinzufügen"
+                        data-title="Add tags"
+                        data-pk="{{_id}}">
+                      </span>
+                    </div> <!-- /.col Tags -->
+                  </div> <!-- /.row Tags -->
+
+                  <br>
+                  <button class="btn btn-default">Abbrechen</button>
+                  <button id="btn-create" class="btn btn-primary">Projekt erstellen</button>
+
+                </div> <!-- /.panel-body -->
+              </div> <!-- /.panel -->
+        </div> <!-- /.col-md-8 -->
+        <div class="col-lg-4">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <span class="panel-title">Team</span>
+                </div>
+
+                <div class="panel-body">
+                  <ul class="media-list">
+                    <li class="media">
+                      <div class="media-left">
+                        <a href="#">
+                          <img class="media-object img-circle" src="http://lorempixel.com/50/50/people/1" alt="...">
+                        </a>
+                      </div>
+                      <div class="media-body">
+                        <h4 class="media-heading"><a href="#">{{getFullUsername this.owner.userId}}</a></h4>
+                        <p class="text-muted" ><span id="edit-owner-role" data-pk="{{_id}}">{{owner.role}}</span></p>
+                      </div>
+                    </li>
+                    {{#each team}}
+                      {{> member draftId=../_id userId=this.userId currentIndex=@index role=this.role}}
+                    {{/each}}
+                    <li class="media">
+                      <div class="media-left">
+                        <a href="#">
+                          <img class="media-object img-circle" src="http://lorempixel.com/50/50/people/2" alt="...">
+                        </a>
+                      </div>
+                      <div class="media-body">
+                        <h4 class="media-heading"><a href="#" class="add-member" data-pk="{{_id}}"></a></h4>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div> <!-- /.panel-default -->
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h2 class="panel-title">Gesuchte Fähigkeiten</h2>
+                </div>
+                <div class="panel-body">
+                  <ul>
+                      {{#each job in jobs}}
+                        {{>jobItem title=job draftId=../_id currentIndex=@index}}
+                      {{/each}}
+                      <li><span class="add-job" data-pk="{{_id}}"></span></li>
+                  </ul>
+                </div>
+              </div> <!-- /.panel Wanted Skills -->
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h2 class="panel-title">Kontakt</h2>
+                </div>
+                <div class="panel-body">
+                  <ul class="list-unstyled">
+                      <li><span class="glyphicon glyphicon-envelope"></span> <a href="#">mitmachen@projekt.de</a></li>
+                      <li><span class="glyphicon glyphicon-home"></span> <a href="#">www.projekt.de</a> </li>
+                      <li><span class="glyphicon glyphicon-earphone"></span> 0123 45678910</li>
+                      <li><span class="glyphicon glyphicon-facetime-video"></span> Skype: nickname</li>
+                  </ul>
+                </div>
+              </div> <!-- /.panel Contact -->
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h2 class="panel-title">Details</h2>
+                </div>
+                <div class="panel-body">
+                  <dl class="dl">
+                    <dt>Projektanlass</dt>
+                    <dd>Projekt C, Mediengestaltung 3, IT-Systeme</dd>
+                    <dt>Betreuer</dt>
+                    <dd>Prof. Vorname Nachname, Prof. Vorname Nachname</dd>
+                    <dt>Deadline</dt>
+                    <dd>12. Oktober 2016</dd>
+
+                  </dl>
+                </div>
+              </div> <!-- /.panel Wanted Skills -->
+
+            </div> <!-- /.col-md-4 -->
+      </div><!-- /.row -->
+    </div> <!-- /.container -->
+</template>
+
+<template name="member">
+  <li class="media">
+    <div class="media-left">
+      <a href="#">
+        <img class="media-object img-circle" src="http://lorempixel.com/50/50/people/2" alt="...">
+      </a>
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading"><a href="#" class="select-member" data-pk="{{draftId}}">{{getFullUsername this.userId}}</a></h4>
+      <p class="text-muted"><span class="edit-member-role" data-pk="{{draftId}}">{{role}}</span></p>
+    </div>
+  </li>
+</template>
+
+<template name="jobItem">
+  <li>
+    <span class="edit-job" data-pk="{{draftId}}" data-index="{{currentIndex}}">{{title}}</span>
+  </li>
 </template>
