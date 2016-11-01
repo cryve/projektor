@@ -44,3 +44,5 @@ accounts-ui
 babrahams:editable-text
 cfs:graphicsmagick
 session
+rzymek:moment-locale-de
+panter:moment-reactive
