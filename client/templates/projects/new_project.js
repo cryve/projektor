@@ -77,6 +77,11 @@ Template.newProject.onRendered(function() {
       title: "add member",
       placeholder: "Mitglied hinzufügen",
       emptytext: "Mitglied hinzufügen",
+      validate: function(value) {
+        if($.trim(value) == '') {
+          return "Bitte wähle ein Mitglied aus!";
+        }
+      },
       source: function() {
         var userList = [];
         users.forEach(function (user){
@@ -132,6 +137,11 @@ Template.member.onRendered(function() {
       title: "select member",
       placeholder: "Mitglied auswählen",
       emptytext: "Mitglied auswählen",
+      validate: function(value) {
+        if($.trim(value) == '') {
+          return "Bitte wähle ein Mitglied aus!";
+        }
+      },
       source: function() {
         var userList = [];
         var users = Meteor.users.find({});
@@ -172,6 +182,12 @@ Template.member.onRendered(function() {
 Template.member.helpers({
   log (data) {
     console.log(data);
+  }
+});
+
+Template.member.events({
+  "click .btn-delete-member" (event) {
+    ProjectDrafts.update(this.draftId, {$pull: {team: {userId: this.userId}}});
   }
 });
 
