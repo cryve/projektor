@@ -30,13 +30,13 @@ Template.projectCardCoverless.helpers({
   
 
 Template.projectCard.events({
-  "mouseenter .post-module": function(event, template){
+  "mouseenter .list-unstyled": function(event, template){
         $(event.currentTarget).find('.description').stop().animate({
           height: "toggle",
           opacity: "toggle"
         }, 300);
       },
-  "mouseleave .post-module": function(event, template){
+  "mouseleave .list-unstyled": function(event, template){
         $(event.currentTarget).find('.description').stop().animate({
           height: "toggle",
           opacity: "toggle"

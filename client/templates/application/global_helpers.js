@@ -49,7 +49,7 @@ Template.registerHelper("getImgURL", (imgId, version) => {
 });
 
 Template.registerHelper("getAvatarURL", (userId) => {
-  //var user = Meteor.users.findOne({_id: userId});
-  //var avatar = Images.findOne(user.profile.avatar);
-  //return avatar && avatar.link(thumb50);
+  var user = Meteor.users.findOne({_id: userId});
+  var avatar = Images.findOne(user.profile.avatar);
+  return avatar && avatar.link();
 });

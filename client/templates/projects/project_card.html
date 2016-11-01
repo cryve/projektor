@@ -20,29 +20,34 @@
           <li><img class="img-circle" src="http://lorempixel.com/20/20/people/3"></li>
          </ul> 
         </div > <!-- /.member-icons-box -->
-        <p class="description">
-            <ul class="list-unstyled">
-                {{#if $lte tags 3}}
-                  {{#each tag in tags}}
-                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{tag}}</li>
+        <ul class="list-unstyled">
+                {{#if $lte jobs.length 3}}
+                  {{#each job in jobs}}
+                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{job}}</li>
                   {{/each}}
                 {{else}}
-                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{tags.[0]}}</li>
-                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{tags.[1]}}</li>
-                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{tags.[2]}} (+1)</li>
+                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[0]}}</li>
+                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[1]}}</li>
+                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[2]}} (...)</li>
+                  <p class="description">
+                    <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[3]}}</li>
+                    <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[4]}}</li>
+                    <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[5]}}</li>
+                  </p>
                 {{/if}}
-              </ul>
-                 {{#if $lte tags 4}}
-                  {{#each tag in tags}}
-                  <span class="label label-default">{{tag}}</span>
-                  {{/each}}
-                {{else}}
-                  <span class="label label-default">{{tags.[0]}}</span>
-                  <span class="label label-default">{{tags.[1]}}</span>
-                  <span class="label label-default">{{tags.[2]}}</span>
-                  <span class="label label-default">...</span>
-                {{/if}}
-          </p>
+            </ul>
+                 
+         
+          {{#if $lte tags.length 3}}
+             {{#each tag in tags}}
+              <span class="label label-default">{{tag}}</span>
+             {{/each}}
+          {{else}}
+              <span class="label label-default">{{tags.[0]}}</span>
+              <span class="label label-default">{{tags.[1]}}</span>
+              <span class="label label-default">{{tags.[2]}}</span>
+              <span class="label label-default">...</span>
+          {{/if}}
        <div class="panel-footer text-center">
            <ul class="list-inline">
             <li class="text-muted"><span class="glyphicon glyphicon-time"></span> <small>{{releaseDate createdAt}}</small></li>
@@ -91,29 +96,35 @@
           <li><img class="img-circle" src="http://lorempixel.com/20/20/people/3"></li>
          </ul> 
         </div > <!-- /.member-icons-box -->
-        <p class="description2">
+        
             <ul class="list-unstyled">
-                {{#if $lte tags 3}}
-                  {{#each tag in tags}}
-                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{tag}}</li>
+                {{#if $lte jobs.length 3}}
+                  {{#each job in jobs}}
+                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{job}}</li>
                   {{/each}}
                 {{else}}
-                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{tags.[0]}}</li>
-                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{tags.[1]}}</li>
-                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{tags.[2]}} (+1)</li>
+                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[0]}}</li>
+                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[1]}}</li>
+                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[2]}} (...)</li>
+                  <p class="description2">
+                    <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[3]}}</li>
+                    <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[4]}}</li>
+                    <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[5]}}</li>
+                  </p>
                 {{/if}}
-              </ul>
-                 {{#if $lte tags 4}}
-                  {{#each tag in tags}}
-                  <span class="label label-default">{{tag}}</span>
-                  {{/each}}
-                {{else}}
-                  <span class="label label-default">{{tags.[0]}}</span>
-                  <span class="label label-default">{{tags.[1]}}</span>
-                  <span class="label label-default">{{tags.[2]}}</span>
-                  <span class="label label-default">...</span>
-                {{/if}}
-          </p>
+            </ul>
+                 
+         
+          {{#if $lte tags.length 3}}
+             {{#each tag in tags}}
+              <span class="label label-default">{{tag}}</span>
+             {{/each}}
+          {{else}}
+              <span class="label label-default">{{tags.[0]}}</span>
+              <span class="label label-default">{{tags.[1]}}</span>
+              <span class="label label-default">{{tags.[2]}}</span>
+              <span class="label label-default">...</span>
+          {{/if}}
          <div class="panel-footer text-center">
            <ul class="list-inline">
             <li class="text-muted"><span class="glyphicon glyphicon-time"></span> <small>{{releaseDate createdAt}}</small></li>
