@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { Videos, ImagesGallery } from '/lib/images.collection.js';
+import { Videos, Images } from '/lib/images.collection.js';
 import { Projects } from "/lib/collections/projects.js" ;
 
 import './image_upload_crop.html';
@@ -10,7 +10,7 @@ import './project_details.html';
 
 Template.uploadedFilesCrop.helpers({
   uploadedFilesCrop: function () {
-    return ImagesGallery.find();
+    return Images.find();
   }
 });
 
@@ -31,7 +31,7 @@ Template.uploadFormCrop.events({
       // there was multiple files selected
       var file = e.currentTarget.files[0];
       if (file) {
-        var uploadInstance = ImagesGallery.insert({
+        var uploadInstance = Images.insert({
           file: file,
           streams: 'dynamic',
           chunkSize: 'dynamic'
@@ -50,13 +50,13 @@ Template.uploadFormCrop.events({
             var currentCover = template.data.coverImg;
             alert('File "' + fileObj.name + '" successfully uploaded to ' + currentSlot);
             if(currentCover == currentArray[currentSlot] ){
-              ImagesGallery.remove({_id: currentArray[currentSlot]}); 
+              Images.remove({_id: currentArray[currentSlot]}); 
               currentArray[currentSlot] = fileObj._id;
               Projects.update( { _id: template.data.projectId }, { $set: { 'pictures': currentArray }} );
               Projects.update( { _id: template.data.projectId }, { $set: { 'coverImg': fileObj._id }} );
             }  
             else{
-              ImagesGallery.remove({_id: currentArray[currentSlot]}); 
+              Images.remove({_id: currentArray[currentSlot]}); 
               currentArray[currentSlot] = fileObj._id;
               console.log("Storing image with URL " + fileObj._id + " in slot: " + currentSlot);
               Projects.update( { _id: template.data.projectId }, { $set: { 'pictures': currentArray }} );
@@ -75,7 +75,7 @@ Template.uploadFormCrop.events({
 
 Template.fileCrop.helpers({
   imageFile: function () {
-   return ImagesGallery.findOne();
+   return Images.findOne();
   },
   
 });

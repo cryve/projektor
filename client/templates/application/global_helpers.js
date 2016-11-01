@@ -44,7 +44,7 @@ Template.registerHelper("arrayToString", (array) => {
 });
 
 Template.registerHelper("getImgURL", (imgId, version) => {
-    var image = ImagesGallery.findOne(imgId);
+    var image = Images.findOne(imgId);
     return image && image.link(version);
 });
 
