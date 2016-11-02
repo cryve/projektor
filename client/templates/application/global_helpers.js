@@ -53,3 +53,11 @@ Template.registerHelper("getAvatarURL", (userId) => {
   var avatar = Images.findOne(user.profile.avatar);
   return avatar && avatar.link("avatarCard");
 });
+
+var options = {
+  keepHistory: 1000 * 60 * 5,
+  localSearch: true
+};
+var fields = ['packageName', 'description'];
+
+PackageSearch = new SearchSource('packages', fields, options);

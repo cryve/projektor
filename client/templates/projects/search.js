@@ -1,50 +1,21 @@
-import {Projects} from "/lib/collections/projects.js" ;
-import { check } from 'meteor/check';
-import { Match } from 'meteor/check';
-
-import "./search.html";
-
-Template.search.onCreated( () => {
-  let template = Template.instance();
-
-  template.searchQuery = new ReactiveVar();
-  template.searching   = new ReactiveVar( false );
-
-  template.autorun( () => {
-    template.subscribe( 'projects', template.searchQuery.get(), () => {
-      setTimeout( () => {
-        template.searching.set( false );
-      }, 300 );
-    });
-  });
-});
-
 Template.search.helpers({
-  searching() {
-    return Template.instance().searching.get();
+  getPackages: function() {
+    return PackageSearch.getData({
+      transform: function(matchText, regExp) {
+        return matchText.replace(regExp, "<b>$&</b>")
+      },
+      sort: {isoScore: -1}
+    });
   },
-  query() {
-    return Template.instance().searchQuery.get();
-  },
-  projects() {
-    let projects = Projects.find();
-    if ( projects ) {
-      return projects;
-    }
+  
+  isLoading: function() {
+    return PackageSearch.getStatus().loading;
   }
 });
 
 Template.search.events({
-  'keyup [name="search"]' ( event, template ) {
-    let value = event.target.value.trim();
-    console.log(value);
-    if ( value !== '' && event.keyCode === 13 ) {
-      template.searchQuery.set( value );
-      template.searching.set( true );
-    }
-
-    if ( value === '' ) {
-      template.searchQuery.set( value );
-    }
-  }
+  "keyup #search-box": _.throttle(function(e) {
+    var text = $(e.target).val().trim();
+    PackageSearch.search(text);
+  }, 200)
 });
