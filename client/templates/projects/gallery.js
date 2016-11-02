@@ -1,5 +1,5 @@
 import { Projects } from '/lib/collections/projects.js';
-import {ImagesGallery} from "/lib/images.collection.js";
+import {Images} from "/lib/images.collection.js";
 
 import "./gallery.html";
 
@@ -60,7 +60,7 @@ Template.deleteImageButton.events({
    console.log(currentArray[currentSlot]);
    console.log(currentCover);
    if (currentArray[currentSlot] != null){
-    ImagesGallery.remove({_id: currentArray[currentSlot]}); 
+    Images.remove({_id: currentArray[currentSlot]}); 
    };
      
    if(currentCover === currentArray[currentSlot] ){
