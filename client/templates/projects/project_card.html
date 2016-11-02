@@ -11,32 +11,34 @@
       <!-- Post Content-->
       <div class="post-content">
        
-        <h1 class="title"><a href="{{pathFor 'projectDetails'}}">{{title}}</a></h1>
-        <h2 class="sub_title">{{subtitle}}</h2>
+        <h1 class="title"><a href="{{pathFor 'projectDetails'}}">{{this.title}}</a></h1>
+        <h2 class="sub_title">{{this.subtitle}}</h2>
          <div class="category">
          <ul class="member-icons list-inline">
-          <li><img class="img-circle" src="http://lorempixel.com/20/20/people/1"></li>
-          <li><img class="img-circle" src="http://lorempixel.com/20/20/people/2"></li>
-          <li><img class="img-circle" src="http://lorempixel.com/20/20/people/3"></li>
+          <li><img class="img-circle" rel="tooltip" title={{getFullUsername this.owner.userId}} src={{getAvatarURL this.owner.userId}}></li>
+           {{#each member in this.team}}
+          <li><img class="img-circle" rel="tooltip" title={{getFullUsername member.userId}} src={{getAvatarURL member.userId}}></li>
+           {{/each}}
          </ul> 
         </div > <!-- /.member-icons-box -->
-        <ul class="list-unstyled">
-                {{#if $lte jobs.length 3}}
-                  {{#each job in jobs}}
-                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{job}}</li>
-                  {{/each}}
-                {{else}}
-                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[0]}}</li>
-                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[1]}}</li>
-                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[2]}} (...)</li>
-                  <p class="description">
-                    <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[3]}}</li>
-                    <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[4]}}</li>
-                    <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[5]}}</li>
-                  </p>
-                {{/if}}
-            </ul>
-                 
+        <div class="list-div">
+          <ul class="list-unstyled">
+            {{#if $lte jobs.length 3}}
+              {{#each job in this.jobs}}
+              <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{job}}</li>
+              {{/each}}
+            {{else}}
+              <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[0]}}</li>
+              <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[1]}}</li>
+              <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[2]}} (...)</li>
+              <p class="description">
+                <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[3]}}</li>
+                <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[4]}}</li>
+                <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[5]}}</li>
+              </p>
+            {{/if}}
+          </ul>
+        </div>
          
           {{#if $lte tags.length 3}}
              {{#each tag in tags}}
@@ -51,9 +53,9 @@
        <div class="panel-footer text-center">
            <ul class="list-inline">
             <li class="text-muted"><span class="glyphicon glyphicon-time"></span> <small>{{releaseDate createdAt}}</small></li>
-            {{#if deadline}}
+            {{#if this.deadline}}
               <li class="text-muted"><span class="glyphicon glyphicon-calendar"></span> <small>
-                {{#if start}}
+                {{#if this.start}}
                   {{readableDate start}} 
                 {{/if}}
                 bis {{readableDate deadline}}</small></li>
@@ -87,19 +89,20 @@
       <!-- Post Content-->
       <div class="post-content">
         
-        <h1 class="title"><a href="{{pathFor 'projectDetails'}}">{{title}}</a></h1>
-        <h2 class="sub_title">{{subtitle}}</h2>
+        <h1 class="title"><a href="{{pathFor 'projectDetails'}}">{{this.title}}</a></h1>
+        <h2 class="sub_title">{{this.subtitle}}</h2>
         <div class="category2">
          <ul class="member-icons list-inline">
-          <li><img class="img-circle" src="http://lorempixel.com/20/20/people/1"></li>
-          <li><img class="img-circle" src="http://lorempixel.com/20/20/people/2"></li>
-          <li><img class="img-circle" src="http://lorempixel.com/20/20/people/3"></li>
-         </ul> 
+          <li><img class="img-circle" rel="tooltip" title={{getFullUsername this.owner.userId}} src={{getAvatarURL this.owner.userId}}></li>
+           {{#each member in this.team}}
+          <li><img class="img-circle" rel="tooltip" title={{getFullUsername member.userId}} src={{getAvatarURL member.userId}}></li>
+           {{/each}}
+         </ul>  
         </div > <!-- /.member-icons-box -->
         
             <ul class="list-unstyled">
                 {{#if $lte jobs.length 3}}
-                  {{#each job in jobs}}
+                  {{#each job in this.jobs}}
                   <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{job}}</li>
                   {{/each}}
                 {{else}}
@@ -116,7 +119,7 @@
                  
          
           {{#if $lte tags.length 3}}
-             {{#each tag in tags}}
+             {{#each tag in this.tags}}
               <span class="label label-default">{{tag}}</span>
              {{/each}}
           {{else}}
@@ -128,9 +131,9 @@
          <div class="panel-footer text-center">
            <ul class="list-inline">
             <li class="text-muted"><span class="glyphicon glyphicon-time"></span> <small>{{releaseDate createdAt}}</small></li>
-            {{#if deadline}}
+            {{#if this.deadline}}
               <li class="text-muted"><span class="glyphicon glyphicon-calendar"></span> <small>
-                {{#if start}}
+                {{#if this.start}}
                   {{readableDate start}} 
                 {{/if}}
                 bis {{readableDate deadline}}</small></li>
