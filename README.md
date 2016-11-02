@@ -46,3 +46,4 @@
 * http://guide.meteor.com/
 * http://meteortips.com/
 * https://crater.io
+* http://meteor-templ.herokuapp.com/drop
