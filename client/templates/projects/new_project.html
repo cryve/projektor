@@ -101,16 +101,7 @@
                     {{#each team}}
                       {{> member draftId=../_id userId=this.userId currentIndex=@index role=this.role}}
                     {{/each}}
-                    <li class="media">
-                      <div class="media-left">
-                        <a href="#">
-                          <img class="media-object img-circle" src="http://lorempixel.com/50/50/people/2" alt="...">
-                        </a>
-                      </div>
-                      <div class="media-body">
-                        <h4 class="media-heading"><a href="#" class="add-member" data-pk="{{_id}}"></a></h4>
-                      </div>
-                    </li>
+                    {{> addMember suggestedUsers=getSuggestedUsers draftId=../_id }}
                   </ul>
                 </div>
               </div> <!-- /.panel-default -->
@@ -160,6 +151,19 @@
             </div> <!-- /.col-md-4 -->
       </div><!-- /.row -->
     </div> <!-- /.container -->
+</template>
+
+<template name="addMember">
+  <li class="media">
+    <div class="media-left">
+      <a href="#">
+        <img class="media-object img-circle" src="http://lorempixel.com/50/50/people/2" alt="...">
+      </a>
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading"><a href="#" class="add-member" data-pk="{{draftId}}"></a></h4>
+    </div>
+  </li>
 </template>
 
 <template name="member">

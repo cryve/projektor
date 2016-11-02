@@ -70,34 +70,7 @@ Template.newProject.onRendered(function() {
   });
   var tmplInst = this;
   this.autorun(function() {
-    Blaze.getData();
-    var users = Meteor.users.find({});
-    $('.add-member').editable({
-      type: 'select2',
-      title: "add member",
-      placeholder: "Mitglied hinzufügen",
-      emptytext: "Mitglied hinzufügen",
-      validate: function(value) {
-        if($.trim(value) == '') {
-          return "Bitte wähle ein Mitglied aus!";
-        }
-      },
-      source: function() {
-        var userList = [];
-        users.forEach(function (user){
-          userList.push({
-            id: user._id,
-            text: user.profile.firstname + " " + user.profile.lastname,
-          });
-        });
-        return userList;
-      },
-      success: function(response, newValue) {
-        var draftId = $(this).data("pk");
-        ProjectDrafts.update(draftId, {$push: { team: {userId: newValue} } });
-        $(this).editable("destroy");
-      },
-    });
+    data = Blaze.getData();
     $(".add-job").editable({
       type: "text",
       title: "add job",
@@ -115,6 +88,29 @@ Template.newProject.onRendered(function() {
 Template.newProject.helpers({
   log (data) {
     console.log(data);
+  },
+  getSuggestedUsers() {
+    var users = Meteor.users.find({});
+    let userList = [];
+    users.forEach(function (user){
+      userList.push({
+        id: user._id,
+        text: user.profile.firstname + " " + user.profile.lastname,
+      });
+    });
+    // remove users who are already members:
+    if (this.owner) {
+      userList = userList.filter(item => item.id !== this.owner.userId);
+    }
+    if (this.team) {
+      this.team.forEach(function(member) {
+        if (member) {
+          userList = userList.filter(item => item.id !== member.userId);
+        }
+      });
+    }
+    console.log(userList);
+    return userList;
   },
 });
 
@@ -183,6 +179,35 @@ Template.member.helpers({
   log (data) {
     console.log(data);
   }
+});
+
+Template.addMember.onRendered(function() {
+  var tmplInst = this;
+  this.autorun(function() {
+    data = Blaze.getData();
+    console.log(data);
+    console.log(tmplInst.$(".add-member").editable("getValue"));
+    tmplInst.$('.add-member').editable("destroy").editable({
+      type: 'select2',
+      title: "add member",
+      placeholder: "Mitglied hinzufügen",
+      emptytext: "Mitglied hinzufügen",
+      validate: function(value) {
+        if($.trim(value) == '') {
+          return "Bitte wähle ein Mitglied aus!";
+        }
+      },
+      source: function() {
+        return data.suggestedUsers;
+        console.log(data.suggestedUsers);
+      },
+      success: function(response, newValue) {
+        var draftId = $(this).data("pk");
+        ProjectDrafts.update(draftId, {$push: { team: {userId: newValue} } });
+        $(this).editable("value", null);
+      },
+    });
+  });
 });
 
 Template.member.events({
