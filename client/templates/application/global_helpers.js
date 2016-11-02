@@ -48,10 +48,10 @@ Template.registerHelper("getImgURL", (imgId, version) => {
     return image && image.link(version);
 });
 
-Template.registerHelper("getAvatarURL", (userId) => {
+Template.registerHelper("getAvatarURL", (userId, version) => {
   var user = Meteor.users.findOne({_id: userId});
   var avatar = Images.findOne(user.profile.avatar);
-  return avatar && avatar.link("avatarCard");
+  return avatar && avatar.link(version);
 });
 
 var options = {

@@ -90,7 +90,7 @@
                     <li class="media">
                       <div class="media-left">
                         <a href="#">
-                          <img class="media-object img-circle" src="http://lorempixel.com/50/50/people/1" alt="...">
+                          <img class="media-object img-circle" src="{{getAvatarURL this.owner.userId "avatar"}}" alt="...">
                         </a>
                       </div>
                       <div class="media-body">
@@ -157,7 +157,7 @@
   <li class="media">
     <div class="media-left">
       <a href="#">
-        <img class="media-object img-circle" src="http://lorempixel.com/50/50/people/2" alt="...">
+        <div class="btn btn-default btn-add-user"><span class="glyphicon glyphicon-plus"></span></div>
       </a>
     </div>
     <div class="media-body">
@@ -170,7 +170,7 @@
   <li class="media">
     <div class="media-left">
       <a href="#">
-        <img class="media-object img-circle" src="http://lorempixel.com/50/50/people/2" alt="...">
+        <img class="media-object img-circle" src="{{getAvatarURL this.userId "avatar"}}" alt="...">
       </a>
     </div>
     <div class="media-body">
