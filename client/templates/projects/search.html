@@ -1,0 +1,14 @@
+<template name="search">
+
+  {{#each getPackages}}
+  <div class="package">
+    <h4 class="name">
+      <a href="{{git}}" target="_blank">{{{packageName}}}</a>
+    </h4>
+    <div class="description">
+      {{{description}}}
+    </div>
+  </div>
+  {{/each}}
+  
+</template>

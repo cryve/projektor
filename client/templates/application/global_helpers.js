@@ -51,5 +51,13 @@ Template.registerHelper("getImgURL", (imgId, version) => {
 Template.registerHelper("getAvatarURL", (userId) => {
   var user = Meteor.users.findOne({_id: userId});
   var avatar = Images.findOne(user.profile.avatar);
-  return avatar && avatar.link();
+  return avatar && avatar.link("avatarCard");
 });
+
+var options = {
+  keepHistory: 1000 * 60 * 5,
+  localSearch: true
+};
+var fields = ['packageName', 'description'];
+
+PackageSearch = new SearchSource('packages', fields, options);
