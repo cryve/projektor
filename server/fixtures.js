@@ -2,7 +2,7 @@ import { Projects } from '/lib/collections/projects.js';
 
 Projects.insert({
   createdAt: new Date(),
-  coverImg: "ddfsdfdsf",
+  coverImg: null,
   title: "BeispielprojektB",
   pictures: ["", "", "", "", ""],
   subtitle: "Ein Beispiel für ein Projekt",

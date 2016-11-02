@@ -4,7 +4,11 @@
       <div class="row">
         <ul>
           {{#each projects}}
-            {{>projectCard}}
+            {{#if coverImg}}
+              {{>projectCard}}
+            {{else}}
+              {{>projectCardCoverless}}
+            {{/if}}
           {{/each}}
         </ul>
       </div> <!-- /.row project cards -->

@@ -17,8 +17,7 @@
                       <div class="col-sm-12">
                         {{#if getEditMode}}
                           {{> uploadFormCrop slot=slot pictures=pictures projectId=_id coverImg=this.coverImg}}
-                          {{#if $eq coverImg null OR getSetEmptyPreview}}
-                            {{slot}}
+                          {{#if $eq coverImg null}}
                             {{> previewPlaceholder}}
                               {{else}}
                                 {{#if getRefreshPreview}}
@@ -40,12 +39,8 @@
                                   {{getFirstImageId}}
 
                                   {{#if $eq coverImg result}}
-                                    {{#if getSetEmptyPreview}}
-                                      {{> previewPlaceholder}}
-                                    {{else}}
                                       {{> deleteImageButton slot=slot pictures=pictures projectId=_id coverImg=this.coverImg }}
                                       {{> galleryPreview result}}
-                                    {{/if}}
                                   {{else}}
                                     {{> deleteImageButton slot=slot pictures=pictures projectId=_id coverImg=this.coverImg }}
                                     {{> setTitleImageButton slot=slot pictures=pictures projectId=_id coverImg=this.coverImg}}

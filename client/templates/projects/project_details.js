@@ -36,12 +36,10 @@ Template.projectDetails.helpers({
   },
 
     getFirstImageId(){
-    console.log("fdhsfkkfjsdf")
        for (var i = 0; i < this.pictures.length; i++) {
 
           if (this.pictures[i] != null){
               console.log(this.pictures[i]);
-              console.log("dfsdfsdfdsfdsfdsfdsfds")
               Session.set('slot', i)
               return Session.set('result', this.pictures[i] )
           }

@@ -15,6 +15,12 @@ Template.registerHelper("formDate", (date) => {
   return moment(date).format("YYYY-MM-DD");
 });
 
+Template.registerHelper("releaseDate", (date) => {
+  moment.locale("de");
+  return momentReactive(date).fromNow();
+});
+
+
 Template.registerHelper("getUsername", (userId) => {
   console.log(userId);
   var user = Meteor.users.findOne({_id: userId});
