@@ -28,6 +28,7 @@ momentjs:moment               # Time and date conversions
 shell-server
 aldeed:collection2            # Use Schemas to store in collections
 aldeed:autoform               # Form generation based on Schemas
+aldeed:autoform-select2
 yogiben:autoform-tags         # Combines bootstrap tagsinput with autoform
 comerc:bs-typeahead           # Adds Bootstraps typeahead library
 comerc:autoform-typeahead     # Combines Bootstrap typeahead with autoform

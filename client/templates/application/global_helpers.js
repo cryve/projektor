@@ -20,7 +20,6 @@ Template.registerHelper("releaseDate", (date) => {
   return momentReactive(date).fromNow();
 });
 
-
 Template.registerHelper("getUsername", (userId) => {
   console.log(userId);
   var user = Meteor.users.findOne({_id: userId});
@@ -28,16 +27,12 @@ Template.registerHelper("getUsername", (userId) => {
   return user && user.emails[0].address;
 });
 
-
-
 Template.registerHelper("getFullUsername", (userId) => {
   var user = Meteor.users.findOne({_id: userId});
   return user && user.profile.firstname + " " + user.profile.lastname;
 });
 
 Template.registerHelper("getProjectsCollection", Projects);
-
-
 
 Template.registerHelper("arrayToString", (array) => {
   return array && array.join(", ");
@@ -50,14 +45,10 @@ Template.registerHelper("getImgURL", (imgId, version) => {
 
 Template.registerHelper("getAvatarURL", (userId, version) => {
   var user = Meteor.users.findOne({_id: userId});
-  var avatar = Images.findOne(user.profile.avatar);
-  return avatar && avatar.link(version);
+  var image = Images.findOne(user.profile.avatar);
+  return (image && image.versions[version]) ? image.link(version) : '/img/placeholder.png'
 });
 
-var options = {
-  keepHistory: 1000 * 60 * 5,
-  localSearch: true
-};
-var fields = ['packageName', 'description'];
-
-PackageSearch = new SearchSource('packages', fields, options);
+Template.registerHelper("log", (data) => {
+  console.log(data);
+});

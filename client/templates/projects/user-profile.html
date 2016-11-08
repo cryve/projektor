@@ -1,8 +1,8 @@
 <template name="userProfile">
-  
-    
 
-    
+
+
+
         {{#if $eq currentUser._id this._id}}
             {{>editProfile}}
 
@@ -11,7 +11,6 @@
             {{>normalProfile}}
 
         {{ /if }}
-    
 
 
 </template>
@@ -19,9 +18,9 @@
 <template name="editProfile">
 
 
-         
+
         {{> uploadForm}}
-        <img src= {{getAvatarURL currentUser._id}} />
+        <img src= {{getAvatarURL currentUser._id "avatar"}} />
         <h1>{{currentUser.profile.firstname}} {{currentUser.profile.lastname}}<br><span>{{currentUser.profile.study}}</span></h1>
         <br>
         <p class="aboutMe"><h3>About me:</h3>{{currentUser.profile.aboutMe}} </p>
@@ -29,7 +28,7 @@
 
   <div class="project-cards">
     <ul>
-      
+
         {{#each projects}}
 
           {{#if $eq currentUser._id owner.userId}}
@@ -37,14 +36,14 @@
             {{>projectCard}}
 
           {{ /if }}
-            
-         
+
+
         {{/each}}
 
     </ul>
-    
+
   </div>
-      
+
 </template>
 
 
@@ -58,8 +57,8 @@
 
         <!-- the username -->
         <h1>
-              {{currentUser.lastname}} 
-          
+              {{currentUser.lastname}}
+
               </h1>
 
         <!-- and role or location -->
@@ -78,6 +77,6 @@
 
       </div>
 
-  
+
     </aside>
 </template>

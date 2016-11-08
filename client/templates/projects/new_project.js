@@ -68,6 +68,17 @@ Template.newProject.onRendered(function() {
       ProjectDrafts.update(draftId, {$set: {"tags": newValue}});
     }
   });
+  $("#edit-occasions").editable({
+    select2: {
+       tags: ["Projekt C, Media Systems", "Hobby", "Mediengestaltung 3, Media Systems", "IT-Systeme, Medientechnik"],
+       tokenSeparators: [","],
+       width: 200,
+    },
+    success: function(response, newValue) {
+      var draftId = $(this).data("pk");
+      ProjectDrafts.update(draftId, {$set: {"occasions": newValue}});
+    }
+  });
   var tmplInst = this;
   this.autorun(function() {
     data = Blaze.getData();
@@ -89,28 +100,37 @@ Template.newProject.helpers({
   log (data) {
     console.log(data);
   },
-  getSuggestedUsers() {
+  getDraftsCollection() {
+    return ProjectDrafts;
+  },
+  suggestedUsers(firstOption) {
+    console.log(firstOption);
     var users = Meteor.users.find({});
-    let userList = [];
+    let userList = [" "];
     users.forEach(function (user){
       userList.push({
-        id: user._id,
-        text: user.profile.firstname + " " + user.profile.lastname,
+        value: user._id,
+        label: user.profile.firstname + " " + user.profile.lastname,
       });
     });
     // remove users who are already members:
+    console.log(this.owner);
     if (this.owner) {
-      userList = userList.filter(item => item.id !== this.owner.userId);
+      userList = userList.filter(item => item.value !== this.owner.userId);
+      console.log(userList);
     }
     if (this.team) {
       this.team.forEach(function(member) {
-        if (member) {
-          userList = userList.filter(item => item.id !== member.userId);
+        if (member && member.userId !== firstOption) {
+          userList = userList.filter(item => item.value !== member.userId);
         }
       });
     }
     console.log(userList);
     return userList;
+  },
+  teamUpdateUserId(index) {
+    return "team." + index + ".userId";
   },
 });
 
@@ -181,38 +201,94 @@ Template.member.helpers({
   }
 });
 
+Template.addMember.onCreated(function() {
+  this.editActive = new ReactiveVar(false);
+});
+
 Template.addMember.onRendered(function() {
   var tmplInst = this;
   this.autorun(function() {
     data = Blaze.getData();
     console.log(data);
-    console.log(tmplInst.$(".add-member").editable("getValue"));
-    tmplInst.$('.add-member').editable("destroy").editable({
-      type: 'select2',
-      title: "add member",
-      placeholder: "Mitglied hinzufügen",
-      emptytext: "Mitglied hinzufügen",
-      validate: function(value) {
-        if($.trim(value) == '') {
-          return "Bitte wähle ein Mitglied aus!";
-        }
-      },
-      source: function() {
-        return data.suggestedUsers;
-        console.log(data.suggestedUsers);
-      },
-      success: function(response, newValue) {
-        var draftId = $(this).data("pk");
-        ProjectDrafts.update(draftId, {$push: { team: {userId: newValue} } });
-        $(this).editable("value", null);
-      },
-    });
+    if(data.suggestedUsers) {
+      Tracker.afterFlush( () => {
+        console.log("now flushed");
+        console.log(data);
+        //$.fn.editable.defaults.mode = 'inline';
+        //$.fn.editable.defaults.onblur = "ignore";
+        $('.add-member').editable({
+          type: 'select2',
+          title: "add member",
+          placeholder: "Mitglied hinzufügen",
+          emptytext: "Mitglied hinzufügen",
+          validate: function(value) {
+            if($.trim(value) == '') {
+              return "Bitte wähle ein Mitglied aus!";
+            }
+          },
+          source: function() {
+            // console.log(data);
+            // return data && data.suggestedUsers;
+            var users = Meteor.users.find({});
+            let userList = [];
+            users.forEach(function (user){
+              userList.push({
+                id: user._id,
+                text: user.profile.firstname + " " + user.profile.lastname,
+              });
+            });
+            return userList;
+          },
+          success: function(response, newValue) {
+            var draftId = $(this).data("pk");
+            ProjectDrafts.update(draftId, {$push: { team: {userId: newValue} } });
+            $(this).editable("value", null);
+          },
+        });
+      });
+    }
   });
+});
+
+Template.addMember.helpers({
+  editActive () {
+    return Template.instance().editActive.get();
+  }
+})
+
+Template.addMember.events({
+  "click #btn-add-member" (event) {
+    Template.instance().editActive.set(true);
+    console.log(Template.instance().editActive.get());
+  },
+  "click .btn-abort-adding" (event) {
+    Template.instance().editActive.set(false);
+  }
+});
+
+Template.member.onCreated(function() {
+  this.editActive = new ReactiveVar(false);
+});
+
+Template.member.helpers({
+  editActive () {
+    return Template.instance().editActive.get();
+  },
+  teamUserIdField () {
+    console.log(this.slot);
+    return "team." + this.slot + ".userId";
+  },
 });
 
 Template.member.events({
   "click .btn-delete-member" (event) {
     ProjectDrafts.update(this.draftId, {$pull: {team: {userId: this.userId}}});
+  },
+  "click .btn-edit-member" (event) {
+    Template.instance().editActive.set(true);
+  },
+  "click .btn-abort-editing" (event) {
+    Template.instance().editActive.set(false);
   }
 });
 

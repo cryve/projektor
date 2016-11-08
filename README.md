@@ -48,3 +48,4 @@
 * https://crater.io
 * http://meteor-templ.herokuapp.com/drop
 * http://semantic-ui.com/kitchen-sink.html
+* https://mplatts.gitbooks.io/learn-meteor-js/content/index.html
