@@ -94,8 +94,25 @@
                         </a>
                       </div>
                       <div class="media-body">
-                        <h4 class="media-heading"><a href="#">{{getFullUsername this.owner.userId}}</a></h4>
-                        <p class="text-muted" ><span id="edit-owner-role" data-pk="{{_id}}">{{owner.role}}</span></p>
+                        <h4 class="media-heading">
+                          <a href="#">{{getFullUsername this.owner.userId}}</a>
+                        </h4>
+                        <p class="text-muted">
+                          {{#if editOwnerActive }}
+                            <div class="form-group">
+                              {{#autoForm id="newProject" type="update" doc=this collection=getDraftsCollection }}
+                                {{> afFieldInput name="owner.role" type="text" placeholder="Aufgaben im Projekt"}}
+                              {{/autoForm}}
+                            </div>
+                            <div class="form-group">
+                              <button type="submit" class="btn btn-primary btn-abort-owner-editing"><span class="glyphicon glyphicon-ok"></span></button>
+                              <button type="reset" class="btn btn-default btn-abort-owner-editing"><span class="glyphicon glyphicon-remove"></span></button>
+                            </div>
+                          {{else}}
+                            {{owner.role}}
+                            <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-owner"></span></a>
+                          {{/if}}
+                        </p>
                       </div>
                     </li>
                     {{#each teamMember in team}}
@@ -184,12 +201,17 @@
       </a>
     </div>
     <div class="media-body">
-      <h4 class="media-heading">
+
         <!-- <a href="#" class="select-member" data-pk="{{draftId}}">{{getFullUsername this.userId}}</a> -->
         {{#if editActive}}
           {{#autoForm id="member" type="update" doc=currentDoc collection=drafts setArrayItems=true}}
             <div class="form-group">
-              {{> afFieldInput name=teamUserIdField type="select2" options=userList placeholder="Neues Mitglied auswählen" value=this.userId }}
+              <h4 class="media-heading">
+                {{> afFieldInput name=teamUserIdField type="select2" options=userList placeholder="Neues Mitglied auswählen" value=this.userId }}
+              </h4>
+              <p>
+                {{> afFieldInput name=teamUserRoleField type="text" options=userList placeholder="Aufgaben im Projekt"}}
+              </p>
             </div>
             <div class="form-group">
               <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
@@ -198,12 +220,13 @@
           {{/autoForm}}
         {{else}}
           {{log this}}
-          <a href="#">{{getFullUsername this.userId}}</a>
-          <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-member"></span></a>
-          <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-member"></span></a>
+          <h4 class="media-heading">
+            <a href="#">{{getFullUsername this.userId}}</a>
+            <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-member"></span></a>
+            <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-member"></span></a>
+          </h4>
+          <p class="text-muted">{{role}}</p>
         {{/if}}
-      </h4>
-      <p class="text-muted">{{role}}</p>
       <!-- <p class="text-muted"><span class="edit-member-role" data-pk="{{draftId}}" data-source="{{suggestedUsers}}">{{role}}</span></p> -->
     </div>
   </li>

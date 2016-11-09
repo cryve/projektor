@@ -96,6 +96,10 @@ Template.newProject.onRendered(function() {
   });
 });
 
+Template.newProject.onCreated(function() {
+  this.editOwnerActive = new ReactiveVar(false);
+});
+
 Template.newProject.helpers({
   log (data) {
     console.log(data);
@@ -132,6 +136,9 @@ Template.newProject.helpers({
   teamUpdateUserId(index) {
     return "team." + index + ".userId";
   },
+  editOwnerActive() {
+    return Template.instance().editOwnerActive.get();
+  }
 });
 
 Template.newProject.events({
@@ -142,6 +149,12 @@ Template.newProject.events({
     //ProjectDrafts.remove(this._id);
     Router.go("projectDetails", {_id: newId, title: title});
   },
+  "click .btn-edit-owner" (event) {
+    Template.instance().editOwnerActive.set(true);
+  },
+  "click .btn-abort-owner-editing" (event) {
+    Template.instance().editOwnerActive.set(false);
+  }
 });
 
 Template.member.onRendered(function() {
@@ -277,6 +290,9 @@ Template.member.helpers({
   teamUserIdField () {
     console.log(this.slot);
     return "team." + this.slot + ".userId";
+  },
+  teamUserRoleField () {
+    return "team." + this.slot + ".role";
   },
 });
 
