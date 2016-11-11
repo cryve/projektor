@@ -328,3 +328,78 @@ Template.jobItem.onRendered(function() {
     });
   });
 });
+
+Template.contactItem.onCreated(function() {
+  this.editActive = new ReactiveVar(false);
+});
+
+Template.contactItem.helpers({
+  editActive() {
+    return Template.instance().editActive.get();
+  },
+  contactMediumField () {
+    return "contacts." + this.slot + ".medium";
+  },
+  contactApproachField() {
+    return "contacts." + this.slot + ".approach";
+  },
+  mediumOptions() {
+    return [
+      {value: "E-Mail" ,label: "E-Mail"},
+      {value: "Skype" ,label: "Skype"},
+      {value: "Telefon" ,label: "Telefon"},
+      {value: "Whatsapp" ,label: "Whatsapp"},
+      {value: "SMS" ,label: "SMS"},
+      {value: "Facebook" ,label: "Facebook"},
+      {value: "Google+" ,label: "Google+"},
+      {value: "Treffpunkt" ,label: "Treffpunkt"},
+      {value: "Sonstiges" ,label: "Sonstiges"},
+    ];
+  },
+});
+
+Template.contactItem.events({
+  "click .btn-delete-contact" (event) {
+    let currentContacts = this.currentDoc.contacts;
+    currentContacts.splice(this.slot, 1);
+    ProjectDrafts.update(this.currentDoc._id, {$set: {contacts: currentContacts}});
+  },
+  "click .btn-edit-contact" (event) {
+    Template.instance().editActive.set(true);
+  },
+  "click .btn-abort-editing" (event) {
+    Template.instance().editActive.set(false);
+  },
+});
+
+Template.addContact.onCreated(function() {
+  this.editActive = new ReactiveVar(false);
+});
+
+Template.addContact.helpers({
+  editActive () {
+    return Template.instance().editActive.get();
+  },
+  mediumOptions() {
+    return [
+      {},
+      {value: "E-Mail" ,label: "E-Mail"},
+      {value: "Skype" ,label: "Skype"},
+      {value: "Telefon" ,label: "Telefon"},
+      {value: "Whatsapp" ,label: "Whatsapp"},
+      {value: "SMS" ,label: "SMS"},
+      {value: "Facebook" ,label: "Facebook"},
+      {value: "Google+" ,label: "Google+"},
+      {value: "Treffpunkt" ,label: "Treffpunkt"},
+    ];
+  },
+});
+
+Template.addContact.events({
+  "click #btn-add-contact" (event) {
+    Template.instance().editActive.set(true);
+  },
+  "click .btn-abort-adding" (event) {
+    Template.instance().editActive.set(false);
+  },
+});

@@ -141,10 +141,14 @@
                 </div>
                 <div class="panel-body">
                   <ul class="list-unstyled">
-                      <li><span class="glyphicon glyphicon-envelope"></span> <a href="#">mitmachen@projekt.de</a></li>
+                      <!-- <li><span class="glyphicon glyphicon-envelope"></span> <a href="#">mitmachen@projekt.de</a></li>
                       <li><span class="glyphicon glyphicon-home"></span> <a href="#">www.projekt.de</a> </li>
                       <li><span class="glyphicon glyphicon-earphone"></span> 0123 45678910</li>
-                      <li><span class="glyphicon glyphicon-facetime-video"></span> Skype: nickname</li>
+                      <li><span class="glyphicon glyphicon-facetime-video"></span> Skype: nickname</li> -->
+                      {{#each contact in contacts}}
+                        {{>contactItem medium=contact.medium approach=contact.approach currentDoc=this drafts=getDraftsCollection slot=@index}}
+                      {{/each}}
+                      {{> addContact currentDoc=this drafts=getDraftsCollection }}
                   </ul>
                 </div>
               </div> <!-- /.panel Contact -->
@@ -204,6 +208,7 @@
 
         <!-- <a href="#" class="select-member" data-pk="{{draftId}}">{{getFullUsername this.userId}}</a> -->
         {{#if editActive}}
+          {{log this}}
           {{#autoForm id="member" type="update" doc=currentDoc collection=drafts setArrayItems=true}}
             <div class="form-group">
               <h4 class="media-heading">
@@ -235,5 +240,44 @@
 <template name="jobItem">
   <li>
     <span class="edit-job" data-pk="{{draftId}}" data-index="{{currentIndex}}">{{title}}</span>
+  </li>
+</template>
+
+<template name="contactItem">
+  <li>
+    {{#if editActive}}
+    {{log contactMediumField}}
+    {{log contactApproachField}}
+      {{#autoForm id="contactItem" type="update" doc=currentDoc collection=drafts setArrayItems=true}}
+        {{> afFieldInput name=contactMediumField type="select2" options=mediumOptions placeholder="Kontaktmittel auswählen" }}
+        {{> afFieldInput name=contactApproachField type="text" options=mediumOptions placeholder="Details zur Kontaktaufnahme"}}
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+          <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+      {{/autoForm}}
+    {{else}}
+      {{medium}}: {{approach}} <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-contact"></span></a>
+      <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-contact"></span></a>
+    {{/if}}
+  </li>
+</template>
+
+<template name="addContact">
+  <li>
+    <button id="btn-add-contact" class="btn btn-primary btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
+    {{#if editActive}}
+      {{#autoForm id="addContact" type="update-pushArray" doc=currentDoc collection=drafts scope="contacts"}}
+        <div class="form-group">
+          {{> afFieldInput name="medium" type="select2" options=mediumOptions placeholder="Neues Kommunikationsmittel hinzufügen" }}
+          {{> afFieldInput name="approach" type="text" placeholder="Details zur Kontaktaufnahme"}}
+        </div>
+        <div class="form-group">
+          <!-- <button type="submit" class="btn btn-primary btn-abort-adding"><span class="glyphicon glyphicon-ok"></span></button> -->
+          <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
+          <button type="reset" class="btn btn-default btn-abort-adding"><span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+      {{/autoForm}}
+    {{/if}}
   </li>
 </template>
