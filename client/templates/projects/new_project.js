@@ -403,3 +403,22 @@ Template.addContact.events({
     Template.instance().editActive.set(false);
   },
 });
+
+Template.editTitle.onCreated(function() {
+  this.editActive = new ReactiveVar(false);
+});
+
+Template.editTitle.helpers({
+  editActive () {
+    return Template.instance().editActive.get();
+  },
+});
+
+Template.editTitle.events({
+  "click .btn-edit-title" (event) {
+    Template.instance().editActive.set(true);
+  },
+  "click .btn-abort-editing" (event) {
+    Template.instance().editActive.set(false);
+  },
+});
