@@ -422,3 +422,41 @@ Template.editTitle.events({
     Template.instance().editActive.set(false);
   },
 });
+
+Template.editDescription.onCreated(function() {
+  this.editActive = new ReactiveVar(false);
+});
+
+Template.editDescription.helpers({
+  editActive () {
+    return Template.instance().editActive.get();
+  },
+});
+
+Template.editDescription.events({
+  "click .btn-edit-description" (event) {
+    Template.instance().editActive.set(true);
+  },
+  "click .btn-abort-editing" (event) {
+    Template.instance().editActive.set(false);
+  },
+});
+
+Template.editTags.onCreated(function() {
+  this.editActive = new ReactiveVar(false);
+});
+
+Template.editTags.helpers({
+  editActive () {
+    return Template.instance().editActive.get();
+  },
+});
+
+Template.editTags.events({
+  "click .btn-edit-tags" (event) {
+    Template.instance().editActive.set(true);
+  },
+  "click .btn-abort-editing" (event) {
+    Template.instance().editActive.set(false);
+  },
+});
