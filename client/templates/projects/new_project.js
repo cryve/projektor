@@ -308,27 +308,6 @@ Template.member.events({
   }
 });
 
-Template.jobItem.onRendered(function() {
-  tmplInst = this;
-  this.autorun(function() {
-    data = Blaze.getData();
-    $(".edit-job").editable({
-      type: "text",
-      title: "edit job",
-      placeholder: "Gesuchte Fähigkeit",
-      emptytext: "Gesuchte Fähigkeit",
-      success: function(response, newValue) {
-        var draftId = $(this).data("pk");
-        var index = $(this).data("index");
-        var updateObj = {};
-        updateObj["jobs." + index] = newValue;
-        console.log(updateObj);
-        ProjectDrafts.update(draftId, {$set: updateObj});
-      }
-    });
-  });
-});
-
 Template.contactItem.onCreated(function() {
   this.editActive = new ReactiveVar(false);
 });
@@ -454,6 +433,52 @@ Template.editTags.helpers({
 
 Template.editTags.events({
   "click .btn-edit-tags" (event) {
+    Template.instance().editActive.set(true);
+  },
+  "click .btn-abort-editing" (event) {
+    Template.instance().editActive.set(false);
+  },
+});
+
+Template.addJob.onCreated(function() {
+  this.editActive = new ReactiveVar(false);
+});
+
+Template.addJob.helpers({
+  editActive () {
+    return Template.instance().editActive.get();
+  },
+});
+
+Template.addJob.events({
+  "click #btn-add-job" (event) {
+    Template.instance().editActive.set(true);
+  },
+  "click .btn-abort-adding" (event) {
+    Template.instance().editActive.set(false);
+  },
+});
+
+Template.jobItem.onCreated(function() {
+  this.editActive = new ReactiveVar(false);
+});
+
+Template.jobItem.helpers({
+  editActive() {
+    return Template.instance().editActive.get();
+  },
+  jobTitleField () {
+    return "jobs." + this.slot + ".title";
+  },
+});
+
+Template.jobItem.events({
+  "click .btn-delete-job" (event) {
+    let currentJobs = this.currentDoc.jobs;
+    currentJobs.splice(this.slot, 1);
+    ProjectDrafts.update(this.currentDoc._id, {$set: {jobs: currentJobs}});
+  },
+  "click .btn-edit-job" (event) {
     Template.instance().editActive.set(true);
   },
   "click .btn-abort-editing" (event) {

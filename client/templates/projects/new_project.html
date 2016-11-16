@@ -121,9 +121,9 @@
                 <div class="panel-body">
                   <ul>
                       {{#each job in jobs}}
-                        {{>jobItem title=job draftId=../_id currentIndex=@index}}
+                        {{>jobItem jobTitle=job.title currentDoc=this drafts=getDraftsCollection slot=@index}}
                       {{/each}}
-                      <li><span class="add-job" data-pk="{{_id}}"></span></li>
+                      {{>addJob currentDoc=this drafts=getDraftsCollection}}
                   </ul>
                 </div>
               </div> <!-- /.panel Wanted Skills -->
@@ -229,11 +229,11 @@
   </li>
 </template>
 
-<template name="jobItem">
+<!-- <template name="jobItem">
   <li>
     <span class="edit-job" data-pk="{{draftId}}" data-index="{{currentIndex}}">{{title}}</span>
   </li>
-</template>
+</template> -->
 
 <template name="contactItem">
   <li>
@@ -337,4 +337,38 @@
       {{/if}}
       <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-tags"></span></a>
     {{/if}}
+</template>
+
+<template name="jobItem">
+  <li>
+    {{#if editActive}}
+      {{#autoForm id="jobItem" type="update" doc=currentDoc collection=drafts setArrayItems=true}}
+        {{> afFieldInput name=jobTitleField type="text" placeholder="Gesuchte Fähigkeit" }}
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+          <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+      {{/autoForm}}
+    {{else}}
+      {{jobTitle}} <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-job"></span></a>
+      <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-job"></span></a>
+    {{/if}}
+  </li>
+</template>
+
+<template name="addJob">
+  <li>
+    <button id="btn-add-job" class="btn btn-primary btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
+    {{#if editActive}}
+      {{#autoForm id="addJob" type="update-pushArray" doc=currentDoc collection=drafts scope="jobs"}}
+        <div class="form-group">
+          {{> afFieldInput name="title" type="text" placeholder="Gesuchte Fähigkeit hinzufügen" }}
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
+          <button type="reset" class="btn btn-default btn-abort-adding"><span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+      {{/autoForm}}
+    {{/if}}
+  </li>
 </template>
