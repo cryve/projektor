@@ -486,7 +486,7 @@ Template.editOccasions.helpers({
 });
 
 Template.editOccasions.events({
-  "click .btn-edit-supervisors" (event) {
+  "click .btn-edit-occasions" (event) {
     Template.instance().editActive.set(true);
   },
   "click .btn-abort-editing" (event) {
@@ -525,6 +525,25 @@ Template.editDeadline.helpers({
 
 Template.editDeadline.events({
   "click .btn-edit-deadline" (event) {
+    Template.instance().editActive.set(true);
+  },
+  "click .btn-abort-editing" (event) {
+    Template.instance().editActive.set(false);
+  },
+});
+
+Template.editOwnerRole.onCreated(function() {
+  this.editActive = new ReactiveVar(false);
+});
+
+Template.editOwnerRole.helpers({
+  editActive () {
+    return Template.instance().editActive.get();
+  },
+});
+
+Template.editOwnerRole.events({
+  "click .btn-edit-owner" (event) {
     Template.instance().editActive.set(true);
   },
   "click .btn-abort-editing" (event) {

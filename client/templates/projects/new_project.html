@@ -90,20 +90,7 @@
                           <a href="#">{{getFullUsername this.owner.userId}}</a>
                         </h4>
                         <p class="text-muted">
-                          {{#if editOwnerActive }}
-                            <div class="form-group">
-                              {{#autoForm id="newProject" type="update" doc=this collection=getDraftsCollection }}
-                                {{> afFieldInput name="owner.role" type="text" placeholder="Aufgaben im Projekt"}}
-                              {{/autoForm}}
-                            </div>
-                            <div class="form-group">
-                              <button type="submit" class="btn btn-primary btn-abort-owner-editing"><span class="glyphicon glyphicon-ok"></span></button>
-                              <button type="reset" class="btn btn-default btn-abort-owner-editing"><span class="glyphicon glyphicon-remove"></span></button>
-                            </div>
-                          {{else}}
-                            {{owner.role}}
-                            <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-owner"></span></a>
-                          {{/if}}
+                          {{>editOwnerRole currentDoc=this drafts=getDraftsCollection}}
                         </p>
                       </div>
                     </li>
@@ -388,7 +375,7 @@
     {{#if currentDoc.occasions}}
       {{arrayToString currentDoc.occasions}}
     {{else}}
-      <span class="text-danger"><em>Kurs, Projektschein oder sonstige Motivation</em></span>
+      <span class="text-primary"><em>Kurs, Projektschein oder sonstige Motivation</em></span>
     {{/if}}
     <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-occasions"></span></a>
   {{/if}}
@@ -409,7 +396,7 @@
     {{#if currentDoc.supervisors}}
       {{arrayToString currentDoc.supervisors}}
     {{else}}
-      <span class="text-danger"><em>Wer betreut das Projekt?</em></span>
+      <span class="text-primary"><em>Wer betreut das Projekt?</em></span>
     {{/if}}
     <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-supervisors"></span></a>
   {{/if}}
@@ -430,8 +417,29 @@
     {{#if currentDoc.deadline}}
       {{readableDate currentDoc.deadline}}
     {{else}}
-      <span class="text-danger"><em>Wann muss das Projekt fertig sein?</em></span>
+      <span class="text-primary"><em>Wann muss das Projekt fertig sein?</em></span>
     {{/if}}
     <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-deadline"></span></a>
+  {{/if}}
+</template>
+
+<template name="editOwnerRole">
+  {{#if editActive }}
+    {{#autoForm id="editOwnerRole" type="update" doc=currentDoc collection=drafts }}
+      <div class="form-group">
+        {{> afFieldInput name="owner.role" type="text" placeholder="Deine Aufgaben im Projekt" }}
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+        <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
+      </div>
+    {{/autoForm}}
+  {{ else }}
+    {{#if currentDoc.owner.role}}
+      Projektleiter, {{currentDoc.owner.role}}
+    {{else}}
+      Projektleiter, <span class="text-primary"><em>weitere Aufgaben im Projekt</em></span>
+    {{/if}}
+    <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-owner"></span></a>
   {{/if}}
 </template>
