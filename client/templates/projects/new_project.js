@@ -68,17 +68,6 @@ Template.newProject.onRendered(function() {
       ProjectDrafts.update(draftId, {$set: {"tags": newValue}});
     }
   });
-  $("#edit-occasions").editable({
-    select2: {
-       tags: ["Projekt C, Media Systems", "Hobby", "Mediengestaltung 3, Media Systems", "IT-Systeme, Medientechnik"],
-       tokenSeparators: [","],
-       width: 200,
-    },
-    success: function(response, newValue) {
-      var draftId = $(this).data("pk");
-      ProjectDrafts.update(draftId, {$set: {"occasions": newValue}});
-    }
-  });
   var tmplInst = this;
   this.autorun(function() {
     data = Blaze.getData();
@@ -479,6 +468,63 @@ Template.jobItem.events({
     ProjectDrafts.update(this.currentDoc._id, {$set: {jobs: currentJobs}});
   },
   "click .btn-edit-job" (event) {
+    Template.instance().editActive.set(true);
+  },
+  "click .btn-abort-editing" (event) {
+    Template.instance().editActive.set(false);
+  },
+});
+
+Template.editOccasions.onCreated(function() {
+  this.editActive = new ReactiveVar(false);
+});
+
+Template.editOccasions.helpers({
+  editActive () {
+    return Template.instance().editActive.get();
+  },
+});
+
+Template.editOccasions.events({
+  "click .btn-edit-supervisors" (event) {
+    Template.instance().editActive.set(true);
+  },
+  "click .btn-abort-editing" (event) {
+    Template.instance().editActive.set(false);
+  },
+});
+
+Template.editSupervisors.onCreated(function() {
+  this.editActive = new ReactiveVar(false);
+});
+
+Template.editSupervisors.helpers({
+  editActive () {
+    return Template.instance().editActive.get();
+  },
+});
+
+Template.editSupervisors.events({
+  "click .btn-edit-supervisors" (event) {
+    Template.instance().editActive.set(true);
+  },
+  "click .btn-abort-editing" (event) {
+    Template.instance().editActive.set(false);
+  },
+});
+
+Template.editDeadline.onCreated(function() {
+  this.editActive = new ReactiveVar(false);
+});
+
+Template.editDeadline.helpers({
+  editActive () {
+    return Template.instance().editActive.get();
+  },
+});
+
+Template.editDeadline.events({
+  "click .btn-edit-deadline" (event) {
     Template.instance().editActive.set(true);
   },
   "click .btn-abort-editing" (event) {

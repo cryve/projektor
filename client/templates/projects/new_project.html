@@ -151,11 +151,11 @@
                 <div class="panel-body">
                   <dl class="dl">
                     <dt>Projektanlass</dt>
-                    <dd><span id="edit-occasions" data-type="select2" data-placeholder="Vorlesung, Seminar, Schein oder andere Motivation" data-emptytext="Anlass hinzufügen" data-title="Add occasions" data-pk="{{_id}}"></span></dd>
+                    <dd>{{>editOccasions currentDoc=this drafts=getDraftsCollection}}</dd>
                     <dt>Betreuer</dt>
-                    <dd>Prof. Vorname Nachname, Prof. Vorname Nachname</dd>
+                    <dd>{{>editSupervisors currentDoc=this drafts=getDraftsCollection}}</dd>
                     <dt>Deadline</dt>
-                    <dd>12. Oktober 2016</dd>
+                    <dd>{{>editDeadline currentDoc=this drafts=getDraftsCollection}}</dd>
 
                   </dl>
                 </div>
@@ -371,4 +371,67 @@
       {{/autoForm}}
     {{/if}}
   </li>
+</template>
+
+<template name="editOccasions">
+  {{#if editActive }}
+    {{#autoForm id="editOccasions" type="update" doc=currentDoc collection=drafts }}
+      <div class="form-group">
+        {{> afFieldInput name="occasions" type="tags" maxTags=10 maxChars=30 trimValue=true placeholder="Kurs, Projektschein oder sonstige Motivation" }}
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+        <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
+      </div>
+    {{/autoForm}}
+  {{ else }}
+    {{#if currentDoc.occasions}}
+      {{arrayToString currentDoc.occasions}}
+    {{else}}
+      <span class="text-danger"><em>Kurs, Projektschein oder sonstige Motivation</em></span>
+    {{/if}}
+    <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-occasions"></span></a>
+  {{/if}}
+</template>
+
+<template name="editSupervisors">
+  {{#if editActive }}
+    {{#autoForm id="editSupervisors" type="update" doc=currentDoc collection=drafts }}
+      <div class="form-group">
+        {{> afFieldInput name="supervisors" type="tags" maxTags=10 maxChars=30 trimValue=true placeholder="Betreuer" }}
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+        <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
+      </div>
+    {{/autoForm}}
+  {{ else }}
+    {{#if currentDoc.supervisors}}
+      {{arrayToString currentDoc.supervisors}}
+    {{else}}
+      <span class="text-danger"><em>Wer betreut das Projekt?</em></span>
+    {{/if}}
+    <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-supervisors"></span></a>
+  {{/if}}
+</template>
+
+<template name="editDeadline">
+  {{#if editActive }}
+    {{#autoForm id="editDeadline" type="update" doc=currentDoc collection=drafts }}
+      <div class="form-group">
+        {{> afFieldInput name="deadline" type="bootstrap-datepicker" placeholder="Deadline" }}
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+        <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
+      </div>
+    {{/autoForm}}
+  {{ else }}
+    {{#if currentDoc.deadline}}
+      {{readableDate currentDoc.deadline}}
+    {{else}}
+      <span class="text-danger"><em>Wann muss das Projekt fertig sein?</em></span>
+    {{/if}}
+    <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-deadline"></span></a>
+  {{/if}}
 </template>
