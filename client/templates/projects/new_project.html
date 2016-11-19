@@ -3,9 +3,7 @@
       <div class="row">
           <div class="col-lg-12">
               <h1 class="page-header">
-                <!-- <span id="title" class="editable required-editable" data-pk="{{_id}}"></span> <span class="editable-icon glyphicon glyphicon-pencil text-primary"></span><br> -->
                 {{> editTitle currentDoc=this drafts=getDraftsCollection }}
-                <!-- <small><span id="subtitle" data-pk="{{_id}}"></span></small> -->
               </h1>
           </div>
       </div> <!-- /.row -->
@@ -120,14 +118,10 @@
                 </div>
                 <div class="panel-body">
                   <ul class="list-unstyled">
-                      <!-- <li><span class="glyphicon glyphicon-envelope"></span> <a href="#">mitmachen@projekt.de</a></li>
-                      <li><span class="glyphicon glyphicon-home"></span> <a href="#">www.projekt.de</a> </li>
-                      <li><span class="glyphicon glyphicon-earphone"></span> 0123 45678910</li>
-                      <li><span class="glyphicon glyphicon-facetime-video"></span> Skype: nickname</li> -->
-                      {{#each contact in contacts}}
-                        {{>contactItem medium=contact.medium approach=contact.approach currentDoc=this drafts=getDraftsCollection slot=@index}}
-                      {{/each}}
-                      {{> addContact currentDoc=this drafts=getDraftsCollection }}
+                    {{#each contact in contacts}}
+                      {{>contactItem medium=contact.medium approach=contact.approach currentDoc=this drafts=getDraftsCollection slot=@index}}
+                    {{/each}}
+                    {{> addContact currentDoc=this drafts=getDraftsCollection }}
                   </ul>
                 </div>
               </div> <!-- /.panel Contact -->
@@ -160,7 +154,6 @@
     </div>
     <div class="media-body">
       {{#if editActive}}
-        <!-- <h4 class="media-heading"><a href="#" class="add-member" data-pk="{{draftId}}"></a></h4> -->
         {{#autoForm id="addMember" type="update-pushArray" doc=currentDoc collection=drafts scope="team"}}
           <div class="form-group">
             {{> afFieldInput name="userId" type="select2" options=userList placeholder="Neues Mitglied auswählen" allowClear=true}}
@@ -184,10 +177,7 @@
       </a>
     </div>
     <div class="media-body">
-
-        <!-- <a href="#" class="select-member" data-pk="{{draftId}}">{{getFullUsername this.userId}}</a> -->
         {{#if editActive}}
-          {{log this}}
           {{#autoForm id="member" type="update" doc=currentDoc collection=drafts setArrayItems=true}}
             <div class="form-group">
               <h4 class="media-heading">
@@ -203,7 +193,6 @@
             </div>
           {{/autoForm}}
         {{else}}
-          {{log this}}
           <h4 class="media-heading">
             <a href="#">{{getFullUsername this.userId}}</a>
             <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-member"></span></a>
@@ -211,22 +200,13 @@
           </h4>
           <p class="text-muted">{{role}}</p>
         {{/if}}
-      <!-- <p class="text-muted"><span class="edit-member-role" data-pk="{{draftId}}" data-source="{{suggestedUsers}}">{{role}}</span></p> -->
     </div>
   </li>
 </template>
 
-<!-- <template name="jobItem">
-  <li>
-    <span class="edit-job" data-pk="{{draftId}}" data-index="{{currentIndex}}">{{title}}</span>
-  </li>
-</template> -->
-
 <template name="contactItem">
   <li>
     {{#if editActive}}
-    {{log contactMediumField}}
-    {{log contactApproachField}}
       {{#autoForm id="contactItem" type="update" doc=currentDoc collection=drafts setArrayItems=true}}
         {{> afFieldInput name=contactMediumField type="select2" options=mediumOptions placeholder="Kontaktmittel auswählen" }}
         {{> afFieldInput name=contactApproachField type="text" options=mediumOptions placeholder="Details zur Kontaktaufnahme"}}
@@ -252,7 +232,6 @@
           {{> afFieldInput name="approach" type="text" placeholder="Details zur Kontaktaufnahme"}}
         </div>
         <div class="form-group">
-          <!-- <button type="submit" class="btn btn-primary btn-abort-adding"><span class="glyphicon glyphicon-ok"></span></button> -->
           <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
           <button type="reset" class="btn btn-default btn-abort-adding"><span class="glyphicon glyphicon-remove"></span></button>
         </div>
