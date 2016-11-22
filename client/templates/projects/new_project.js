@@ -44,7 +44,8 @@ Template.newProject.events({
   "click #btn-create" (event) {
     var title = this.title;
     var newId = Projects.insert(this);
-    //ProjectDrafts.remove(this._id);
+    console.log(this);
+    ProjectDrafts.remove(this._id);
     Router.go("projectDetails", {_id: newId, title: title});
   },
   "click .btn-edit-owner" (event) {
@@ -247,6 +248,7 @@ Template.addJob.helpers({
 Template.addJob.events({
   "click #btn-add-job" (event) {
     Template.instance().editActive.set(true);
+    console.log(this); //this
   },
   "click .btn-abort-adding" (event) {
     Template.instance().editActive.set(false);
@@ -261,8 +263,8 @@ Template.jobItem.helpers({
   editActive() {
     return Template.instance().editActive.get();
   },
-  jobTitleField () {
-    return "jobs." + this.slot + ".title";
+  jobLabelField () {
+    return "jobs." + this.slot + ".joblabel";
   },
 });
 

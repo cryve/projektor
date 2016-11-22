@@ -106,7 +106,7 @@
                 <div class="panel-body">
                   <ul>
                       {{#each job in jobs}}
-                        {{>jobItem jobTitle=job.title currentDoc=this drafts=getDraftsCollection slot=@index}}
+                        {{>jobItem jobLabel=job.joblabel currentDoc=this drafts=getDraftsCollection slot=@index}}
                       {{/each}}
                       {{>addJob currentDoc=this drafts=getDraftsCollection}}
                   </ul>
@@ -309,14 +309,14 @@
   <li>
     {{#if editActive}}
       {{#autoForm id="jobItem" type="update" doc=currentDoc collection=drafts setArrayItems=true}}
-        {{> afFieldInput name=jobTitleField type="text" placeholder="Gesuchte Fähigkeit" }}
+        {{> afFieldInput name=jobLabelField type="text" placeholder="Gesuchte Fähigkeit" }}
         <div class="form-group">
           <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
           <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
         </div>
       {{/autoForm}}
     {{else}}
-      {{jobTitle}} <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-job"></span></a>
+      {{jobLabel}} <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-job"></span></a>
       <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-job"></span></a>
     {{/if}}
   </li>
@@ -328,7 +328,7 @@
     {{#if editActive}}
       {{#autoForm id="addJob" type="update-pushArray" doc=currentDoc collection=drafts scope="jobs"}}
         <div class="form-group">
-          {{> afFieldInput name="title" type="text" placeholder="Gesuchte Fähigkeit hinzufügen" }}
+          {{> afFieldInput name="joblabel" type="text" placeholder="Gesuchte Fähigkeit hinzufügen" }}
         </div>
         <div class="form-group">
           <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
