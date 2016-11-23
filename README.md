@@ -52,3 +52,13 @@
 
 ## Inspirationen
 * https://forums.meteor.com/t/mature-open-source-apps-built-with-meteor/935
+
+## Projekt auf Server updaten
+
+* cd projektor
+* cd app
+* git pull
+* cd ...
+* cd ...
+* cd .deploy
+* mup deploy oder screen -r
