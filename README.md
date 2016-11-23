@@ -59,6 +59,5 @@
 * cd app
 * git pull
 * cd ...
-* cd ...
 * cd .deploy
 * mup deploy oder screen -r
