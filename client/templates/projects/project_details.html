@@ -15,7 +15,8 @@
                     <div class="row">
                       <div class="col-sm-12">
                         {{#if getEditMode}}
-                          {{> uploadFormCrop slot=slot pictures=pictures projectId=_id coverImg=this.coverImg}}
+                          {{> uploadFormCrop slot=slot pictures=pictures projectId=_id coverImg=this.coverImg
+                          collection=getProjectCollection}}
                           {{#if $eq coverImg null}}
                             {{> previewPlaceholder}}
                               {{else}}
