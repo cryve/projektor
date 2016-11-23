@@ -34,3 +34,36 @@
 
 </template>
 
+
+
+<template name="setTitleImageButtonNew">
+
+      <button id="title-image-button" class="btn btn-primary navbar-btn navbar-right">Titelbild</button>
+
+</template>
+
+<template name="deleteImageButtonNew">
+
+      <button id="delete-image-button" class="btn btn-primary navbar-btn navbar-right">Löschen</button>
+
+</template>
+
+<template name="titleImageNew">
+
+      <img class="img-responsive" src={{getImgURL this.coverImg "preview"}} alt="">
+
+</template>
+
+
+<template name="galleryPreviewNew">
+  
+    <img class="img-responsive" src={{getImgURL result "preview"}} alt="">
+
+</template>
+
+<template name="galleryPreviewStartNew">
+  
+    <img class="img-responsive" src={{getImgURL pictures.[0] "preview"}} alt="">
+
+</template>
+

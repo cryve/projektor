@@ -14,6 +14,9 @@ Template.projectDetails.helpers({
   log (data) {
     console.log(data);
   },
+  getProjectCollection(){
+      return Projects;
+  },
   getEditMode(){
     return Template.instance().editMode.get();
   },

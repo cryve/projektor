@@ -1,7 +1,41 @@
 import { Projects } from '/lib/collections/projects.js';
+import { ProjectDrafts } from '/lib/collections/projects.js';
 import {Images} from "/lib/images.collection.js";
 
 import "./gallery.html";
+
+Template.deleteImageButtonNew.onCreated (function(){
+  this.setEmptyPreview = new ReactiveVar(false);
+});
+
+Template.setTitleImageButtonNew.onCreated(function() {
+  this.setCover = new ReactiveVar(false);
+});
+
+Template.setTitleImageButtonNew.helpers({
+
+  getSetCover(){
+    return Template.instance().setCover.get();
+  },
+});
+
+Template.deleteImageButtonNew.helpers ({
+  getSetEmptyPreview(){
+    return Template.instance().setEmptyPreview.get();
+  },
+});
+
+Template.galleryPreviewNew.helpers({
+  getValue(){
+    return Template.instance().valuePreview.get();
+  },
+  
+   result: function() {
+    return Session.get('result');
+  },
+  
+
+});
 
 Template.deleteImageButton.onCreated (function(){
   this.setEmptyPreview = new ReactiveVar(false);
@@ -48,6 +82,54 @@ Template.setTitleImageButton.events({
     
   },
 
+});
+
+Template.setTitleImageButtonNew.events({
+
+  "click #title-image-button" (event, template){
+   const target = event.target;
+   var currentArray = template.data.pictures;
+   var currentSlot = template.data.slot;
+   ProjectDrafts.update( { _id: template.data.projectId }, { $set: { 'coverImg': currentArray[currentSlot] }} );
+   Template.instance().setCover.set(true);
+    
+  },
+
+});
+
+Template.deleteImageButtonNew.events({
+  
+   "click #delete-image-button" (event, template){
+   var currentArray = template.data.pictures;
+   var currentSlot = template.data.slot;
+   var currentCover = template.data.coverImg;
+   console.log(currentArray[currentSlot]);
+   console.log(currentCover);
+   if (currentArray[currentSlot] != null){
+    Images.remove({_id: currentArray[currentSlot]}); 
+   };
+     
+   if(currentCover === currentArray[currentSlot] ){
+     currentArray[currentSlot] = null; 
+     var newCoverImage = null;
+     
+     for (var i = 0; i < 5; i++) {
+      
+        if (currentArray[i] != null){
+            newCoverImage = currentArray[i];
+            break;
+        }
+     }
+     console.log(newCoverImage);
+     ProjectDrafts.update( { _id: template.data.projectId }, { $set: { 'coverImg': newCoverImage }} ); 
+   } 
+   currentArray[currentSlot] = null;   
+   ProjectDrafts.update( { _id: template.data.projectId }, { $set: { 'pictures': currentArray }} );  
+   Template.instance().setEmptyPreview.set(true);
+   Session.set('result', undefined)
+  
+  },
+  
 });
 
 

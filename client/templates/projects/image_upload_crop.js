@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Videos, Images } from '/lib/images.collection.js';
 import { Projects } from "/lib/collections/projects.js" ;
+import { ProjectDrafts } from "/lib/collections/projects.js" ;
 
 import './image_upload_crop.html';
 import './project_details.html';
@@ -48,18 +49,19 @@ Template.uploadFormCrop.events({
             var currentArray = template.data.pictures;
             var currentSlot = template.data.slot;
             var currentCover = template.data.coverImg;
+            var collection = template.data.collection;
             alert('File "' + fileObj.name + '" successfully uploaded to ' + currentSlot);
             if(currentCover == currentArray[currentSlot] ){
               Images.remove({_id: currentArray[currentSlot]}); 
               currentArray[currentSlot] = fileObj._id;
-              Projects.update( { _id: template.data.projectId }, { $set: { 'pictures': currentArray }} );
-              Projects.update( { _id: template.data.projectId }, { $set: { 'coverImg': fileObj._id }} );
+              collection.update( { _id: template.data.projectId }, { $set: { 'pictures': currentArray }} );
+              collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': fileObj._id }} );
             }  
             else{
               Images.remove({_id: currentArray[currentSlot]}); 
               currentArray[currentSlot] = fileObj._id;
               console.log("Storing image with URL " + fileObj._id + " in slot: " + currentSlot);
-              Projects.update( { _id: template.data.projectId }, { $set: { 'pictures': currentArray }} );
+              collection.update( { _id: template.data.projectId }, { $set: { 'pictures': currentArray }} );
             }
             Session.set('result', fileObj._id);
           }
