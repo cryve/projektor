@@ -54,7 +54,8 @@
 * https://forums.meteor.com/t/mature-open-source-apps-built-with-meteor/935
 
 ## Projekt auf Server updaten
-
+* cd var
+* cd www
 * cd projektor
 * cd app
 * git pull
