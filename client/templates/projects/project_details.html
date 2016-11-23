@@ -3,8 +3,7 @@
       <div class="row">
           <div class="col-lg-12">
               <h1 class="page-header">
-                <span class="">{{title}}</span><br>
-                <small>{{subtitle}}</small>
+                {{> editTitle currentDoc=this collection=getProjectsCollection }}
               </h1>
           </div>
       </div>
@@ -191,10 +190,9 @@
                 </div>
                 <div class="panel-body">
                   <ul>
-                      <li>Lorem Ipsum</li>
-                      <li>Dolor Sit Amet</li>
-                      <li>Consectetur</li>
-                      <li>Adipiscing Elit</li>
+                    {{#each job in jobs}}
+                      <li>{{job.joblabel}}</li>
+                    {{/each}}
                   </ul>
                 </div>
               </div> <!-- /.panel Wanted Skills -->
@@ -204,10 +202,9 @@
                 </div>
                 <div class="panel-body">
                   <ul class="list-unstyled">
-                      <li><span class="glyphicon glyphicon-envelope"></span> <a href="#">mitmachen@projekt.de</a></li>
-                      <li><span class="glyphicon glyphicon-home"></span> <a href="#">www.projekt.de</a> </li>
-                      <li><span class="glyphicon glyphicon-earphone"></span> 0123 45678910</li>
-                      <li><span class="glyphicon glyphicon-facetime-video"></span> Skype: nickname</li>
+                    {{#each contact in contacts}}
+                      <li><span class="glyphicon glyphicon-envelope"></span> {{contact.medium}}: {{contact.approach}}</li>
+                    {{/each}}
                   </ul>
                 </div>
               </div> <!-- /.panel Contact -->

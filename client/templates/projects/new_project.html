@@ -3,7 +3,7 @@
       <div class="row">
           <div class="col-lg-12">
               <h1 class="page-header">
-                {{> editTitle currentDoc=this drafts=getDraftsCollection }}
+                {{> editTitle currentDoc=this collection=getDraftsCollection }}
               </h1>
           </div>
       </div> <!-- /.row -->
@@ -242,7 +242,7 @@
 
 <template name="editTitle">
   {{#if editActive }}
-    {{#autoForm id="editTitle" type="update" doc=currentDoc collection=drafts }}
+    {{#autoForm id="editTitle" type="update" doc=currentDoc collection=collection }}
     <div class="form-group">
       {{> afFieldInput name="title" type="text" placeholder="Titel deines Projekts" }}
       {{> afFieldInput name="subtitle" type="text" placeholder="Untertitel hinzufügen" }}
