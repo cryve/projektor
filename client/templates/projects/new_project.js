@@ -118,6 +118,10 @@ Template.newProject.events({
     ProjectDrafts.remove(this._id);
     Router.go("projectDetails", {_id: newId, title: title});
   },
+  "click #btn-abort" (event) {
+    ProjectDrafts.remove(this._id);
+    Router.go("landingPage");
+  },
   "click .btn-edit-owner" (event) {
     Template.instance().editOwnerActive.set(true);
   },
