@@ -4,7 +4,7 @@
       <button id="btn-add-member" class="btn btn-primary btn-lg btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
     </div>
     <div class="media-body">
-      {{#if editActive}}
+      {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
         {{#autoForm id="addMember" type="update-pushArray" doc=currentDoc collection=currentCollection scope="team"}}
           <div class="form-group">
             {{> afFieldInput name="userId" type="select2" options=userList placeholder="Neues Mitglied auswählen" allowClear=true}}
@@ -28,7 +28,7 @@
       </a>
     </div>
     <div class="media-body">
-        {{#if editActive}}
+        {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
           {{#autoForm id="member" type="update" doc=currentDoc collection=currentCollection setArrayItems=true}}
             <div class="form-group">
               <h4 class="media-heading">
@@ -46,8 +46,10 @@
         {{else}}
           <h4 class="media-heading">
             <a href="{{pathFor 'userProfile' _id=this.userId}}">{{getFullUsername this.userId}}</a>
-            <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-member"></span></a>
-            <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-member"></span></a>
+            {{#if $eq currentUser._id currentDoc.owner.userId}}
+              <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-member"></span></a>
+              <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-member"></span></a>
+            {{/if}}
           </h4>
           <p class="text-muted">{{role}}</p>
         {{/if}}
@@ -57,7 +59,7 @@
 
 <template name="contactItem">
   <li>
-    {{#if editActive}}
+    {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
       {{#autoForm id="contactItem" type="update" doc=currentDoc collection=currentCollection setArrayItems=true}}
         {{> afFieldInput name=contactMediumField type="select2" options=mediumOptions placeholder="Kontaktmittel auswählen" }}
         {{> afFieldInput name=contactApproachField type="text" options=mediumOptions placeholder="Details zur Kontaktaufnahme"}}
@@ -67,8 +69,11 @@
         </div>
       {{/autoForm}}
     {{else}}
-      {{medium}}: {{approach}} <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-contact"></span></a>
-      <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-contact"></span></a>
+      {{medium}}: {{approach}}
+      {{#if $eq currentUser._id currentDoc.owner.userId}}
+        <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-contact"></span></a>
+        <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-contact"></span></a>
+      {{/if}}
     {{/if}}
   </li>
 </template>
@@ -76,7 +81,7 @@
 <template name="addContact">
   <li>
     <button id="btn-add-contact" class="btn btn-primary btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
-    {{#if editActive}}
+    {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
       {{#autoForm id="addContact" type="update-pushArray" doc=currentDoc collection=currentCollection scope="contacts"}}
         <div class="form-group">
           {{> afFieldInput name="medium" type="select2" options=mediumOptions placeholder="Neues Kommunikationsmittel hinzufügen" }}
@@ -92,7 +97,7 @@
 </template>
 
 <template name="editTitle">
-  {{#if editActive }}
+  {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
     {{#autoForm id="editTitle" type="update" doc=currentDoc collection=currentCollection }}
     <div class="form-group">
       {{> afFieldInput name="title" type="text" placeholder="Titel deines Projekts" }}
@@ -109,13 +114,15 @@
     {{else}}
       <span class="text-danger"><em>Titel deines Projekts</em></span>
     {{/if}}
-    <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-title"></span></a><br>
+    {{#if $eq currentUser._id currentDoc.owner.userId}}
+      <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-title"></span></a><br>
+    {{/if}}
     <small>{{currentDoc.subtitle}}</small>
   {{/if}}
 </template>
 
 <template name="editDescription">
-  {{#if editActive}}
+  {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
     {{#autoForm id="editDescription" type="update" doc=currentDoc collection=currentCollection }}
     <div class="form-group">
       {{> afFieldInput name="description" type="textarea" rows=6 placeholder="Beschreibung deines Projekts" }}
@@ -129,14 +136,18 @@
       {{#if currentDoc.description}}
         {{currentDoc.description}}
       {{else}}
-        <span class="text-primary"><em>Beschreibung hinzufügen</em></span>
+        {{#if $eq currentUser._id currentDoc.owner.userId}}
+          <span class="text-primary"><em>Beschreibung hinzufügen</em></span>
+        {{/if}}
       {{/if}}
-      <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-description"></span></a>
+      {{#if $eq currentUser._id currentDoc.owner.userId}}
+        <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-description"></span></a>
+      {{/if}}
     {{/if}}
 </template>
 
 <template name="editTags">
-  {{#if editActive}}
+  {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
     {{#autoForm id="editTags" type="update" doc=currentDoc collection=currentCollection }}
     <div class="form-group">
       {{> afFieldInput name="tags" type="tags" maxTags=10 maxChars=20 trimValue=true placeholder="Tags eingeben" }}
@@ -150,15 +161,19 @@
       {{#if currentDoc.tags}}
         {{currentDoc.tags}}
       {{else}}
-        <span class="text-primary"><em>Tags hinzufügen</em></span>
+        {{#if $eq currentUser._id currentDoc.owner.userId}}
+          <span class="text-primary"><em>Tags hinzufügen</em></span>
+        {{/if}}
       {{/if}}
-      <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-tags"></span></a>
+      {{#if $eq currentUser._id currentDoc.owner.userId}}
+        <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-tags"></span></a>
+      {{/if}}
     {{/if}}
 </template>
 
 <template name="jobItem">
   <li>
-    {{#if editActive}}
+    {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
       {{#autoForm id="jobItem" type="update" doc=currentDoc collection=currentCollection setArrayItems=true}}
         {{> afFieldInput name=jobLabelField type="text" placeholder="Gesuchte Fähigkeit" }}
         <div class="form-group">
@@ -167,8 +182,11 @@
         </div>
       {{/autoForm}}
     {{else}}
-      {{jobLabel}} <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-job"></span></a>
-      <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-job"></span></a>
+      {{jobLabel}}
+      {{#if $eq currentUser._id currentDoc.owner.userId}}
+        <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-job"></span></a>
+        <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-job"></span></a>
+      {{/if}}
     {{/if}}
   </li>
 </template>
@@ -176,7 +194,7 @@
 <template name="addJob">
   <li>
     <button id="btn-add-job" class="btn btn-primary btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
-    {{#if editActive}}
+    {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
       {{#autoForm id="addJob" type="update-pushArray" doc=currentDoc collection=currentCollection scope="jobs"}}
         <div class="form-group">
           {{> afFieldInput name="joblabel" type="text" placeholder="Gesuchte Fähigkeit hinzufügen" }}
@@ -191,7 +209,7 @@
 </template>
 
 <template name="editOccasions">
-  {{#if editActive }}
+  {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
     {{#autoForm id="editOccasions" type="update" doc=currentDoc collection=currentCollection }}
       <div class="form-group">
         {{> afFieldInput name="occasions" type="tags" maxTags=10 maxChars=30 trimValue=true placeholder="Kurs, Projektschein oder sonstige Motivation" }}
@@ -205,14 +223,18 @@
     {{#if currentDoc.occasions}}
       {{arrayToString currentDoc.occasions}}
     {{else}}
-      <span class="text-primary"><em>Kurs, Projektschein oder sonstige Motivation</em></span>
+      {{#if $eq currentUser._id currentDoc.owner.userId}}
+        <span class="text-primary"><em>Kurs, Projektschein oder sonstige Motivation</em></span>
+      {{/if}}
     {{/if}}
-    <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-occasions"></span></a>
+    {{#if $eq currentUser._id currentDoc.owner.userId}}
+      <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-occasions"></span></a>
+    {{/if}}
   {{/if}}
 </template>
 
 <template name="editSupervisors">
-  {{#if editActive }}
+  {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
     {{#autoForm id="editSupervisors" type="update" doc=currentDoc collection=currentCollection }}
       <div class="form-group">
         {{> afFieldInput name="supervisors" type="tags" maxTags=10 maxChars=30 trimValue=true placeholder="Betreuer" }}
@@ -226,14 +248,18 @@
     {{#if currentDoc.supervisors}}
       {{arrayToString currentDoc.supervisors}}
     {{else}}
-      <span class="text-primary"><em>Wer betreut das Projekt?</em></span>
+      {{#if $eq currentUser._id currentDoc.owner.userId}}
+        <span class="text-primary"><em>Wer betreut das Projekt?</em></span>
+      {{/if}}
     {{/if}}
-    <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-supervisors"></span></a>
+    {{#if $eq currentUser._id currentDoc.owner.userId}}
+      <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-supervisors"></span></a>
+    {{/if}}
   {{/if}}
 </template>
 
 <template name="editDeadline">
-  {{#if editActive }}
+  {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
     {{#autoForm id="editDeadline" type="update" doc=currentDoc collection=currentCollection }}
       <div class="form-group">
         {{> afFieldInput name="deadline" type="bootstrap-datepicker" placeholder="Deadline" }}
@@ -247,9 +273,13 @@
     {{#if currentDoc.deadline}}
       {{readableDate currentDoc.deadline}}
     {{else}}
-      <span class="text-primary"><em>Wann muss das Projekt fertig sein?</em></span>
+      {{#if $eq currentUser._id currentDoc.owner.userId}}
+        <span class="text-primary"><em>Wann muss das Projekt fertig sein?</em></span>
+      {{/if}}
     {{/if}}
-    <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-deadline"></span></a>
+    {{#if $eq currentUser._id currentDoc.owner.userId}}
+      <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-deadline"></span></a>
+    {{/if}}
   {{/if}}
 </template>
 
@@ -265,7 +295,7 @@
         <a href="{{pathFor 'userProfile' _id=currentDoc.owner.userId}}">{{getFullUsername currentDoc.owner.userId}}</a>
       </h4>
       <p class="text-muted">
-        {{#if editActive }}
+        {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
           {{#autoForm id="editOwnerRole" type="update" doc=currentDoc collection=currentCollection }}
             <div class="form-group">
               {{> afFieldInput name="owner.role" type="text" placeholder="Deine Aufgaben im Projekt" }}
@@ -276,12 +306,17 @@
             </div>
           {{/autoForm}}
         {{ else }}
+          Projektleiter
           {{#if currentDoc.owner.role}}
-            Projektleiter, {{currentDoc.owner.role}}
+            , {{currentDoc.owner.role}}
           {{else}}
-            Projektleiter, <span class="text-primary"><em>weitere Aufgaben im Projekt</em></span>
+            {{#if $eq currentUser._id currentDoc.owner.userId}}
+              , <span class="text-primary"><em>weitere Aufgaben im Projekt</em></span>
+            {{/if}}
           {{/if}}
-          <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-owner"></span></a>
+          {{#if $eq currentUser._id currentDoc.owner.userId}}
+            <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-owner"></span></a>
+          {{/if}}
         {{/if}}
       </p>
     </div>
