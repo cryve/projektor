@@ -48,14 +48,16 @@
                               {{/if}}
 
 
+                        
                         {{else}}
                           {{#if $eq coverImg null}}
 
                           {{else}}
                             {{#if getRefreshPreview}}
-                              {{> galleryPreviewNew result}}
+                              {{> galleryPreview result}}
                             {{else}}
-
+                              {{getFirstImageId}}
+                              {{> galleryPreview result}}
                             {{/if}}
                           {{/if}}
                         {{/if}}
@@ -121,6 +123,8 @@
                       {{/if}}
                     </div> <!-- /.col-sm-12 gallery thumbnails -->
                   </div> <!-- /.row -->
+                 </div>
+                  <div class="panel-body">
                   <div class="row">
                     <div class="col-sm-12">
                       {{> editDescription currentDoc=this currentCollection=getDraftsCollection }}

@@ -40,10 +40,12 @@ Template.newProject.helpers({
        for (var i = 0; i < this.pictures.length; i++) {
 
           if (this.pictures[i] != null){
+            console.log("ererer");
               console.log(this.pictures[i]);
               Session.set('slot', i)
               return Session.set('result', this.pictures[i] )
           }
+    
        }
 
     },
@@ -117,10 +119,12 @@ Template.newProject.events({
     console.log(this);
     ProjectDrafts.remove(this._id);
     Router.go("projectDetails", {_id: newId, title: title});
+    Session.set('result', "null")
   },
   "click #btn-abort" (event) {
     ProjectDrafts.remove(this._id);
     Router.go("landingPage");
+    Session.set('result', "null")
   },
   "click .btn-edit-owner" (event) {
     Template.instance().editOwnerActive.set(true);

@@ -39,6 +39,7 @@ Template.projectDetails.helpers({
   },
 
     getFirstImageId(){
+       Session.set('result', "null");
        for (var i = 0; i < this.pictures.length; i++) {
 
           if (this.pictures[i] != null){
@@ -46,6 +47,7 @@ Template.projectDetails.helpers({
               Session.set('slot', i)
               return Session.set('result', this.pictures[i] )
           }
+
        }
 
     },

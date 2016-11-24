@@ -1,5 +1,5 @@
 import { Projects } from '/lib/collections/projects.js';
-import { ProjectDrafts } from '/lib/collections/projects.js';
+import {ProjectDrafts} from "/lib/collections/project_drafts.js";
 import {Images} from "/lib/images.collection.js";
 
 import "./gallery.html";
