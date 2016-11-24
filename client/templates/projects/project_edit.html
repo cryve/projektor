@@ -1,24 +1,289 @@
-<template name="projectEdit">
-  <h2 id="title" class="editable" data-type="text" data-pk="{{_id}}" data-placeholder="Titel des Projekts eingeben" data-emptytext="Hier klicken und Titel des Projektes eingeben" data-value="{{title}}">
-    {{title}}
-  </h2>
-  <h4>{{> editableText collection="projects" field="subtitle"}}</h4>
-  <!--
-  {{#autoForm id="projectEdit" doc=this collection=getProjectsCollection type="update"}}
-  <fieldset>
-      <legend>Projekt bearbeiten</legend>
-      {{> afQuickField name="title" }}
-      {{> afQuickField name="subtitle" }}
-      {{> afQuickField name="pictures" initialCount=5 minCount=5 maxCount=5}}
-      {{> afQuickField name="description" rows=6 }}
-      {{> afQuickField name="deadline" }}
-      {{> afQuickField name="tags" }}
-      {{> afQuickField name="jobs" }}
-      {{> afQuickField name="contact" rows=3 }}
-      {{> afQuickField name="occasions" }}
-      {{> afQuickField name="supervisors" }}
-    </fieldset>
-    <button type="submit" class="btn btn-primary">Speichern</button>
-  {{/autoForm}}
--->
+<template name="addMember">
+  <li class="media">
+    <div class="media-left">
+      <button id="btn-add-member" class="btn btn-primary btn-lg btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
+    </div>
+    <div class="media-body">
+      {{#if editActive}}
+        {{#autoForm id="addMember" type="update-pushArray" doc=currentDoc collection=currentCollection scope="team"}}
+          <div class="form-group">
+            {{> afFieldInput name="userId" type="select2" options=userList placeholder="Neues Mitglied auswählen" allowClear=true}}
+            {{> afFieldInput name="role" type="text" placeholder="Aufgaben im Projekt"}}
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-abort-adding"><span class="glyphicon glyphicon-ok"></span></button>
+            <button type="reset" class="btn btn-default btn-abort-adding"><span class="glyphicon glyphicon-remove"></span></button>
+          </div>
+        {{/autoForm}}
+      {{/if}}
+    </div>
+  </li>
+</template>
+
+<template name="member">
+  <li class="media">
+    <div class="media-left">
+      <a href="{{pathFor 'userProfile' _id=this.userId}}">
+        <img class="media-object img-circle" src="{{getAvatarURL this.userId "avatar"}}" alt="...">
+      </a>
+    </div>
+    <div class="media-body">
+        {{#if editActive}}
+          {{#autoForm id="member" type="update" doc=currentDoc collection=currentCollection setArrayItems=true}}
+            <div class="form-group">
+              <h4 class="media-heading">
+                {{> afFieldInput name=teamUserIdField type="select2" options=userList placeholder="Neues Mitglied auswählen" value=this.userId }}
+              </h4>
+              <p>
+                {{> afFieldInput name=teamUserRoleField type="text" options=userList placeholder="Aufgaben im Projekt"}}
+              </p>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+              <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
+            </div>
+          {{/autoForm}}
+        {{else}}
+          <h4 class="media-heading">
+            <a href="{{pathFor 'userProfile' _id=this.userId}}">{{getFullUsername this.userId}}</a>
+            <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-member"></span></a>
+            <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-member"></span></a>
+          </h4>
+          <p class="text-muted">{{role}}</p>
+        {{/if}}
+    </div>
+  </li>
+</template>
+
+<template name="contactItem">
+  <li>
+    {{#if editActive}}
+      {{#autoForm id="contactItem" type="update" doc=currentDoc collection=currentCollection setArrayItems=true}}
+        {{> afFieldInput name=contactMediumField type="select2" options=mediumOptions placeholder="Kontaktmittel auswählen" }}
+        {{> afFieldInput name=contactApproachField type="text" options=mediumOptions placeholder="Details zur Kontaktaufnahme"}}
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+          <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+      {{/autoForm}}
+    {{else}}
+      {{medium}}: {{approach}} <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-contact"></span></a>
+      <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-contact"></span></a>
+    {{/if}}
+  </li>
+</template>
+
+<template name="addContact">
+  <li>
+    <button id="btn-add-contact" class="btn btn-primary btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
+    {{#if editActive}}
+      {{#autoForm id="addContact" type="update-pushArray" doc=currentDoc collection=currentCollection scope="contacts"}}
+        <div class="form-group">
+          {{> afFieldInput name="medium" type="select2" options=mediumOptions placeholder="Neues Kommunikationsmittel hinzufügen" }}
+          {{> afFieldInput name="approach" type="text" placeholder="Details zur Kontaktaufnahme"}}
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
+          <button type="reset" class="btn btn-default btn-abort-adding"><span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+      {{/autoForm}}
+    {{/if}}
+  </li>
+</template>
+
+<template name="editTitle">
+  {{#if editActive }}
+    {{#autoForm id="editTitle" type="update" doc=currentDoc collection=currentCollection }}
+    <div class="form-group">
+      {{> afFieldInput name="title" type="text" placeholder="Titel deines Projekts" }}
+      {{> afFieldInput name="subtitle" type="text" placeholder="Untertitel hinzufügen" }}
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+      <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
+    </div>
+    {{/autoForm}}
+  {{ else }}
+    {{#if currentDoc.title}}
+      {{currentDoc.title}}
+    {{else}}
+      <span class="text-danger"><em>Titel deines Projekts</em></span>
+    {{/if}}
+    <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-title"></span></a><br>
+    <small>{{currentDoc.subtitle}}</small>
+  {{/if}}
+</template>
+
+<template name="editDescription">
+  {{#if editActive}}
+    {{#autoForm id="editDescription" type="update" doc=currentDoc collection=currentCollection }}
+    <div class="form-group">
+      {{> afFieldInput name="description" type="textarea" rows=6 placeholder="Beschreibung deines Projekts" }}
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+      <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
+    </div>
+    {{/autoForm}}
+    {{ else }}
+      {{#if currentDoc.description}}
+        {{currentDoc.description}}
+      {{else}}
+        <span class="text-primary"><em>Beschreibung hinzufügen</em></span>
+      {{/if}}
+      <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-description"></span></a>
+    {{/if}}
+</template>
+
+<template name="editTags">
+  {{#if editActive}}
+    {{#autoForm id="editTags" type="update" doc=currentDoc collection=currentCollection }}
+    <div class="form-group">
+      {{> afFieldInput name="tags" type="tags" maxTags=10 maxChars=20 trimValue=true placeholder="Tags eingeben" }}
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+      <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
+    </div>
+    {{/autoForm}}
+    {{ else }}
+      {{#if currentDoc.tags}}
+        {{currentDoc.tags}}
+      {{else}}
+        <span class="text-primary"><em>Tags hinzufügen</em></span>
+      {{/if}}
+      <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-tags"></span></a>
+    {{/if}}
+</template>
+
+<template name="jobItem">
+  <li>
+    {{#if editActive}}
+      {{#autoForm id="jobItem" type="update" doc=currentDoc collection=currentCollection setArrayItems=true}}
+        {{> afFieldInput name=jobLabelField type="text" placeholder="Gesuchte Fähigkeit" }}
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+          <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+      {{/autoForm}}
+    {{else}}
+      {{jobLabel}} <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-job"></span></a>
+      <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-job"></span></a>
+    {{/if}}
+  </li>
+</template>
+
+<template name="addJob">
+  <li>
+    <button id="btn-add-job" class="btn btn-primary btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
+    {{#if editActive}}
+      {{#autoForm id="addJob" type="update-pushArray" doc=currentDoc collection=currentCollection scope="jobs"}}
+        <div class="form-group">
+          {{> afFieldInput name="joblabel" type="text" placeholder="Gesuchte Fähigkeit hinzufügen" }}
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
+          <button type="reset" class="btn btn-default btn-abort-adding"><span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+      {{/autoForm}}
+    {{/if}}
+  </li>
+</template>
+
+<template name="editOccasions">
+  {{#if editActive }}
+    {{#autoForm id="editOccasions" type="update" doc=currentDoc collection=currentCollection }}
+      <div class="form-group">
+        {{> afFieldInput name="occasions" type="tags" maxTags=10 maxChars=30 trimValue=true placeholder="Kurs, Projektschein oder sonstige Motivation" }}
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+        <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
+      </div>
+    {{/autoForm}}
+  {{ else }}
+    {{#if currentDoc.occasions}}
+      {{arrayToString currentDoc.occasions}}
+    {{else}}
+      <span class="text-primary"><em>Kurs, Projektschein oder sonstige Motivation</em></span>
+    {{/if}}
+    <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-occasions"></span></a>
+  {{/if}}
+</template>
+
+<template name="editSupervisors">
+  {{#if editActive }}
+    {{#autoForm id="editSupervisors" type="update" doc=currentDoc collection=currentCollection }}
+      <div class="form-group">
+        {{> afFieldInput name="supervisors" type="tags" maxTags=10 maxChars=30 trimValue=true placeholder="Betreuer" }}
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+        <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
+      </div>
+    {{/autoForm}}
+  {{ else }}
+    {{#if currentDoc.supervisors}}
+      {{arrayToString currentDoc.supervisors}}
+    {{else}}
+      <span class="text-primary"><em>Wer betreut das Projekt?</em></span>
+    {{/if}}
+    <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-supervisors"></span></a>
+  {{/if}}
+</template>
+
+<template name="editDeadline">
+  {{#if editActive }}
+    {{#autoForm id="editDeadline" type="update" doc=currentDoc collection=currentCollection }}
+      <div class="form-group">
+        {{> afFieldInput name="deadline" type="bootstrap-datepicker" placeholder="Deadline" }}
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+        <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
+      </div>
+    {{/autoForm}}
+  {{ else }}
+    {{#if currentDoc.deadline}}
+      {{readableDate currentDoc.deadline}}
+    {{else}}
+      <span class="text-primary"><em>Wann muss das Projekt fertig sein?</em></span>
+    {{/if}}
+    <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-deadline"></span></a>
+  {{/if}}
+</template>
+
+<template name="editOwnerRole">
+  <li class="media">
+    <div class="media-left">
+      <a href="{{pathFor 'userProfile' _id=currentDoc.owner.userId}}">
+        <img class="media-object img-circle" src="{{getAvatarURL currentDoc.owner.userId "avatar"}}" alt="...">
+      </a>
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading">
+        <a href="{{pathFor 'userProfile' _id=currentDoc.owner.userId}}">{{getFullUsername currentDoc.owner.userId}}</a>
+      </h4>
+      <p class="text-muted">
+        {{#if editActive }}
+          {{#autoForm id="editOwnerRole" type="update" doc=currentDoc collection=currentCollection }}
+            <div class="form-group">
+              {{> afFieldInput name="owner.role" type="text" placeholder="Deine Aufgaben im Projekt" }}
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+              <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
+            </div>
+          {{/autoForm}}
+        {{ else }}
+          {{#if currentDoc.owner.role}}
+            Projektleiter, {{currentDoc.owner.role}}
+          {{else}}
+            Projektleiter, <span class="text-primary"><em>weitere Aufgaben im Projekt</em></span>
+          {{/if}}
+          <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-owner"></span></a>
+        {{/if}}
+      </p>
+    </div>
+  </li>
 </template>

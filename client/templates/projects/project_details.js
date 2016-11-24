@@ -48,7 +48,29 @@ Template.projectDetails.helpers({
           }
        }
 
-    }
+    },
+    suggestedUsers(firstOption) {
+      var users = Meteor.users.find({});
+      let userList = [" "];
+      users.forEach(function (user){
+        userList.push({
+          value: user._id,
+          label: user.profile.firstname + " " + user.profile.lastname,
+        });
+      });
+      // remove users who are already members:
+      if (this.owner) {
+        userList = userList.filter(item => item.value !== this.owner.userId);
+      }
+      if (this.team) {
+        this.team.forEach(function(member) {
+          if (member && member.userId !== firstOption) {
+            userList = userList.filter(item => item.value !== member.userId);
+          }
+        });
+      }
+      return userList;
+    },
 });
 
 
@@ -60,9 +82,9 @@ Template.projectDetails.events({
       Session.set('slot', 0);
       var picturesEmpty = ["", "", "", "", ""];
       Projects.update(this._id, {$set: {pictures: picturesEmpty}});
-      Projects.update(this._id, {$set: {coverImg: null}});      
+      Projects.update(this._id, {$set: {coverImg: null}});
     }
-    
+
     const target = event.target;
     Template.instance().editMode.set(true);
     Template.instance().finishedMode.set(false);
