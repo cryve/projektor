@@ -3,20 +3,20 @@
                     <div class="row">
                       <div class="col-sm-12">
                         {{#if getEditMode}}
-                            {{> uploadFormCrop slot=slot pictures=pictures projectId=_id coverImg=this.coverImg collection=currentCollection
+                            {{> uploadFormCrop slot=slot pictures=currentDoc.pictures projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection
                             }}
             
-                          {{#if $eq coverImg null}}
+                          {{#if $eq currentDoc.coverImg null}}
                             {{> previewPlaceholder}}
                               {{else}}
                                 {{#if getRefreshPreview}}
-                                  {{#if $eq coverImg result}}
-                                      {{> deleteImageButton slot=slot pictures=pictures projectId=_id coverImg=this.coverImg }}
-                                      {{> titleImage coverImg=coverImg}}
+                                  {{#if $eq currentDoc.coverImg result}}
+                                      {{> deleteImageButton slot=slot pictures=currentDoc.pictures projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection }}
+                                      {{> titleImage coverImg=currentDoc.coverImg}}
                                   {{else}}
                                     {{#if result}}
-                                      {{> deleteImageButton slot=slot pictures=pictures projectId=_id coverImg=this.coverImg}}
-                                      {{> setTitleImageButton slot=slot pictures=pictures projectId=_id coverImg=this.coverImg}}
+                                      {{> deleteImageButton slot=slot pictures=currentDoc.pictures projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
+                                      {{> setTitleImageButton slot=slot pictures=currentDoc.pictures projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
                                       {{> galleryPreview result}}
                                     {{else}}
                                       {{> previewPlaceholder}}
@@ -27,12 +27,12 @@
                                 {{else}}
                                   {{getFirstImageId}}
 
-                                  {{#if $eq coverImg result}}
-                                      {{> deleteImageButton slot=slot pictures=pictures projectId=_id coverImg=this.coverImg }}
+                                  {{#if $eq currentDoc.coverImg result}}
+                                      {{> deleteImageButton slot=slot pictures=currentDoc.pictures projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
                                       {{> galleryPreview result}}
                                   {{else}}
-                                    {{> deleteImageButton slot=slot pictures=pictures projectId=_id coverImg=this.coverImg }}
-                                    {{> setTitleImageButton slot=slot pictures=pictures projectId=_id coverImg=this.coverImg}}
+                                    {{> deleteImageButton slot=slot pictures=currentDoc.pictures projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection }}
+                                    {{> setTitleImageButton slot=slot pictures=currentDoc.pictures projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
                                     {{> galleryPreview result}}
                                   {{/if}}
                                 {{/if}}
@@ -40,7 +40,7 @@
 
 
                         {{else}}
-                          {{#if $eq coverImg null}}
+                          {{#if $eq currentDoc.coverImg null}}
 
                           {{else}}
                             {{#if getRefreshPreview}}
@@ -63,7 +63,7 @@
 
                       <ul class="list-inline thumbnails">
                           {{#if getEditMode}}
-                            {{#each image in pictures}}
+                            {{#each image in currentDoc.pictures}}
                               <div class="mergeInputImage">
                              <!--{{>uploadFormCrop slot=1 pictures=pictures projectId=_id }}
                                  {{>uploadFormCrop slot=2 pictures=pictures projectId=_id }}
@@ -85,7 +85,7 @@
                                 </div>
                             {{/each}}
                           {{else}}
-                            {{#each image in pictures}}
+                            {{#each image in currentDoc.pictures}}
                               {{#if image }}
                                 <li>
                                   <button data-value="{{image}}" data-slot={{@index}} type="button" class="edit_button ">
@@ -102,7 +102,7 @@
 
                       </ul>
 
-                      {{#if $eq currentUser._id owner.userId}}
+                      {{#if $eq currentUser._id currentDoc.owner.userId}}
                         {{#if getEditMode }}
                           <button id="finished-button" class="btn btn-primary navbar-btn navbar-right">Fertig</button>
                         {{else}}

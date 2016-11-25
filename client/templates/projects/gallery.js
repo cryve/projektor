@@ -141,12 +141,12 @@ Template.wholeGallery.helpers({
 
     getFirstImageId(){
        Session.set('result', "null");
-       for (var i = 0; i < this.pictures.length; i++) {
+       for (var i = 0; i < this.currentDoc.pictures.length; i++) {
 
-          if (this.pictures[i] != null){
-              console.log(this.pictures[i]);
+          if (this.currentDoc.pictures[i] != null){
+              console.log(this.currentDoc.pictures[i]);
               Session.set('slot', i)
-              return Session.set('result', this.pictures[i] )
+              return Session.set('result', this.currentDoc.pictures[i] )
           }
 
        }
@@ -160,12 +160,11 @@ Template.wholeGallery.helpers({
 Template.wholeGallery.events({
   
   "click #edit-gallery-button" (event){
-    if(!this.pictures) {
+    if(!this.currentDoc.pictures) {
       Session.set('slot', 0);
-      var collection = template.data.collection;
       var picturesEmpty = ["", "", "", "", ""];
-      collection.update(this._id, {$set: {pictures: picturesEmpty}});
-      collection.update(this._id, {$set: {coverImg: null}});
+      this.currentCollection.update(this.currentDoc._id, {$set: {pictures: picturesEmpty}});
+      this.currentCollection.update(this.currentDoc._id, {$set: {coverImg: null}});
     }
 
     const target = event.target;
