@@ -40,13 +40,13 @@ Template.registerHelper("arrayToString", (array) => {
 
 Template.registerHelper("getImgURL", (imgId, version) => {
     var image = Images.findOne(imgId);
-    return image && image.link(version);
+    return (image && image.versions[version]) ? image.link(version) : null;
 });
 
 Template.registerHelper("getAvatarURL", (userId, version) => {
   var user = Meteor.users.findOne({_id: userId});
   var image = Images.findOne(user.profile.avatar);
-  return (image && image.versions[version]) //? image.link(version) : '/img/placeholder.png'
+  return (image && image.versions[version]) ? image.link(version) : null;
 });
 
 Template.registerHelper("log", (data) => {
