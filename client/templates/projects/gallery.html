@@ -1,3 +1,123 @@
+<template name="wholeGallery">
+ <div class="panel-header">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        {{#if $and getEditMode ($eq currentUser._id currentDoc.owner.userId)}}
+                            {{> uploadFormCrop slot=slot pictures=currentDoc.pictures projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection
+                            }}
+            
+                          {{#if $eq currentDoc.coverImg null}}
+                            {{> previewPlaceholder}}
+                              {{else}}
+                                {{#if getRefreshPreview}}
+                                  {{#if $eq currentDoc.coverImg result}}
+                                      {{> deleteImageButton slot=slot pictures=currentDoc.pictures projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection }}
+                                      {{> titleImage coverImg=currentDoc.coverImg}}
+                                  {{else}}
+                                    {{#if result}}
+                                      {{> deleteImageButton slot=slot pictures=currentDoc.pictures projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
+                                      {{> setTitleImageButton slot=slot pictures=currentDoc.pictures projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
+                                      {{> galleryPreview result}}
+                                    {{else}}
+                                      {{> previewPlaceholder}}
+                                    {{/if}}
+                                  {{/if}}
+
+
+                                {{else}}
+                                  {{getFirstImageId}}
+
+                                  {{#if $eq currentDoc.coverImg result}}
+                                      {{> deleteImageButton slot=slot pictures=currentDoc.pictures projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
+                                      {{> galleryPreview result}}
+                                  {{else}}
+                                    {{> deleteImageButton slot=slot pictures=currentDoc.pictures projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection }}
+                                    {{> setTitleImageButton slot=slot pictures=currentDoc.pictures projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
+                                    {{> galleryPreview result}}
+                                  {{/if}}
+                                {{/if}}
+                              {{/if}}
+
+
+                        {{else}}
+                          {{#if $eq currentDoc.coverImg null}}
+
+                          {{else}}
+                            {{#if getRefreshPreview}}
+                              {{> galleryPreview result}}
+                            {{else}}
+                              {{getFirstImageId}}
+                              {{> galleryPreview result}}
+                            {{/if}}
+                          {{/if}}
+                        {{/if}}
+
+
+                      </div>
+                    </div>
+                </div> <!-- /.panel-header -->
+
+                  <div class="panel-body">
+                  <div class="row">
+                    <div class="col-sm-12">
+
+                      <ul class="list-inline thumbnails">
+                          {{#if $and getEditMode ($eq currentUser._id currentDoc.owner.userId)}}
+                            {{#each image in currentDoc.pictures}}
+                              <div class="mergeInputImage">
+                             <!--{{>uploadFormCrop slot=1 pictures=pictures projectId=_id }}
+                                 {{>uploadFormCrop slot=2 pictures=pictures projectId=_id }}
+                                 {{>uploadFormCrop slot=3 pictures=pictures projectId=_id }}
+                                 {{>uploadFormCrop slot=4 pictures=pictures projectId=_id }}-->
+                                  {{#if $eq image null}}
+                                    <li>
+                                      <button data-value="{{image}}" data-slot={{@index}} type="button" class="edit_button">
+                                        <div class="well thumbnail-placeholder"></div>
+                                      </button>
+                                    </li>
+                                  {{else}}
+                                    <li>
+                                      <button data-value="{{image}}" data-slot={{@index}} type="button" class="edit_button ">
+                                        <img class="img-responsive "  src= {{getImgURL image "thumbnail115"}} alt="">
+                                      </button>
+                                    </li>
+                                  {{/if}}
+                                </div>
+                            {{/each}}
+                          {{else}}
+                            {{#each image in currentDoc.pictures}}
+                              {{#if image }}
+                                <li>
+                                  <button data-value="{{image}}" data-slot={{@index}} type="button" class="edit_button ">
+
+                                    <img class="img-responsive" src= {{getImgURL image "thumbnail115"}} alt="">
+
+                                  </button>
+                                </li>
+                              {{else}}
+
+                              {{/if}}
+                            {{/each}}
+                          {{/if}}
+
+                      </ul>
+
+                      {{#if $eq currentUser._id currentDoc.owner.userId}}
+                        {{#if getEditMode }}
+                          <button id="finished-button" class="btn btn-primary navbar-btn navbar-right">Fertig</button>
+                        {{else}}
+                          <button id="edit-gallery-button" class="btn btn-primary navbar-btn navbar-right">Gallerie bearbeiten</button>
+
+                        {{/if}}
+
+
+                      {{/if}}
+                    </div> <!-- /.col-sm-12 gallery thumbnails -->
+                  </div> <!-- /.row -->
+                </div> 
+</template>
+
+
 <template name="previewPlaceholder">
   <div class="well preview-placeholder"></div>
 </template>
