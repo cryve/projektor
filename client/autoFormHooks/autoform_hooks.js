@@ -1,18 +1,5 @@
-/*
-AutoForm.addHooks(["newProject"], {
-  before: {
-    insert: function(doc) {
-      doc.title = Session.get("newTitle");
-      return doc;
-    }
-  },
+AutoForm.addHooks(["editTitle", "addMember"], {
   onSuccess: function(formType, result) {
-    Router.go("projectDetails", {_id: this.docId, title: this.insertDoc.title});
+    this.template.parent().editActive.set(false);
   }
 });
-AutoForm.addHooks(["projectEdit"], {
-  onSuccess: function(formType, result) {
-    Router.go("projectDetails", {_id: this.docId, title: this.currentDoc.title});
-  }
-});
-*/
