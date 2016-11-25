@@ -2,7 +2,7 @@
  <div class="panel-header">
                     <div class="row">
                       <div class="col-sm-12">
-                        {{#if getEditMode}}
+                        {{#if $and getEditMode ($eq currentUser._id currentDoc.owner.userId)}}
                             {{> uploadFormCrop slot=slot pictures=currentDoc.pictures projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection
                             }}
             
@@ -62,7 +62,7 @@
                     <div class="col-sm-12">
 
                       <ul class="list-inline thumbnails">
-                          {{#if getEditMode}}
+                          {{#if $and getEditMode ($eq currentUser._id currentDoc.owner.userId)}}
                             {{#each image in currentDoc.pictures}}
                               <div class="mergeInputImage">
                              <!--{{>uploadFormCrop slot=1 pictures=pictures projectId=_id }}
