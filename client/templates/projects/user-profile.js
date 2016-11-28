@@ -7,15 +7,23 @@ import './user-profile.html';
 import './project_card.js';
 
 
-Template.editProfile.helpers({
+Template.userProfile.helpers({
+   log (data) {
+    console.log(data);
+   },
   
    projects() {
        return Projects.find({}, { sort: { createdAt: -1 } });
    },
     
-    
-
- 
+   getUserCollection() {
+    return Meteor.user();
+   }, 
+  
+    user: function() {
+        return Meteor.user();
+    }
+   
 });
   
 

@@ -1,14 +1,24 @@
-<template name="editProfile2">
-  {{#autoForm collection=getEditUserCollection id="editProfile" type="update"}}
-    <fieldset>
-      <legend>Profil bearbeiten</legend>
-      {{> afQuickField name="firstName" }}
-      {{> afQuickField name="secondName" }}
-      {{> afQuickField name="profilePicture" initialCount=1 minCount=1 maxCount=1}}
-      {{> afQuickField name="age" }}
-      {{> afQuickField name="skills" }}
-    </fieldset>
-    <button type="submit" class="btn btn-primary">Profil speichern</button>
-  {{/autoForm}}
-    
+<template name="editAboutMe">
+  {{#if $and editActive ($eq currentUser._id currentDoc._id) }}
+    {{#autoForm id="editAboutMe" type="update" doc=currentDoc collection=currentCollection }}
+    <div class="form-group">
+      {{> afFieldInput name="profile.aboutMe" type="textarea" rows=6 placeholder="Schreibe etwas über dich" }}
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+      <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
+    </div>
+    {{/autoForm}}
+  {{ else }}
+    {{#if currentDoc.profile.aboutMe}}
+      {{currentDoc.profile.aboutMe}}
+    {{else}}
+      {{#if $eq currentUser._id currentDoc._id}}
+        <span class="text-primary"><em>Beschreibung hinzufügen</em></span>
+      {{/if}}
+    {{/if}}
+    {{#if $eq currentUser._id currentDoc._id}}
+      <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-description"></span></a>
+    {{/if}}
+  {{/if}}
 </template>
