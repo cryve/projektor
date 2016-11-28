@@ -1,23 +1,25 @@
 <template name="addMember">
-  <li class="media">
-    <div class="media-left">
-      <button id="btn-add-member" class="btn btn-primary btn-lg btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
-    </div>
-    <div class="media-body">
-      {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
-        {{#autoForm id="addMember" type="update-pushArray" doc=currentDoc collection=currentCollection scope="team"}}
-          <div class="form-group">
-            {{> afFieldInput name="userId" type="select2" options=userList placeholder="Neues Mitglied auswählen" allowClear=true}}
-            {{> afFieldInput name="role" type="text" placeholder="Aufgaben im Projekt"}}
-          </div>
-          <div class="form-group">
-            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
-            <button type="reset" class="btn btn-default btn-abort-adding"><span class="glyphicon glyphicon-remove"></span></button>
-          </div>
-        {{/autoForm}}
-      {{/if}}
-    </div>
-  </li>
+  {{#if $eq currentUser._id currentDoc.owner.userId }}
+    <li class="media">
+      <div class="media-left">
+        <button id="btn-add-member" class="btn btn-primary btn-lg btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
+      </div>
+      <div class="media-body">
+        {{#if editActive}}
+          {{#autoForm id="addMember" type="update-pushArray" doc=currentDoc collection=currentCollection scope="team"}}
+            <div class="form-group">
+              {{> afFieldInput name="userId" type="select2" options=userList placeholder="Neues Mitglied auswählen" allowClear=true}}
+              {{> afFieldInput name="role" type="text" placeholder="Aufgaben im Projekt"}}
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
+              <button type="reset" class="btn btn-default btn-abort-adding"><span class="glyphicon glyphicon-remove"></span></button>
+            </div>
+          {{/autoForm}}
+        {{/if}}
+      </div>
+    </li>
+  {{/if}}
 </template>
 
 <template name="member">
@@ -79,21 +81,23 @@
 </template>
 
 <template name="addContact">
-  <li>
-    <button id="btn-add-contact" class="btn btn-primary btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
-    {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
-      {{#autoForm id="addContact" type="update-pushArray" doc=currentDoc collection=currentCollection scope="contacts"}}
-        <div class="form-group">
-          {{> afFieldInput name="medium" type="select2" options=mediumOptions placeholder="Neues Kommunikationsmittel hinzufügen" }}
-          {{> afFieldInput name="approach" type="text" placeholder="Details zur Kontaktaufnahme"}}
-        </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
-          <button type="reset" class="btn btn-default btn-abort-adding"><span class="glyphicon glyphicon-remove"></span></button>
-        </div>
-      {{/autoForm}}
-    {{/if}}
-  </li>
+  {{#if $eq currentUser._id currentDoc.owner.userId }}
+    <li>
+      <button id="btn-add-contact" class="btn btn-primary btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
+      {{#if editActive }}
+        {{#autoForm id="addContact" type="update-pushArray" doc=currentDoc collection=currentCollection scope="contacts"}}
+          <div class="form-group">
+            {{> afFieldInput name="medium" type="select2" options=mediumOptions placeholder="Neues Kommunikationsmittel hinzufügen" }}
+            {{> afFieldInput name="approach" type="text" placeholder="Details zur Kontaktaufnahme"}}
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
+            <button type="reset" class="btn btn-default btn-abort-adding"><span class="glyphicon glyphicon-remove"></span></button>
+          </div>
+        {{/autoForm}}
+      {{/if}}
+    </li>
+  {{/if}}
 </template>
 
 <template name="editTitle">
@@ -192,20 +196,22 @@
 </template>
 
 <template name="addJob">
-  <li>
-    <button id="btn-add-job" class="btn btn-primary btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
-    {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
-      {{#autoForm id="addJob" type="update-pushArray" doc=currentDoc collection=currentCollection scope="jobs"}}
-        <div class="form-group">
-          {{> afFieldInput name="joblabel" type="text" placeholder="Gesuchte Fähigkeit hinzufügen" }}
-        </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
-          <button type="reset" class="btn btn-default btn-abort-adding"><span class="glyphicon glyphicon-remove"></span></button>
-        </div>
-      {{/autoForm}}
-    {{/if}}
-  </li>
+  {{#if $eq currentUser._id currentDoc.owner.userId }}
+    <li>
+      <button id="btn-add-job" class="btn btn-primary btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
+      {{#if editActive }}
+        {{#autoForm id="addJob" type="update-pushArray" doc=currentDoc collection=currentCollection scope="jobs"}}
+          <div class="form-group">
+            {{> afFieldInput name="joblabel" type="text" placeholder="Gesuchte Fähigkeit hinzufügen" }}
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
+            <button type="reset" class="btn btn-default btn-abort-adding"><span class="glyphicon glyphicon-remove"></span></button>
+          </div>
+        {{/autoForm}}
+      {{/if}}
+    </li>
+  {{/if}}
 </template>
 
 <template name="editOccasions">
