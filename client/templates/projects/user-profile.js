@@ -17,12 +17,10 @@ Template.userProfile.helpers({
    },
     
    getUserCollection() {
-    return Meteor.user();
+    return Meteor.users;
    }, 
   
-    user: function() {
-        return Meteor.user();
-    }
+
    
 });
   
