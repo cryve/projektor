@@ -41,7 +41,7 @@
               </p>
             </div>
             <div class="form-group">
-              <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+              <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
               <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
             </div>
           {{/autoForm}}
@@ -66,7 +66,7 @@
         {{> afFieldInput name=contactMediumField type="select2" options=mediumOptions placeholder="Kontaktmittel auswählen" }}
         {{> afFieldInput name=contactApproachField type="text" options=mediumOptions placeholder="Details zur Kontaktaufnahme"}}
         <div class="form-group">
-          <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+          <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
           <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
         </div>
       {{/autoForm}}
@@ -132,7 +132,7 @@
       {{> afFieldInput name="description" type="textarea" rows=6 placeholder="Beschreibung deines Projekts" }}
     </div>
     <div class="form-group">
-      <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+      <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
       <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
     </div>
     {{/autoForm}}
@@ -157,7 +157,7 @@
       {{> afFieldInput name="tags" type="tags" maxTags=10 maxChars=20 trimValue=true placeholder="Tags eingeben" }}
     </div>
     <div class="form-group">
-      <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+      <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
       <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
     </div>
     {{/autoForm}}
@@ -181,7 +181,7 @@
       {{#autoForm id="jobItem" type="update" doc=currentDoc collection=currentCollection setArrayItems=true}}
         {{> afFieldInput name=jobLabelField type="text" placeholder="Gesuchte Fähigkeit" }}
         <div class="form-group">
-          <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+          <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
           <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
         </div>
       {{/autoForm}}
@@ -221,7 +221,7 @@
         {{> afFieldInput name="occasions" type="tags" maxTags=10 maxChars=30 trimValue=true placeholder="Kurs, Projektschein oder sonstige Motivation" }}
       </div>
       <div class="form-group">
-        <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
         <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
       </div>
     {{/autoForm}}
@@ -246,7 +246,7 @@
         {{> afFieldInput name="supervisors" type="tags" maxTags=10 maxChars=30 trimValue=true placeholder="Betreuer" }}
       </div>
       <div class="form-group">
-        <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
         <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
       </div>
     {{/autoForm}}
@@ -271,7 +271,7 @@
         {{> afFieldInput name="deadline" type="bootstrap-datepicker" placeholder="Deadline" }}
       </div>
       <div class="form-group">
-        <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
         <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
       </div>
     {{/autoForm}}
@@ -304,20 +304,20 @@
         {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
           {{#autoForm id="editOwnerRole" type="update" doc=currentDoc collection=currentCollection }}
             <div class="form-group">
-              {{> afFieldInput name="owner.role" type="text" placeholder="Deine Aufgaben im Projekt" }}
+              {{> afFieldInput name="ownerRole" type="text" placeholder="Deine Aufgaben im Projekt" }}
             </div>
             <div class="form-group">
-              <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+              <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
               <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
             </div>
           {{/autoForm}}
         {{ else }}
           Projektleiter
-          {{#if currentDoc.owner.role}}
-            , {{currentDoc.owner.role}}
+          {{#if currentDoc.ownerRole}}
+            , {{currentDoc.ownerRole}}
           {{else}}
             {{#if $eq currentUser._id currentDoc.owner.userId}}
-              , <span class="text-primary"><em>weitere Aufgaben im Projekt</em></span>
+              <span class="text-primary"><em>, weitere Aufgaben im Projekt</em></span>
             {{/if}}
           {{/if}}
           {{#if $eq currentUser._id currentDoc.owner.userId}}
