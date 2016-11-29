@@ -5,60 +5,60 @@
       <div class="post-module">
       <!-- Thumbnail-->
       <div class="thumbnailCover">
-  
-            <img class="img-responsive" src={{getImgURL this.coverImg "cover"}} alt="">
+      
+            <img class="img-responsive" src={{getImgURL currentDoc.coverImg "cover"}} alt="">
         
       <!-- Post Content-->
       <div class="post-content">
        
-        <h1 class="title"><a href="{{pathFor 'projectDetails'}}">{{this.title}}</a></h1>
-        <h2 class="sub_title">{{this.subtitle}}</h2>
+        <h1 class="title"><a href="{{pathFor 'projectDetails' _id=currentDoc._id title=currentDoc.title}}">{{currentDoc.title}}</a></h1>
+        <h2 class="sub_title">{{currentDoc.subtitle}}</h2>
          <div class="category">
          <ul class="member-icons list-inline">
-          <li><img class="img-circle" rel="tooltip" title={{getFullUsername this.owner.userId}} src={{getAvatarURL this.owner.userId}}></li>
-           {{#each member in this.team}}
+          <li><img class="img-circle" rel="tooltip" title={{getFullUsername currentDoc.owner.userId}} src={{getAvatarURL currentDoc.owner.userId}}></li>
+           {{#each member in currentDoc.team}}
           <li><img class="img-circle" rel="tooltip" title={{getFullUsername member.userId}} src={{getAvatarURL member.userId}}></li>
            {{/each}}
          </ul> 
         </div > <!-- /.member-icons-box -->
         <div class="list-div">
           <ul class="list-unstyled">
-            {{#if $lte jobs.length 3}}
-              {{#each job in this.jobs}}
+            {{#if $lte currentDoc.jobs.length 3}}
+              {{#each job in currentDoc.jobs}}
               <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{job}}</li>
               {{/each}}
             {{else}}
-              <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[0]}}</li>
-              <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[1]}}</li>
-              <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[2]}} (...)</li>
+              <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[0]}}</li>
+              <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[1]}}</li>
+              <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[2]}} (...)</li>
               <p class="description">
-                <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[3]}}</li>
-                <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[4]}}</li>
-                <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[5]}}</li>
+                <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[3]}}</li>
+                <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[4]}}</li>
+                <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[5]}}</li>
               </p>
             {{/if}}
           </ul>
         </div>
          
-          {{#if $lte tags.length 3}}
-             {{#each tag in tags}}
-              <span class="label label-default">{{tag}}</span>
+          {{#if $lte currentDoc.tags.length 3}}
+             {{#each tag in currentDoc.tags}}
+              <span class="label label-default">{{currentDoc.tag}}</span>
              {{/each}}
           {{else}}
-              <span class="label label-default">{{tags.[0]}}</span>
-              <span class="label label-default">{{tags.[1]}}</span>
-              <span class="label label-default">{{tags.[2]}}</span>
+              <span class="label label-default">{{currentDoc.tags.[0]}}</span>
+              <span class="label label-default">{{currentDoc.tags.[1]}}</span>
+              <span class="label label-default">{{currentDoc.tags.[2]}}</span>
               <span class="label label-default">...</span>
           {{/if}}
        <div class="panel-footer text-center">
            <ul class="list-inline">
-            <li class="text-muted"><span class="glyphicon glyphicon-time"></span> <small>{{releaseDate createdAt}}</small></li>
-            {{#if this.deadline}}
+            <li class="text-muted"><span class="glyphicon glyphicon-time"></span> <small>{{releaseDate currentDoc.createdAt}}</small></li>
+            {{#if currentDoc.deadline}}
               <li class="text-muted"><span class="glyphicon glyphicon-calendar"></span> <small>
-                {{#if this.start}}
-                  {{readableDate start}} 
+                {{#if currentDoc.start}}
+                  {{readableDate currentDoc.start}} 
                 {{/if}}
-                bis {{readableDate deadline}}</small></li>
+                bis {{readableDate currentDoc.deadline}}</small></li>
             {{/if}}
           </ul>
         </div>
@@ -89,54 +89,54 @@
       <!-- Post Content-->
       <div class="post-content">
         
-        <h1 class="title"><a href="{{pathFor 'projectDetails'}}">{{this.title}}</a></h1>
-        <h2 class="sub_title">{{this.subtitle}}</h2>
+        <h1 class="title"><a href="{{pathFor 'projectDetails' _id=currentDoc._id title=currentDoc.title}}">{{currentDoc.title}}</a></h1>
+        <h2 class="sub_title">{{currentDoc.subtitle}}</h2>
         <div class="category2">
          <ul class="member-icons list-inline">
-          <li><img class="img-circle" rel="tooltip" title={{getFullUsername this.owner.userId}} src={{getAvatarURL this.owner.userId}}></li>
-           {{#each member in this.team}}
+          <li><img class="img-circle" rel="tooltip" title={{getFullUsername currentDoc.owner.userId}} src={{getAvatarURL currentDoc.owner.userId}}></li>
+           {{#each member in currentDoc.team}}
           <li><img class="img-circle" rel="tooltip" title={{getFullUsername member.userId}} src={{getAvatarURL member.userId}}></li>
            {{/each}}
          </ul>  
         </div > <!-- /.member-icons-box -->
         
             <ul class="list-unstyled">
-                {{#if $lte jobs.length 3}}
-                  {{#each job in this.jobs}}
-                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{job}}</li>
+                {{#if $lte currentDoc.jobs.length 3}}
+                  {{#each job in currentDoc.jobs}}
+                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.job}}</li>
                   {{/each}}
                 {{else}}
-                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[0]}}</li>
-                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[1]}}</li>
-                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[2]}} (...)</li>
+                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[0]}}</li>
+                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[1]}}</li>
+                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[2]}} (...)</li>
                   <p class="description2">
-                    <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[3]}}</li>
-                    <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[4]}}</li>
-                    <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{jobs.[5]}}</li>
+                    <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[3]}}</li>
+                    <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[4]}}</li>
+                    <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[5]}}</li>
                   </p>
                 {{/if}}
             </ul>
                  
          
-          {{#if $lte tags.length 3}}
-             {{#each tag in this.tags}}
-              <span class="label label-default">{{tag}}</span>
+          {{#if $lte currentDoc.tags.length 3}}
+             {{#each tag in currentDoc.tags}}
+              <span class="label label-default">{{currentDoc.tag}}</span>
              {{/each}}
           {{else}}
-              <span class="label label-default">{{tags.[0]}}</span>
-              <span class="label label-default">{{tags.[1]}}</span>
-              <span class="label label-default">{{tags.[2]}}</span>
+              <span class="label label-default">{{currentDoc.tags.[0]}}</span>
+              <span class="label label-default">{{currentDoc.tags.[1]}}</span>
+              <span class="label label-default">{{currentDoc.tags.[2]}}</span>
               <span class="label label-default">...</span>
           {{/if}}
          <div class="panel-footer text-center">
            <ul class="list-inline">
-            <li class="text-muted"><span class="glyphicon glyphicon-time"></span> <small>{{releaseDate createdAt}}</small></li>
-            {{#if this.deadline}}
+            <li class="text-muted"><span class="glyphicon glyphicon-time"></span> <small>{{releaseDate currentDoc.createdAt}}</small></li>
+            {{#if currentDoc.deadline}}
               <li class="text-muted"><span class="glyphicon glyphicon-calendar"></span> <small>
-                {{#if this.start}}
-                  {{readableDate start}} 
+                {{#if currentDoc.start}}
+                  {{readableDate currentDoc.start}} 
                 {{/if}}
-                bis {{readableDate deadline}}</small></li>
+                bis {{readableDate currentDoc.deadline}}</small></li>
             {{/if}}
           </ul>
         </div>

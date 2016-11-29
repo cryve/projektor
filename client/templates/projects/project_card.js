@@ -4,7 +4,7 @@ import { Projects } from '../../../lib/collections/projects.js';
 
 import './project_card.html';
 
-Template.projectCard.onRendered(function() {
+/*Template.projectCard.onRendered(function() {
   this.autorun(function(){
     data = Blaze.getData();
     $('img[rel="tooltip"]').tooltip();
@@ -25,7 +25,7 @@ Template.projectCard.helpers({
    },
 
 
-});
+});*/
 
 /*Template.projectCardCoverless.onRendered(function() {
   $('[data-toggle="tooltip"]').tooltip();

@@ -8,9 +8,6 @@ import './project_card.js';
 
 
 Template.userProfile.helpers({
-   log (data) {
-    console.log(data);
-   },
   
    projects() {
        return Projects.find({}, { sort: { createdAt: -1 } });

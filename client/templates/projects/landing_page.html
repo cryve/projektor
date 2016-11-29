@@ -4,11 +4,11 @@
     <div class="container">
       <div class="row">
         <ul>
-          {{#each projects}}
-            {{#if coverImg}}
-              {{>projectCard}}
+          {{#each project in projects}}
+            {{#if project.coverImg}}
+              {{>projectCard currentDoc=project}}
             {{else}}
-              {{>projectCardCoverless}}
+              {{>projectCardCoverless currentDoc=project}}
             {{/if}}
           {{/each}}
         </ul>

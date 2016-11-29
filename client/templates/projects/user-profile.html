@@ -2,8 +2,8 @@
   {{#if $eq currentUser._id this._id}}
     {{> uploadForm}}
   {{/if}}
-    <img src= {{getAvatarURL currentUser._id "avatar"}} />
-    <h1>{{currentUser.profile.firstname}} {{currentUser.profile.lastname}}<br><span>{{currentUser.profile.study}}</span></h1>
+    <img src= {{getAvatarURL this._id "avatar"}} />
+    <h1>{{this.profile.firstname}} {{this.profile.lastname}}<br><span>{{this.profile.study}}</span></h1>
     <br>
   
   <div class="row">
@@ -26,7 +26,11 @@
         <ul>
             {{#each project in projects}}
               {{#if $eq this._id project.owner.userId}}
-                {{>projectCard}}
+                {{#if project.coverImg}}
+                  {{>projectCard currentDoc=project}}
+                {{else}}
+                  {{>projectCardCoverless currentDoc=project}}
+                {{/if}}
               {{ /if }}
             {{/each}}
         </ul>
@@ -41,7 +45,11 @@
               {{#each project in projects}}
                 {{#each member in project.team}}
                   {{#if $eq this._id member.userId}}
-                    {{>projectCard}}
+                    {{#if project.coverImg}}
+                      {{>projectCard currentDoc=project}}
+                    {{else}}
+                      {{>projectCardCoverless currentDoc=project}}
+                    {{/if}}
                   {{ /if }}
                 {{/each}}
               {{/each}}
