@@ -22,3 +22,28 @@
     {{/if}}
   {{/if}}
 </template>
+
+<template name="editSkills">
+  {{#if $and editActive ($eq currentUser._id currentDoc._id) }}
+    {{#autoForm id="editSkills" type="update" doc=currentDoc collection=currentCollection }}
+    <div class="form-group">
+      {{> afFieldInput name="profile.skills" type="tags" maxTags=20 maxChars=20 trimValue=true placeholder="Tags eingeben" }}
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+      <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
+    </div>
+    {{/autoForm}}
+    {{ else }}
+      {{#if currentDoc.profile.skills}}
+        {{currentDoc.profile.skills}}
+      {{else}}
+        {{#if $eq currentUser._id currentDoc._id}}
+          <span class="text-primary"><em>Tags hinzufügen</em></span>
+        {{/if}}
+      {{/if}}
+      {{#if $eq currentUser._id currentDoc._id}}
+        <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-tags"></span></a>
+      {{/if}}
+    {{/if}}
+</template>

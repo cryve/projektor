@@ -1,6 +1,7 @@
 <template name="userProfile">
-  
+  {{#if $eq currentUser._id this._id}}
     {{> uploadForm}}
+  {{/if}}
     <img src= {{getAvatarURL currentUser._id "avatar"}} />
     <h1>{{currentUser.profile.firstname}} {{currentUser.profile.lastname}}<br><span>{{currentUser.profile.study}}</span></h1>
     <br>
@@ -11,9 +12,43 @@
       {{> editAboutMe currentDoc=this currentCollection=getUserCollection }}
      </div> 
   </div>
+    
+  <div class="row">
+    <div class="col-sm-12">
+       <p>{{> editSkills currentDoc=this currentCollection=getUserCollection }}</p>
+    </div> <!-- /.col Tags -->
 
-
-
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="project-cards">
+        <div>Meine erstellten Projekte</div>
+        <ul>
+            {{#each project in projects}}
+              {{#if $eq this._id project.owner.userId}}
+                {{>projectCard}}
+              {{ /if }}
+            {{/each}}
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="project-cards">
+        <div>Mitglied der Projekte</div>
+          <ul>
+              {{#each project in projects}}
+                {{#each member in project.team}}
+                  {{#if $eq this._id member.userId}}
+                    {{>projectCard}}
+                  {{ /if }}
+                {{/each}}
+              {{/each}}
+         </ul>
+      </div>
+    </div>
+  </div>
         <!--{{#if $eq currentUser._id this._id}}
             {{>editProfile}}
 
