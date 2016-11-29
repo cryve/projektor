@@ -6,11 +6,7 @@ Template.navigationBar.helpers({
       return Session.get('result');
   },
   
-  collectionFinder: function() {
-
-      return Session.get('collectionFinder');
-  }
-})
+});
 
 Template.navigationBar.events({
   "click .create-project-btn" (event) {
@@ -19,7 +15,6 @@ Template.navigationBar.events({
       var lastDraft = ProjectDrafts.findOne({"owner.userId": Meteor.userId()});
       let draftId;
       Session.set('result', "null");
-      Session.set('collectionFinder', true);
       if (lastDraft && lastDraft._id) {
         draftId = lastDraft._id;
       } else {

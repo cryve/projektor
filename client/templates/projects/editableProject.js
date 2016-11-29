@@ -23,16 +23,12 @@ Template.editableProject.helpers({
     return Session.get('slot');
   },
   
-  collectionFinder: function() {
-
-      return Session.get('collectionFinder');
-  },
 
   log (data) {
     console.log(data);
   },
   getCollection() {
-    if(Session.get('collectionFinder')){
+    if(this.isNewProject){
       return ProjectDrafts;
     }
     else{
@@ -71,12 +67,12 @@ Template.editableProject.events({
     console.log(this);
     ProjectDrafts.remove(this._id);
     Router.go("projectDetails", {_id: newId, title: title});
-    Session.set('result', "null")
+    Session.set('result', "null");
   },
   "click #btn-abort" (event) {
     ProjectDrafts.remove(this._id);
     Router.go("landingPage");
-    Session.set('result', "null")
+    Session.set('result', "null");
   },
   "click .btn-edit-owner" (event) {
     Template.instance().editOwnerActive.set(true);
