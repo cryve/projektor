@@ -1,21 +1,32 @@
 <template name="userProfile">
+  
+    {{> uploadForm}}
+    <img src= {{getAvatarURL currentUser._id "avatar"}} />
+    <h1>{{currentUser.profile.firstname}} {{currentUser.profile.lastname}}<br><span>{{currentUser.profile.study}}</span></h1>
+    <br>
+  
+  <div class="row">
+    <div class="col-sm-12">
+        {{log this}}
+      {{> editAboutMe currentDoc=this currentCollection=getUserCollection }}
+     </div> 
+  </div>
 
 
 
-
-        {{#if $eq currentUser._id this._id}}
+        <!--{{#if $eq currentUser._id this._id}}
             {{>editProfile}}
 
         {{else}}
 
             {{>normalProfile}}
 
-        {{ /if }}
+        {{ /if }}-->
 
 
 </template>
 
-<template name="editProfile">
+<!--<template name="editProfile">
 
 
 
@@ -50,25 +61,22 @@
 <template name="normalProfile">
     <aside class="profile-card">
       <header>
-        <!-- here’s the avatar -->
+
         <a target="_blank" href="#">
           <img src="/img/samples/member_icon02.png" class="hoverZoomLink" >
         </a>
 
-        <!-- the username -->
         <h1>
               {{currentUser.lastname}}
 
               </h1>
 
-        <!-- and role or location -->
         <h2>
                 Better Visuasls
               </h2>
 
       </header>
 
-      <!-- bit of a bio; who are you? -->
       <div class="profile-bio">
 
         <p>
@@ -79,4 +87,4 @@
 
 
     </aside>
-</template>
+</template> -->
