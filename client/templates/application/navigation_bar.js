@@ -4,6 +4,11 @@ Template.navigationBar.helpers({
   result: function() {
 
       return Session.get('result');
+  },
+  
+  collectionFinder: function() {
+
+      return Session.get('collectionFinder');
   }
 })
 
@@ -13,8 +18,8 @@ Template.navigationBar.events({
       // Go to a not finished draft if exists, else go to new draft
       var lastDraft = ProjectDrafts.findOne({"owner.userId": Meteor.userId()});
       let draftId;
-      Session.set('result', "null")
-
+      Session.set('result', "null");
+      Session.set('collectionFinder', true);
       if (lastDraft && lastDraft._id) {
         draftId = lastDraft._id;
       } else {

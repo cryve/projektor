@@ -6,11 +6,11 @@ import {Images} from "/lib/images.collection.js";
 import "./new_project.html";
 
 
-Template.newProject.onCreated(function() {
+Template.editableProject.onCreated(function() {
   this.editOwnerActive = new ReactiveVar(false);
 });
 
-Template.newProject.helpers({
+Template.editableProject.helpers({
 
   
   result: function() {
@@ -22,13 +22,23 @@ Template.newProject.helpers({
 
     return Session.get('slot');
   },
+  
+  collectionFinder: function() {
 
+      return Session.get('collectionFinder');
+  },
 
   log (data) {
     console.log(data);
   },
-  getDraftsCollection() {
-    return ProjectDrafts;
+  getCollection() {
+    if(Session.get('collectionFinder')){
+      return ProjectDrafts;
+    }
+    else{
+      return Projects;
+    }
+    
   },
   suggestedUsers(firstOption) {
     var users = Meteor.users.find({});
@@ -54,7 +64,7 @@ Template.newProject.helpers({
   },
 });
 
-Template.newProject.events({
+Template.editableProject.events({
   "click #btn-create" (event) {
     var title = this.title;
     var newId = Projects.insert(this);
