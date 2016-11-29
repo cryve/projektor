@@ -1,0 +1,69 @@
+.thumbnails {
+  display: flex;
+  justify-content: space-between
+}
+
+.img-placeholder {
+  height: 500px;
+  max-height: auto;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.thumbnail-placeholder {
+  height: 65px;
+  max-height: auto;
+  width: 115px;
+  max-width: 100%;
+}
+
+.toggle-edit-team {
+  display: block;
+}
+
+.toggle-edit-team:hover + .edit-toggle {
+  display: block;
+}
+
+.edit-toggle {
+  display: none;
+}
+
+.btn-round {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.btn-round.btn-lg {
+    width: 50px;
+    height: 50px;
+}
+
+.editable-icon {
+  visibility: hidden;
+}
+
+.editable:hover {
+  cursor: pointer;
+}
+
+.editable:hover + .editable-icon {
+  visibility: visible;
+}
+
+.underline-input {
+  border: 0;
+  height: 100%;
+  margin-left: 1px;
+  box-shadow: 0px 5px 0px -1px #ebebeb, 0 5px 0px -1px #ebebeb;
+  -webkit-transition: box-shadow 0.3s;
+  transition: box-shadow 0.3s;
+  font-size: 100%;
+}
+
+.underline-input:focus {
+  outline: none;
+  box-shadow: 0px 5px 0px -1px #337ab7, 0px 5px 0px -1px #337ab7;
+}
