@@ -3,14 +3,14 @@ import {Projects} from "/lib/collections/projects.js" ;
 import {ProjectDrafts} from "/lib/collections/project_drafts.js";
 import {Images} from "/lib/images.collection.js";
 
-import "./new_project.html";
+import "./editableProject.html";
 
 
-Template.newProject.onCreated(function() {
+Template.editableProject.onCreated(function() {
   this.editOwnerActive = new ReactiveVar(false);
 });
 
-Template.newProject.helpers({
+Template.editableProject.helpers({
 
   
   result: function() {
@@ -22,13 +22,19 @@ Template.newProject.helpers({
 
     return Session.get('slot');
   },
-
+  
 
   log (data) {
     console.log(data);
   },
-  getDraftsCollection() {
-    return ProjectDrafts;
+  getCollection() {
+    if(this.isNewProject){
+      return ProjectDrafts;
+    }
+    else{
+      return Projects;
+    }
+    
   },
   suggestedUsers(firstOption) {
     var users = Meteor.users.find({});
@@ -54,19 +60,19 @@ Template.newProject.helpers({
   },
 });
 
-Template.newProject.events({
+Template.editableProject.events({
   "click #btn-create" (event) {
     var title = this.title;
     var newId = Projects.insert(this);
     console.log(this);
     ProjectDrafts.remove(this._id);
     Router.go("projectDetails", {_id: newId, title: title});
-    Session.set('result', "null")
+    Session.set('result', "null");
   },
   "click #btn-abort" (event) {
     ProjectDrafts.remove(this._id);
     Router.go("landingPage");
-    Session.set('result', "null")
+    Session.set('result', "null");
   },
   "click .btn-edit-owner" (event) {
     Template.instance().editOwnerActive.set(true);

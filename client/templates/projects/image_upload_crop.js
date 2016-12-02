@@ -5,7 +5,7 @@ import { Projects } from "/lib/collections/projects.js" ;
 import {ProjectDrafts} from "/lib/collections/project_drafts.js";
 
 import './image_upload_crop.html';
-import './project_details.html';
+
 
 
 
