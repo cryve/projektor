@@ -197,7 +197,6 @@
 
 <template name="addJob">
   {{#if $eq currentUser._id currentDoc.owner.userId }}
-    <li>
       <button id="btn-add-job" class="btn btn-primary btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
       {{#if editActive }}
         {{#autoForm id="addJob" type="update-pushArray" doc=currentDoc collection=currentCollection scope="jobs"}}
@@ -210,7 +209,6 @@
           </div>
         {{/autoForm}}
       {{/if}}
-    </li>
   {{/if}}
 </template>
 

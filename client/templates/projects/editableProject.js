@@ -81,3 +81,5 @@ Template.editableProject.events({
     Template.instance().editOwnerActive.set(false);
   },
 });
+
+

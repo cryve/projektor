@@ -40,3 +40,153 @@ Template.editSkills.events({
     Template.instance().editActive.set(false);
   },
 });
+
+Template.contactItemUser.onCreated(function() {
+  this.editActive = new ReactiveVar(false);
+});
+
+Template.contactItemUser.helpers({
+  editActive() {
+    return Template.instance().editActive.get();
+  },
+  contactMediumField () {
+    return "profile.contacts." + this.slot + ".medium";
+  },
+  contactApproachField() {
+    return "profile.contacts." + this.slot + ".approach";
+  },
+  mediumOptions() {
+    return [
+      {value: "E-Mail" ,label: "E-Mail"},
+      {value: "Skype" ,label: "Skype"},
+      {value: "Telefon" ,label: "Telefon"},
+      {value: "Whatsapp" ,label: "Whatsapp"},
+      {value: "SMS" ,label: "SMS"},
+      {value: "Facebook" ,label: "Facebook"},
+      {value: "Google+" ,label: "Google+"},
+      {value: "Treffpunkt" ,label: "Treffpunkt"},
+      {value: "Sonstiges" ,label: "Sonstiges"},
+    ];
+  },
+});
+
+Template.contactItemUser.events({
+  "click .btn-delete-contact" (event) {
+    let currentContacts = this.currentDoc.profile.contacts;
+    currentContacts.splice(this.slot, 1);
+    this.currentCollection.update(this.currentDoc._id, {$set: {"profile.contacts": currentContacts}});
+  },
+  "click .btn-edit-contact" (event) {
+    Template.instance().editActive.set(true);
+  },
+  "click .btn-abort-editing" (event) {
+    Template.instance().editActive.set(false);
+  },
+});
+
+Template.addContactUser.onCreated(function() {
+  this.editActive = new ReactiveVar(false);
+});
+
+Template.addContactUser.helpers({
+  editActive () {
+    return Template.instance().editActive.get();
+  },
+  mediumOptions() {
+    return [
+      {},
+      {value: "E-Mail" ,label: "E-Mail"},
+      {value: "Skype" ,label: "Skype"},
+      {value: "Telefon" ,label: "Telefon"},
+      {value: "Whatsapp" ,label: "Whatsapp"},
+      {value: "SMS" ,label: "SMS"},
+      {value: "Facebook" ,label: "Facebook"},
+      {value: "Google+" ,label: "Google+"},
+      {value: "Treffpunkt" ,label: "Treffpunkt"},
+    ];
+  },
+});
+
+Template.addContactUser.events({
+  "click #btn-add-contact" (event) {
+    Template.instance().editActive.set(true);
+  },
+  "click .btn-abort-adding" (event) {
+    Template.instance().editActive.set(false);
+  },
+});
+
+Template.linkItem.onCreated(function() {
+  this.editActive = new ReactiveVar(false);
+});
+
+Template.linkItem.helpers({
+  editActive() {
+    return Template.instance().editActive.get();
+  },
+  linkMediumField () {
+    return "profile.links." + this.slot + ".medium";
+  },
+  linkApproachField() {
+    return "profile.links." + this.slot + ".approach";
+  },
+  mediumOptions() {
+    return [
+      {value: "E-Mail" ,label: "E-Mail"},
+      {value: "Skype" ,label: "Skype"},
+      {value: "Telefon" ,label: "Telefon"},
+      {value: "Whatsapp" ,label: "Whatsapp"},
+      {value: "SMS" ,label: "SMS"},
+      {value: "Facebook" ,label: "Facebook"},
+      {value: "Google+" ,label: "Google+"},
+      {value: "Treffpunkt" ,label: "Treffpunkt"},
+      {value: "Sonstiges" ,label: "Sonstiges"},
+    ];
+  },
+});
+
+Template.linkItem.events({
+  "click .btn-delete-contact" (event) {
+    let currentLinks = this.currentDoc.profile.links;
+    currentLinks.splice(this.slot, 1);
+    this.currentCollection.update(this.currentDoc._id, {$set: {"profile.links": currentLinks}});
+  },
+  "click .btn-edit-contact" (event) {
+    Template.instance().editActive.set(true);
+  },
+  "click .btn-abort-editing" (event) {
+    Template.instance().editActive.set(false);
+  },
+});
+
+Template.addLinks.onCreated(function() {
+  this.editActive = new ReactiveVar(false);
+});
+
+Template.addLinks.helpers({
+  editActive () {
+    return Template.instance().editActive.get();
+  },
+  mediumOptions() {
+    return [
+      {},
+      {value: "E-Mail" ,label: "E-Mail"},
+      {value: "Skype" ,label: "Skype"},
+      {value: "Telefon" ,label: "Telefon"},
+      {value: "Whatsapp" ,label: "Whatsapp"},
+      {value: "SMS" ,label: "SMS"},
+      {value: "Facebook" ,label: "Facebook"},
+      {value: "Google+" ,label: "Google+"},
+      {value: "Treffpunkt" ,label: "Treffpunkt"},
+    ];
+  },
+});
+
+Template.addLinks.events({
+  "click #btn-add-contact" (event) {
+    Template.instance().editActive.set(true);
+  },
+  "click .btn-abort-adding" (event) {
+    Template.instance().editActive.set(false);
+  },
+});
