@@ -4,7 +4,43 @@ import {Images} from "/lib/images.collection.js";
 import {Template} from "meteor/templating" ;
 
 import "./gallery.html";
+Template.setVideoLink.onCreated(function() {
+  this.editActive = new ReactiveVar(false);
+});
 
+Template.video.helpers({
+  getUrlId(){
+    var slot = Session.get('slot');
+    return this.media[slot].id;
+  }
+});
+
+Template.setVideoLink.helpers({
+  editActive () {
+    return Template.instance().editActive.get();
+  },
+  videoLinkField () {
+    return "media." + this.slot + ".id";
+  },
+});
+
+Template.setVideoLink.events({
+  "click #video-link-button" (event) {
+    Template.instance().editActive.set(true);
+    console.log(this); //this
+  },
+  "click .btn-abort-adding" (event) {
+    Template.instance().editActive.set(false);
+  },
+  
+  "click .btn-set-type" (event, template) {
+    var currentArray = template.data.media;
+    var currentSlot = template.data.slot;
+    var collection = template.data.collection;
+    currentArray[currentSlot].type = "URL";
+    collection.update( { _id: template.data.projectId }, { $set: { 'media': currentArray }} );
+  },
+});
 
 
 Template.deleteImageButton.onCreated (function(){
@@ -45,10 +81,10 @@ Template.setTitleImageButton.events({
 
   "click #title-image-button" (event, template){
    const target = event.target;
-   var currentArray = template.data.pictures;
+   var currentArray = template.data.media;
    var currentSlot = template.data.slot;
    var collection = template.data.collection;
-   collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': currentArray[currentSlot] }} );
+   collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': currentArray[currentSlot].id }} );
    Template.instance().setCover.set(true);
     
   },
@@ -60,32 +96,33 @@ Template.setTitleImageButton.events({
 Template.deleteImageButton.events({
   
    "click #delete-image-button" (event, template){
-   var currentArray = template.data.pictures;
+   var currentArray = template.data.media;
    var currentSlot = template.data.slot;
    var currentCover = template.data.coverImg;
    var collection = template.data.collection;
-   console.log(currentArray[currentSlot]);
+   console.log(currentArray[currentSlot].id);
    console.log(currentCover);
-   if (currentArray[currentSlot] != null){
-    Images.remove({_id: currentArray[currentSlot]}); 
+   if (currentArray[currentSlot].id != null){
+    Images.remove({_id: currentArray[currentSlot].id}); 
    };
      
-   if(currentCover === currentArray[currentSlot] ){
-     currentArray[currentSlot] = null; 
+   if(currentCover === currentArray[currentSlot].id ){
+     currentArray[currentSlot].id = null; 
      var newCoverImage = null;
      
      for (var i = 0; i < 5; i++) {
       
-        if (currentArray[i] != null){
-            newCoverImage = currentArray[i];
+        if (currentArray[i].id != null){
+            newCoverImage = currentArray[i].id;
             break;
         }
      }
      console.log(newCoverImage);
      collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': newCoverImage }} ); 
    } 
-   currentArray[currentSlot] = null;   
-   collection.update( { _id: template.data.projectId }, { $set: { 'pictures': currentArray }} );  
+   currentArray[currentSlot].id = null;   
+   currentArray[currentSlot].type = null;
+   collection.update( { _id: template.data.projectId }, { $set: { 'media': currentArray }} );  
    Template.instance().setEmptyPreview.set(true);
    Session.set('result', undefined)
   
@@ -111,6 +148,31 @@ Template.wholeGallery.onCreated(function() {
 Template.wholeGallery.helpers({
   log (data) {
     console.log(data);
+  },
+  getVideoImage(id){
+    var currentArray = this.currentDoc.media;
+    var url = id;
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+    var match = url.match(regExp);
+    var newUrlId = (match&&match[7].length==11)? match[7] : false;
+    var newUrl = "http://img.youtube.com/vi/"+newUrlId+"/0.jpg"
+    return newUrl;
+  },
+  urlId(){
+    var slot = Session.get('slot');
+    var currentArray = this.currentDoc.media;
+    var url = this.currentDoc.media[slot].id;
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+    var match = url.match(regExp);
+    var newUrlId = (match&&match[7].length==11)? match[7] : false;
+    var newUrl = "https://www.youtube.com/embed/"+newUrlId
+    console.log(newUrl);
+    currentArray[slot].id = newUrl;
+    this.currentCollection.update({_id: this.currentDoc.id}, {$set: {'media': currentArray}});
+  },
+  getMediaType(){
+    var slot = Session.get('slot');
+    return this.currentDoc.media[slot].type;
   },
   getProjectCollection(){
       return Projects;
@@ -139,19 +201,19 @@ Template.wholeGallery.helpers({
     return Session.get('slot');
   },
 
-    getFirstImageId(){
-       Session.set('result', "null");
-       for (var i = 0; i < this.currentDoc.pictures.length; i++) {
+  getFirstImageId(){
+     Session.set('result', "null");
+     for (var i = 0; i < this.currentDoc.media.length; i++) {
 
-          if (this.currentDoc.pictures[i] != null){
-              console.log(this.currentDoc.pictures[i]);
-              Session.set('slot', i)
-              return Session.set('result', this.currentDoc.pictures[i] )
-          }
+        if (this.currentDoc.media[i].type == "image"){
+            console.log(this.currentDoc.media[i].id);
+            Session.set('slot', i)
+            return Session.set('result', this.currentDoc.media[i].id )
+        }
 
-       }
+     }
 
-    },
+  },
 
 });
 
@@ -160,11 +222,12 @@ Template.wholeGallery.helpers({
 Template.wholeGallery.events({
   
   "click #edit-gallery-button" (event){
-    if(!this.currentDoc.pictures) {
+    if(!this.currentDoc.media) {
       Session.set('slot', 0);
-      var picturesEmpty = ["", "", "", "", ""];
-      this.currentCollection.update(this.currentDoc._id, {$set: {pictures: picturesEmpty}});
+      var mediaEmpty = [{type: null, id: null}, {type: null, id: null},{type: null, id: null}, {type: null, id: null}, {type: null, id: null}];
+      this.currentCollection.update(this.currentDoc._id, {$set: {media: mediaEmpty}});
       this.currentCollection.update(this.currentDoc._id, {$set: {coverImg: null}});
+      
     }
 
     const target = event.target;

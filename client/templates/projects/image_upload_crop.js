@@ -46,22 +46,24 @@ Template.uploadFormCrop.events({
           if (error) {
             alert('Error during upload: ' + error.reason);
           } else {
-            var currentArray = template.data.pictures;
+            var currentArray = template.data.media;
             var currentSlot = template.data.slot;
             var currentCover = template.data.coverImg;
             var collection = template.data.collection;
             alert('File "' + fileObj.name + '" successfully uploaded to ' + currentSlot);
-            if(currentCover == currentArray[currentSlot] ){
-              Images.remove({_id: currentArray[currentSlot]}); 
-              currentArray[currentSlot] = fileObj._id;
-              collection.update( { _id: template.data.projectId }, { $set: { 'pictures': currentArray }} );
+            if(currentCover == currentArray[currentSlot].id ){
+              Images.remove({_id: currentArray[currentSlot].id}); 
+              currentArray[currentSlot].id = fileObj._id;
+              currentArray[currentSlot].type = "image";
+              collection.update( { _id: template.data.projectId }, { $set: { 'media': currentArray }} );
               collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': fileObj._id }} );
             }  
             else{
-              Images.remove({_id: currentArray[currentSlot]}); 
-              currentArray[currentSlot] = fileObj._id;
+              Images.remove({_id: currentArray[currentSlot].id}); 
+              currentArray[currentSlot].id = fileObj._id;
+              currentArray[currentSlot].type = "image";
               console.log("Storing image with URL " + fileObj._id + " in slot: " + currentSlot);
-              collection.update( { _id: template.data.projectId }, { $set: { 'pictures': currentArray }} );
+              collection.update( { _id: template.data.projectId }, { $set: { 'media': currentArray }} );
             }
             Session.set('result', fileObj._id);
           }

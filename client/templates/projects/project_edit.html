@@ -152,7 +152,7 @@
 
 <template name="editTags">
   {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
-    {{#autoForm id="editTags" type="update" doc=currentDoc collection=currentCollection }}
+    {{#autoForm id="editTags" type="update" doc=currentDoc collection=currentCollection  }}
     <div class="form-group">
       {{> afFieldInput name="tags" type="tags" maxTags=10 maxChars=20 trimValue=true placeholder="Tags eingeben" }}
     </div>

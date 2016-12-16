@@ -25,7 +25,6 @@
                   </div> <!-- /.row Tags -->
                   
                   <br>
-                  {{log this}}
                   {{#if this.isNewProject}}
                     <button id="btn-abort" class="btn btn-default">Abbrechen</button>
                     <button id="btn-create" class="btn btn-primary">Projekt erstellen</button>
@@ -95,7 +94,7 @@
             </div> <!-- /.col-md-4 -->
       </div><!-- /.row -->
     </div> <!-- /.container -->
-
+  <div id="player"></div>
   {{else}}
     {{>loginPage}}
   {{/if}}

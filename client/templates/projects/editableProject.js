@@ -83,3 +83,4 @@ Template.editableProject.events({
 });
 
 
+// Make sure it's in client
