@@ -47,3 +47,85 @@
       {{/if}}
     {{/if}}
 </template>
+
+<template name="addContactUser">
+  {{#if $eq currentUser._id currentDoc._id }}
+    <li>
+      <button id="btn-add-contact" class="btn btn-primary btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
+      {{#if editActive }}
+        {{#autoForm id="addContactUser" type="update-pushArray" doc=currentDoc collection=currentCollection scope="profile.contacts"}}
+          <div class="form-group">
+            {{> afFieldInput name="medium" type="select2" options=mediumOptions placeholder="Neues Kommunikationsmittel hinzufügen" }}
+            {{> afFieldInput name="approach" type="text" placeholder="Details zur Kontaktaufnahme"}}
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
+            <button type="reset" class="btn btn-default btn-abort-adding"><span class="glyphicon glyphicon-remove"></span></button>
+          </div>
+        {{/autoForm}}
+      {{/if}}
+    </li>
+  {{/if}}
+</template>
+
+<template name="contactItemUser">
+  <li>
+    {{#if $and editActive ($eq currentUser._id currentDoc._id) }}
+      {{#autoForm id="contactItemUser" type="update" doc=currentDoc collection=currentCollection setArrayItems=true}}
+        {{> afFieldInput name=contactMediumField type="select2" options=mediumOptions placeholder="Kontaktmittel auswählen" }}
+        {{> afFieldInput name=contactApproachField type="text" options=mediumOptions placeholder="Details zur Kontaktaufnahme"}}
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+          <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+      {{/autoForm}}
+    {{else}}
+      {{medium}}: {{approach}}
+      {{#if $eq currentUser._id currentDoc._id}}
+        <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-contact"></span></a>
+        <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-contact"></span></a>
+      {{/if}}
+    {{/if}}
+  </li>
+</template>
+
+<template name="addLinks">
+  {{#if $eq currentUser._id currentDoc._id }}
+    <li>
+      <button id="btn-add-contact" class="btn btn-primary btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
+      {{#if editActive }}
+        {{#autoForm id="addLinks" type="update-pushArray" doc=currentDoc collection=currentCollection scope="profile.links"}}
+          <div class="form-group">
+            {{> afFieldInput name="medium" type="select2" options=mediumOptions placeholder="Neues Kommunikationsmittel hinzufügen" }}
+            {{> afFieldInput name="approach" type="text" placeholder="Details zur Kontaktaufnahme"}}
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
+            <button type="reset" class="btn btn-default btn-abort-adding"><span class="glyphicon glyphicon-remove"></span></button>
+          </div>
+        {{/autoForm}}
+      {{/if}}
+    </li>
+  {{/if}}
+</template>
+
+<template name="linkItem">
+  <li>
+    {{#if $and editActive ($eq currentUser._id currentDoc._id) }}
+      {{#autoForm id="linkItem" type="update" doc=currentDoc collection=currentCollection setArrayItems=true}}
+        {{> afFieldInput name=linkMediumField type="select2" options=mediumOptions placeholder="Kontaktmittel auswählen" }}
+        {{> afFieldInput name=linkApproachField type="text" options=mediumOptions placeholder="Details zur Kontaktaufnahme"}}
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-abort-editing"><span class="glyphicon glyphicon-ok"></span></button>
+          <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+      {{/autoForm}}
+    {{else}}
+      {{medium}}: {{approach}}
+      {{#if $eq currentUser._id currentDoc._id}}
+        <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-contact"></span></a>
+        <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-contact"></span></a>
+      {{/if}}
+    {{/if}}
+  </li>
+</template>

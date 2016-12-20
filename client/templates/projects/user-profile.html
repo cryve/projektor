@@ -8,7 +8,6 @@
   
   <div class="row">
     <div class="col-sm-12">
-        {{log this}}
       {{> editAboutMe currentDoc=this currentCollection=getUserCollection }}
      </div> 
   </div>
@@ -19,6 +18,33 @@
     </div> <!-- /.col Tags -->
 
   </div>
+  
+  <div class="panel panel-default">
+      <div class="panel-heading">
+        <h2 class="panel-title">Kontakt</h2>
+      </div>
+      <div class="panel-body">
+        <ul class="list-unstyled">
+          {{#each contact in this.profile.contacts}}
+            {{>contactItemUser medium=contact.medium approach=contact.approach currentDoc=this currentCollection=getUserCollection slot=@index}}
+          {{/each}}
+          {{> addContactUser currentDoc=this currentCollection=getUserCollection }}
+        </ul>
+      </div>
+    </div> <!-- /.panel Link -->
+  <div class="panel panel-default">
+      <div class="panel-heading">
+        <h2 class="panel-title">Links</h2>
+      </div>
+      <div class="panel-body">
+        <ul class="list-unstyled">
+          {{#each link in this.profile.links}}
+            {{>linkItem medium=link.medium approach=link.approach currentDoc=this currentCollection=getUserCollection slot=@index}}
+          {{/each}}
+          {{> addLinks currentDoc=this currentCollection=getUserCollection }}
+        </ul>
+      </div>
+    </div> <!-- /.panel Link -->
   <div class="row">
     <div class="col-sm-12">
       <div class="project-cards">

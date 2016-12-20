@@ -15,9 +15,9 @@
         <h2 class="sub_title">{{currentDoc.subtitle}}</h2>
          <div class="category">
          <ul class="member-icons list-inline">
-          <li><a href="{{pathFor 'userProfile' _id=currentDoc.owner.userId }}"><img class="img-circle" rel="tooltip" title={{getFullUsername currentDoc.owner.userId}} src={{getAvatarURL currentDoc.owner.userId}}></a></li>
+          <li><a href="{{pathFor 'userProfile' _id=currentDoc.owner.userId }}"><img class="img-circle" rel="tooltip" title={{getFullUsername currentDoc.owner.userId}} src={{getAvatarURL currentDoc.owner.userId "avatarCard"}}></a></li>
            {{#each member in currentDoc.team}}
-          <li><a href="{{pathFor 'userProfile' _id=member.userId }}"><img class="img-circle" rel="tooltip" title={{getFullUsername member.userId}} src={{getAvatarURL member.userId}}></a></li>
+          <li><a href="{{pathFor 'userProfile' _id=member.userId }}"><img class="img-circle" rel="tooltip" title={{getFullUsername member.userId}} src={{getAvatarURL member.userId "avatarCard"}}></a></li>
            {{/each}}
          </ul> 
         </div > <!-- /.member-icons-box -->

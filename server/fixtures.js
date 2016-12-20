@@ -4,7 +4,7 @@ import { Projects } from '/lib/collections/projects.js';
 //   createdAt: new Date(),
 //   coverImg: null,
 //   title: "BeispielprojektB",
-//   pictures: ["", "", "", "", ""],
+//   media: ["", "", "", "", ""],
 //   subtitle: "Ein Beispiel für ein Projekt",
 //   description: "Dieses Projekt dient nur als Beispiel. Es zeigt den Entwicklern, ob das Layout funktioniert und wie andere Projekte später wirken. Mehr gibt's hier nicht zu sehen.",
 //   team: [{userId: "userId1", role: "3D-Design, Kaffee kochen"}, {userId: "userId2", role: "Level-Design, C# programmieren"}, {userId: "userId3", role: "Bug fixing, Testing"}],

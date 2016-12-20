@@ -3,52 +3,63 @@
                     <div class="row">
                       <div class="col-sm-12">
                         {{#if $and getEditMode ($eq currentUser._id currentDoc.owner.userId)}}
-                            {{> uploadFormCrop slot=slot pictures=currentDoc.pictures projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection
+                            {{> uploadFormCrop slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection
                             }}
-            
-                          {{#if $eq currentDoc.coverImg null}}
-                            {{> previewPlaceholder}}
+                            {{> setVideoLink slot=slot media=currentDoc.media
+                            doc=currentDoc
+                            projectId=currentDoc._id collection=currentCollection }}
+                            {{#if getRefreshPreview}}
+                              {{#if $eq getMediaType "URL"}}
+                                {{urlId}}
+                                {{> deleteImageButton slot=slot media=currentDoc.media projectId=currentDoc._id  collection=currentCollection }}
+                                {{> video slot=slot media=currentDoc.media projectId=currentDoc._id collection=currentCollection}}
                               {{else}}
-                                {{#if getRefreshPreview}}
-                                  {{#if $eq currentDoc.coverImg result}}
-                                      {{> deleteImageButton slot=slot pictures=currentDoc.pictures projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection }}
-                                      {{> titleImage coverImg=currentDoc.coverImg}}
-                                  {{else}}
-                                    {{#if result}}
-                                      {{> deleteImageButton slot=slot pictures=currentDoc.pictures projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
-                                      {{> setTitleImageButton slot=slot pictures=currentDoc.pictures projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
-                                      {{> galleryPreview result}}
-                                    {{else}}
-                                      {{> previewPlaceholder}}
-                                    {{/if}}
-                                  {{/if}}
-
-
+                                {{#if $eq currentDoc.coverImg result}}
+                                  {{> deleteImageButton slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection }}
+                                  {{> titleImage coverImg=currentDoc.coverImg}}
                                 {{else}}
-                                  {{getFirstImageId}}
-
-                                  {{#if $eq currentDoc.coverImg result}}
-                                      {{> deleteImageButton slot=slot pictures=currentDoc.pictures projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
-                                      {{> galleryPreview result}}
-                                  {{else}}
-                                    {{> deleteImageButton slot=slot pictures=currentDoc.pictures projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection }}
-                                    {{> setTitleImageButton slot=slot pictures=currentDoc.pictures projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
+                                  {{#if result}}
+                                    {{> deleteImageButton slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
+                                    {{> setTitleImageButton slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
                                     {{> galleryPreview result}}
+                                  {{else}}
+                                    {{> previewPlaceholder}}
                                   {{/if}}
                                 {{/if}}
                               {{/if}}
 
 
-                        {{else}}
-                          {{#if $eq currentDoc.coverImg null}}
-
-                          {{else}}
-                            {{#if getRefreshPreview}}
-                              {{> galleryPreview result}}
                             {{else}}
                               {{getFirstImageId}}
-                              {{> galleryPreview result}}
+                              {{#if $eq currentDoc.coverImg null}}
+                                {{> previewPlaceholder}}
+                              {{else}}
+                                {{#if $eq currentDoc.coverImg result}}
+                                    {{> deleteImageButton slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
+                                    {{> galleryPreview result}}
+                                {{else}}
+                                  {{> deleteImageButton slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection }}
+                                  {{> setTitleImageButton slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
+                                  {{> galleryPreview result}}
+                                {{/if}}
+                              {{/if}}
                             {{/if}}
+                             
+
+
+                        {{else}}
+                          {{#if getRefreshPreview}}
+                            {{#if $eq getMediaType "URL"}}
+                                {{urlId}}
+                                {{> video slot=slot media=currentDoc.media projectId=currentDoc._id collection=currentCollection}}
+                            {{else}}
+                              {{#if $eq getMediaType "image"}}
+                                {{> galleryPreview result}}
+                              {{/if}}
+                            {{/if}}
+                          {{else}}
+                            {{getFirstImageId}}
+                            {{> galleryPreview result}}
                           {{/if}}
                         {{/if}}
 
@@ -63,38 +74,50 @@
 
                       <ul class="list-inline thumbnails">
                           {{#if $and getEditMode ($eq currentUser._id currentDoc.owner.userId)}}
-                            {{#each image in currentDoc.pictures}}
+                            {{#each image in currentDoc.media}}
                               <div class="mergeInputImage">
-                             <!--{{>uploadFormCrop slot=1 pictures=pictures projectId=_id }}
-                                 {{>uploadFormCrop slot=2 pictures=pictures projectId=_id }}
-                                 {{>uploadFormCrop slot=3 pictures=pictures projectId=_id }}
-                                 {{>uploadFormCrop slot=4 pictures=pictures projectId=_id }}-->
-                                  {{#if $eq image null}}
+                                  {{#if $eq image.type null}}
                                     <li>
-                                      <button data-value="{{image}}" data-slot={{@index}} type="button" class="edit_button">
+                                      <button data-value="{{image.id}}" data-slot={{@index}} type="button" class="edit_button">
                                         <div class="well thumbnail-placeholder"></div>
                                       </button>
                                     </li>
                                   {{else}}
-                                    <li>
-                                      <button data-value="{{image}}" data-slot={{@index}} type="button" class="edit_button ">
-                                        <img class="img-responsive "  src= {{getImgURL image "thumbnail115"}} alt="">
+                                    {{#if $eq image.type "URL"}}
+                                      <li>
+                                      <button data-value="{{image.id}}" data-slot={{@index}} type="button" class="edit_button ">
+                                        <img class="img-responsive videoImage "  src= {{getVideoImage image.id}}>
                                       </button>
                                     </li>
+                                    {{else}}
+                                      <li>
+                                        <button data-value="{{image.id}}" data-slot={{@index}} type="button" class="edit_button ">
+                                          <img class="img-responsive "  src= {{getImgURL image.id "thumbnail115"}} alt="">
+                                        </button>
+                                      </li>
+                                    {{/if}}
                                   {{/if}}
                                 </div>
                             {{/each}}
                           {{else}}
-                            {{#each image in currentDoc.pictures}}
-                              {{#if image }}
+                            {{#each image in currentDoc.media}}
+                              {{#if $eq image.type "image" }}
                                 <li>
-                                  <button data-value="{{image}}" data-slot={{@index}} type="button" class="edit_button ">
+                                  <button data-value="{{image.id}}" data-slot={{@index}} type="button" class="edit_button ">
 
-                                    <img class="img-responsive" src= {{getImgURL image "thumbnail115"}} alt="">
+                                    <img class="img-responsive" src= {{getImgURL image.id "thumbnail115"}} alt="">
 
                                   </button>
                                 </li>
                               {{else}}
+                                {{#if $eq image.type "URL"}}
+                                  <li>
+                                  <button data-value="{{image.id}}" data-slot={{@index}} type="button" class="edit_button ">
+                                    <img class="img-responsive videoImage "  src= {{getVideoImage image.id}}>
+                                  </button>
+                                </li>
+                                {{/if}}
+                                
 
                               {{/if}}
                             {{/each}}
@@ -117,6 +140,25 @@
                 </div> 
 </template>
 
+<template name="video">
+  <iframe width="750" height="500" src={{getUrlId}}>
+  </iframe>
+</template>
+
+<template name="setVideoLink">
+  <button id="video-link-button" class="btn btn-primary navbar-btn navbar-right">Video Link</button>
+  {{#if editActive }}
+    {{#autoForm id="setVideoLink" type="update" doc=doc collection=collection setArrayItems=true}}
+      <div class="form-group">
+        {{> afFieldInput name=videoLinkField type="text" placeholder="Video Link hinzufügen" }}
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-set-type"><span class="glyphicon glyphicon-ok"></span></button>
+        <button type="reset" class="btn btn-default btn-abort-adding"><span class="glyphicon glyphicon-remove"></span></button>
+      </div>
+    {{/autoForm}}
+  {{/if}}
+</template>
 
 <template name="previewPlaceholder">
   <div class="well preview-placeholder"></div>
@@ -150,9 +192,10 @@
 
 <template name="galleryPreviewStart">
   
-    <img class="img-responsive" src={{getImgURL pictures.[0] "preview"}} alt="">
+    <img class="img-responsive" src={{getImgURL media.[0] "preview"}} alt="">
 
 </template>
+
 
 
 
@@ -183,7 +226,7 @@
 
 <template name="galleryPreviewStartNew">
   
-    <img class="img-responsive" src={{getImgURL pictures.[0] "preview"}} alt="">
+    <img class="img-responsive" src={{getImgURL media.[0] "preview"}} alt="">
 
 </template>
 
