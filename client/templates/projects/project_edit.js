@@ -302,3 +302,116 @@ Template.editOwnerRole.events({
     Template.instance().editActive.set(false);
   },
 });
+
+Template.editTeamCommunication.onCreated(function() {
+  this.editActive = new ReactiveVar(false);
+});
+
+Template.editTeamCommunication.helpers({
+  editActive () {
+    return Template.instance().editActive.get();
+  },
+  isTeamMember(userId, team) {
+    let isMember = false;
+    if (this.currentDoc.owner.userId == userId) {
+      isMember = true;
+    } else if (team) {
+      team.forEach(function(member) {
+        if (member.userId == userId) {
+          isMember = true;
+        }
+      });
+    }
+    return isMember;
+  },
+});
+
+Template.editTeamCommunication.events({
+  "click .btn-edit-teamcomm" (event) {
+    Template.instance().editActive.set(true);
+  },
+  "click .btn-abort-editing" (event) {
+    Template.instance().editActive.set(false);
+  },
+});
+
+Template.editTeamCommItem.helpers({
+  teamCommMediumField() {
+    return "teamCommunication." + this.slot + ".medium";
+  },
+  teamCommUrlField() {
+    return "teamCommunication." + this.slot + ".url";
+  },
+  teamCommIsPrivateField() {
+    return "teamCommunication." + this.slot + ".isPrivate";
+  },
+  mediumOptions() {
+    return [
+      {},
+      {value: "Rundmails" ,label: "Rundmails"},
+      {value: "Skype" ,label: "Skype"},
+      {value: "Telefon" ,label: "Telefon"},
+      {value: "Whatsapp" ,label: "Whatsapp"},
+      {value: "SMS" ,label: "SMS"},
+      {value: "Facebook" ,label: "Facebook"},
+      {value: "Google+" ,label: "Google+"},
+      {value: "Meeting" ,label: "Meeting"},
+      {value: "Github" ,label: "Github"},
+      {value: "BitBucket" ,label: "BitBucket"},
+      {value: "Slack" ,label: "Slack"},
+      {value: "GitLab" ,label: "GitLab"},
+      {value: "Dropbox" ,label: "Dropbox"},
+      {value: "GoogleDrive" ,label: "GoogleDrive"},
+      {value: "Trello" ,label: "Trello"},
+      {value: "Hangouts" ,label: "Hangouts"},
+    ];
+  },
+});
+
+Template.editTeamCommItem.events({
+  "click .btn-delete-teamcomm" (event) {
+    let currentTeamComms = this.currentDoc.teamCommunication;
+    currentTeamComms.splice(this.slot, 1);
+    this.currentCollection.update(this.currentDoc._id, {$set: {teamCommunication: currentTeamComms}});
+  },
+});
+
+Template.addTeamCommItem.onCreated(function() {
+  this.editActive = new ReactiveVar(false);
+});
+
+Template.addTeamCommItem.helpers({
+  editActive () {
+    return Template.instance().editActive.get();
+  },
+  mediumOptions() {
+    return [
+      {},
+      {value: "Rundmails" ,label: "Rundmails"},
+      {value: "Skype" ,label: "Skype"},
+      {value: "Telefon" ,label: "Telefon"},
+      {value: "Whatsapp" ,label: "Whatsapp"},
+      {value: "SMS" ,label: "SMS"},
+      {value: "Facebook" ,label: "Facebook"},
+      {value: "Google+" ,label: "Google+"},
+      {value: "Meeting" ,label: "Meeting"},
+      {value: "Github" ,label: "Github"},
+      {value: "BitBucket" ,label: "BitBucket"},
+      {value: "Slack" ,label: "Slack"},
+      {value: "GitLab" ,label: "GitLab"},
+      {value: "Dropbox" ,label: "Dropbox"},
+      {value: "GoogleDrive" ,label: "GoogleDrive"},
+      {value: "Trello" ,label: "Trello"},
+      {value: "Hangouts" ,label: "Hangouts"},
+    ];
+  },
+});
+
+Template.addTeamCommItem.events({
+  "click .btn-add-teamcomm" (event) {
+    Template.instance().editActive.set(true);
+  },
+  "click .btn-abort-adding" (event) {
+    Template.instance().editActive.set(false);
+  },
+});

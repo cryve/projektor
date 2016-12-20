@@ -328,3 +328,67 @@
     </div>
   </li>
 </template>
+
+<template name="editTeamCommunication">
+  {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
+    <div class="table table-striped">
+      <div class="table-body">
+        {{#each item in currentDoc.teamCommunication}}
+          {{> editTeamCommItem medium=item.medium url=item.url isPrivate=item.isPrivate currentDoc=currentDoc currentCollection=currentCollection slot=@index}}
+        {{/each}}
+        {{>addTeamCommItem}}
+      </div>
+    </div>
+    <button class="btn btn-primary btn-abort-editing">Speichern</button>
+  {{else}}
+    <ul class="list-inline">
+      {{#each item in currentDoc.teamCommunication }}
+        <li>
+          {{#if $or ($not item.isPrivate) (isTeamMember currentUser._id currentDoc.team) }}
+            <a href="{{item.url}}">{{item.medium}}</a>
+          {{else}}
+            {{item.medium}}
+          {{/if}}
+        </li>
+      {{/each}}
+      {{#if $eq currentUser._id currentDoc.owner.userId}}
+        <li><a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-teamcomm"></span></a></li>
+      {{/if}}
+    </ul>
+  {{/if}}
+</template>
+
+<template name="editTeamCommItem">
+  {{#autoForm id="editTeamCommItem" class="table-row" type="update" doc=currentDoc collection=currentCollection autosave=true setArrayItems=true}}
+    <div class="table-cell">
+      {{> afFieldInput name=teamCommMediumField type="select2" options=mediumOptions placeholder="Kollaborations-Mittel" }}
+    </div>
+    <div class="table-cell">
+      {{> afFieldInput name=teamCommUrlField type="url" placeholder="URL" }}
+    </div>
+    <div class="table-cell">
+      {{> afFieldInput name=teamCommIsPrivateField type="boolean-checkbox" label="schemaLabel"}}
+    </div>
+    <div class="table-cell">
+      <button class="btn btn-danger btn-delete-teamcomm"><span class="glyphicon glyphicon-trash"></span></button>
+    </div>
+  {{/autoForm}}
+</template>
+
+<template name="addTeamCommItem">
+  {{#autoForm id="addTeamCommItem" class="table-row" type="update-pushArray" doc=currentDoc collection=currentCollection scope="teamCommunication"}}
+    <div class="table-cell">
+      {{> afFieldInput name="medium" type="select2" options=mediumOptions placeholder="Neues Team-Kommunikationsmittel" }}
+    </div>
+    <div class="table-cell">
+      {{> afFieldInput name="url" type="text" placeholder="Link"}}
+    </div>
+    <div class="table-cell">
+      {{> afFieldInput name="isPrivate" type="boolean-checkbox" label="schemaLabel"}}
+    </div>
+    <div class="table-cell">
+      <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
+      <button type="reset" class="btn btn-default btn-abort-adding"><span class="glyphicon glyphicon-remove"></span></button>
+    </div>
+  {{/autoForm}}
+</template>
