@@ -10,7 +10,8 @@ AutoForm.addHooks([
   "editOccasions",
   "editSupervisors",
   "editDeadline",
-  "editOwnerRole"
+  "editOwnerRole",
+  "setVideoLink"
   ], {
   onSuccess: function(formType, result) {
     this.template.parent().editActive.set(false);

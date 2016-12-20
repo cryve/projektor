@@ -55,6 +55,8 @@
 .edit_button {
   border:none; 
   background:none;
+  position: relative;
+  left:10px;
 } 
 
 .videoImage {
