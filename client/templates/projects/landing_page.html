@@ -1,16 +1,30 @@
 <template name="landingPage">
-  {{> search}}
+  <ul class="unstyled">
+    {{#each tags }}
+    <li>
+      <a class="btn listExRemove" title="Remove this tag">x</a> {{ this }}
+    </li>
+    {{/each}}
+  </ul>
+  <br>
+  Suche: <input id="listExName" type="text"> <a class="btn" id="listExAdd">Search</a>
   <div class="project-cards">
     <div class="container">
       <div class="row">
         <ul>
-          {{#each project in projects}}
+        {{#if isSearch}}
+          {{#each project in searchFilter}}
             {{#if project.coverImg}}
               {{>projectCard currentDoc=project}}
             {{else}}
               {{>projectCardCoverless currentDoc=project}}
             {{/if}}
           {{/each}}
+        {{else}}
+          {{searchFilterNew}}
+      
+        {{/if}}
+          
         </ul>
       </div> <!-- /.row project cards -->
     </div> <!-- /.container -->
