@@ -1,25 +1,42 @@
 <template name="landingPage">
   <ul class="unstyled">
     {{#each tags }}
-    <li>
-      <a class="btn listExRemove" title="Remove this tag">x</a> {{ this }}
-    </li>
+      {{#if $eq this ""}}
+        
+      {{else}}
+        <li>        
+          <a class="btn listExRemove" title="Remove this tag">x</a> {{ this }}
+        </li>
+      {{/if}}
     {{/each}}
   </ul>
   <br>
-  Suche: <input id="listExName" type="text"> <a class="btn" id="listExAdd">Search</a>
+  Suche: 
+  <form class="new-tag">
+    <input id="listExName" type="text"> <a class="btn" id="listExAdd">Search</a>
+  </form>
+  <td>
+    <select id="sortStatus">
+        <option value="new">New -> Old</option>
+        <option value="old">old -> New</option>
+        <option value="deadlineNear">Deadline nah</option>
+        <option value="deadlineFar">Deadline fern</option>
+        <option value="relevanz">Relevanz</option>
+    </select>
+  </td>
+
   <div class="project-cards">
     <div class="container">
       <div class="row">
         <ul>
         {{#if isSearch}}
-          {{#each project in searchFilter}}
-            {{#if project.coverImg}}
-              {{>projectCard currentDoc=project}}
-            {{else}}
-              {{>projectCardCoverless currentDoc=project}}
-            {{/if}}
-          {{/each}}
+            {{#each project in searchFilter}}
+              {{#if project.coverImg}}
+                {{>projectCard currentDoc=project}}
+              {{else}}
+                {{>projectCardCoverless currentDoc=project}}
+              {{/if}}
+            {{/each}}
         {{else}}
           {{searchFilterNew}}
       
