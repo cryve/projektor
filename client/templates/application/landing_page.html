@@ -3,15 +3,15 @@
   <div class="project-cards">
     <div class="container">
       <div class="row">
-        <ul>
-          {{#each project in projects}}
+        {{#each project in projects}}
+          <div class="col-lg-3">
             {{#if project.coverImg}}
               {{>projectCard currentDoc=project}}
             {{else}}
               {{>projectCardCoverless currentDoc=project}}
             {{/if}}
-          {{/each}}
-        </ul>
+          </div>
+        {{/each}}
       </div> <!-- /.row project cards -->
     </div> <!-- /.container -->
   </div>

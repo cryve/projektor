@@ -1,3 +1,97 @@
+/*
+.ellipsis-tags {
+  width: 90%;
+}*/
+
+.jobs-expanded {
+  display: block;
+}
+
+.jobs-collapsed {
+  display: none;
+}
+
+.remaining-member {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.jobs-box {
+  border: 1px solid #eee;
+  position: relative;
+  /*height: 230px;*/
+  z-index: 1;
+  margin-bottom: 20px;
+}
+
+.jobs-box > .container {
+  padding-top: 15px;
+  padding-bottom: 5px;
+  width: inherit;
+}
+
+.jobs-box-header {
+  position: absolute;
+  z-index: 2;
+  top: -10px;
+  width: 100%;
+}
+
+.jobs-box-header > span {
+  background-color: white;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.remaining-member > a.text-info:hover {
+  text-decoration: none;
+}
+.circle30-remaining-members {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  /*vertical-align: middle;*/
+}
+.circle20-remaining-members {
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  /*vertical-align: middle;*/
+}
+
+.title-1row {
+  /*max-height: 28px;*/
+  word-wrap: break-word;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+}
+
+.title-2row {
+  /*max-height: 54px;*/
+  word-wrap: break-word;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+}
+
+.subtitle-2row {
+  word-wrap: break-word;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+}
+
+.hr-top {
+  margin-bottom: 7px;
+}
+
+.hr-bottom {
+  margin-top: 7px;
+}
+
 .member-icons-box {
   position: absolute;
   right: 0;
@@ -13,6 +107,7 @@
 
 .cover {
   position: relative;
+  display: block;
 }
 
 .panel-body > h3 {
@@ -73,13 +168,7 @@
 }
 
 
-.post-module .post-content .title {
-  margin: 0;
-  padding: 0 0 10px;
-  color: #333333;
-  font-size: 26px;
-  font-weight: 700;
-}
+
 .post-module .post-content .sub_title {
   margin: 0;
   padding: 0 0 20px;
@@ -111,8 +200,3 @@
   height: auto !important;
   opacity: 1 !important;
 }
-
-
-
-
-

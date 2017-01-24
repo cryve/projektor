@@ -1,0 +1,82 @@
+ <template name="projectCardOld">
+  <div class="col-lg-3">
+    <div class="panel">
+      <div class="panel-header">
+        <div class="post-module">
+          <div class="thumbnailCover">
+            <img class="img-responsive" src={{getImgURL currentDoc.coverImg "cover"}} alt="">
+            <div class="post-content">
+              <h1 class="title">
+                <a href="{{pathFor route='projectDetails' _id=currentDoc._id title=currentDoc.title}}">{{currentDoc.title}}</a>
+              </h1>
+              <h2 class="sub_title">{{currentDoc.subtitle}}</h2>
+              <div class="category">
+                <ul class="member-icons list-inline">
+                  <li>
+                    <a href="{{pathFor 'userProfile' _id=currentDoc.owner.userId }}"><img class="img-circle" rel="tooltip" title={{getFullUsername currentDoc.owner.userId}} src={{getAvatarURL currentDoc.owner.userId "avatarCard"}}></a>
+                  </li>
+                  {{#each member in currentDoc.team}}
+                    <li>
+                      <a href="{{pathFor 'userProfile' _id=member.userId }}">
+                        <img class="img-circle" rel="tooltip" title={{getFullUsername member.userId}} src={{getAvatarURL member.userId "avatarCard"}}>
+                      </a>
+                    </li>
+                  {{/each}}
+                </ul>
+              </div>
+         <div class="list-div">
+          <ul class="list-unstyled">
+            {{#if $lte currentDoc.jobs.length 3}}
+              {{#each job in currentDoc.jobs}}
+              <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span>{{job.joblabel}}</li>
+              {{/each}}
+            {{else}}
+              <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[0].joblabel}}</li>
+              <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[1].joblabel}}</li>
+              <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[2].joblabel}} (...)</li>
+              <p class="description">
+                <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[3].joblabel}}</li>
+                <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[4].joblabel}}</li>
+                <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[5].joblabel}}</li>
+              </p>
+            {{/if}}
+          </ul>
+        </div>
+
+           {{#if $lte currentDoc.tags.length 3}}
+             {{#each tag in currentDoc.tags}}
+              <span class="label label-default">{{currentDoc.tag}}</span>
+             {{/each}}
+          {{else}}
+              <span class="label label-default">{{currentDoc.tags.[0]}}</span>
+              <span class="label label-default">{{currentDoc.tags.[1]}}</span>
+              <span class="label label-default">{{currentDoc.tags.[2]}}</span>
+              <span class="label label-default">...</span>
+          {{/if}}
+       <div class="panel-footer text-center">
+           <ul class="list-inline">
+            <li class="text-muted"><span class="glyphicon glyphicon-time"></span> <small>{{releaseDate currentDoc.createdAt}}</small></li>
+            {{#if currentDoc.deadline}}
+              <li class="text-muted"><span class="glyphicon glyphicon-calendar"></span> <small>
+                {{#if currentDoc.start}}
+                  {{readableDate currentDoc.start}}
+                {{/if}}
+                bis {{readableDate currentDoc.deadline}}</small></li>
+            {{/if}}
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    </div>
+
+  </div>
+</div>
+</div>
+
+         <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+</template>

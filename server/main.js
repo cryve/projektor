@@ -16,13 +16,18 @@ Accounts.onCreateUser((options, user) =>{
   options.profile.aboutMe = "Lorem Ipsum ist ein einfacher Demo-Text für die Print- und Schriftindustrie. Lorem Ipsum ist in der Industrie bereits der Standard Demo-Text seit 1500, als ein unbekannter Schriftsteller eine Hand voll Wörter nahm und diese durcheinander warf um ein Musterbuch zu erstellen.";
   options.profile.skills = ["Python", "Java", "HTML/CSS", "Webdesign"];
   options.profile.avatar = "null";
-  
-  
-  
+
+
+
   user.profile = options.profile;
   return user;
-  
+
 });
 
-
-
+Meteor.startup(function() {
+    WebApp.addHtmlAttributeHook(function() {
+        return {
+            "lang": "de"
+        }
+    })
+});

@@ -366,6 +366,9 @@ Template.editTeamCommItem.helpers({
       {value: "Hangouts" ,label: "Hangouts"},
     ];
   },
+  createUserOption(term, data) {
+    
+  },
 });
 
 Template.editTeamCommItem.events({

@@ -2,23 +2,23 @@
   {{#if $eq currentUser._id this._id}}
     {{> uploadForm}}
   {{/if}}
-    <img src= {{getAvatarURL this._id "avatar"}} />
+    <img src= {{getAvatarURL this._id "avatar50"}} />
     <h1>{{this.profile.firstname}} {{this.profile.lastname}}<br><span>{{this.profile.study}}</span></h1>
     <br>
-  
+
   <div class="row">
     <div class="col-sm-12">
       {{> editAboutMe currentDoc=this currentCollection=getUserCollection }}
-     </div> 
+     </div>
   </div>
-    
+
   <div class="row">
     <div class="col-sm-12">
        <p>{{> editSkills currentDoc=this currentCollection=getUserCollection }}</p>
     </div> <!-- /.col Tags -->
 
   </div>
-  
+
   <div class="panel panel-default">
       <div class="panel-heading">
         <h2 class="panel-title">Kontakt</h2>
@@ -100,7 +100,7 @@
 
 
         {{> uploadForm}}
-        <img src= {{getAvatarURL currentUser._id "avatar"}} />
+        <img src= {{getAvatarURL currentUser._id "avatar50"}} />
         <h1>{{currentUser.profile.firstname}} {{currentUser.profile.lastname}}<br><span>{{currentUser.profile.study}}</span></h1>
         <br>
         <p class="aboutMe"><h3>About me:</h3>{{currentUser.profile.aboutMe}} </p>
