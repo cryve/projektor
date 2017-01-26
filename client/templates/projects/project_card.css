@@ -1,14 +1,48 @@
-/*
 .ellipsis-tags {
-  width: 90%;
+  position: relative;
+  top: 158px;
+}
+
+.expandable-content {
+  position: absolute;
+  top: 201px;
+  left: 16px;
+  background-color: white;
+  width: 260px;
+  height: 169px;
+  padding: 15px;
+  -webkit-transition: all 0.3s linear 0s;
+  -moz-transition: all 0.3s linear 0s;
+  -ms-transition: all 0.3s linear 0s;
+  -o-transition: all 0.3s linear 0s;
+  transition: all 0.3s linear 0s;
+}
+
+/*.expandable:hover {
+  display: block;
+  height: 160px;
 }*/
+
+/*.expandable:hover .expandable-content  {
+  top: 101px;
+}*/
+
+.panel-body.cover-card-body {
+  height: 200px;
+}
+
+.panel-body.coverless-card-body {
+  height: 200px;
+}
+
+.panel-footer {
+  /*position: relative;
+  top: 200px;
+  height:*/
+}
 
 .jobs-expanded {
   display: block;
-}
-
-.jobs-collapsed {
-  display: none;
 }
 
 .remaining-member {
@@ -21,13 +55,39 @@
   position: relative;
   /*height: 230px;*/
   z-index: 1;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
-.jobs-box > .container {
+.jobs-box > .expandable {
   padding-top: 15px;
   padding-bottom: 5px;
-  width: inherit;
+  overflow: hidden;
+  height: 85px;
+  width: 100%;
+  -webkit-transition: all 0.3s linear 0s;
+  -moz-transition: all 0.3s linear 0s;
+  -ms-transition: all 0.3s linear 0s;
+  -o-transition: all 0.3s linear 0s;
+  transition: all 0.3s linear 0s;
+}
+
+.expandable-trigger:hover + .expandable-content .expandable {
+  height: 160px;
+}
+.expandable-trigger:hover + .expandable-content {
+  top: 126px;
+}
+.expandable-trigger:hover {
+  height: 160px;
+}
+
+.expandable-trigger {
+  height: 85px;
+  width: 230px;
+  bottom: 109px;
+  /*background-color: yellow;*/
+  position: absolute;
+  z-index: 2;
 }
 
 .jobs-box-header {
@@ -94,8 +154,8 @@
 
 .member-icons-box {
   position: absolute;
-  right: 0;
-  bottom: 0;
+  top: -31px;
+  right: 0px;
   padding: 5px;
   background-color: white;
   border-top-left-radius: 2px;
@@ -105,12 +165,18 @@
   margin: 0;
 }
 
-.cover {
+.panel-header.cover {
   position: relative;
-  display: block;
+  /*display: block;*/
+  height: 200px;
+  /*background-color: grey;*/
 }
 
-.panel-body > h3 {
+.cover > img {
+  height: 200px;
+}
+
+.expandable-content > h3 {
   margin-top: 0;
 }
 

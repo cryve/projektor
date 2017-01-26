@@ -25,8 +25,8 @@ Template.projectCard.onRendered(function() {
     parseHTML: true,
     // fill: "<span class='label label-default'>...<span>"
   });
-  $(".subtitle-2row").trunk8({
-    lines: 2,
+  $(".subtitle-1row").trunk8({
+    lines: 1,
     tooltip: false,
   });
 });
@@ -57,25 +57,27 @@ Template.projectCard.helpers({
 });*/
 
 Template.projectCardCoverless.onCreated(function() {
-  // Tracker.autorun(function() {
-  //   // Tracker.afterFlush(function() {
-  //   //   $(".ellipsis-tags").truncate({
-  //   //     lines: 1,
-  //   //   });
-  //   //   $(".ellipsis-tags").truncate("update");
-  //   //   console.log("updated truncation");
-  //   // });
-  //   $(".ellipsis-tags").truncate({
-  //     lines: 1,
-  //   });
-  //   $(".ellipsis-tags").truncate("update");
-  //   console.log("updated truncation");
-  // });
+  var tmplInst = this;
+  tmplInst.autorun(function() {
+    console.log("autorun");
+    Tracker.afterFlush(function() {
+      tmplInst.$(".title-1row").trunk8();
+      console.log("trunk8");
+    });
+  });
   this.remainingMemberCount = new ReactiveVar(0);
   this.remainingJobsCount = new ReactiveVar(0);
 });
 
 Template.projectCardCoverless.onRendered(function() {
+  // var tmplInst = this;
+  // tmplInst.autorun(function() {
+  //   Tracker.afterFlush(function() {
+  //     tmplInst.$(".title-1row").trunk8();
+  //     console.log("trunk8");
+  //   });
+  // });
+
   // $(".ellipsis-tags").truncate({
   //   lines: 1,
   // });
@@ -86,10 +88,12 @@ Template.projectCardCoverless.onRendered(function() {
     // parseHTML: true,
     // fill: "<span class='label label-default'>...<span>"
   });
-  $(".title-1row").trunk8({
-    lines: 2, // bug in trunk8? lines: n seems to result in n-1 lines
-    tooltip: false
-  });
+  // $(".title-1row").trunk8({
+  //   lines: 2, // bug in trunk8? lines: n seems to result in n-1 lines
+  //   tooltip: false
+  // });
+  // $(".title-1row").trunk8("update", "Test mit viel zu langem String");
+
   $(".title-2row").trunk8({
     lines: 3, // bug in trunk8? lines: n seems to result in n-1 lines
     tooltip: false,
@@ -195,7 +199,7 @@ Template.projectCardCoverless.onRendered(function() {
   //     noEllipsis  : []
   //   }
   // });
-  $(".title-1row").trunk8("update");
+  // $(".title-1row").trunk8("update");
 });
 
 Template.projectCardCoverless.helpers({

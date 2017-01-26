@@ -23,26 +23,39 @@
                     </li>
                   {{/each}}
                 </ul>
-              </div>
-         <div class="list-div">
-          <ul class="list-unstyled">
-            {{#if $lte currentDoc.jobs.length 3}}
-              {{#each job in currentDoc.jobs}}
-              <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span>{{job.joblabel}}</li>
-              {{/each}}
-            {{else}}
-              <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[0].joblabel}}</li>
-              <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[1].joblabel}}</li>
-              <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[2].joblabel}} (...)</li>
-              <p class="description">
-                <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[3].joblabel}}</li>
-                <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[4].joblabel}}</li>
-                <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[5].joblabel}}</li>
-              </p>
-            {{/if}}
-          </ul>
-        </div>
-
+              </div> <!-- ./member-box  -->
+              <div class="list-div">
+                <ul class="list-unstyled">
+                  {{#if $lte currentDoc.jobs.length 3}}
+                    {{#each job in currentDoc.jobs}}
+                      <li class="text-primary">
+                        <span class="glyphicon glyphicon-bullhorn"></span>{{job.joblabel}}
+                      </li>
+                    {{/each}}
+                  {{else}}
+                    <li class="text-primary">
+                      <span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[0].joblabel}}
+                    </li>
+                    <li class="text-primary">
+                      <span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[1].joblabel}}
+                    </li>
+                    <li class="text-primary">
+                      <span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[2].joblabel}} (...)
+                    </li>
+                    <p class="description">
+                      <li class="text-primary">
+                        <span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[3].joblabel}}
+                      </li>
+                      <li class="text-primary">
+                        <span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[4].joblabel}}
+                      </li>
+                      <li class="text-primary">
+                        <span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[5].joblabel}}
+                      </li>
+                    </p>
+                  {{/if}}
+                </ul>
+              </div> <!-- ./list-div -->
            {{#if $lte currentDoc.tags.length 3}}
              {{#each tag in currentDoc.tags}}
               <span class="label label-default">{{currentDoc.tag}}</span>

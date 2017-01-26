@@ -1,92 +1,94 @@
 <template name="projectCard">
-  <div class="panel panel-default">
-    <div class="panel-header">
-      <div class="cover">
+  <div class="panel panel-default cover-card">
+    <div class="panel-header cover">
+      <img class="img-responsive center-block" src="{{getImgURL currentDoc.coverImg "cover400"}}">
+    </div> <!-- /.panel-header -->
+    <div class="panel-body cover-card-body">
+      <div class="expandable-trigger">
+
+      </div>
+      <div class="expandable-content">
         <div class="member-icons-box">
           <ul class="member-icons list-inline">
-            <li>
-              <a href="{{pathFor 'userProfile' _id=currentDoc.owner.userId }}">
-                <img class="img-circle" rel="tooltip" title={{getFullUsername currentDoc.owner.userId}} src={{getAvatarURL currentDoc.owner.userId "avatar20"}}>
-              </a>
-            </li>
-            {{#each member in currentDoc.team}}
-              {{#if $lt @index (itemsToShow currentDoc.team.length 3 1)}}
-                <li>
-                  <a href="{{pathFor 'userProfile' _id=member.userId }}">
-                    <img class="img-circle" rel="tooltip" title="{{getFullUsername member.userId}}" src={{getAvatarURL member.userId "avatar20"}}>
-                  </a>
-                </li>
-              {{/if}}
-            {{/each}}
-            {{#if itemsRemaining currentDoc.team.length 3 1}}
-              <li class="remaining-member">
-                <!-- <span class="badge">+{{itemsRemaining currentDoc.team.length 5 1}}</span> -->
-                <a class="text-info" href="{{pathFor 'projectDetails' _id=currentDoc._id title=currentDoc.title}}">
-                  <div class="text-center bg-info circle20-remaining-members">
-                    <span>
-                      <strong>+{{itemsRemaining currentDoc.team.length 3 1}}</strong>
-                    </span>
-                  </div>
+          <li>
+            <a href="{{pathFor 'userProfile' _id=currentDoc.owner.userId }}">
+              <img class="img-circle" rel="tooltip" title={{getFullUsername currentDoc.owner.userId}} src={{getAvatarURL currentDoc.owner.userId "avatar20"}}>
+            </a>
+          </li>
+          {{#each member in currentDoc.team}}
+            {{#if $lt @index (itemsToShow currentDoc.team.length 3 1)}}
+              <li>
+                <a href="{{pathFor 'userProfile' _id=member.userId }}">
+                  <img class="img-circle" rel="tooltip" title="{{getFullUsername member.userId}}" src={{getAvatarURL member.userId "avatar20"}}>
                 </a>
               </li>
             {{/if}}
-          </ul>
+          {{/each}}
+          {{#if itemsRemaining currentDoc.team.length 3 1}}
+            <li class="remaining-member">
+              <!-- <span class="badge">+{{itemsRemaining currentDoc.team.length 5 1}}</span> -->
+              <a class="text-info" href="{{pathFor 'projectDetails' _id=currentDoc._id title=currentDoc.title}}">
+                <div class="text-center bg-info circle20-remaining-members">
+                  <span>
+                    <strong>+{{itemsRemaining currentDoc.team.length 3 1}}</strong>
+                  </span>
+                </div>
+              </a>
+            </li>
+          {{/if}}
+        </ul>
         </div> <!-- /.member-icons-box -->
-        <img class="img-responsive" src="{{getImgURL currentDoc.coverImg "cover400"}}">
-        {{log currentDoc}}
-      </div> <!-- /.cover -->
-    </div> <!-- /.panel-header -->
-    <div class="panel-body">
-      <h3>
-        <a href="{{pathFor 'projectDetails' _id=currentDoc._id title=currentDoc.title}}" class="{{#if currentDoc.subtitle}}title-1row{{else}}title-2row{{/if}}">
-          {{currentDoc.title}}
-        </a>
-        {{#if currentDoc.subtitle}}
-          <br>
-          <small class="subtitle-2row">{{currentDoc.subtitle}}</small>
-        {{/if}}
-      </h3>
-      <div class="jobs-box">
-        <span class="text-muted text-center jobs-box-header"><span>Gesucht</span></span>
-        <div class="container jobs-collapsed">
-          <ul class="list-unstyled">
-            {{#each job in currentDoc.jobs}}
-              {{#if $lt @index (itemsToShow current.jobs.length 3 0)}}
-                <li class="text-primary">
-                  <span class="glyphicon glyphicon-search"></span> {{job.joblabel}}
-                  {{#if $eq @index 2}}
-                    {{#if itemsRemaining currentDoc.jobs.length 3 0}}
-                      (...)
+        <h3>
+          <a href="{{pathFor 'projectDetails' _id=currentDoc._id title=currentDoc.title}}" class="{{#if currentDoc.subtitle}}title-1row{{else}}title-2row{{/if}}">
+            {{currentDoc.title}}
+          </a>
+          {{#if currentDoc.subtitle}}
+            <br>
+            <small class="subtitle-1row">{{currentDoc.subtitle}}</small>
+          {{/if}}
+        </h3>
+        <div class="jobs-box">
+          <span class="text-muted text-center jobs-box-header"><span>Gesucht</span></span>
+          <!-- <div class="container jobs-collapsed">
+            <ul class="list-unstyled">
+              {{#each job in currentDoc.jobs}}
+                {{#if $lt @index (itemsToShow current.jobs.length 3 0)}}
+                  <li class="text-primary">
+                    <span class="glyphicon glyphicon-search"></span> {{job.joblabel}}
+                    {{#if $eq @index 2}}
+                      {{#if itemsRemaining currentDoc.jobs.length 3 0}}
+                        (...)
+                      {{/if}}
                     {{/if}}
-                  {{/if}}
-                </li>
-              {{/if}}
-            {{/each}}
-          </ul>
-        </div>
-          <div class="container jobs-expanded">
-          <ul class="list-unstyled">
-            {{#each job in currentDoc.jobs}}
-              {{#if $lt @index (itemsToShow current.jobs.length 7 0)}}
-                <li class="text-primary">
-                  <span class="glyphicon glyphicon-search"></span> {{job.joblabel}}
-                  {{#if $eq @index 6}}
-                    {{#if itemsRemaining currentDoc.jobs.length 7 0}}
-                      (...)
-                    {{/if}}
-                  {{/if}}
-                </li>
-              {{/if}}
-            {{/each}}
-          </ul>
-        </div>
-      </div> <!-- ./jobs-box-decoration -->
+                  </li>
+                {{/if}}
+              {{/each}}
+            </ul>
+          </div> -->
+          <div class="container jobs-box-body expandable">
+            <ul class="list-unstyled">
+              {{#each job in currentDoc.jobs}}
+                {{#if $lt @index (itemsToShow current.jobs.length 7 0)}}
+                  <li class="text-primary {{#if $gte @index 3}}job-expand{{/if}}">
+                    <span class="glyphicon glyphicon-search"></span> {{job.joblabel}}
+                    <!-- {{#if $eq @index 2}}
+                      {{#if itemsRemaining currentDoc.jobs.length 3 0}}
+                        (...)
+                      {{/if}}
+                    {{/if}} -->
+                  </li>
+                {{/if}}
+              {{/each}}
+            </ul>
+          </div>
+        </div> <!-- ./jobs-box-decoration -->
+      </div> <!-- ./expandable-content -->
       <span class="ellipsis-tags">
         {{#each tag in currentDoc.tags}}
           <span class="label label-default">{{tag}}</span>
         {{/each}}
       </span>
-    </div> <!-- /.panel-body -->
+    </div> <!-- ./panel-body cover-card-body -->
     <div class="panel-footer text-center">
       <ul class="list-inline">
         <li class="text-muted"><span class="glyphicon glyphicon-time"></span> <small>vor 6 Tagen</small></li>
@@ -242,7 +244,7 @@
 </template> -->
 
 <template name="projectCardCoverless">
-  <div class="panel panel-default">
+  <div class="panel panel-default coverless-card">
     <div class="panel-body">
       <h3>
         <a href="{{pathFor 'projectDetails' _id=currentDoc._id title=currentDoc.title}}" class="{{#if currentDoc.subtitle}}title-1row{{else}}title-2row{{/if}}">
