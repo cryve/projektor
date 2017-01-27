@@ -57,14 +57,14 @@ Template.projectCard.helpers({
 });*/
 
 Template.projectCardCoverless.onCreated(function() {
-  var tmplInst = this;
-  tmplInst.autorun(function() {
-    console.log("autorun");
-    Tracker.afterFlush(function() {
-      tmplInst.$(".title-1row").trunk8();
-      console.log("trunk8");
-    });
-  });
+  // var tmplInst = this;
+  // tmplInst.autorun(function() {
+  //   console.log("autorun");
+  //   Tracker.afterFlush(function() {
+  //     tmplInst.$(".title-1row").trunk8();
+  //     console.log("trunk8");
+  //   });
+  // });
   this.remainingMemberCount = new ReactiveVar(0);
   this.remainingJobsCount = new ReactiveVar(0);
 });
@@ -80,6 +80,24 @@ Template.projectCardCoverless.onRendered(function() {
 
   // $(".ellipsis-tags").truncate({
   //   lines: 1,
+  // });
+  // this.$(".jobs-box-body").trunk8({
+  //   lines: 2,
+  //   parseHTML: true
+  // });
+  // this.$(".subtitle-2row").trunk8({
+  //   lines: 2
+  // });
+  // template = this;
+  // this.autorun(() => {
+  //   let dataContext = Template.currentData(); // Triggers reactive updating
+  //   Tracker.afterFlush(() => {
+  //     //FIXME: Workaround to force trunk8 to use the new titel
+  //     // should not be neccessary and using the elements text reactively instead
+  //     this.$(".title-1row").trunk8("update", dataContext.title);
+  //     this.$(".subtitle-1row").trunk8("update", dataContext.subtitle);
+  //     this.$(".subtitle-2row").trunk8("update", dataContext.subtitle);
+  //   });
   // });
 
   $(".ellipsis-tags").trunk8({
@@ -100,12 +118,12 @@ Template.projectCardCoverless.onRendered(function() {
     parseHTML: true,
     // fill: "<span class='label label-default'>...<span>"
   });
-  $(".subtitle-2row").trunk8({
-    lines: 2,
-    tooltip: false,
-    //parseHTML: true,
-    // fill: "<span class='label label-default'>...<span>"
-  });
+  // $(".subtitle-2row").trunk8({
+  //   lines: 2,
+  //   tooltip: false,
+  //   //parseHTML: true,
+  //   // fill: "<span class='label label-default'>...<span>"
+  // });
   // $(".truncate-2row").trunk8({
   //   lines: 1,
   //   tooltip: false,
@@ -230,4 +248,23 @@ Template.projectCard.events({
           opacity: "toggle"
         }, 300);
       },
+});
+
+Template.projectCardTitle.onRendered(function() {
+  this.$(".title-1row").trunk8();
+  this.$(".subtitle-1row").trunk8();
+  this.$(".subtitle-2row").trunk8({
+    lines: 2
+  });
+  template = this;
+  this.autorun(() => {
+    let dataContext = Template.currentData(); // Triggers reactive updating
+    Tracker.afterFlush(() => {
+      //FIXME: Workaround to force trunk8 to use the new titel
+      // should not be neccessary and using the elements text reactively instead
+      this.$(".title-1row").trunk8("update", dataContext.title);
+      this.$(".subtitle-1row").trunk8("update", dataContext.subtitle);
+      this.$(".subtitle-2row").trunk8("update", dataContext.subtitle);
+    });
+  });
 });

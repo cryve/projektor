@@ -38,15 +38,9 @@
           {{/if}}
         </ul>
         </div> <!-- /.member-icons-box -->
-        <h3>
-          <a href="{{pathFor 'projectDetails' _id=currentDoc._id title=currentDoc.title}}" class="{{#if currentDoc.subtitle}}title-1row{{else}}title-2row{{/if}}">
-            {{currentDoc.title}}
-          </a>
-          {{#if currentDoc.subtitle}}
-            <br>
-            <small class="subtitle-1row">{{currentDoc.subtitle}}</small>
-          {{/if}}
-        </h3>
+        <!-- <div class="cover-card-title"> -->
+          {{> projectCardTitle _id=currentDoc._id title=currentDoc.title subtitle=currentDoc.subtitle subtitleLines=1 }}
+        <!-- </div> -->
         <div class="jobs-box">
           <span class="text-muted text-center jobs-box-header"><span>Gesucht</span></span>
           <!-- <div class="container jobs-collapsed">
@@ -89,12 +83,8 @@
         {{/each}}
       </span>
     </div> <!-- ./panel-body cover-card-body -->
-    <div class="panel-footer text-center">
-      <ul class="list-inline">
-        <li class="text-muted"><span class="glyphicon glyphicon-time"></span> <small>vor 6 Tagen</small></li>
-        <li class="text-muted"><span class="glyphicon glyphicon-calendar"></span> <small>12.10.2016</small></li>
-        <li class="text-muted"><span class="glyphicon glyphicon-heart"></span> <small>14</small></li>
-      </ul>
+    <div class="panel-footer">
+      {{>projectCardFooter beginning=currentDoc.beginning deadline=currentDoc.deadline}}
     </div> <!-- /.panel-footer -->
   </div> <!-- /.panel project card -->
 </template>
@@ -245,16 +235,10 @@
 
 <template name="projectCardCoverless">
   <div class="panel panel-default coverless-card">
-    <div class="panel-body">
-      <h3>
-        <a href="{{pathFor 'projectDetails' _id=currentDoc._id title=currentDoc.title}}" class="{{#if currentDoc.subtitle}}title-1row{{else}}title-2row{{/if}}">
-          {{currentDoc.title}}
-        </a>
-        {{#if currentDoc.subtitle}}
-          <br>
-          <small class="subtitle-2row">{{currentDoc.subtitle}}</small>
-        {{/if}}
-      </h3>
+    <div class="panel-body coverless-card-body">
+      <div class="coverless-card-title">
+        {{> projectCardTitle _id=currentDoc._id title=currentDoc.title subtitle=currentDoc.subtitle subtitleLines=2 }}
+      </div>
       <hr class="hr-top">
       <ul class="member-icons list-inline">
         <li>
@@ -287,7 +271,7 @@
       <hr class="hr-bottom">
       <div class="jobs-box">
         <span class="text-muted text-center jobs-box-header"><span>Gesucht</span></span>
-        <div class="container">
+        <div class="container jobs-box-body">
           <ul class="list-unstyled">
             {{#each job in currentDoc.jobs}}
               {{#if $lt @index (itemsToShow current.jobs.length 7 0)}}
@@ -310,15 +294,29 @@
         {{/each}}
       </span>
     </div> <!-- /.panel-body -->
-    <div class="panel-footer text-center">
-      <ul class="list-inline">
-        <li class="text-muted">
-          <span class="glyphicon glyphicon-step-backward"></span> <small>{{readableDate currentDoc.beginning}}</small>
-        </li>
-        <li class="text-muted">
-          {{#if currentDoc.deadline}}<small>{{readableDate currentDoc.deadline}}</small>{{else}}&infin;{{/if}} <span class="glyphicon glyphicon-step-forward"></span>
-        </li>
-      </ul>
+    <div class="panel-footer">
+      {{>projectCardFooter beginning=currentDoc.beginning deadline=currentDoc.deadline}}
     </div> <!-- /.panel-footer -->
   </div> <!-- /.panel project card -->
+</template>
+
+<template name="projectCardFooter">
+  <ul class="list-inline text-center">
+    <li class="text-muted">
+      <span class="glyphicon glyphicon-step-backward"></span> <small>{{readableDate beginning}}</small>
+    </li>
+    <li class="text-muted">
+      {{#if deadline}}<small>{{readableDate deadline}}</small>{{else}}&infin;{{/if}} <span class="glyphicon glyphicon-step-forward"></span>
+    </li>
+  </ul>
+</template>
+
+<template name="projectCardTitle">
+  <h3>
+    <a href="{{pathFor 'projectDetails' _id=_id title=title}}" class="{{#if subtitle}}title-1row{{else}}title-2row{{/if}}">{{title}}</a>
+    {{#if subtitle}}
+      <br>
+      <small class="subtitle-{{subtitleLines}}row">{{subtitle}}</small>
+    {{/if}}
+  </h3>
 </template>
