@@ -12,6 +12,7 @@ Accounts.onCreateUser((options, user) =>{
   options.profile = {};
   options.profile.lastname = "Mustermann";
   options.profile.firstname = "Max";
+  options.profile.role= "Dozent";
   options.profile.study = "Media System";
   options.profile.aboutMe = "Lorem Ipsum ist ein einfacher Demo-Text für die Print- und Schriftindustrie. Lorem Ipsum ist in der Industrie bereits der Standard Demo-Text seit 1500, als ein unbekannter Schriftsteller eine Hand voll Wörter nahm und diese durcheinander warf um ein Musterbuch zu erstellen.";
   options.profile.skills = ["Python", "Java", "HTML/CSS", "Webdesign"];

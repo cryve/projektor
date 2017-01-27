@@ -12,6 +12,9 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <button class="btn btn-primary navbar-btn create-project-btn">Neues Projekt erstellen</button>
+          {{#if $eq currentUser.profile.role "Dozent"}}
+          <a href="{{pathFor 'course' _id=currentUser._id}}"><button class="btn btn-primary navbar-btn">Meine Kurse</button></a>
+          {{/if}}
           {{#if currentUser}}
           <a href="{{pathFor 'userProfile' _id=currentUser._id}}"><button class="btn btn-primary navbar-btn navbar-right">Profil</button></a>
           {{/if}}

@@ -7,7 +7,7 @@
                             }}
                             {{> setVideoLink slot=slot media=currentDoc.media
                             doc=currentDoc
-                            projectId=currentDoc._id collection=currentCollection }}
+                            projectId=currentDoc._id collection=currentCollection reactiveVar = reactiveVar }}
                             {{#if getRefreshPreview}}
                               {{#if $eq getMediaType "URL"}}
                                 {{urlId}}
@@ -30,17 +30,26 @@
 
 
                             {{else}}
-                              {{getFirstImageId}}
-                              {{#if $eq currentDoc.coverImg null}}
-                                {{> previewPlaceholder}}
-                              {{else}}
-                                {{#if $eq currentDoc.coverImg result}}
-                                    {{> deleteImageButton slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
-                                    {{> galleryPreview result}}
+                              {{#if $eq getFirstMediaType "image"}}
+                                {{#if $eq currentDoc.coverImg null}}
+                                  {{> previewPlaceholder}}
                                 {{else}}
-                                  {{> deleteImageButton slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection }}
-                                  {{> setTitleImageButton slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
-                                  {{> galleryPreview result}}
+                                  {{#if $eq currentDoc.coverImg result}}
+                                      {{> deleteImageButton slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
+                                      {{> galleryPreview result}}
+                                  {{else}}
+                                    {{> deleteImageButton slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection }}
+                                    {{> setTitleImageButton slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
+                                    {{> galleryPreview result}}
+                                  {{/if}}
+                                {{/if}}
+                              {{else}}
+                                {{#if $eq getFirstMediaType "URL"}}
+                                  {{urlId}}
+                                  {{> deleteImageButton slot=slot media=currentDoc.media projectId=currentDoc._id  collection=currentCollection }}
+                                  {{> video slot=slot media=currentDoc.media projectId=currentDoc._id collection=currentCollection}}
+                                {{else}}
+                                  {{> previewPlaceholder}}
                                 {{/if}}
                               {{/if}}
                             {{/if}}
@@ -58,8 +67,14 @@
                               {{/if}}
                             {{/if}}
                           {{else}}
-                            {{getFirstImageId}}
-                            {{> galleryPreview result}}
+                            {{#if $eq getFirstMediaType "image"}}
+                              {{> galleryPreview result}}
+                            {{else}}
+                              {{#if $eq getFirstMediaType "URL"}}
+                                {{urlId}}
+                                {{> video slot=slot media=currentDoc.media projectId=currentDoc._id collection=currentCollection}}
+                              {{/if}}
+                            {{/if}}
                           {{/if}}
                         {{/if}}
 
@@ -190,43 +205,5 @@
 
 </template>
 
-<template name="galleryPreviewStart">
-  
-    <img class="img-responsive" src={{getImgURL media.[0] "preview"}} alt="">
 
-</template>
-
-
-
-
-<template name="setTitleImageButtonNew">
-
-      <button id="title-image-button" class="btn btn-primary navbar-btn navbar-right">Titelbild</button>
-
-</template>
-
-<template name="deleteImageButtonNew">
-
-      <button id="delete-image-button" class="btn btn-primary navbar-btn navbar-right">Löschen</button>
-
-</template>
-
-<template name="titleImageNew">
-
-      <img class="img-responsive" src={{getImgURL this.coverImg "preview"}} alt="">
-
-</template>
-
-
-<template name="galleryPreviewNew">
-  
-    <img class="img-responsive" src={{getImgURL result "preview"}} alt="">
-
-</template>
-
-<template name="galleryPreviewStartNew">
-  
-    <img class="img-responsive" src={{getImgURL media.[0] "preview"}} alt="">
-
-</template>
 

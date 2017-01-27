@@ -201,14 +201,19 @@ Template.wholeGallery.helpers({
     return Session.get('slot');
   },
 
-  getFirstImageId(){
+  getFirstMediaType(){
      Session.set('result', "null");
      for (var i = 0; i < this.currentDoc.media.length; i++) {
 
         if (this.currentDoc.media[i].type == "image"){
-            console.log(this.currentDoc.media[i].id);
-            Session.set('slot', i)
-            return Session.set('result', this.currentDoc.media[i].id )
+          console.log(this.currentDoc.media[i].id);
+          Session.set('slot', i)
+          Session.set('result', this.currentDoc.media[i].id )
+          return ("image");
+        }
+        else if (this.currentDoc.media[i].type == "URL"){
+          Session.set('slot', i);
+          return ("URL");
         }
 
      }
