@@ -269,25 +269,7 @@
         {{/if}}
       </ul>
       <hr class="hr-bottom">
-      <div class="jobs-box">
-        <span class="text-muted text-center jobs-box-header"><span>Gesucht</span></span>
-        <div class="container jobs-box-body">
-          <ul class="list-unstyled">
-            {{#each job in currentDoc.jobs}}
-              {{#if $lt @index (itemsToShow current.jobs.length 7 0)}}
-                <li class="text-primary">
-                  <span class="glyphicon glyphicon-search"></span> {{job.joblabel}}
-                  {{#if $eq @index 6}}
-                    {{#if itemsRemaining currentDoc.jobs.length 7 0}}
-                      ...
-                    {{/if}}
-                  {{/if}}
-                </li>
-              {{/if}}
-            {{/each}}
-          </ul>
-        </div>
-      </div> <!-- ./jobs-box-decoration -->
+      {{>projectCardJobs jobs=currentDoc.jobs}}
       <span class="ellipsis-tags">
         {{#each tag in currentDoc.tags}}
           <span class="label label-default">{{tag}}</span>
@@ -300,6 +282,38 @@
   </div> <!-- /.panel project card -->
 </template>
 
+<template name="projectCardTitle">
+  <h3>
+    <a href="{{pathFor 'projectDetails' _id=_id title=title}}" class="{{#if subtitle}}title-1row{{else}}title-2row{{/if}}">{{title}}</a>
+    {{#if subtitle}}
+      <br>
+      <small class="subtitle-{{subtitleLines}}row">{{subtitle}}</small>
+    {{/if}}
+  </h3>
+</template>
+
+<template name="projectCardJobs">
+  <div class="jobs-box">
+    <span class="text-muted text-center jobs-box-header"><span>Gesucht</span></span>
+    <div class="container jobs-box-body">
+      <ul class="list-unstyled">
+        {{#each job in jobs}}
+          <!-- {{#if $lt @index (itemsToShow current.jobs.length 7 0)}} -->
+            <li class="text-primary">
+              <span class="glyphicon glyphicon-search"></span> {{job.joblabel}}
+              <!-- {{#if $eq @index 6}} -->
+                <!-- {{#if itemsRemaining currentDoc.jobs.length 7 0}} -->
+                  <!-- ... -->
+                <!-- {{/if}} -->
+              <!-- {{/if}} -->
+            </li>
+          <!-- {{/if}} -->
+        {{/each}}
+      </ul>
+    </div>
+  </div> <!-- ./jobs-box-decoration -->
+</template>
+
 <template name="projectCardFooter">
   <ul class="list-inline text-center">
     <li class="text-muted">
@@ -309,14 +323,4 @@
       {{#if deadline}}<small>{{readableDate deadline}}</small>{{else}}&infin;{{/if}} <span class="glyphicon glyphicon-step-forward"></span>
     </li>
   </ul>
-</template>
-
-<template name="projectCardTitle">
-  <h3>
-    <a href="{{pathFor 'projectDetails' _id=_id title=title}}" class="{{#if subtitle}}title-1row{{else}}title-2row{{/if}}">{{title}}</a>
-    {{#if subtitle}}
-      <br>
-      <small class="subtitle-{{subtitleLines}}row">{{subtitle}}</small>
-    {{/if}}
-  </h3>
 </template>

@@ -50,6 +50,8 @@
 .jobs-box-body {
   padding: 15px;
   width: 100%;
+  /*overflow: hidden;*/
+  height: 180px;
 }
 
 .panel-footer > ul {

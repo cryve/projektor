@@ -81,10 +81,6 @@ Template.projectCardCoverless.onRendered(function() {
   // $(".ellipsis-tags").truncate({
   //   lines: 1,
   // });
-  // this.$(".jobs-box-body").trunk8({
-  //   lines: 2,
-  //   parseHTML: true
-  // });
   // this.$(".subtitle-2row").trunk8({
   //   lines: 2
   // });
@@ -265,6 +261,24 @@ Template.projectCardTitle.onRendered(function() {
       this.$(".title-1row").trunk8("update", dataContext.title);
       this.$(".subtitle-1row").trunk8("update", dataContext.subtitle);
       this.$(".subtitle-2row").trunk8("update", dataContext.subtitle);
+    });
+  });
+});
+
+Template.projectCardJobs.onRendered(function() {
+
+  // $(".jobs-box-body").dotdotdot({
+  //   wrap: "letter"
+  // });
+  template = this;
+  this.autorun(() => {
+    let dataContext = Template.currentData(); // Triggers reactive updating
+    Tracker.afterFlush(() => {
+      //FIXME: Workaround to force trunk8 to use the new titel
+      // should not be neccessary and using the elements text reactively instead
+      $(".jobs-box-body > ul").dotdotdot({
+        wrap: "letter"
+      });
     });
   });
 });
