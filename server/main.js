@@ -25,6 +25,17 @@ Accounts.onCreateUser((options, user) =>{
 
 });
 
+LDAP.generateSettings = function (request) {
+  return {
+    // "serverDn": "DC=ad,DC=university,DC=edu",
+    "serverDn": "DC=bui,DC=haw-hamburg,DC=de",
+    // "serverUrl": "ldap://ad.university.edu:389",
+    "serverUrl": "ldap://ldap2.mt.haw-hamburg.de:389",
+    "whiteListedFields": ["uid", "uidNumber", "sn", "givenName", "departmentNumber", "mail"],
+    "autopublishFields": ["uid", "uidNumber", "sn", "givenName", "departmentNumber", "mail"]
+  }
+}
+
 Meteor.startup(function() {
     WebApp.addHtmlAttributeHook(function() {
         return {
