@@ -6,7 +6,7 @@ import trunk8 from "trunk8";
 
 import './project_card.html';
 
-Template.projectCard.onRendered(function() {
+/*Template.projectCard.onRendered(function() {
   // this.autorun(function(){
   //   data = Blaze.getData();
   //   $('img[rel="tooltip"]').tooltip();
@@ -29,7 +29,7 @@ Template.projectCard.onRendered(function() {
     lines: 1,
     tooltip: false,
   });
-});
+});*/
 
 /*Template.projectCardCoverless.onRendered(function() {
   this.autorun(function(){
