@@ -1,6 +1,5 @@
 import { Template } from "meteor/templating";
-import {Projects} from "/lib/collections/projects.js" ;
-import { Tracker } from 'meteor/tracker'
+
 import "./project_edit.html";
 
 Template.addMember.onCreated(function() {
@@ -37,7 +36,7 @@ Template.member.helpers({
     return "team." + this.slot + ".role";
   },
 });
-  
+
 Template.member.events({
   "click .btn-delete-member" (event) {
     this.currentCollection.update(this.currentDoc._id, {$pull: {team: {userId: this.userId}}});
@@ -369,7 +368,7 @@ Template.editTeamCommItem.helpers({
     ];
   },
   createUserOption(term, data) {
-    
+
   },
 });
 

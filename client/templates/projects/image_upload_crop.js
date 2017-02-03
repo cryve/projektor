@@ -1,13 +1,13 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Videos, Images } from '/lib/images.collection.js';
-import { Projects } from "/lib/collections/projects.js" ;
-import {ProjectDrafts} from "/lib/collections/project_drafts.js";
 
 import './image_upload_crop.html';
 
 
-
+Template.uploadedFilesCrop.onCreated(function uploadedFilesCropOnCreated() {
+  Meteor.subscribe("files.images.all");
+})
 
 Template.uploadedFilesCrop.helpers({
   uploadedFilesCrop: function () {
@@ -28,7 +28,7 @@ Template.uploadFormCrop.helpers({
 Template.uploadFormCrop.events({
   'change #fileInput': function (e, template) {
     if (e.currentTarget.files && e.currentTarget.files[0]) {
-      // We upload only one file, in case 
+      // We upload only one file, in case
       // there was multiple files selected
       var file = e.currentTarget.files[0];
       if (file) {
@@ -52,14 +52,14 @@ Template.uploadFormCrop.events({
             var collection = template.data.collection;
             alert('File "' + fileObj.name + '" successfully uploaded to ' + currentSlot);
             if(currentCover == currentArray[currentSlot].id ){
-              Images.remove({_id: currentArray[currentSlot].id}); 
+              Images.remove({_id: currentArray[currentSlot].id});
               currentArray[currentSlot].id = fileObj._id;
               currentArray[currentSlot].type = "image";
               collection.update( { _id: template.data.projectId }, { $set: { 'media': currentArray }} );
               collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': fileObj._id }} );
-            }  
+            }
             else{
-              Images.remove({_id: currentArray[currentSlot].id}); 
+              Images.remove({_id: currentArray[currentSlot].id});
               currentArray[currentSlot].id = fileObj._id;
               currentArray[currentSlot].type = "image";
               console.log("Storing image with URL " + fileObj._id + " in slot: " + currentSlot);
@@ -67,7 +67,7 @@ Template.uploadFormCrop.events({
             }
             Session.set('result', fileObj._id);
           }
-          
+
           template.currentUploadCrop.set(false);
         });
 
@@ -77,11 +77,15 @@ Template.uploadFormCrop.events({
   }
 });
 
+Template.fileCrop.onCreated(function fileCropOnCreated() {
+  Meteor.subscribe("files.images.all");
+});
+
 Template.fileCrop.helpers({
   imageFile: function () {
    return Images.findOne();
   },
-  
+
 });
 
 Template.fileCrop.helpers({
@@ -89,4 +93,3 @@ Template.fileCrop.helpers({
       return Videos.findOne();
     }
 });
-

@@ -1,11 +1,15 @@
 import {ProjectDrafts} from "/lib/collections/project_drafts.js";
 
+Template.navigationBar.onCreated(function navigationBarOnCreated() {
+  Meteor.subscribe("projectDrafts");
+});
+
 Template.navigationBar.helpers({
   result: function() {
 
       return Session.get('result');
   },
-  
+
 });
 
 Template.navigationBar.events({

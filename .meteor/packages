@@ -17,7 +17,7 @@ standard-minifier-js@1.2.0    # JS minifier run for production mode
 es5-shim@4.6.14                # ECMAScript 5 compatibility for older browsers.
 ecmascript@0.5.8              # Enable ECMAScript2015+ syntax in app code
 
-autopublish@1.0.7             # Publish all data to the clients (for prototyping)
+# autopublish@1.0.7             # Publish all data to the clients (for prototyping)
 insecure@1.0.7                # Allow all DB writes from clients (for prototyping)
 
 iron:router                   # router
@@ -34,9 +34,9 @@ comerc:bs-typeahead           # Adds Bootstraps typeahead library
 comerc:autoform-typeahead     # Combines Bootstrap typeahead with autoform
 accounts-password             # Meteors account packages
 twbs:bootstrap                # Bootstrap CSS framework support
-#accounts-facebook
-#typ:accounts-ldap
-natestrauser:x-editable-bootstrap
+# accounts-facebook
+# typ:accounts-ldap
+# natestrauser:x-editable-bootstrap
 natestrauser:select2
 zimme:select2-bootstrap3-css
 vazco:universe-autoform-select

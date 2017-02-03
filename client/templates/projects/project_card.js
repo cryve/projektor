@@ -1,10 +1,13 @@
 import { Template } from 'meteor/templating';
-import {ImagesGallery} from "/lib/images.collection.js";
 import { Projects } from '../../../lib/collections/projects.js';
 import truncate from "truncate.js";
 import trunk8 from "trunk8";
 
 import './project_card.html';
+
+Template.projectCard.onCreated(function projectCardOnCreated() {
+  Meteor.subscribe("projects");
+});
 
 Template.projectCard.onRendered(function() {
   // this.autorun(function(){
@@ -67,6 +70,7 @@ Template.projectCardCoverless.onCreated(function() {
   // });
   this.remainingMemberCount = new ReactiveVar(0);
   this.remainingJobsCount = new ReactiveVar(0);
+  Meteor.subscribe("projects");
 });
 
 Template.projectCardCoverless.onRendered(function() {

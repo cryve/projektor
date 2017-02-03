@@ -8,11 +8,15 @@ import "./editableProject.html";
 
 Template.editableProject.onCreated(function() {
   this.editOwnerActive = new ReactiveVar(false);
+  Meteor.subscribe("projects");
+  Meteor.subscribe("projectDrafts");
+  Meteor.subscribe("files.images.all");
+  Meteor.subscribe("usersAll");
 });
 
 Template.editableProject.helpers({
 
-  
+
   result: function() {
 
     return Session.get('result');
@@ -22,7 +26,7 @@ Template.editableProject.helpers({
 
     return Session.get('slot');
   },
-  
+
 
   log (data) {
     console.log(data);
@@ -34,7 +38,7 @@ Template.editableProject.helpers({
     else{
       return Projects;
     }
-    
+
   },
   suggestedUsers(firstOption) {
     var users = Meteor.users.find({});

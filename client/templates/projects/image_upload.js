@@ -15,6 +15,7 @@ Template.uploadedFiles.helpers({
 
 Template.uploadForm.onCreated(function () {
   this.currentUpload = new ReactiveVar(false);
+  Meteor.subscribe("usersAll");
 });
 
 Template.uploadForm.helpers({
@@ -26,7 +27,7 @@ Template.uploadForm.helpers({
 Template.uploadForm.events({
   'change #fileInput': function (e, template) {
     if (e.currentTarget.files && e.currentTarget.files[0]) {
-      // We upload only one file, in case 
+      // We upload only one file, in case
       // there was multiple files selected
       var file = e.currentTarget.files[0];
       if (file) {
@@ -46,14 +47,14 @@ Template.uploadForm.events({
           } else {
             alert('File "' + fileObj.name + '" successfully uploaded');
             console.log("Storing image with URL " + fileObj._id + " in slot: " + this.uploadSlot);
-            
-            
+
+
             Meteor.users.update( { _id: Meteor.userId() }, { $set: { 'profile.avatar': fileObj._id }} );
-            
-            
-            
+
+
+
           }
-          
+
           template.currentUpload.set(false);
         });
 
@@ -67,7 +68,7 @@ Template.file.helpers({
   imageFile: function () {
    return Images.findOne();
   },
-  
+
 });
 
 Template.file.helpers({
@@ -75,4 +76,3 @@ Template.file.helpers({
       return Videos.findOne();
     }
 });
-

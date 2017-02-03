@@ -32,7 +32,7 @@ Template.setVideoLink.events({
   "click .btn-abort-adding" (event) {
     Template.instance().editActive.set(false);
   },
-  
+
   "click .btn-set-type" (event, template) {
     var currentArray = template.data.media;
     var currentSlot = template.data.slot;
@@ -45,6 +45,7 @@ Template.setVideoLink.events({
 
 Template.deleteImageButton.onCreated (function(){
   this.setEmptyPreview = new ReactiveVar(false);
+  Meteor.subscribe("files.images.all");
 });
 
 Template.setTitleImageButton.onCreated(function() {
@@ -68,11 +69,11 @@ Template.galleryPreview.helpers({
   getValue(){
     return Template.instance().valuePreview.get();
   },
-  
+
    result: function() {
     return Session.get('result');
   },
-  
+
 
 });
 
@@ -86,7 +87,7 @@ Template.setTitleImageButton.events({
    var collection = template.data.collection;
    collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': currentArray[currentSlot].id }} );
    Template.instance().setCover.set(true);
-    
+
   },
 
 });
@@ -94,7 +95,7 @@ Template.setTitleImageButton.events({
 
 
 Template.deleteImageButton.events({
-  
+
    "click #delete-image-button" (event, template){
    var currentArray = template.data.media;
    var currentSlot = template.data.slot;
@@ -103,35 +104,35 @@ Template.deleteImageButton.events({
    console.log(currentArray[currentSlot].id);
    console.log(currentCover);
    if (currentArray[currentSlot].id != null){
-    Images.remove({_id: currentArray[currentSlot].id}); 
+    Images.remove({_id: currentArray[currentSlot].id});
    };
-     
+
    if(currentCover === currentArray[currentSlot].id ){
-     currentArray[currentSlot].id = null; 
+     currentArray[currentSlot].id = null;
      var newCoverImage = null;
-     
+
      for (var i = 0; i < 5; i++) {
-      
+
         if (currentArray[i].id != null){
             newCoverImage = currentArray[i].id;
             break;
         }
      }
      console.log(newCoverImage);
-     collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': newCoverImage }} ); 
-   } 
-   currentArray[currentSlot].id = null;   
+     collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': newCoverImage }} );
+   }
+   currentArray[currentSlot].id = null;
    currentArray[currentSlot].type = null;
-   collection.update( { _id: template.data.projectId }, { $set: { 'media': currentArray }} );  
+   collection.update( { _id: template.data.projectId }, { $set: { 'media': currentArray }} );
    Template.instance().setEmptyPreview.set(true);
    Session.set('result', undefined)
-  
+
   },
-  
+
 });
 
 /*Template.previewPlaceholder.events({
-  
+
    "click #set-preview" (event){
      const target = event.target;
      console.log("hfjdhjdjdjd")
@@ -143,13 +144,15 @@ Template.wholeGallery.onCreated(function() {
   this.editMode = new ReactiveVar(false);
   this.refreshPreview = new ReactiveVar(false);
   this.finishedMode = new ReactiveVar(false);
+  Meteor.subscribe("projects");
+  Meteor.subscribe("projectDrafts");
 });
 
 Template.wholeGallery.helpers({
   log (data) {
     console.log(data);
   },
-  getVideoImage(id){
+  getVideoImage(id) {
     var currentArray = this.currentDoc.media;
     var url = id;
     var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
@@ -158,7 +161,7 @@ Template.wholeGallery.helpers({
     var newUrl = "http://img.youtube.com/vi/"+newUrlId+"/0.jpg"
     return newUrl;
   },
-  urlId(){
+  urlId() {
     var slot = Session.get('slot');
     var currentArray = this.currentDoc.media;
     var url = this.currentDoc.media[slot].id;
@@ -170,12 +173,12 @@ Template.wholeGallery.helpers({
     currentArray[slot].id = newUrl;
     this.currentCollection.update({_id: this.currentDoc.id}, {$set: {'media': currentArray}});
   },
-  getMediaType(){
+  getMediaType() {
     var slot = Session.get('slot');
     return this.currentDoc.media[slot].type;
   },
-  getProjectCollection(){
-      return Projects;
+  getProjectCollection() {
+    return Projects;
   },
   getDraftsCollection() {
     return ProjectDrafts;
@@ -186,53 +189,44 @@ Template.wholeGallery.helpers({
   getRefreshPreview(){
     return Template.instance().refreshPreview.get();
   },
-
   getFinishedMode(){
     return Template.instance().finishedMode.get();
   },
-
-  result: function() {
-
+  result() {
     return Session.get('result');
   },
-
-  slot: function() {
-
+  slot() {
     return Session.get('slot');
   },
-
-  getFirstMediaType(){
-     Session.set('result', "null");
-     for (var i = 0; i < this.currentDoc.media.length; i++) {
-
+  getFirstMediaType() {
+    Session.set('result', "null");
+    if (this.currentDoc && this.currentDoc.media) {
+      for (var i = 0; i < this.currentDoc.media.length; i++) {
         if (this.currentDoc.media[i].type == "image"){
-          console.log(this.currentDoc.media[i].id);
+          // console.log(this.currentDoc.media[i].id);
           Session.set('slot', i)
           Session.set('result', this.currentDoc.media[i].id )
           return ("image");
-        }
-        else if (this.currentDoc.media[i].type == "URL"){
+        } else if (this.currentDoc.media[i].type == "URL"){
           Session.set('slot', i);
           return ("URL");
         }
-
-     }
-
+      }
+    }
   },
-
 });
 
 
 
 Template.wholeGallery.events({
-  
+
   "click #edit-gallery-button" (event){
     if(!this.currentDoc.media) {
       Session.set('slot', 0);
       var mediaEmpty = [{type: null, id: null}, {type: null, id: null},{type: null, id: null}, {type: null, id: null}, {type: null, id: null}];
       this.currentCollection.update(this.currentDoc._id, {$set: {media: mediaEmpty}});
       this.currentCollection.update(this.currentDoc._id, {$set: {coverImg: null}});
-      
+
     }
 
     const target = event.target;

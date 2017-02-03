@@ -1,28 +1,25 @@
 import { Template } from 'meteor/templating';
-
 import { Projects } from '/lib/collections/projects.js';
-
 
 import './landing_page.html';
 
 var keyWord = new ReactiveArray([]);
 
-Template.landingPage.onCreated (function(){
+Template.landingPage.onCreated (function landingPageOnCreated() {
   this.setSearch = new ReactiveVar(true);
   this.setSort = new ReactiveVar("new");
- 
+  Meteor.subscribe("projects");
 });
 
 Template.landingPage.helpers({
-  projects() {
-    return Projects.find({}, { sort: { createdAt: -1 } });
-  },
-
+  // projects() {
+  //   return Projects.find({}, { sort: { createdAt: -1 } });
+  // },
   searchFilter() {
     var getSort = Template.instance().setSort.get();
-    var search ;  
+    var search ;
     var count = 0;
-    
+
     if(Template.instance().setSort.get()){
       if(getSort == "new"){
         var sortValue = {};
@@ -58,7 +55,7 @@ Template.landingPage.helpers({
                 search = Projects.find({ _id: id,
                     $or:[
                          {title:{$regex: input, $options : 'i'}},{subtitle:{$regex: input, $options : 'i'}},{jobs:{$elemMatch:{joblabel: {$regex: input, $options : 'i'}}}},{tags:{$elemMatch:{$regex: input, $options : 'i'}}},{occasions:{$elemMatch:{$regex: input, $options : 'i'}}},{description:{$regex: input, $options : 'i'}},{"owner.wholeName":{$regex: input, $options : 'i'}},{team:{$elemMatch:{userName: {$regex: input, $options : 'i'}}}}
-                    ]});            
+                    ]});
                 if(search.count() == 1){
                   searchArray.push(x);
                 }
@@ -72,7 +69,7 @@ Template.landingPage.helpers({
         var emptyDeadline = [];
         search.forEach(function(x){
           var deadline = x.deadline;
-          
+
           if(deadline != undefined){
             if (deadline > new Date()){
               searchDeadline.push(x);
@@ -93,15 +90,15 @@ Template.landingPage.helpers({
 
       }
     }
-    
+
     Template.instance().setSearch.set(true);
-    
+
     return search;
-    
+
   },
-  
-  
-  
+
+
+
   searchFilterNew(){
     Template.instance().setSearch.set(true);
   },
@@ -124,19 +121,19 @@ Template.landingPage.events({
     keyWord.push($('#listExName').val());
     Template.instance().setSearch.set(false);
     return $('#listExName').val('');
-    
+
   },
   'click #listExAdd' (event){
     event.preventDefault();
     keyWord.push($('#listExName').val());
     Template.instance().setSearch.set(false);
     return $('#listExName').val('');
-    
+
   },
   'click .listExRemove' (event) {
     Template.instance().setSearch.set(false);
     return keyWord.remove(this.toString());
-    
+
   },
   'change #sortStatus' (event, template){
     var selectedSort = template.$("#sortStatus").val();
@@ -144,4 +141,3 @@ Template.landingPage.events({
     Template.instance().setSort.set(selectedSort);
   }
 });
-

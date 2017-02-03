@@ -1,11 +1,11 @@
 /*
 - use this file for template helpers used in multiple templates
-- reference:
- - https://guide.meteor.com/blaze.html#global-helpers
+- references:
+ - http://blazejs.org/guide/reusing-code.html#Global-Helpers
+ - http://blazejs.org/api/templates.html#Template-registerHelper
 */
 
 import { Template } from 'meteor/templating';
-import {Projects} from "/lib/collections/projects.js" ;
 
 Template.registerHelper("readableDate", (date) => {
   return moment(date).format("DD.MM.YYYY");
@@ -21,9 +21,9 @@ Template.registerHelper("releaseDate", (date) => {
 });
 
 Template.registerHelper("getUsername", (userId) => {
-  console.log(userId);
+  // console.log(userId);
   var user = Meteor.users.findOne({_id: userId});
-  console.log(user.emails[0].address);
+  // console.log(user.emails[0].address);
   return user && user.emails[0].address;
 });
 
@@ -31,8 +31,6 @@ Template.registerHelper("getFullUsername", (userId) => {
   var user = Meteor.users.findOne({_id: userId});
   return user && user.profile.firstname + " " + user.profile.lastname;
 });
-
-Template.registerHelper("getProjectsCollection", Projects);
 
 Template.registerHelper("arrayToString", (array) => {
   return array && array.join(", ");
@@ -45,8 +43,8 @@ Template.registerHelper("getImgURL", (imgId, version) => {
 
 Template.registerHelper("getAvatarURL", (userId, version) => {
   var user = Meteor.users.findOne({_id: userId});
-  var image = Images.findOne(user.profile.avatar);
-  console.log(image);
+  var image = Images.findOne(user && user.profile.avatar);
+  // console.log(image);
   return (image && image.versions[version]) ? image.link(version) : "/img/defaultMini.jpg";
 });
 
