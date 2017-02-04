@@ -217,7 +217,6 @@ Template.wholeGallery.helpers({
         }
 
      }
-
   },
 
 });

@@ -138,6 +138,11 @@ Template.landingPage.events({
     return keyWord.remove(this.toString());
     
   },
+  'click .listRemove' (event) {
+    Template.instance().setSearch.set(false);
+    return keyWord.clear();
+    
+  },
   'change #sortStatus' (event, template){
     var selectedSort = template.$("#sortStatus").val();
     console.log(selectedSort);

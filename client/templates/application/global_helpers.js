@@ -47,8 +47,15 @@ Template.registerHelper("getImgURL", (imgId, version) => {
 
 Template.registerHelper("getAvatarURL", (userId, version) => {
   var user = Meteor.users.findOne({_id: userId});
-    var image = user.profile.avatar && Images.findOne(user.profile.avatar);
-    return (image && image.versions[version]) ? image.link(version) : "/img/defaultMini.jpg";
+  var image = user.profile.avatar && Images.findOne(user.profile.avatar);
+  return (image && image.versions[version]) ? image.link(version) : "/img/defaultMini.jpg";
+  
+});
+
+Template.registerHelper("getAvatarCardURL", (userId, version) => {
+  var user = Meteor.users.findOne({_id: userId});
+  var image = user.profile.avatar && Images.findOne(user.profile.avatar);
+  return (image && image.versions[version]) ? image.link(version) : "/img/defaultCardMini.jpg";
   
 });
 
