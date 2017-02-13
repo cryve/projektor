@@ -1,6 +1,8 @@
 # projektor
 
 ## Termine
+* 01.03.2017 Projektor ist einsatzbereit für Testbetrieb in Kursen
+* Projektpräsentationsveranstaltung Anfang SoSe 2017, Datum?
 
 ## Anforderungen
 ### MUST
