@@ -317,7 +317,7 @@
 <template name="projectCardFooter">
   <ul class="list-inline text-center">
     <li class="text-muted">
-      <span class="glyphicon glyphicon-step-backward"></span> <small>{{readableDate beginning}}</small>
+      <span class="glyphicon glyphicon-step-backward"></span> {{#if beginning}}<small>{{readableDate beginning}}</small>{{/if}}
     </li>
     <li class="text-muted">
       {{#if deadline}}<small>{{readableDate deadline}}</small>{{else}}&infin;{{/if}} <span class="glyphicon glyphicon-step-forward"></span>

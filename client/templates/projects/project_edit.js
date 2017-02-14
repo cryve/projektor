@@ -286,6 +286,24 @@ Template.editDeadline.events({
   },
 });
 
+Template.editBeginning.onCreated(function() {
+  this.editActive = new ReactiveVar(false);
+});
+
+Template.editBeginning.helpers({
+  editActive () {
+    return Template.instance().editActive.get();
+  },
+});
+
+Template.editBeginning.events({
+  "click .btn-edit-beginning" (event) {
+    Template.instance().editActive.set(true);
+  },
+  "click .btn-abort-editing" (event) {
+    Template.instance().editActive.set(false);
+  },
+});
 Template.editOwnerRole.onCreated(function() {
   this.editActive = new ReactiveVar(false);
 });

@@ -13,6 +13,7 @@ AutoForm.addHooks([
   "editOccasions",
   "editSupervisors",
   "editDeadline",
+  "editBeginning",
   "editOwnerRole",
   "setVideoLink"
   ], {
