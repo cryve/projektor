@@ -218,7 +218,14 @@ Template.jobItem.events({
   "click .btn-delete-job" (event) {
     let currentJobs = this.currentDoc.jobs;
     currentJobs.splice(this.slot, 1);
-    this.currentCollection.update(this.currentDoc._id, {$set: {jobs: currentJobs}});
+    // this.currentCollection.update(this.currentDoc._id, {$set: {jobs: currentJobs}});
+    const jobsUpdateCall = this.currentCollection._name + ".updateJobs";
+    console.log(jobsUpdateCall);
+    Meteor.call(removeJobCall, this.currentDoc._id, this.slot, (err, res) => {
+      if (err) {
+        alert(err);
+      }
+    });
   },
   "click .btn-edit-job" (event) {
     Template.instance().editActive.set(true);

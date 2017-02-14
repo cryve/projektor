@@ -51,3 +51,7 @@ Template.registerHelper("getAvatarURL", (userId, version) => {
 Template.registerHelper("log", (data) => {
   console.log(data);
 });
+
+Template.registerHelper("getMethodString", (collectionName, methodName) => {
+  return collectionName + "." + methodName;
+})

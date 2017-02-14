@@ -3,6 +3,9 @@ import {Projects} from "/lib/collections/projects.js" ;
 import {ProjectDrafts} from "/lib/collections/project_drafts.js";
 import {Images} from "/lib/images.collection.js";
 
+import { publishDraft } from "/lib/methods.js";
+import { deleteDraft } from "/lib/methods.js";
+
 import "./editableProject.html";
 
 
@@ -65,16 +68,30 @@ Template.editableProject.helpers({
 });
 
 Template.editableProject.events({
-  "click #btn-create" (event) {
-    var title = this.title;
-    var newId = Projects.insert(this);
-    console.log(this);
-    ProjectDrafts.remove(this._id);
-    Router.go("projectDetails", {_id: newId, title: title});
+  "click #btn-publish-draft" (event) {
+    const newId = publishDraft.call({
+        draftId: this._id,
+      }, (err, res) => {
+        if (err) {
+          alert(err);
+        } else {
+          alert("Dein Projekt wurde veröffentlicht!");
+        }
+    });
+    Router.go("projectDetails", {_id: newId, title: this.title});
     Session.set('result', "null");
   },
-  "click #btn-abort" (event) {
-    ProjectDrafts.remove(this._id);
+  "click #btn-delete-draft" (event) {
+    // ProjectDrafts.remove(this._id);
+    deleteDraft.call({
+        draftId: this._id,
+      }, (err, res) => {
+        if (err) {
+          alert(err);
+        } else {
+          alert("Dein Entwurf wurde gelöscht!");
+        }
+    });
     Router.go("landingPage");
     Session.set('result', "null");
   },

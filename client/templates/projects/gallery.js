@@ -38,7 +38,20 @@ Template.setVideoLink.events({
     var currentSlot = template.data.slot;
     var collection = template.data.collection;
     currentArray[currentSlot].type = "URL";
-    collection.update( { _id: template.data.projectId }, { $set: { 'media': currentArray }} );
+    // collection.update( { _id: template.data.projectId }, { $set: { 'media': currentArray }} );
+    if(collection._name == "projects") {
+      Meteor.call("projects.setMedia", template.data.projectId, currentArray, (err, res) => {
+        if (err) {
+          alert(err);
+        }
+      });
+    } else if (collection._name == "projectDrafts") {
+      Meteor.call("projects.setMedia", template.data.projectId, currentArray, (err, res) => {
+        if (err) {
+          alert(err);
+        }
+      });
+    }
   },
 });
 
@@ -85,7 +98,20 @@ Template.setTitleImageButton.events({
    var currentArray = template.data.media;
    var currentSlot = template.data.slot;
    var collection = template.data.collection;
-   collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': currentArray[currentSlot].id }} );
+  //  collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': currentArray[currentSlot].id }} );
+  if(collection._name == "projects") {
+    Meteor.call("projects.setCoverImg", template.data.projectId, currentArray[currentSlot].id , (err, res) => {
+      if (err) {
+        alert(err);
+      }
+    });
+  } else if (collection._name == "projectDrafts") {
+    Meteor.call("projects.setCoverImg", template.data.projectId, currentArray[currentSlot].id , (err, res) => {
+      if (err) {
+        alert(err);
+      }
+    });
+  }
    Template.instance().setCover.set(true);
 
   },
@@ -119,11 +145,37 @@ Template.deleteImageButton.events({
         }
      }
      console.log(newCoverImage);
-     collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': newCoverImage }} );
+    //  collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': newCoverImage }} );
+    if (collection._name == "projects") {
+      Meteor.call("projects.setCoverImg", template.data.projectId, newCoverImg, (err, res) => {
+        if (err) {
+          alert(err);
+        }
+      });
+    } else if (collection._name == "projectDrafts") {
+      Meteor.call("projectDrafts.setCoverImg", template.data.projectId, newCoverImg, (err, res) => {
+        if (err) {
+          alert(err);
+        }
+      });
+    }
    }
    currentArray[currentSlot].id = null;
    currentArray[currentSlot].type = null;
-   collection.update( { _id: template.data.projectId }, { $set: { 'media': currentArray }} );
+  //  collection.update( { _id: template.data.projectId }, { $set: { 'media': currentArray }} );
+  if (collection._name == "projects") {
+    Meteor.call("projects.setMedia", template.data.projectId, currentArray, (err, res) => {
+      if (err) {
+        alert(err);
+      }
+    });
+  } else if (collection._name == "projectDrafts") {
+    Meteor.call("projectDrafts.setMedia", template.data.projectId, currentArray, (err, res) => {
+      if (err) {
+        alert(err);
+      }
+    });
+  }
    Template.instance().setEmptyPreview.set(true);
    Session.set('result', undefined)
 
@@ -144,6 +196,7 @@ Template.wholeGallery.onCreated(function() {
   this.editMode = new ReactiveVar(false);
   this.refreshPreview = new ReactiveVar(false);
   this.finishedMode = new ReactiveVar(false);
+  console.log()
   Meteor.subscribe("projects");
   Meteor.subscribe("projectDrafts");
 });
@@ -171,7 +224,20 @@ Template.wholeGallery.helpers({
     var newUrl = "https://www.youtube.com/embed/"+newUrlId
     console.log(newUrl);
     currentArray[slot].id = newUrl;
-    this.currentCollection.update({_id: this.currentDoc.id}, {$set: {'media': currentArray}});
+    // this.currentCollection.update({_id: this.currentDoc.id}, {$set: {'media': currentArray}});
+    if (this.currentCollection._name == "projects") {
+      Meteor.call("projects.setMedia", this.currentDoc.id, currentArray, (err, res) => {
+        if (err) {
+          alert(err);
+        }
+      });
+    } else if (this.currentCollection._name == "projectDrafts") {
+      Meteor.call("projectDrafts.setMedia", this.currentDoc.id, currentArray, (err, res) => {
+        if (err) {
+          alert(err);
+        }
+      });
+    }
   },
   getMediaType() {
     var slot = Session.get('slot');
@@ -221,12 +287,35 @@ Template.wholeGallery.helpers({
 Template.wholeGallery.events({
 
   "click #edit-gallery-button" (event){
+    console.log(this.currentCollection);
     if(!this.currentDoc.media) {
       Session.set('slot', 0);
       var mediaEmpty = [{type: null, id: null}, {type: null, id: null},{type: null, id: null}, {type: null, id: null}, {type: null, id: null}];
-      this.currentCollection.update(this.currentDoc._id, {$set: {media: mediaEmpty}});
-      this.currentCollection.update(this.currentDoc._id, {$set: {coverImg: null}});
-
+      // this.currentCollection.update(this.currentDoc._id, {$set: {media: mediaEmpty}});
+      // this.currentCollection.update(this.currentDoc._id, {$set: {coverImg: null}});
+      if(this.currentCollection._name == "projects") {
+        Meteor.call("projects.setMedia", this.currentDoc._id, mediaEmpty, (err, res) => {
+          if (err) {
+            alert(err);
+          }
+        });
+        Meteor.call("projects.setCoverImg", this.currentDoc._id, null, (err, res) => {
+          if (err) {
+            alert(err);
+          }
+        });
+      } else if (this.currentCollection._name == "projectDrafts") {
+        Meteor.call("projectDrafts.setMedia", this.currentDoc._id, mediaEmpty, (err, res) => {
+          if (err) {
+            alert(err);
+          }
+        });
+        Meteor.call("projectDrafts.setCoverImg", this.currentDoc._id, null, (err, res) => {
+          if (err) {
+            alert(err);
+          }
+        });
+      }
     }
 
     const target = event.target;

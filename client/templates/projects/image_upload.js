@@ -29,37 +29,34 @@ Template.uploadForm.events({
     if (e.currentTarget.files && e.currentTarget.files[0]) {
       // We upload only one file, in case
       // there was multiple files selected
-      var file = e.currentTarget.files[0];
-      if (file) {
-        var uploadInstance = Images.insert({
-          file: file,
-          streams: 'dynamic',
-          chunkSize: 'dynamic'
-        }, false);
+      var uploadInstance = Images.insert({
+        file: e.currentTarget.files[0],
+        streams: 'dynamic',
+        chunkSize: 'dynamic'
+      }, false);
 
-        uploadInstance.on('start', function() {
-          template.currentUpload.set(this);
-        });
+      uploadInstance.on('start', function() {
+        template.currentUpload.set(this);
+      });
 
-        uploadInstance.on('end', function(error, fileObj) {
-          if (error) {
-            alert('Error during upload: ' + error.reason);
-          } else {
-            alert('File "' + fileObj.name + '" successfully uploaded');
-            console.log("Storing image with URL " + fileObj._id + " in slot: " + this.uploadSlot);
+      uploadInstance.on('end', function(error, fileObj) {
+        if (error) {
+          alert('Error during upload: ' + error.reason);
+        } else {
+          alert('File "' + fileObj.name + '" successfully uploaded');
+          console.log("Storing image with URL " + fileObj._id + " in slot: " + this.uploadSlot);
 
 
-            Meteor.users.update( { _id: Meteor.userId() }, { $set: { 'profile.avatar': fileObj._id }} );
+          Meteor.users.update( { _id: Meteor.userId() }, { $set: { 'profile.avatar': fileObj._id }} );
 
 
 
-          }
+        }
 
-          template.currentUpload.set(false);
-        });
+        template.currentUpload.set(false);
+      });
 
-        uploadInstance.start();
-      }
+      uploadInstance.start();
     }
   }
 });
