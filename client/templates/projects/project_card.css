@@ -10,9 +10,9 @@
 .expandable-content {
   position: absolute;
   top: 201px;
-  left: 16px;
+  left: 17px;
   background-color: white;
-  width: 261px;
+  width: 259px;
   height: 169px;
   padding: 15px;
   -webkit-transition: all 0.3s linear 0s;
@@ -101,7 +101,7 @@
 }
 .expandable-trigger:hover + .expandable-content .card {
   position: relative;
-  z-index: 7;
+  z-index: 2;
 }
 .expandable-trigger:hover {
   height: 225px;
@@ -168,6 +168,7 @@
   -webkit-hyphens: auto;
   -ms-hyphens: auto;
   hyphens: auto;
+  z-index: -100;
 }
 
 .hr-top {
@@ -180,7 +181,7 @@
 
 .member-icons-box {
   position: absolute;
-  top: -31px;
+  top: -30px;
   right: 0px;
   padding: 5px;
   background-color: white;

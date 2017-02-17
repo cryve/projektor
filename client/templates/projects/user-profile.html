@@ -45,43 +45,47 @@
         </ul>
       </div>
     </div> <!-- /.panel Link -->
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="project-cards">
+  <div class="project-cards">
+    <div class="container">
+      <div class="row">
         <div>Meine erstellten Projekte</div>
         <ul>
             {{#each project in projects}}
               {{#if $eq this._id project.owner.userId}}
+                <div class="col-lg-3">
                 {{#if project.coverImg}}
                   {{>projectCard currentDoc=project}}
                 {{else}}
                   {{>projectCardCoverless currentDoc=project}}
                 {{/if}}
+                </div>
               {{ /if }}
             {{/each}}
         </ul>
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="project-cards">
+  <div class="project-cards">
+    <div class="container">
+      <div class="row">
         <div>Mitglied der Projekte</div>
-          <ul>
-              {{#each project in projects}}
-                {{#each member in project.team}}
-                  {{#if $eq this._id member.userId}}
-                    {{#if project.coverImg}}
-                      {{>projectCard currentDoc=project}}
-                    {{else}}
-                      {{>projectCardCoverless currentDoc=project}}
-                    {{/if}}
-                  {{ /if }}
-                {{/each}}
+        <ul>
+            {{#each project in projects}}
+              {{#each member in project.team}}
+                {{#if $eq this._id member.userId}}
+                  <div class="col-lg-3">
+                  {{#if project.coverImg}}
+                    {{>projectCard currentDoc=project}}
+                  {{else}}
+                    {{>projectCardCoverless currentDoc=project}}
+                  {{/if}}
+                  </div>
+                {{ /if }}
               {{/each}}
-         </ul>
-      </div>
-    </div>
+            {{/each}}
+          </ul>
+        </div>
+     </div>
   </div>
         <!--{{#if $eq currentUser._id this._id}}
             {{>editProfile}}
