@@ -13,6 +13,7 @@ AutoForm.addHooks([
   "editOccasions",
   "editSupervisors",
   "editDeadline",
+  "editBeginning",
   "editOwnerRole",
   "setVideoLink"
   ], {
@@ -20,6 +21,7 @@ AutoForm.addHooks([
     this.template.parent().editActive.set(false);
   }
 });
+
 
 AutoForm.addHooks([
   "addMember"

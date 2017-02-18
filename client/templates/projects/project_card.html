@@ -12,7 +12,7 @@
           <ul class="member-icons list-inline">
           <li>
             <a href="{{pathFor 'userProfile' _id=currentDoc.owner.userId }}">
-              <img class="img-circle" rel="tooltip" title={{getFullUsername currentDoc.owner.userId}} src={{getAvatarCardURL currentDoc.owner.userId "avatar20"}}>
+              <img class="img-circle" rel="tooltip" title={{getFullUsername currentDoc.owner.userId}} src={{getAvatarURL currentDoc.owner.userId "avatar20"}}>
             </a>
           </li>
           {{#each member in currentDoc.team}}
@@ -39,7 +39,9 @@
         </ul>
         </div> <!-- /.member-icons-box -->
         <!-- <div class="cover-card-title"> -->
+        <div class="testTrigger">
           {{> projectCardTitle _id=currentDoc._id title=currentDoc.title subtitle=currentDoc.subtitle subtitleLines=1 }}
+        </div>
         <!-- </div> -->
         <div class="jobs-box">
           <span class="text-muted text-center jobs-box-header"><span>Gesucht</span></span>
@@ -62,7 +64,7 @@
           <div class="container jobs-box-body expandable">
             <ul class="list-unstyled">
               {{#each job in currentDoc.jobs}}
-                {{#if $lt @index (itemsToShow current.jobs.length 7 0)}}
+                {{#if $lt @index (itemsToShow current.jobs.length 6 0)}}
                   <li class="text-primary {{#if $gte @index 3}}job-expand{{/if}}">
                     <span class="glyphicon glyphicon-search"></span> {{job.joblabel}}
                     <!-- {{#if $eq @index 2}}
@@ -73,6 +75,17 @@
                   </li>
                 {{/if}}
               {{/each}}
+              {{#if $gte currentDoc.jobs.length 6}}
+              
+                  <li class="text-primary">
+                  <span class="glyphicon glyphicon-plus"></span> (...)
+                  <!-- {{#if $eq @index 2}}
+                    {{#if itemsRemaining currentDoc.jobs.length 3 0}}
+                      (...)
+                    {{/if}}
+                  {{/if}} -->
+                  </li>
+                {{/if}}
             </ul>
           </div>
         </div> <!-- ./jobs-box-decoration -->
@@ -243,7 +256,7 @@
       <ul class="member-icons list-inline">
         <li>
           <a href="{{pathFor 'userProfile' _id=currentDoc.owner.userId }}">
-            <img class="img-circle" rel="tooltip" title={{getFullUsername currentDoc.owner.userId}} src={{getAvatarCardURL currentDoc.owner.userId "avatar30"}}>
+            <img class="img-circle" rel="tooltip" title={{getFullUsername currentDoc.owner.userId}} src={{getAvatarURL currentDoc.owner.userId "avatar30"}}>
           </a>
         </li>
         {{#each member in currentDoc.team}}
@@ -284,7 +297,7 @@
 
 <template name="projectCardTitle">
   <h3>
-    <a href="{{pathFor 'projectDetails' _id=_id title=title}}" class="{{#if subtitle}}title-1row{{else}}title-2row{{/if}}">{{title}}</a>
+    <a href="{{pathFor 'projectDetails' _id=_id title=title}}" class="title-2row">{{title}}</a>
     {{#if subtitle}}
       <br>
       <small class="subtitle-{{subtitleLines}}row">{{subtitle}}</small>
@@ -316,11 +329,21 @@
 
 <template name="projectCardFooter">
   <ul class="list-inline text-center">
-    <li class="text-muted">
-      <span class="glyphicon glyphicon-step-backward"></span> <small>{{readableDate beginning}}</small>
-    </li>
-    <li class="text-muted">
-      {{#if deadline}}<small>{{readableDate deadline}}</small>{{else}}&infin;{{/if}} <span class="glyphicon glyphicon-step-forward"></span>
-    </li>
+    {{#if $and beginning deadline}}
+      <li class="text-muted"><small>{{readableDate beginning}} - {{readableDate deadline}}</small> </li>
+    {{/if}}
+    
+    {{#if $and ($not beginning) ($not deadline)}}
+      <li class="text-muted"> <small>Kein Datum gesetzt</small> </li>
+    {{/if}}
+    
+    {{#if $and ($not beginning) deadline}}
+      <li class="text-muted"> <small>Deadline: {{readableDate deadline}}</small> </li>
+    {{/if}}
+    
+    {{#if $and beginning ($not deadline)}}
+      <li class="text-muted"> <small>Starttermin: {{readableDate beginning}} </small> </li>
+    {{/if}}
+
   </ul>
 </template>

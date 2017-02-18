@@ -48,16 +48,24 @@ Template.registerHelper("getImgURL", (imgId, version) => {
 Template.registerHelper("getAvatarURL", (userId, version) => {
   var user = Meteor.users.findOne({_id: userId});
   var image = user.profile.avatar && Images.findOne(user.profile.avatar);
-  return (image && image.versions[version]) ? image.link(version) : "/img/defaultMini.jpg";
+  if(version == "avatar20"){
+    return (image && image.versions[version]) ? image.link(version) : "/img/default20x20.jpg";
+  }
+  else if(version == "avatar30"){
+    return (image && image.versions[version]) ? image.link(version) : "/img/default30x30.jpg";
+  }
+  else {
+     return (image && image.versions[version]) ? image.link(version) : "/img/default50x50.jpg";
+  }
   
 });
 
-Template.registerHelper("getAvatarCardURL", (userId, version) => {
+/*Template.registerHelper("getAvatarCardURL", (userId, version) => {
   var user = Meteor.users.findOne({_id: userId});
   var image = user.profile.avatar && Images.findOne(user.profile.avatar);
   return (image && image.versions[version]) ? image.link(version) : "/img/defaultCardMini.jpg";
   
-});
+});*/
 
 Template.registerHelper("log", (data) => {
   console.log(data);
