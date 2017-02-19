@@ -69,5 +69,7 @@ Factory.define("project", Projects, {
   supervisors: () => _.times(_.random(maxSizeSupervisors), i => {
     return faker.name.prefix() + " " + faker.name.findName();
   }),
+  // media: () => [{type: "image", id: Images.findOne()._id}],
+  // coverImg: () => Images.findOne()._id,
 });
 _.times(sampleCountProjects, i => Factory.create("project"));
