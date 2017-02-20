@@ -2,6 +2,10 @@
   height: 78px;
 }
 
+.cover-card-title {
+  height: 62px;
+}
+
 .ellipsis-tags {
   position: relative;
   top: 156px;

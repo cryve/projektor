@@ -3,18 +3,16 @@ import {ProjectDrafts} from "/lib/collections/project_drafts.js";
 
 Template.navigationBar.helpers({
   result: function() {
-
       return Session.get('result');
   },
   findProjectInDrafts(){
-    var currentDraft = ProjectDrafts.findOne({"owner.userId": Meteor.userId()});
-    return currentDraft.owner.userId;
-           
+    const currentDraft = ProjectDrafts.findOne({"owner.userId": Meteor.userId()});
+    return currentDraft && currentDraft.owner.userId;     
   },
   route(){
-    var idDraft = Router.current().params._id;
-    var currentDraft = ProjectDrafts.findOne({"_id": idDraft});
-    return currentDraft.owner.userId;
+    const idDraft = Router.current().params._id;
+    const currentDraft = ProjectDrafts.findOne({"_id": idDraft});
+    return currentDraft && currentDraft.owner.userId;
   }
   
 });

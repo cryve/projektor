@@ -39,56 +39,12 @@
         </ul>
         </div> <!-- /.member-icons-box -->
         <!-- <div class="cover-card-title"> -->
-        <div class="testTrigger">
+        <div class="cover-card-title">
           {{> projectCardTitle _id=currentDoc._id title=currentDoc.title subtitle=currentDoc.subtitle subtitleLines=1 }}
         </div>
         <!-- </div> -->
-        <div class="jobs-box">
-          <span class="text-muted text-center jobs-box-header"><span>Gesucht</span></span>
-          <!-- <div class="container jobs-collapsed">
-            <ul class="list-unstyled">
-              {{#each job in currentDoc.jobs}}
-                {{#if $lt @index (itemsToShow current.jobs.length 3 0)}}
-                  <li class="text-primary">
-                    <span class="glyphicon glyphicon-search"></span> {{job.joblabel}}
-                    {{#if $eq @index 2}}
-                      {{#if itemsRemaining currentDoc.jobs.length 3 0}}
-                        (...)
-                      {{/if}}
-                    {{/if}}
-                  </li>
-                {{/if}}
-              {{/each}}
-            </ul>
-          </div> -->
-          <div class="container jobs-box-body expandable">
-            <ul class="list-unstyled">
-              {{#each job in currentDoc.jobs}}
-                {{#if $lt @index (itemsToShow current.jobs.length 6 0)}}
-                  <li class="jobBreak text-primary {{#if $gte @index 3}}job-expand{{/if}}">
-                    <span class="glyphicon glyphicon-search"></span> {{job.joblabel}}
-                    <!-- {{#if $eq @index 2}}
-                      {{#if itemsRemaining currentDoc.jobs.length 3 0}}
-                        (...)
-                      {{/if}}
-                    {{/if}} -->
-                  </li>
-                {{/if}}
-              {{/each}}
-              {{#if $gte currentDoc.jobs.length 6}}
-
-                  <li class="text-primary">
-                  <span class="glyphicon glyphicon-plus"></span> (...)
-                  <!-- {{#if $eq @index 2}}
-                    {{#if itemsRemaining currentDoc.jobs.length 3 0}}
-                      (...)
-                    {{/if}}
-                  {{/if}} -->
-                  </li>
-                {{/if}}
-            </ul>
-          </div>
-        </div> <!-- ./jobs-box-decoration -->
+        {{>projectCardJobs jobs=currentDoc.jobs expandable=true}}
+        
       </div> <!-- ./expandable-content -->
       {{>projectCardTags tags=currentDoc.tags}}
     </div> <!-- ./panel-body cover-card-body -->
@@ -98,155 +54,11 @@
   </div> <!-- /.panel project card -->
 </template>
 
-<!-- <template name="projectCard">
-  <div class="col-lg-3">
-  <div class="panel">
-    <div class="panel-header">
-      <div class="post-module"> -->
-      <!-- Thumbnail-->
-      <!-- <div class="thumbnailCover">
-
-            <img class="img-responsive" src={{getImgURL currentDoc.coverImg "cover"}} alt=""> -->
-
-      <!-- Post Content-->
-      <!-- <div class="post-content">
-
-        <h1 class="title"><a href="{{pathFor route='projectDetails' _id=currentDoc._id title=currentDoc.title}}">{{currentDoc.title}}</a></h1>
-        <h2 class="sub_title">{{currentDoc.subtitle}}</h2>
-         <div class="category">
-         <ul class="member-icons list-inline">
-          <li><a href="{{pathFor 'userProfile' _id=currentDoc.owner.userId }}"><img class="img-circle" rel="tooltip" title={{getFullUsername currentDoc.owner.userId}} src={{getAvatarURL currentDoc.owner.userId "avatarCard"}}></a></li>
-           {{#each member in currentDoc.team}}
-          <li><a href="{{pathFor 'userProfile' _id=member.userId }}"><img class="img-circle" rel="tooltip" title={{getFullUsername member.userId}} src={{getAvatarURL member.userId "avatarCard"}}></a></li>
-           {{/each}}
-         </ul> -->
-        <!-- </div > /.member-icons-box -->
-        <!-- <div class="list-div">
-          <ul class="list-unstyled">
-            {{#if $lte currentDoc.jobs.length 3}}
-              {{#each job in currentDoc.jobs}}
-              <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span>{{job.joblabel}}</li>
-              {{/each}}
-            {{else}}
-              <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[0].joblabel}}</li>
-              <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[1].joblabel}}</li>
-              <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[2].joblabel}} (...)</li>
-              <p class="description">
-                <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[3].joblabel}}</li>
-                <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[4].joblabel}}</li>
-                <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[5].joblabel}}</li>
-              </p>
-            {{/if}}
-          </ul>
-        </div> -->
-
-          <!-- {{#if $lte currentDoc.tags.length 3}}
-             {{#each tag in currentDoc.tags}}
-              <span class="label label-default">{{currentDoc.tag}}</span>
-             {{/each}}
-          {{else}}
-              <span class="label label-default">{{currentDoc.tags.[0]}}</span>
-              <span class="label label-default">{{currentDoc.tags.[1]}}</span>
-              <span class="label label-default">{{currentDoc.tags.[2]}}</span>
-              <span class="label label-default">...</span>
-          {{/if}}
-       <div class="panel-footer text-center">
-           <ul class="list-inline">
-            <li class="text-muted"><span class="glyphicon glyphicon-time"></span> <small>{{releaseDate currentDoc.createdAt}}</small></li>
-            {{#if currentDoc.deadline}}
-              <li class="text-muted"><span class="glyphicon glyphicon-calendar"></span> <small>
-                {{#if currentDoc.start}}
-                  {{readableDate currentDoc.start}}
-                {{/if}}
-                bis {{readableDate currentDoc.deadline}}</small></li>
-            {{/if}}
-          </ul>
-        </div>
-
-      </div>
-
-    </div> -->
-<!--
-
-    </div>
-
-  </div>
-</div>
-</div>
-
-         <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-
-</template> -->
-
-<!-- <template name="projectCardCoverlessBackup">
-  <div class="col-lg-3">
-    <div class="post-module">
-      <div class="post-content">
-        <h1 class="title"><a href="{{pathFor 'projectDetails' _id=currentDoc._id title=currentDoc.title}}">{{currentDoc.title}}</a></h1>
-        <h2 class="sub_title">{{currentDoc.subtitle}}</h2>
-        <div class="category2">
-         <ul class="member-icons list-inline">
-          <li><a href="{{pathFor 'userProfile' _id=currentDoc.owner.userId }}"><img class="img-circle" rel="tooltip" title={{getFullUsername currentDoc.owner.userId}} src={{getAvatarURL currentDoc.owner.userId}}></a></li>
-           {{#each member in currentDoc.team}}
-            <li><a href="{{pathFor 'userProfile' _id=member.userId }}"><img class="img-circle" rel="tooltip" title={{getFullUsername member.userId}} src={{getAvatarURL member.userId}}></a></li>
-           {{/each}}
-         </ul>
-        </div >
-
-            <ul class="list-unstyled">
-                {{#if $lte currentDoc.jobs.length 3}}
-                  {{#each job in currentDoc.jobs}}
-                    <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{job.joblabel}}</li>
-                  {{/each}}
-                {{else}}
-                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[0].joblabel}}</li>
-                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[1].joblabel}}</li>
-                  <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[2].joblabel}} (...)</li>
-                  <p class="description2">
-                    <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[3].joblabel}}</li>
-                    <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[4].joblabel}}</li>
-                    <li class="text-primary"><span class="glyphicon glyphicon-bullhorn"></span> {{currentDoc.jobs.[5].joblabel}}</li>
-                  </p>
-                {{/if}}
-            </ul>
-
-
-          {{#if $lte currentDoc.tags.length 3}}
-             {{#each tag in currentDoc.tags}}
-                <span class="label label-default">{{tag}}</span>
-             {{/each}}
-          {{else}}
-              <span class="label label-default">{{currentDoc.tags.[0]}}</span>
-              <span class="label label-default">{{currentDoc.tags.[1]}}</span>
-              <span class="label label-default">{{currentDoc.tags.[2]}}</span>
-              <span class="label label-default">...</span>
-          {{/if}}
-         <div class="panel-footer text-center">
-           <ul class="list-inline">
-            <li class="text-muted"><span class="glyphicon glyphicon-time"></span> <small>{{releaseDate currentDoc.createdAt}}</small></li>
-            {{#if currentDoc.deadline}}
-              <li class="text-muted"><span class="glyphicon glyphicon-calendar"></span> <small>
-                {{#if currentDoc.start}}
-                  {{readableDate currentDoc.start}}
-                {{/if}}
-                bis {{readableDate currentDoc.deadline}}</small></li>
-            {{/if}}
-          </ul>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-         <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-</template> -->
-
 <template name="projectCardCoverless">
   <div class="panel panel-default coverless-card">
     <div class="panel-body coverless-card-body">
       <div class="coverless-card-title">
-        {{> projectCardTitle _id=currentDoc._id title=currentDoc.title subtitle=currentDoc.subtitle subtitleLines=1 }}
+        {{> projectCardTitle _id=currentDoc._id title=currentDoc.title subtitle=currentDoc.subtitle subtitleLines=2 }}
       </div>
       <hr class="hr-top">
       <ul class="member-icons list-inline">
@@ -266,7 +78,6 @@
         {{/each}}
         {{#if itemsRemaining currentDoc.team.length 5 1}}
           <li class="remaining-member">
-            <!-- <span class="badge">+{{itemsRemaining currentDoc.team.length 5 1}}</span> -->
             <a class="text-info" href="{{pathFor 'projectDetails' _id=currentDoc._id title=currentDoc.title}}">
               <div class="text-center bg-info circle30-remaining-members">
                 <span>
@@ -278,7 +89,8 @@
         {{/if}}
       </ul>
       <hr class="hr-bottom">
-      {{>projectCardJobs jobs=currentDoc.jobs}}
+      
+      {{>projectCardJobs jobs=currentDoc.jobs expandable=false}}
       {{>projectCardTags tags=currentDoc.tags}}
     </div> <!-- /.panel-body -->
     <div class="panel-footer">
@@ -300,30 +112,13 @@
 <template name="projectCardJobs">
   <div class="jobs-box">
     <span class="text-muted text-center jobs-box-header"><span>Gesucht</span></span>
-    <div class="container jobs-box-body">
-      <ul class="list-unstyled">
+    <div class="container jobs-box-body {{#if expandable}}expandable{{/if}}">
+      <ul class="jobBreak list-unstyled">
           {{#each job in jobs}}
-            {{#if $lt @index (itemsToShow jobs.length 6 0)}}
-              <li class="jobBreak text-primary {{#if $gte @index 3}}job-expand{{/if}}">
-                <span class="glyphicon glyphicon-search"></span> {{job.joblabel}}
-                <!-- {{#if $eq @index 2}}
-                  {{#if itemsRemaining currentDoc.jobs.length 3 0}}
-                    (...)
-                  {{/if}}
-                {{/if}} -->
-              </li>
-            {{/if}}
-          {{/each}}
-          {{#if $gt jobs.length 6}}
-            <li class="text-primary">
-            <span class="glyphicon glyphicon-plus"></span> (...)
-            <!-- {{#if $eq @index 2}}
-              {{#if itemsRemaining currentDoc.jobs.length 3 0}}
-                (...)
-              {{/if}}
-            {{/if}} -->
+            <li class="text-primary {{#if $gte @index 3}}job-expand{{/if}}">
+              <span class="glyphicon glyphicon-search"></span> {{job.joblabel}}
             </li>
-          {{/if}}
+          {{/each}}
         </ul>
     </div>
   </div> <!-- ./jobs-box-decoration -->

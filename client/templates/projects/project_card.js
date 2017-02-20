@@ -228,42 +228,19 @@ Template.projectCardTitle.onRendered(function() {
 });
 
 Template.projectCardJobs.onRendered(function() {
-  this.$(".jobBreak").trunk8();
-  // $(".jobs-box-body").dotdotdot({
-  //   wrap: "letter"
-  // });
   template = this;
   this.autorun(() => {
     let dataContext = Template.currentData(); // Triggers reactive updating
     Tracker.afterFlush(() => {
-      //FIXME: Workaround to force trunk8 to use the new titel
-      // should not be neccessary and using the elements text reactively instead
-      this.$(".jobBreak").trunk8("update",dataContext.jobs.joblabel);
-      //$(".jobs-box-body > ul").dotdotdot({
-        //wrap: "letter"
-      //});
+      const lines = (dataContext.expandable)? 6 : 8;
+      this.$(".jobBreak").trunk8({
+        lines: lines,
+        tooltip: false,
+      });
     });
   });
 });
 
-Template.projectCard.onRendered(function() {
-  this.$(".jobBreak").trunk8();
-  // $(".jobs-box-body").dotdotdot({
-  //   wrap: "letter"
-  // });
-  template = this;
-  this.autorun(() => {
-    let dataContext = Template.currentData(); // Triggers reactive updating
-    Tracker.afterFlush(() => {
-      //FIXME: Workaround to force trunk8 to use the new titel
-      // should not be neccessary and using the elements text reactively instead
-      this.$(".jobBreak").trunk8("update",dataContext.jobs.joblabel);
-      //$(".jobs-box-body > ul").dotdotdot({
-        //wrap: "letter"
-      //});
-    });
-  });
-});
 
 Template.projectCardTags.onRendered(function() {
   template = this;
