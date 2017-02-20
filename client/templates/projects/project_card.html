@@ -65,7 +65,7 @@
             <ul class="list-unstyled">
               {{#each job in currentDoc.jobs}}
                 {{#if $lt @index (itemsToShow current.jobs.length 6 0)}}
-                  <li class="text-primary {{#if $gte @index 3}}job-expand{{/if}}">
+                  <li class="jobBreak text-primary {{#if $gte @index 3}}job-expand{{/if}}">
                     <span class="glyphicon glyphicon-search"></span> {{job.joblabel}}
                     <!-- {{#if $eq @index 2}}
                       {{#if itemsRemaining currentDoc.jobs.length 3 0}}
@@ -250,7 +250,7 @@
   <div class="panel panel-default coverless-card">
     <div class="panel-body coverless-card-body">
       <div class="coverless-card-title">
-        {{> projectCardTitle _id=currentDoc._id title=currentDoc.title subtitle=currentDoc.subtitle subtitleLines=2 }}
+        {{> projectCardTitle _id=currentDoc._id title=currentDoc.title subtitle=currentDoc.subtitle subtitleLines=1 }}
       </div>
       <hr class="hr-top">
       <ul class="member-icons list-inline">
@@ -310,19 +310,29 @@
     <span class="text-muted text-center jobs-box-header"><span>Gesucht</span></span>
     <div class="container jobs-box-body">
       <ul class="list-unstyled">
-        {{#each job in jobs}}
-          <!-- {{#if $lt @index (itemsToShow current.jobs.length 7 0)}} -->
+          {{#each job in jobs}}
+            {{#if $lt @index (itemsToShow jobs.length 6 0)}}
+              <li class="jobBreak text-primary {{#if $gte @index 3}}job-expand{{/if}}">
+                <span class="glyphicon glyphicon-search"></span> {{job.joblabel}}
+                <!-- {{#if $eq @index 2}}
+                  {{#if itemsRemaining currentDoc.jobs.length 3 0}}
+                    (...)
+                  {{/if}}
+                {{/if}} -->
+              </li>
+            {{/if}}
+          {{/each}}
+          {{#if $gt jobs.length 6}}
             <li class="text-primary">
-              <span class="glyphicon glyphicon-search"></span> {{job.joblabel}}
-              <!-- {{#if $eq @index 6}} -->
-                <!-- {{#if itemsRemaining currentDoc.jobs.length 7 0}} -->
-                  <!-- ... -->
-                <!-- {{/if}} -->
-              <!-- {{/if}} -->
+            <span class="glyphicon glyphicon-plus"></span> (...)
+            <!-- {{#if $eq @index 2}}
+              {{#if itemsRemaining currentDoc.jobs.length 3 0}}
+                (...)
+              {{/if}}
+            {{/if}} -->
             </li>
-          <!-- {{/if}} -->
-        {{/each}}
-      </ul>
+          {{/if}}
+        </ul>
     </div>
   </div> <!-- ./jobs-box-decoration -->
 </template>

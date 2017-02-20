@@ -229,6 +229,19 @@ Template.projectCardCoverless.helpers({
   }
 });
 
+Template.projectCardJobs.helpers({
+   projects() {
+    return Projects.find({}, { sort: { createdAt: -1 } });
+   },
+  itemsToShow(totalItems, maxItems, placeholderItems) {
+    return (totalItems <= maxItems) ? totalItems : maxItems-placeholderItems;
+   },
+  itemsRemaining(totalItems, maxItems, placeholderItems) {
+    if(totalItems > maxItems)
+      return totalItems-(maxItems-placeholderItems);
+  }
+});
+
 
 
 Template.projectCard.events({
@@ -266,7 +279,7 @@ Template.projectCardTitle.onRendered(function() {
 });
 
 Template.projectCardJobs.onRendered(function() {
-
+  this.$(".jobBreak").trunk8();
   // $(".jobs-box-body").dotdotdot({
   //   wrap: "letter"
   // });
@@ -276,9 +289,29 @@ Template.projectCardJobs.onRendered(function() {
     Tracker.afterFlush(() => {
       //FIXME: Workaround to force trunk8 to use the new titel
       // should not be neccessary and using the elements text reactively instead
-      $(".jobs-box-body > ul").dotdotdot({
-        wrap: "letter"
-      });
+      this.$(".jobBreak").trunk8("update",dataContext.jobs.joblabel);
+      //$(".jobs-box-body > ul").dotdotdot({
+        //wrap: "letter"
+      //});
+    });
+  });
+});
+
+Template.projectCard.onRendered(function() {
+  this.$(".jobBreak").trunk8();
+  // $(".jobs-box-body").dotdotdot({
+  //   wrap: "letter"
+  // });
+  template = this;
+  this.autorun(() => {
+    let dataContext = Template.currentData(); // Triggers reactive updating
+    Tracker.afterFlush(() => {
+      //FIXME: Workaround to force trunk8 to use the new titel
+      // should not be neccessary and using the elements text reactively instead
+      this.$(".jobBreak").trunk8("update",dataContext.jobs.joblabel);
+      //$(".jobs-box-body > ul").dotdotdot({
+        //wrap: "letter"
+      //});
     });
   });
 });

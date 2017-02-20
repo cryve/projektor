@@ -170,7 +170,12 @@
   -ms-hyphens: auto;
   hyphens: auto;
 }
-
+.jobBreak{
+  word-wrap: break-word;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+}
 .subtitle-2row {
   word-wrap: break-word;
   -webkit-hyphens: auto;
