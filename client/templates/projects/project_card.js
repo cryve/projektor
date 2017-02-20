@@ -11,10 +11,6 @@ import './project_card.html';
   //   data = Blaze.getData();
   //   $('img[rel="tooltip"]').tooltip();
   // });
-  $(".ellipsis-tags").trunk8({
-    lines: 1,
-    tooltip: false,
-  });
   $(".title-1row").trunk8({
     lines: 2, // bug in trunk8? lines: n seems to result in n-1 lines
     tooltip: false
@@ -78,9 +74,6 @@ Template.projectCardCoverless.onRendered(function() {
   //   });
   // });
 
-  // $(".ellipsis-tags").truncate({
-  //   lines: 1,
-  // });
   // this.$(".subtitle-2row").trunk8({
   //   lines: 2
   // });
@@ -95,13 +88,6 @@ Template.projectCardCoverless.onRendered(function() {
   //     this.$(".subtitle-2row").trunk8("update", dataContext.subtitle);
   //   });
   // });
-
-  $(".ellipsis-tags").trunk8({
-    lines: 1,
-    tooltip: false,
-    // parseHTML: true,
-    // fill: "<span class='label label-default'>...<span>"
-  });
   // $(".title-1row").trunk8({
   //   lines: 2, // bug in trunk8? lines: n seems to result in n-1 lines
   //   tooltip: false
@@ -134,7 +120,6 @@ Template.projectCardCoverless.onRendered(function() {
   //   console.log("Lines for " + $(element).text() + ": " + $(element).data("truncate-lines"));
   // });
 
-  // $(".ellipsis-tags").truncate("update");
   // $(".title-1row").dotdotdot({
   //   ellipsis  : '...',
   //   wrap    : 'word',
@@ -174,42 +159,6 @@ Template.projectCardCoverless.onRendered(function() {
   //   callback  : function( isTruncated, orgContent ) {},
   //   lastCharacter : {
   //     remove    : [ ' ', ',', ';', '.', '!', '?' ],
-  //     noEllipsis  : []
-  //   }
-  // });
-  // $(".ellipsis-tags").dotdotdot({
-  //       /*  The text to add as ellipsis. */
-  //   ellipsis  : '... ',
-  //
-  //   /*  How to cut off the text/html: 'word'/'letter'/'children' */
-  //   wrap    : 'word',
-  //
-  //   /*  Wrap-option fallback to 'letter' for long words */
-  //   fallbackToLetter: true,
-  //
-  //   /*  jQuery-selector for the element to keep and put after the ellipsis. */
-  //   after   : null,
-  //
-  //   /*  Whether to update the ellipsis: true/'window' */
-  //   watch   : false,
-  //
-  //   /*  Optionally set a max-height, if null, the height will be measured. */
-  //   height    : 18,
-  //
-  //   /*  Deviation for the height-option. */
-  //   tolerance : 5,
-  //
-  //   /*  Callback function that is fired after the ellipsis is added,
-  //     receives two parameters: isTruncated(boolean), orgContent(string). */
-  //   callback  : function( isTruncated, orgContent ) {},
-  //
-  //   lastCharacter : {
-  //
-  //     /*  Remove these characters from the end of the truncated text. */
-  //     remove    : [ ' ', ',', ';', '.', '!', '?' ],
-  //
-  //     /*  Don't add an ellipsis if this array contains
-  //       the last character of the truncated text. */
   //     noEllipsis  : []
   //   }
   // });
@@ -312,6 +261,22 @@ Template.projectCard.onRendered(function() {
       //$(".jobs-box-body > ul").dotdotdot({
         //wrap: "letter"
       //});
+    });
+  });
+});
+
+Template.projectCardTags.onRendered(function() {
+  template = this;
+  this.autorun(() => {
+    let dataContext = Template.currentData();
+    Tracker.afterFlush(() => {
+      //FIXME: Rerender tags when dataContext changes
+      $(".ellipsis-tags").trunk8({
+        lines: 1,
+        tooltip: false,
+        // parseHTML: true,
+        // fill: "<span class='label label-default'>...<span>"
+      });
     });
   });
 });

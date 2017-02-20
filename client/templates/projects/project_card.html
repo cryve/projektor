@@ -76,7 +76,7 @@
                 {{/if}}
               {{/each}}
               {{#if $gte currentDoc.jobs.length 6}}
-              
+
                   <li class="text-primary">
                   <span class="glyphicon glyphicon-plus"></span> (...)
                   <!-- {{#if $eq @index 2}}
@@ -90,11 +90,7 @@
           </div>
         </div> <!-- ./jobs-box-decoration -->
       </div> <!-- ./expandable-content -->
-      <span class="ellipsis-tags">
-        {{#each tag in currentDoc.tags}}
-          <span class="label label-default">{{tag}}</span>
-        {{/each}}
-      </span>
+      {{>projectCardTags tags=currentDoc.tags}}
     </div> <!-- ./panel-body cover-card-body -->
     <div class="panel-footer">
       {{>projectCardFooter beginning=currentDoc.beginning deadline=currentDoc.deadline}}
@@ -283,11 +279,7 @@
       </ul>
       <hr class="hr-bottom">
       {{>projectCardJobs jobs=currentDoc.jobs}}
-      <span class="ellipsis-tags">
-        {{#each tag in currentDoc.tags}}
-          <span class="label label-default">{{tag}}</span>
-        {{/each}}
-      </span>
+      {{>projectCardTags tags=currentDoc.tags}}
     </div> <!-- /.panel-body -->
     <div class="panel-footer">
       {{>projectCardFooter beginning=currentDoc.beginning deadline=currentDoc.deadline}}
@@ -337,20 +329,28 @@
   </div> <!-- ./jobs-box-decoration -->
 </template>
 
+<template name="projectCardTags">
+  <span class="ellipsis-tags">
+    {{#each tag in tags}}
+      <span class="label label-default">{{tag}}</span>
+    {{/each}}
+  </span>
+</template>
+
 <template name="projectCardFooter">
   <ul class="list-inline text-center">
     {{#if $and beginning deadline}}
       <li class="text-muted"><small>{{readableDate beginning}} - {{readableDate deadline}}</small> </li>
     {{/if}}
-    
+
     {{#if $and ($not beginning) ($not deadline)}}
       <li class="text-muted"> <small>Kein Datum gesetzt</small> </li>
     {{/if}}
-    
+
     {{#if $and ($not beginning) deadline}}
       <li class="text-muted"> <small>Deadline: {{readableDate deadline}}</small> </li>
     {{/if}}
-    
+
     {{#if $and beginning ($not deadline)}}
       <li class="text-muted"> <small>Starttermin: {{readableDate beginning}} </small> </li>
     {{/if}}
