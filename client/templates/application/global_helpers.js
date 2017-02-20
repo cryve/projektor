@@ -47,7 +47,7 @@ Template.registerHelper("getImgURL", (imgId, version) => {
 
 Template.registerHelper("getAvatarURL", (userId, version) => {
   var user = Meteor.users.findOne({_id: userId});
-  var image = user.profile.avatar && Images.findOne(user.profile.avatar);
+  var image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
   return (image && image.versions[version]) ? image.link(version) : "/img/"+version+".jpg";  
 });
 

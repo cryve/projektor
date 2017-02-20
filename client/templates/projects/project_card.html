@@ -101,7 +101,7 @@
 
 <template name="projectCardTitle">
   <h3>
-    <a href="{{pathFor 'projectDetails' _id=_id title=title}}" class="title-2row">{{title}}</a>
+    <a href="{{pathFor 'projectDetails' _id=_id title=title}}" class="{{#if subtitle}}title-1row{{else}}title-2row{{/if}}">{{title}}</a>
     {{#if subtitle}}
       <br>
       <small class="subtitle-{{subtitleLines}}row">{{subtitle}}</small>

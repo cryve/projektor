@@ -3,6 +3,7 @@
                     <div class="row">
                       <div class="col-sm-12">
                         {{#if $and getEditMode ($eq currentUser._id currentDoc.owner.userId)}}
+                          {{#if currentDoc.media}}
                             {{> uploadFormCrop slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection
                             }}
                             {{> setVideoLink slot=slot media=currentDoc.media
@@ -53,26 +54,29 @@
                                 {{/if}}
                               {{/if}}
                             {{/if}}
+                          {{/if}}
                              
 
 
                         {{else}}
-                          {{#if getRefreshPreview}}
-                            {{#if $eq getMediaType "URL"}}
-                                {{urlId}}
-                                {{> video slot=slot media=currentDoc.media projectId=currentDoc._id collection=currentCollection}}
-                            {{else}}
-                              {{#if $eq getMediaType "image"}}
-                                {{> galleryPreview result}}
+                          {{#if currentDoc.media}}
+                            {{#if getRefreshPreview}}
+                              {{#if $eq getMediaType "URL"}}
+                                  {{urlId}}
+                                  {{> video slot=slot media=currentDoc.media projectId=currentDoc._id collection=currentCollection}}
+                              {{else}}
+                                {{#if $eq getMediaType "image"}}
+                                  {{> galleryPreview result}}
+                                {{/if}}
                               {{/if}}
-                            {{/if}}
-                          {{else}}
-                            {{#if $eq getFirstMediaType "image"}}
-                              {{> galleryPreview result}}
                             {{else}}
-                              {{#if $eq getFirstMediaType "URL"}}
-                                {{urlId}}
-                                {{> video slot=slot media=currentDoc.media projectId=currentDoc._id collection=currentCollection}}
+                              {{#if $eq getFirstMediaType "image"}}
+                                {{> galleryPreview result}}
+                              {{else}}
+                                {{#if $eq getFirstMediaType "URL"}}
+                                  {{urlId}}
+                                  {{> video slot=slot media=currentDoc.media projectId=currentDoc._id collection=currentCollection}}
+                                {{/if}}
                               {{/if}}
                             {{/if}}
                           {{/if}}

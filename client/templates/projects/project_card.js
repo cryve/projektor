@@ -209,7 +209,12 @@ Template.projectCard.events({
 });
 
 Template.projectCardTitle.onRendered(function() {
-  this.$(".title-1row").trunk8();
+  this.$(".title-1row").trunk8({
+    lines: 2
+  });
+  this.$(".title-2row").trunk8({
+    lines: 3
+  });
   this.$(".subtitle-1row").trunk8();
   this.$(".subtitle-2row").trunk8({
     lines: 2
@@ -221,6 +226,7 @@ Template.projectCardTitle.onRendered(function() {
       //FIXME: Workaround to force trunk8 to use the new titel
       // should not be neccessary and using the elements text reactively instead
       this.$(".title-1row").trunk8("update", dataContext.title);
+      this.$(".title-2row").trunk8("update", dataContext.title);
       this.$(".subtitle-1row").trunk8("update", dataContext.subtitle);
       this.$(".subtitle-2row").trunk8("update", dataContext.subtitle);
     });
