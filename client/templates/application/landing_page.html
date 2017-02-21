@@ -1,5 +1,5 @@
 <template name="landingPage">
-  <ul class="unstyled">
+  <!--<ul class="unstyled">
     {{#each tags }}
       {{#if $eq this ""}}
 
@@ -25,12 +25,11 @@
         <option value="deadlineFar">Deadline fern</option>
         <option value="relevanz">Relevanz</option>
     </select>
-  </td>
+  </td>-->
   <div class="project-cards">
     <div class="container">
       <div class="row">
-        {{#if isSearch}}
-          {{#each project in searchFilter}}
+          {{#each project in projects}}
             <div class="col-lg-3">
               {{#if project.coverImg}}
                 {{>projectCard currentDoc=project}}
@@ -39,9 +38,6 @@
               {{/if}}
             </div>
           {{/each}}
-        {{else}}
-          {{searchFilterNew}}
-        {{/if}}
       </div> <!-- /.row project cards -->
     </div> <!-- /.container -->
   </div>
