@@ -22,7 +22,6 @@ Template.landingPage.helpers({
     var getSort = Template.instance().setSort.get();
     var search ;  
     var count = 0;
-    
     if(Template.instance().setSort.get()){
       if(getSort == "new"){
         var sortValue = {};
@@ -95,7 +94,6 @@ Template.landingPage.helpers({
     }
     
     Template.instance().setSearch.set(true);
-    
     return search;
     
   },
