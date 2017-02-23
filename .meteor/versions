@@ -28,7 +28,6 @@ callback-hook@1.0.10
 cfs:graphicsmagick@0.0.18
 check@1.2.5
 coffeescript@1.11.1_4
-comerc:bs-typeahead@1.0.2
 dburles:factory@1.1.0
 dburles:mongo-collection-instances@0.3.5
 ddp@1.2.5
