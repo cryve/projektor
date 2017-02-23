@@ -387,7 +387,7 @@
 <template name="editTeamCommItem">
   {{#autoForm id="editTeamCommItem" class="table-row" type="method-update" singleMethodArgument=true meteormethod=(getMethodString currentCollection._name "updateEditable") doc=currentDoc collection=currentCollection autosave=true setArrayItems=true}}
     <div class="table-cell">
-      {{> afFieldInput name=teamCommMediumField type="typeahead" options=mediumOptions placeholder="Kollaborations-Mittel" }}
+      {{> afFieldInput name=teamCommMediumField type="select2" options=mediumOptions placeholder="Kollaborations-Mittel" }}
     </div>
     <div class="table-cell">
       {{> afFieldInput name=teamCommUrlField type="url" placeholder="URL" }}
