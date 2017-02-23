@@ -37,16 +37,24 @@ Template.registerHelper("arrayToString", (array) => {
 });
 
 Template.registerHelper("getImgURL", (imgId, version) => {
+  if (imgId){
     var image = Images.findOne(imgId);
     return (image && image.versions[version]) ? image.link(version) : null;
+  }
 });
 
 Template.registerHelper("getAvatarURL", (userId, version) => {
   var user = Meteor.users.findOne({_id: userId});
-  var image = Images.findOne(user && user.profile.avatar);
-  // console.log(image);
-  return (image && image.versions[version]) ? image.link(version) : "/img/defaultMini.jpg";
+  var image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
+  return (image && image.versions[version]) ? image.link(version) : "/img/"+version+".jpg";  
 });
+
+/*Template.registerHelper("getAvatarCardURL", (userId, version) => {
+  var user = Meteor.users.findOne({_id: userId});
+  var image = user.profile.avatar && Images.findOne(user.profile.avatar);
+  return (image && image.versions[version]) ? image.link(version) : "/img/defaultCardMini.jpg";
+  
+});*/
 
 Template.registerHelper("log", (data) => {
   console.log(data);

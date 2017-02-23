@@ -1,5 +1,5 @@
 <template name="landingPage">
-  <ul class="unstyled">
+  <!--<ul class="unstyled">
     {{#each tags }}
       {{#if $eq this ""}}
 
@@ -14,6 +14,8 @@
   Suche:
   <form class="new-tag">
     <input id="listExName" type="text"> <a class="btn" id="listExAdd">Search</a>
+    <a class="btn listRemove" title="Remove this tags">delete</a> 
+
   </form>
   <td>
     <select id="sortStatus">
@@ -23,23 +25,19 @@
         <option value="deadlineFar">Deadline fern</option>
         <option value="relevanz">Relevanz</option>
     </select>
-  </td>
+  </td>-->
   <div class="project-cards">
     <div class="container">
       <div class="row">
-        {{#if isSearch}}
-          {{#each project in searchFilter}}
-            <div class="col-lg-3">
-              {{#if project.coverImg}}
-                {{>projectCard currentDoc=project}}
-              {{else}}
-                {{>projectCardCoverless currentDoc=project}}
-              {{/if}}
-            </div>
-          {{/each}}
-        {{else}}
-          {{searchFilterNew}}
-        {{/if}}
+        {{#each project in projects}}
+          <div class="col-lg-3">
+            {{#if project.coverImg}}
+              {{>projectCard currentDoc=project}}
+            {{else}}
+              {{>projectCardCoverless currentDoc=project}}
+            {{/if}}
+          </div>
+        {{/each}}
       </div> <!-- /.row project cards -->
     </div> <!-- /.container -->
   </div>

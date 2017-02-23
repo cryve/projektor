@@ -7,9 +7,10 @@
       <div class="media-body">
         {{#if editActive}}
           {{log this}}
-          {{#autoForm id="addMember" doc=currentDoc collection=currentCollection type="method-update" meteormethod="project.addMember" singleMethodArgument=true }}
+          <!--{{#autoForm id="addMember" doc=currentDoc collection=currentCollection type="method-update" meteormethod="project.addMember" singleMethodArgument=true }}-->
+          {{#autoForm id="addMember" doc=currentDoc collection=currentCollection type="normal" }}
             <div class="form-group">
-              {{> afFieldInput name="userId" type="select2" options=userList placeholder="Neues Mitglied auswählen" allowClear=true}}
+              {{> afFieldInput name="teamuserId" type="select2" options=userList placeholder="Neues Mitglied auswählen" allowClear=true}}
               {{> afFieldInput name="role" type="text" placeholder="Aufgaben im Projekt"}}
             </div>
             <div class="form-group">
@@ -285,6 +286,31 @@
     {{/if}}
     {{#if $eq currentUser._id currentDoc.owner.userId}}
       <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-deadline"></span></a>
+    {{/if}}
+  {{/if}}
+</template>
+
+<template name="editBeginning">
+  {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
+    {{#autoForm id="editBeginning" type="update" doc=currentDoc collection=currentCollection }}
+      <div class="form-group">
+        {{> afFieldInput name="beginning" type="bootstrap-datepicker" placeholder="Projekt Beginn" }}
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
+        <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
+      </div>
+    {{/autoForm}}
+  {{ else }}
+    {{#if currentDoc.beginning}}
+      {{readableDate currentDoc.beginning}}
+    {{else}}
+      {{#if $eq currentUser._id currentDoc.owner.userId}}
+        <span class="text-primary"><em>Wann fängt das Projekt an?</em></span>
+      {{/if}}
+    {{/if}}
+    {{#if $eq currentUser._id currentDoc.owner.userId}}
+      <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-beginning"></span></a>
     {{/if}}
   {{/if}}
 </template>

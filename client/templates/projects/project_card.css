@@ -2,6 +2,10 @@
   height: 78px;
 }
 
+.cover-card-title {
+  height: 62px;
+}
+
 .ellipsis-tags {
   position: relative;
   top: 156px;
@@ -10,9 +14,9 @@
 .expandable-content {
   position: absolute;
   top: 201px;
-  left: 16px;
+  left: 16.5px;
   background-color: white;
-  width: 261px;
+  width: 260px;
   height: 169px;
   padding: 15px;
   -webkit-transition: all 0.3s linear 0s;
@@ -96,15 +100,23 @@
 .expandable-trigger:hover + .expandable-content .expandable {
   height: 157px;
 }
+
 .expandable-trigger:hover + .expandable-content {
   top: 126px;
 }
+
+/*.expandable-trigger:hover + .expandable-content .testTrigger {
+  position:relative;
+  z-index: 2;
+}*/
+
 .expandable-trigger:hover + .expandable-content .card {
   position: relative;
-  z-index: 7;
 }
+
 .expandable-trigger:hover {
   height: 225px;
+  z-index: 2;
 }
 
 .expandable-trigger {
@@ -162,12 +174,18 @@
   -ms-hyphens: auto;
   hyphens: auto;
 }
-
+.jobBreak{
+  word-wrap: break-word;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+}
 .subtitle-2row {
   word-wrap: break-word;
   -webkit-hyphens: auto;
   -ms-hyphens: auto;
   hyphens: auto;
+  z-index: -100;
 }
 
 .hr-top {
@@ -180,7 +198,7 @@
 
 .member-icons-box {
   position: absolute;
-  top: -31px;
+  top: -30px;
   right: 0px;
   padding: 5px;
   background-color: white;

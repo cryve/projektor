@@ -12,14 +12,13 @@ Template.landingPage.onCreated (function landingPageOnCreated() {
 });
 
 Template.landingPage.helpers({
-  // projects() {
-  //   return Projects.find({}, { sort: { createdAt: -1 } });
-  // },
-  searchFilter() {
+  projects() {
+    return Projects.find({}, { sort: { createdAt: -1 } });
+  },
+  /*searchFilter() {
     var getSort = Template.instance().setSort.get();
     var search ;
     var count = 0;
-
     if(Template.instance().setSort.get()){
       if(getSort == "new"){
         var sortValue = {};
@@ -92,14 +91,13 @@ Template.landingPage.helpers({
     }
 
     Template.instance().setSearch.set(true);
-
     return search;
 
-  },
+  },*/
 
 
 
-  searchFilterNew(){
+  /*searchFilterNew(){
     Template.instance().setSearch.set(true);
   },
   isSearch(){
@@ -110,11 +108,11 @@ Template.landingPage.helpers({
   },
   tags: function() {
     return keyWord.list();
-  }
+  }*/
 
 });
 
-Template.landingPage.events({
+/*Template.landingPage.events({
 
   'submit .new-tag' (event){
     event.preventDefault();
@@ -135,9 +133,14 @@ Template.landingPage.events({
     return keyWord.remove(this.toString());
 
   },
+  'click .listRemove' (event) {
+    Template.instance().setSearch.set(false);
+    return keyWord.clear();
+    
+  },
   'change #sortStatus' (event, template){
     var selectedSort = template.$("#sortStatus").val();
     console.log(selectedSort);
     Template.instance().setSort.set(selectedSort);
   }
-});
+});*/

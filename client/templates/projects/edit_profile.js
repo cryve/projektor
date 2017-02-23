@@ -1,5 +1,7 @@
 import {Template} from "meteor/templating" ;
 
+import { deleteContact, deleteLink } from "/lib/methods.js";
+
 
 import "./edit_profile.html" ;
 
@@ -72,9 +74,19 @@ Template.contactItemUser.helpers({
 
 Template.contactItemUser.events({
   "click .btn-delete-contact" (event) {
-    let currentContacts = this.currentDoc.profile.contacts;
+    deleteContact.call({
+      index: this.slot,
+      userId:Meteor.userId(),
+    },(err, res) => {
+        if (err) {
+          alert(err);
+        } else {
+          alert("Deine Kontaktdaten wurden aktualisiert!");
+        }
+    });
+    /*let currentContacts = this.currentDoc.profile.contacts;
     currentContacts.splice(this.slot, 1);
-    this.currentCollection.update(this.currentDoc._id, {$set: {"profile.contacts": currentContacts}});
+    this.currentCollection.update(this.currentDoc._id, {$set: {"profile.contacts": currentContacts}});*/
   },
   "click .btn-edit-contact" (event) {
     Template.instance().editActive.set(true);
@@ -147,9 +159,16 @@ Template.linkItem.helpers({
 
 Template.linkItem.events({
   "click .btn-delete-contact" (event) {
-    let currentLinks = this.currentDoc.profile.links;
-    currentLinks.splice(this.slot, 1);
-    this.currentCollection.update(this.currentDoc._id, {$set: {"profile.links": currentLinks}});
+    deleteLink.call({
+      index: this.slot,
+      userId:Meteor.userId(),
+    },(err, res) => {
+        if (err) {
+          alert(err);
+        } else {
+          alert("Deine Links wurden aktualisiert!");
+        }
+    });
   },
   "click .btn-edit-contact" (event) {
     Template.instance().editActive.set(true);

@@ -2,6 +2,7 @@ import { Projects } from '/lib/collections/projects.js';
 import {ProjectDrafts} from "/lib/collections/project_drafts.js";
 import {Images} from "/lib/images.collection.js";
 import {Template} from "meteor/templating" ;
+import {deleteImg, setMedia, setCoverImg2, setCoverImg, setMediaId, setMediaType } from "/lib/methods.js";
 
 import "./gallery.html";
 Template.setVideoLink.onCreated(function() {
@@ -34,19 +35,27 @@ Template.setVideoLink.events({
   },
 
   "click .btn-set-type" (event, template) {
-    var currentArray = template.data.media;
     var currentSlot = template.data.slot;
     var collection = template.data.collection;
-    currentArray[currentSlot].type = "URL";
     // collection.update( { _id: template.data.projectId }, { $set: { 'media': currentArray }} );
     if(collection._name == "projects") {
-      Meteor.call("projects.setMedia", template.data.projectId, currentArray, (err, res) => {
+      setMediaType.call({
+        collection: true,
+        type: "URL",
+        projectId: template.data.projectId,
+        index: parseInt(currentSlot)
+      }, (err, res) => {
         if (err) {
           alert(err);
         }
       });
     } else if (collection._name == "projectDrafts") {
-      Meteor.call("projects.setMedia", template.data.projectId, currentArray, (err, res) => {
+      setMediaType.call({
+        collection: false,
+        type: "URL",
+        projectId: template.data.projectId,
+        index: parseInt(currentSlot)
+      }, (err, res) => {
         if (err) {
           alert(err);
         }
@@ -98,20 +107,30 @@ Template.setTitleImageButton.events({
    var currentArray = template.data.media;
    var currentSlot = template.data.slot;
    var collection = template.data.collection;
-  //  collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': currentArray[currentSlot].id }} );
-  if(collection._name == "projects") {
-    Meteor.call("projects.setCoverImg", template.data.projectId, currentArray[currentSlot].id , (err, res) => {
-      if (err) {
-        alert(err);
-      }
-    });
-  } else if (collection._name == "projectDrafts") {
-    Meteor.call("projects.setCoverImg", template.data.projectId, currentArray[currentSlot].id , (err, res) => {
-      if (err) {
-        alert(err);
-      }
-    });
-  }
+  //  collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': currentArray[currentSlot].id }} );    
+    if(collection._name == "projects") {
+      setCoverImg.call({
+        collection: true,
+        projectId: template.data.projectId,
+        array: currentArray,
+        index: parseInt(currentSlot)
+      }, (err, res) => {
+        if (err) {
+          alert(err);
+        }
+      });
+    } else if (collection._name == "projectDrafts") {
+      setCoverImg.call({
+        collection: false,
+        projectId: template.data.projectId, 
+        array: currentArray,
+        index: parseInt(currentSlot)
+      }, (err, res) => {
+        if (err) {
+          alert(err);
+        }
+      });
+    }
    Template.instance().setCover.set(true);
 
   },
@@ -127,10 +146,15 @@ Template.deleteImageButton.events({
    var currentSlot = template.data.slot;
    var currentCover = template.data.coverImg;
    var collection = template.data.collection;
-   console.log(currentArray[currentSlot].id);
-   console.log(currentCover);
-   if (currentArray[currentSlot].id != null){
-    Images.remove({_id: currentArray[currentSlot].id});
+   if (currentArray && currentArray[currentSlot].id &&(currentArray[currentSlot].type == "img")){
+    //Images.remove({_id: currentArray[currentSlot].id});
+     deleteImg.call({
+      imageId: currentArray[currentSlot].id
+     }, (err, res) => {
+      if (err) {
+        alert(err);
+      }
+     });
    };
 
    if(currentCover === currentArray[currentSlot].id ){
@@ -146,33 +170,74 @@ Template.deleteImageButton.events({
      }
      console.log(newCoverImage);
     //  collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': newCoverImage }} );
-    if (collection._name == "projects") {
-      Meteor.call("projects.setCoverImg", template.data.projectId, newCoverImg, (err, res) => {
+     if(collection._name == "projects") {
+      setNewCoverImg.call({
+        collection: true,
+        projectId: template.data.projectId,
+        coverImageId: newCoverImage
+      }, (err, res) => {
         if (err) {
           alert(err);
         }
       });
     } else if (collection._name == "projectDrafts") {
-      Meteor.call("projectDrafts.setCoverImg", template.data.projectId, newCoverImg, (err, res) => {
+      setNewCoverImg.call({
+        collection: false,
+        projectId: template.data.projectId, 
+        coverImageId: newCoverImage
+      }, (err, res) => {
         if (err) {
           alert(err);
         }
       });
     }
    }
-   currentArray[currentSlot].id = null;
-   currentArray[currentSlot].type = null;
+   //currentArray[currentSlot].id = null;
+   //currentArray[currentSlot].type = null;
   //  collection.update( { _id: template.data.projectId }, { $set: { 'media': currentArray }} );
-  if (collection._name == "projects") {
-    Meteor.call("projects.setMedia", template.data.projectId, currentArray, (err, res) => {
+  if(collection._name == "projects") {
+    setMediaType.call({
+      collection: true,
+      type: "null",
+      projectId: template.data.projectId,
+      index: parseInt(currentSlot)
+    }, (err, res) => {
       if (err) {
         alert(err);
+      }else{
+        setMediaId.call({
+          collection: true,
+          id: "null",
+          projectId: template.data.projectId,
+          index: parseInt(currentSlot)
+        }, (err, res) => {
+          if (err) {
+            alert(err);
+          }
+        });
       }
     });
+    
   } else if (collection._name == "projectDrafts") {
-    Meteor.call("projectDrafts.setMedia", template.data.projectId, currentArray, (err, res) => {
+    setMediaType.call({
+      collection: false,
+      type: "null",
+      projectId: template.data.projectId,
+      index: parseInt(currentSlot)
+    }, (err, res) => {
       if (err) {
         alert(err);
+      }else{
+        setMediaId.call({
+          collection: false,
+          id: "null",
+          projectId: template.data.projectId,
+          index: parseInt(currentSlot)
+        }, (err, res) => {
+          if (err) {
+            alert(err);
+          }
+        });
       }
     });
   }
@@ -216,28 +281,37 @@ Template.wholeGallery.helpers({
   },
   urlId() {
     var slot = Session.get('slot');
-    var currentArray = this.currentDoc.media;
+    //var currentArray = this.currentDoc.media;
     var url = this.currentDoc.media[slot].id;
     var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
     var match = url.match(regExp);
     var newUrlId = (match&&match[7].length==11)? match[7] : false;
     var newUrl = "https://www.youtube.com/embed/"+newUrlId
     console.log(newUrl);
-    currentArray[slot].id = newUrl;
     // this.currentCollection.update({_id: this.currentDoc.id}, {$set: {'media': currentArray}});
-    if (this.currentCollection._name == "projects") {
-      Meteor.call("projects.setMedia", this.currentDoc.id, currentArray, (err, res) => {
-        if (err) {
-          alert(err);
-        }
-      });
-    } else if (this.currentCollection._name == "projectDrafts") {
-      Meteor.call("projectDrafts.setMedia", this.currentDoc.id, currentArray, (err, res) => {
-        if (err) {
-          alert(err);
-        }
-      });
-    }
+    if(this.currentCollection._name == "projects") {
+    setMediaId.call({
+      id: newUrl,
+      collection: true,
+      projectId: this.currentDoc._id,
+      index: parseInt(slot)
+    }, (err, res) => {
+      if (err) {
+        alert(err);
+      }
+    });
+  } else if (this.currentCollection._name == "projectDrafts") {
+    setMediaId.call({
+      id: newUrl,
+      collection: false,
+      projectId: this.currentDoc._id,
+      index: parseInt(slot)
+    }, (err, res) => {
+      if (err) {
+        alert(err);
+      }
+    });
+  }
   },
   getMediaType() {
     var slot = Session.get('slot');
@@ -287,32 +361,48 @@ Template.wholeGallery.helpers({
 Template.wholeGallery.events({
 
   "click #edit-gallery-button" (event){
-    console.log(this.currentCollection);
     if(!this.currentDoc.media) {
       Session.set('slot', 0);
-      var mediaEmpty = [{type: null, id: null}, {type: null, id: null},{type: null, id: null}, {type: null, id: null}, {type: null, id: null}];
       // this.currentCollection.update(this.currentDoc._id, {$set: {media: mediaEmpty}});
       // this.currentCollection.update(this.currentDoc._id, {$set: {coverImg: null}});
       if(this.currentCollection._name == "projects") {
-        Meteor.call("projects.setMedia", this.currentDoc._id, mediaEmpty, (err, res) => {
+        setMedia.call({
+          collection: true,
+          projectId: this.currentDoc._id,
+        }, (err, res) => {
           if (err) {
             alert(err);
+          }else{
+            setCoverImg2.call({
+              collection: true,
+              projectId: this.currentDoc._id,
+              id: "null"
+            }, (err, res) => {
+              if (err) {
+                alert(err);
+              }
+            });
           }
         });
-        Meteor.call("projects.setCoverImg", this.currentDoc._id, null, (err, res) => {
-          if (err) {
-            alert(err);
-          }
-        });
+        
       } else if (this.currentCollection._name == "projectDrafts") {
-        Meteor.call("projectDrafts.setMedia", this.currentDoc._id, mediaEmpty, (err, res) => {
+        setMedia.call({
+          collection: false,
+          projectId: this.currentDoc._id,
+        }, (err, res) => {
           if (err) {
+            
             alert(err);
-          }
-        });
-        Meteor.call("projectDrafts.setCoverImg", this.currentDoc._id, null, (err, res) => {
-          if (err) {
-            alert(err);
+          }else{
+          setCoverImg2.call({
+            collection: false,
+            projectId: this.currentDoc._id,
+            id: "null"
+          }, (err, res) => {
+            if (err) {
+              alert(err);
+            }
+          });
           }
         });
       }

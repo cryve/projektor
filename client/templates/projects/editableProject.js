@@ -78,6 +78,13 @@ Template.editableProject.events({
           alert("Dein Projekt wurde veröffentlicht!");
         }
     });
+    deleteDraft.call({
+        draftId: this._id,
+      }, (err, res) => {
+        if (err) {
+          alert(err);
+        } 
+    });
     Router.go("projectDetails", {_id: newId, title: this.title});
     Session.set('result', "null");
   },

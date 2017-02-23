@@ -35,7 +35,7 @@
                   </div>
                   <br>
                   {{#if this.isNewProject}}
-                    <button id="btn-delete-draft" class="btn btn-default">Abbrechen</button>
+                    <button id="btn-delete-draft" class="btn btn-default">Verwerfen</button>
                     <button id="btn-publish-draft" class="btn btn-primary">Projekt erstellen</button>
                   {{/if}}
                 </div> <!-- /.panel-body -->
@@ -46,7 +46,6 @@
                 <div class="panel-heading">
                   <span class="panel-title">Team</span>
                 </div>
-
                 <div class="panel-body">
                   <ul class="media-list">
                     {{>editOwnerRole currentDoc=this currentCollection=getCollection}}
@@ -93,6 +92,8 @@
                     <dd>{{>editOccasions currentDoc=this currentCollection=getCollection}}</dd>
                     <dt>Betreuer</dt>
                     <dd>{{>editSupervisors currentDoc=this currentCollection=getCollection}}</dd>
+                    <dt>Projektbeginn</dt>
+                    <dd>{{>editBeginning currentDoc=this currentCollection=getCollection}}</dd>
                     <dt>Deadline</dt>
                     <dd>{{>editDeadline currentDoc=this currentCollection=getCollection}}</dd>
 

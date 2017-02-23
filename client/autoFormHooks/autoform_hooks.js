@@ -13,6 +13,7 @@ AutoForm.addHooks([
   "editOccasions",
   "editSupervisors",
   "editDeadline",
+  "editBeginning",
   "editOwnerRole",
   "setVideoLink"
 ], {
@@ -22,8 +23,13 @@ AutoForm.addHooks([
 });
 
 AutoForm.addHooks([
-  // "addMember",
+  "addMember",
 ],{
+  onSubmit: function(insertDoc, updateDoc, currentDoc) {
+    console.log(insertDoc, updateDoc, currentDoc);
+    this.done();
+    return false;
+  },
   onSuccess:function(formType, result){
     console.log(result);
     // console.log(this);
