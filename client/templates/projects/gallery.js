@@ -1,5 +1,5 @@
 import { Projects } from '/lib/collections/projects.js';
-import {ProjectDrafts} from "/lib/collections/project_drafts.js";
+import {Drafts} from "/lib/collections/drafts.js";
 import {Images} from "/lib/images.collection.js";
 import {Template} from "meteor/templating" ;
 
@@ -32,7 +32,7 @@ Template.setVideoLink.events({
   "click .btn-abort-adding" (event) {
     Template.instance().editActive.set(false);
   },
-  
+
   "click .btn-set-type" (event, template) {
     var currentArray = template.data.media;
     var currentSlot = template.data.slot;
@@ -68,11 +68,11 @@ Template.galleryPreview.helpers({
   getValue(){
     return Template.instance().valuePreview.get();
   },
-  
+
    result: function() {
     return Session.get('result');
   },
-  
+
 
 });
 
@@ -86,7 +86,7 @@ Template.setTitleImageButton.events({
    var collection = template.data.collection;
    collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': currentArray[currentSlot].id }} );
    Template.instance().setCover.set(true);
-    
+
   },
 
 });
@@ -94,7 +94,7 @@ Template.setTitleImageButton.events({
 
 
 Template.deleteImageButton.events({
-  
+
    "click #delete-image-button" (event, template){
    var currentArray = template.data.media;
    var currentSlot = template.data.slot;
@@ -103,35 +103,35 @@ Template.deleteImageButton.events({
    console.log(currentArray[currentSlot].id);
    console.log(currentCover);
    if (currentArray[currentSlot].id != null){
-    Images.remove({_id: currentArray[currentSlot].id}); 
+    Images.remove({_id: currentArray[currentSlot].id});
    };
-     
+
    if(currentCover === currentArray[currentSlot].id ){
-     currentArray[currentSlot].id = null; 
+     currentArray[currentSlot].id = null;
      var newCoverImage = null;
-     
+
      for (var i = 0; i < 5; i++) {
-      
+
         if (currentArray[i].id != null){
             newCoverImage = currentArray[i].id;
             break;
         }
      }
      console.log(newCoverImage);
-     collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': newCoverImage }} ); 
-   } 
-   currentArray[currentSlot].id = null;   
+     collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': newCoverImage }} );
+   }
+   currentArray[currentSlot].id = null;
    currentArray[currentSlot].type = null;
-   collection.update( { _id: template.data.projectId }, { $set: { 'media': currentArray }} );  
+   collection.update( { _id: template.data.projectId }, { $set: { 'media': currentArray }} );
    Template.instance().setEmptyPreview.set(true);
    Session.set('result', undefined)
-  
+
   },
-  
+
 });
 
 /*Template.previewPlaceholder.events({
-  
+
    "click #set-preview" (event){
      const target = event.target;
      console.log("hfjdhjdjdjd")
@@ -178,7 +178,7 @@ Template.wholeGallery.helpers({
       return Projects;
   },
   getDraftsCollection() {
-    return ProjectDrafts;
+    return Drafts;
   },
   getEditMode(){
     return Template.instance().editMode.get();
@@ -224,14 +224,14 @@ Template.wholeGallery.helpers({
 
 
 Template.wholeGallery.events({
-  
+
   "click #edit-gallery-button" (event){
     if(!this.currentDoc.media) {
       Session.set('slot', 0);
       var mediaEmpty = [{type: null, id: null}, {type: null, id: null},{type: null, id: null}, {type: null, id: null}, {type: null, id: null}];
       this.currentCollection.update(this.currentDoc._id, {$set: {media: mediaEmpty}});
       this.currentCollection.update(this.currentDoc._id, {$set: {coverImg: null}});
-      
+
     }
 
     const target = event.target;

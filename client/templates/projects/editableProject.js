@@ -1,6 +1,6 @@
 import {Template} from "meteor/templating" ;
 import {Projects} from "/lib/collections/projects.js" ;
-import {ProjectDrafts} from "/lib/collections/project_drafts.js";
+import {Drafts} from "/lib/collections/drafts.js";
 import {Images} from "/lib/images.collection.js";
 
 import "./editableProject.html";
@@ -29,7 +29,7 @@ Template.editableProject.helpers({
   },
   getCollection() {
     if(this.isNewProject){
-      return ProjectDrafts;
+      return Drafts;
     }
     else{
       return Projects;
@@ -65,12 +65,12 @@ Template.editableProject.events({
     var title = this.title;
     var newId = Projects.insert(this);
     console.log(this);
-    ProjectDrafts.remove(this._id);
+    Drafts.remove(this._id);
     Router.go("projectDetails", {_id: newId, title: title});
     Session.set('result', "null");
   },
   "click #btn-abort" (event) {
-    ProjectDrafts.remove(this._id);
+    Drafts.remove(this._id);
     Router.go("landingPage");
     Session.set('result', "null");
   },

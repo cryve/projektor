@@ -1,5 +1,5 @@
 import { Projects } from '/lib/collections/projects.js';
-import { ProjectDrafts } from '/lib/collections/project_drafts.js';
+import { Drafts } from '/lib/collections/drafts.js';
 
 AutoForm.addHooks([
   "editTitle",
@@ -40,7 +40,7 @@ AutoForm.addHooks([
         }
       });
     if(this.template.data.doc.isNewProject){
-      ProjectDrafts.update({ _id : this.template.data.doc._id}, { $set: {"team": newArray }});
+      Drafts.update({ _id : this.template.data.doc._id}, { $set: {"team": newArray }});
     }
     else{
       Projects.update({ _id : this.template.data.doc._id}, { $set: {"team": newArray }});
