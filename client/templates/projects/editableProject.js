@@ -1,7 +1,7 @@
 import {Template} from "meteor/templating" ;
 import {Projects} from "/lib/collections/projects.js" ;
 import {Drafts} from "/lib/collections/drafts.js";
-import {Images} from "/lib/images.collection.js";
+import {Images} from "/lib/collections/images.js";
 
 import "./editableProject.html";
 

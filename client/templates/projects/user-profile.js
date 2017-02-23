@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 
 import { Projects } from '../../../lib/collections/projects.js';
-import {Images} from "/lib/images.collection.js";
+import {Images} from "/lib/collections/images.js";
 import './user-profile.html';
 
 import './project_card.js';

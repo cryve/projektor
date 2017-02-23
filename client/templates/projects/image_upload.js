@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { Videos, Images } from '/lib/images.collection.js';
+import { Videos, Images } from '/lib/collections/images.js';
 import { Projects } from "/lib/collections/projects.js" ;
 
 import './image_upload.html';

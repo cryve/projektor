@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import {ImagesGallery} from "/lib/images.collection.js";
+import {ImagesGallery} from "/lib/collections/images.js";
 import { Projects } from '../../../lib/collections/projects.js';
 import truncate from "truncate.js";
 import trunk8 from "trunk8";
