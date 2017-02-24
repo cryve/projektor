@@ -34,34 +34,34 @@ Template.setVideoLink.events({
     Template.instance().editActive.set(false);
   },
 
-  "click .btn-set-type" (event, template) {
-    var currentSlot = template.data.slot;
-    var collection = template.data.collection;
-    // collection.update( { _id: template.data.projectId }, { $set: { 'media': currentArray }} );
-    if(collection._name == "projects") {
-      setMediaType.call({
-        collection: true,
-        type: "URL",
-        projectId: template.data.projectId,
-        index: parseInt(currentSlot)
-      }, (err, res) => {
-        if (err) {
-          alert(err);
-        }
-      });
-    } else if (collection._name == "drafts") {
-      setMediaType.call({
-        collection: false,
-        type: "URL",
-        projectId: template.data.projectId,
-        index: parseInt(currentSlot)
-      }, (err, res) => {
-        if (err) {
-          alert(err);
-        }
-      });
-    }
-  },
+  // "click .btn-set-type" (event, template) {
+  //   var currentSlot = template.data.slot;
+  //   var collection = template.data.collection;
+  //   // collection.update( { _id: template.data.projectId }, { $set: { 'media': currentArray }} );
+  //   if(collection._name == "projects") {
+  //     setMediaType.call({
+  //       collection: true,
+  //       type: "URL",
+  //       projectId: template.data.projectId,
+  //       index: parseInt(currentSlot)
+  //     }, (err, res) => {
+  //       if (err) {
+  //         alert(err);  
+  //       }
+  //     });
+  //   } else if (collection._name == "drafts") {
+  //     setMediaType.call({
+  //       collection: false,
+  //       type: "URL",
+  //       projectId: template.data.projectId,
+  //       index: parseInt(currentSlot)
+  //     }, (err, res) => {
+  //       if (err) {
+  //         alert(err);
+  //       }
+  //     });
+  //   }
+  // },
 });
 
 
@@ -146,7 +146,7 @@ Template.deleteImageButton.events({
    var currentSlot = template.data.slot;
    var currentCover = template.data.coverImg;
    var collection = template.data.collection;
-   if (currentArray && currentArray[currentSlot].id 
+   if (currentArray && currentArray[currentSlot].id
        &&(currentArray[currentSlot].type == "image")){
     //Images.remove({_id: currentArray[currentSlot].id});
      deleteImg.call({
@@ -280,40 +280,40 @@ Template.wholeGallery.helpers({
     var newUrl = "http://img.youtube.com/vi/"+newUrlId+"/0.jpg"
     return newUrl;
   },
-  urlId() {
-    var slot = Session.get('slot');
-    //var currentArray = this.currentDoc.media;
-    var url = this.currentDoc.media[slot].id;
-    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
-    var match = url.match(regExp);
-    var newUrlId = (match&&match[7].length==11)? match[7] : false;
-    var newUrl = "https://www.youtube.com/embed/"+newUrlId
-    console.log(newUrl);
-    // this.currentCollection.update({_id: this.currentDoc.id}, {$set: {'media': currentArray}});
-    if(this.currentCollection._name == "projects") {
-    setMediaId.call({
-      id: newUrl,
-      collection: true,
-      projectId: this.currentDoc._id,
-      index: parseInt(slot)
-    }, (err, res) => {
-      if (err) {
-        alert(err);
-      }
-    });
-  } else if (this.currentCollection._name == "drafts") {
-    setMediaId.call({
-      id: newUrl,
-      collection: false,
-      projectId: this.currentDoc._id,
-      index: parseInt(slot)
-    }, (err, res) => {
-      if (err) {
-        alert(err);
-      }
-    });
-  }
-  },
+  // urlId() {
+  //   var slot = Session.get('slot');
+  //   //var currentArray = this.currentDoc.media;
+  //   var url = this.currentDoc.media[slot].id;
+  //   var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+  //   var match = url.match(regExp);
+  //   var newUrlId = (match&&match[7].length==11)? match[7] : false;
+  //   var newUrl = "https://www.youtube.com/embed/"+newUrlId;
+  //   console.log(newUrl);
+  //   // this.currentCollection.update({_id: this.currentDoc.id}, {$set: {'media': currentArray}});
+  //   if(this.currentCollection._name == "projects") {
+  //   setMediaId.call({
+  //     id: newUrl,
+  //     collection: true,
+  //     projectId: this.currentDoc._id,
+  //     index: parseInt(slot)
+  //   }, (err, res) => {
+  //     if (err) {
+  //       alert(err);
+  //     }
+  //   });
+  // } else if (this.currentCollection._name == "drafts") {
+  //   setMediaId.call({
+  //     id: newUrl,
+  //     collection: false,
+  //     projectId: this.currentDoc._id,
+  //     index: parseInt(slot)
+  //   }, (err, res) => {
+  //     if (err) {
+  //       alert(err);
+  //     }
+  //   });
+  // }
+  // },
   getMediaType() {
     var slot = Session.get('slot');
     return this.currentDoc.media[slot].type;

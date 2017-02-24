@@ -11,7 +11,6 @@
                             projectId=currentDoc._id collection=currentCollection reactiveVar = reactiveVar }}
                             {{#if getRefreshPreview}}
                               {{#if $eq getMediaType "URL"}}
-                                {{urlId}}
                                 {{> deleteImageButton slot=slot media=currentDoc.media projectId=currentDoc._id  collection=currentCollection }}
                                 {{> video slot=slot media=currentDoc.media projectId=currentDoc._id collection=currentCollection}}
                               {{else}}
@@ -46,7 +45,6 @@
                                 {{/if}}
                               {{else}}
                                 {{#if $eq getFirstMediaType "URL"}}
-                                  {{urlId}}
                                   {{> deleteImageButton slot=slot media=currentDoc.media projectId=currentDoc._id  collection=currentCollection }}
                                   {{> video slot=slot media=currentDoc.media projectId=currentDoc._id collection=currentCollection}}
                                 {{else}}
@@ -55,14 +53,13 @@
                               {{/if}}
                             {{/if}}
                           {{/if}}
-                             
+
 
 
                         {{else}}
                           {{#if currentDoc.media}}
                             {{#if getRefreshPreview}}
                               {{#if $eq getMediaType "URL"}}
-                                  {{urlId}}
                                   {{> video slot=slot media=currentDoc.media projectId=currentDoc._id collection=currentCollection}}
                               {{else}}
                                 {{#if $eq getMediaType "image"}}
@@ -74,7 +71,6 @@
                                 {{> galleryPreview result}}
                               {{else}}
                                 {{#if $eq getFirstMediaType "URL"}}
-                                  {{urlId}}
                                   {{> video slot=slot media=currentDoc.media projectId=currentDoc._id collection=currentCollection}}
                                 {{/if}}
                               {{/if}}
@@ -136,7 +132,7 @@
                                   </button>
                                 </li>
                                 {{/if}}
-                                
+
 
                               {{/if}}
                             {{/each}}
@@ -156,7 +152,7 @@
                       {{/if}}
                     </div> <!-- /.col-sm-12 gallery thumbnails -->
                   </div> <!-- /.row -->
-                </div> 
+                </div>
 </template>
 
 <template name="video">
@@ -204,10 +200,7 @@
 
 
 <template name="galleryPreview">
-  
+
     <img class="img-responsive" src={{getImgURL result "preview"}} alt="">
 
 </template>
-
-
-
