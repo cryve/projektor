@@ -1,5 +1,5 @@
 import { Projects } from '/lib/collections/projects.js';
-import { ProjectDrafts } from '/lib/collections/project_drafts.js';
+import { Drafts } from '/lib/collections/drafts.js';
 
 AutoForm.addHooks([
   "editTitle",
@@ -45,8 +45,8 @@ AutoForm.addHooks([
     // });
     // if(this.template.data.doc.isNewProject){
     //
-    //   // ProjectDrafts.update({ _id : this.template.data.doc._id}, { $set: {"team": newArray }});
-    //   Meteor.call("projectDrafts.updateTeam", this.template.data.doc._id, newArray, (err, res) => {
+    //   // Drafts.update({ _id : this.template.data.doc._id}, { $set: {"team": newArray }});
+    //   Meteor.call("drafts.updateTeam", this.template.data.doc._id, newArray, (err, res) => {
     //     if (err) {
     //       alert(err);
     //     }

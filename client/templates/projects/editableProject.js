@@ -1,7 +1,7 @@
 import {Template} from "meteor/templating" ;
 import {Projects} from "/lib/collections/projects.js" ;
-import {ProjectDrafts} from "/lib/collections/project_drafts.js";
-import {Images} from "/lib/images.collection.js";
+import {Drafts} from "/lib/collections/drafts.js";
+import {Images} from "/lib/collections/images.js";
 
 import { publishDraft } from "/lib/methods.js";
 import { deleteDraft } from "/lib/methods.js";
@@ -12,7 +12,7 @@ import "./editableProject.html";
 Template.editableProject.onCreated(function() {
   this.editOwnerActive = new ReactiveVar(false);
   Meteor.subscribe("projects");
-  Meteor.subscribe("projectDrafts");
+  Meteor.subscribe("drafts");
   Meteor.subscribe("files.images.all");
   Meteor.subscribe("usersAll");
 });
@@ -36,7 +36,7 @@ Template.editableProject.helpers({
   },
   getCollection() {
     if(this.isNewProject){
-      return ProjectDrafts;
+      return Drafts;
     }
     else{
       return Projects;
@@ -83,13 +83,13 @@ Template.editableProject.events({
       }, (err, res) => {
         if (err) {
           alert(err);
-        } 
+        }
     });
     Router.go("projectDetails", {_id: newId, title: this.title});
     Session.set('result', "null");
   },
   "click #btn-delete-draft" (event) {
-    // ProjectDrafts.remove(this._id);
+    // Drafts.remove(this._id);
     deleteDraft.call({
         draftId: this._id,
       }, (err, res) => {

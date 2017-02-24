@@ -36,7 +36,6 @@ Factory.define('user', Meteor.users, {
   },
 });
 const sampleUsers = _.times(sampleCountUsers, i => Factory.create("user"));
-
 /* Create sample projects */
 Factory.define("project", Projects, {
   title: () => faker.commerce.productName(),
@@ -44,8 +43,9 @@ Factory.define("project", Projects, {
   description: () => faker.lorem.sentences(),
   owner: () => ({
     userId: faker.random.arrayElement(sampleUsers)._id,
-    wholeName: faker.name.findName(),
+    //wholeName: faker.name.findName(),
   }),
+
   ownerRole: () => faker.name.jobTitle(),
   team: () => _.times(_.random(maxSizeTeam), i => ({
     userId: faker.random.arrayElement(sampleUsers)._id,

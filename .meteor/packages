@@ -20,15 +20,8 @@ ecmascript@0.6.1              # Enable ECMAScript2015+ syntax in app code
 iron:router                   # router
 ajduke:bootstrap-tagsinput    # Enable bootstrap-tagsinput for tag forms
 ostrio:files                  # File uploading
-ostrio:autoform-files         # File uploading inside autoform
 momentjs:moment               # Time and date conversions
 shell-server@0.2.1
-aldeed:collection2            # Use Schemas to store in collections
-aldeed:autoform               # Form generation based on Schemas
-aldeed:autoform-select2
-yogiben:autoform-tags         # Combines bootstrap tagsinput with autoform
-comerc:bs-typeahead           # Adds Bootstraps typeahead library
-comerc:autoform-typeahead     # Combines Bootstrap typeahead with autoform
 accounts-password@1.3.3             # Meteors account packages
 twbs:bootstrap                # Bootstrap CSS framework support
 # accounts-facebook
@@ -36,7 +29,6 @@ twbs:bootstrap                # Bootstrap CSS framework support
 # natestrauser:x-editable-bootstrap
 natestrauser:select2
 zimme:select2-bootstrap3-css
-vazco:universe-autoform-select
 raix:handlebar-helpers
 #tdamsma:meteor-accounts-ldap
 #useraccounts:bootstrap
@@ -47,7 +39,6 @@ cfs:graphicsmagick
 session@1.1.7
 rzymek:moment-locale-de
 panter:moment-reactive
-apinf:autoform-bs-datepicker
 rajit:bootstrap3-datepicker
 adrianliaw:youtube-iframe-api
 verron:jquery-dotdotdot
@@ -55,3 +46,11 @@ manuel:reactivearray
 babrahams:accounts-ldap
 mdg:validated-method
 dburles:factory
+aldeed:collection2-core@2.0.0
+aldeed:autoform
+aldeed:autoform-select2
+aldeed:autoform-bs-datepicker
+yogiben:autoform-tags
+aldeed:schema-deny
+mdg:validation-error
+vazco:universe-selectize

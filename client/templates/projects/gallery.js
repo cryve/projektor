@@ -1,6 +1,6 @@
 import { Projects } from '/lib/collections/projects.js';
-import {ProjectDrafts} from "/lib/collections/project_drafts.js";
-import {Images} from "/lib/images.collection.js";
+import {Drafts} from "/lib/collections/drafts.js";
+import {Images} from "/lib/collections/images.js";
 import {Template} from "meteor/templating" ;
 import {deleteImg, setMedia, setCoverImg2, setCoverImg, setMediaId, setMediaType } from "/lib/methods.js";
 
@@ -49,7 +49,7 @@ Template.setVideoLink.events({
           alert(err);
         }
       });
-    } else if (collection._name == "projectDrafts") {
+    } else if (collection._name == "drafts") {
       setMediaType.call({
         collection: false,
         type: "URL",
@@ -107,7 +107,7 @@ Template.setTitleImageButton.events({
    var currentArray = template.data.media;
    var currentSlot = template.data.slot;
    var collection = template.data.collection;
-  //  collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': currentArray[currentSlot].id }} );    
+  //  collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': currentArray[currentSlot].id }} );
     if(collection._name == "projects") {
       setCoverImg.call({
         collection: true,
@@ -119,10 +119,10 @@ Template.setTitleImageButton.events({
           alert(err);
         }
       });
-    } else if (collection._name == "projectDrafts") {
+    } else if (collection._name == "drafts") {
       setCoverImg.call({
         collection: false,
-        projectId: template.data.projectId, 
+        projectId: template.data.projectId,
         array: currentArray,
         index: parseInt(currentSlot)
       }, (err, res) => {
@@ -146,7 +146,8 @@ Template.deleteImageButton.events({
    var currentSlot = template.data.slot;
    var currentCover = template.data.coverImg;
    var collection = template.data.collection;
-   if (currentArray && currentArray[currentSlot].id &&(currentArray[currentSlot].type == "image")){
+   if (currentArray && currentArray[currentSlot].id 
+       &&(currentArray[currentSlot].type == "image")){
     //Images.remove({_id: currentArray[currentSlot].id});
      deleteImg.call({
       imageId: currentArray[currentSlot].id
@@ -180,10 +181,10 @@ Template.deleteImageButton.events({
           alert(err);
         }
       });
-    } else if (collection._name == "projectDrafts") {
+    } else if (collection._name == "drafts") {
       setNewCoverImg.call({
         collection: false,
-        projectId: template.data.projectId, 
+        projectId: template.data.projectId,
         coverImageId: newCoverImage
       }, (err, res) => {
         if (err) {
@@ -217,8 +218,8 @@ Template.deleteImageButton.events({
         });
       }
     });
-    
-  } else if (collection._name == "projectDrafts") {
+
+  } else if (collection._name == "drafts") {
     setMediaType.call({
       collection: false,
       type: "null",
@@ -263,7 +264,7 @@ Template.wholeGallery.onCreated(function() {
   this.finishedMode = new ReactiveVar(false);
   console.log()
   Meteor.subscribe("projects");
-  Meteor.subscribe("projectDrafts");
+  Meteor.subscribe("drafts");
 });
 
 Template.wholeGallery.helpers({
@@ -300,7 +301,7 @@ Template.wholeGallery.helpers({
         alert(err);
       }
     });
-  } else if (this.currentCollection._name == "projectDrafts") {
+  } else if (this.currentCollection._name == "drafts") {
     setMediaId.call({
       id: newUrl,
       collection: false,
@@ -321,7 +322,7 @@ Template.wholeGallery.helpers({
     return Projects;
   },
   getDraftsCollection() {
-    return ProjectDrafts;
+    return Drafts;
   },
   getEditMode(){
     return Template.instance().editMode.get();
@@ -384,14 +385,14 @@ Template.wholeGallery.events({
             });
           }
         });
-        
-      } else if (this.currentCollection._name == "projectDrafts") {
+
+      } else if (this.currentCollection._name == "drafts") {
         setMedia.call({
           collection: false,
           projectId: this.currentDoc._id,
         }, (err, res) => {
           if (err) {
-            
+
             alert(err);
           }else{
           setCoverImg2.call({
@@ -407,7 +408,6 @@ Template.wholeGallery.events({
         });
       }
     }
-
     const target = event.target;
     Template.instance().editMode.set(true);
     Template.instance().finishedMode.set(false);
