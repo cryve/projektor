@@ -35,10 +35,15 @@ Template.editableProject.helpers({
     console.log(data);
   },
   getCollection() {
+    
     if(this.isNewProject){
+      console.log("Drafts");
+      console.log(this);
       return Drafts;
     }
     else{
+      console.log("Projects");
+      console.log(this);
       return Projects;
     }
 

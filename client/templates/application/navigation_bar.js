@@ -11,12 +11,13 @@ Template.navigationBar.helpers({
   },
   findProjectInDrafts(){
     const currentDraft = Drafts.findOne({"owner.userId": Meteor.userId()});
-    return currentDraft && currentDraft.owner.userId;
+    return currentDraft && currentDraft.owner && currentDraft.owner.userId;
   },
   route(){
     const idDraft = Router.current().params._id;
     const currentDraft = Drafts.findOne({"_id": idDraft});
-    return currentDraft && currentDraft.owner.userId;
+    console.log(idDraft);
+    return currentDraft && currentDraft.owner && currentDraft.owner.userId;
   }
 });
 

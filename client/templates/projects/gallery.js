@@ -288,7 +288,7 @@ Template.wholeGallery.helpers({
   //   var match = url.match(regExp);
   //   var newUrlId = (match&&match[7].length==11)? match[7] : false;
   //   var newUrl = "https://www.youtube.com/embed/"+newUrlId;
-  //   console.log(newUrl);
+  //  
   //   // this.currentCollection.update({_id: this.currentDoc.id}, {$set: {'media': currentArray}});
   //   if(this.currentCollection._name == "projects") {
   //   setMediaId.call({
