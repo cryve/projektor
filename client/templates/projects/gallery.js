@@ -146,7 +146,7 @@ Template.deleteImageButton.events({
    var currentSlot = template.data.slot;
    var currentCover = template.data.coverImg;
    var collection = template.data.collection;
-   if (currentArray && currentArray[currentSlot].id &&(currentArray[currentSlot].type == "img")){
+   if (currentArray && currentArray[currentSlot].id &&(currentArray[currentSlot].type == "image")){
     //Images.remove({_id: currentArray[currentSlot].id});
      deleteImg.call({
       imageId: currentArray[currentSlot].id
