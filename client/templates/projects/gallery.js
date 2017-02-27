@@ -2,7 +2,7 @@ import { Projects } from '/lib/collections/projects.js';
 import {Drafts} from "/lib/collections/drafts.js";
 import {Images} from "/lib/collections/images.js";
 import {Template} from "meteor/templating" ;
-import {deleteImg, setMedia, setCoverImg, setMediaId, setMediaType} from "/lib/methods.js";
+import {deleteImg, setMedia, setCoverImg, setMediaId, setMediaType, removeCoverImg} from "/lib/methods.js";
 
 import "./gallery.html";
 Template.setVideoLink.onCreated(function() {
@@ -156,22 +156,31 @@ Template.deleteImageButton.events({
         }
      }
     //  collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': newCoverImage }} );
-    setCoverImg.call({
-      
-      collection: collection._name,
-      projectId: template.data.projectId,
-      index: parseInt(currentSlot),
-      coverImageId: newCoverImage
-    }, (err, res) => {
-      if (err) {
-        alert(err);
-      }
-    });
+    if (newCoverImage){
+      setCoverImg.call({
+        collection: collection._name,
+        projectId: template.data.projectId,
+        index: parseInt(currentSlot),
+        coverImageId: newCoverImage
+      }, (err, res) => {
+        if (err) {
+          alert(err);
+        }
+      });
+    } else {
+      removeCoverImg.call({
+        collection: collection._name,
+        projectId: template.data.projectId,
+      }, (err, res) => {
+        if (err) {
+          alert(err);
+        }
+      });  
+    }
    //currentArray[currentSlot].id = null;
    //currentArray[currentSlot].type = null;
   //  collection.update( { _id: template.data.projectId }, { $set: { 'media': currentArray }} );
     }
-     console.log(collection._name);
     setMediaType.call({
       collection: collection._name,
       type: "null",
