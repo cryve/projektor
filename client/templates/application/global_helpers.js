@@ -38,12 +38,15 @@ Template.registerHelper("arrayToString", (array) => {
 
 Template.registerHelper("getImgURL", (imgId, version) => {
   if (imgId){
+    Meteor.subscribe("files.images.all");
     var image = Images.findOne(imgId);
     return (image && image.versions[version]) ? image.link(version) : null;
   }
 });
 
 Template.registerHelper("getAvatarURL", (userId, version) => {
+  Meteor.subscribe("files.images.all");
+  Meteor.subscribe("usersAll");
   var user = Meteor.users.findOne({_id: userId});
   var image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
   return (image && image.versions[version]) ? image.link(version) : "/img/"+version+".jpg";  

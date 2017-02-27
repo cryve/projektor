@@ -37,13 +37,9 @@ Template.editableProject.helpers({
   getCollection() {
     
     if(this.isNewProject){
-      console.log("Drafts");
-      console.log(this);
       return Drafts;
     }
     else{
-      console.log("Projects");
-      console.log(this);
       return Projects;
     }
 

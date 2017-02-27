@@ -2,7 +2,7 @@ import { Projects } from '/lib/collections/projects.js';
 import {Drafts} from "/lib/collections/drafts.js";
 import {Images} from "/lib/collections/images.js";
 import {Template} from "meteor/templating" ;
-import {deleteImg, setMedia, setCoverImg2, setCoverImg, setMediaId, setMediaType } from "/lib/methods.js";
+import {deleteImg, setMedia, setCoverImg, setMediaId, setMediaType} from "/lib/methods.js";
 
 import "./gallery.html";
 Template.setVideoLink.onCreated(function() {
@@ -108,29 +108,16 @@ Template.setTitleImageButton.events({
    var currentSlot = template.data.slot;
    var collection = template.data.collection;
   //  collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': currentArray[currentSlot].id }} );
-    if(collection._name == "projects") {
-      setCoverImg.call({
-        collection: true,
-        projectId: template.data.projectId,
-        array: currentArray,
-        index: parseInt(currentSlot)
-      }, (err, res) => {
-        if (err) {
-          alert(err);
-        }
-      });
-    } else if (collection._name == "drafts") {
-      setCoverImg.call({
-        collection: false,
-        projectId: template.data.projectId,
-        array: currentArray,
-        index: parseInt(currentSlot)
-      }, (err, res) => {
-        if (err) {
-          alert(err);
-        }
-      });
-    }
+    setCoverImg.call({
+      collection: collection._name,
+      projectId: template.data.projectId,
+      index: parseInt(currentSlot),
+      coverImageId: "empty"
+    }, (err, res) => {
+      if (err) {
+        alert(err);
+      }
+    });
    Template.instance().setCover.set(true);
 
   },
@@ -157,8 +144,7 @@ Template.deleteImageButton.events({
       }
      });
    };
-
-   if(currentCover === currentArray[currentSlot].id ){
+   if(currentCover == currentArray[currentSlot].id ){
      currentArray[currentSlot].id = null;
      var newCoverImage = null;
 
@@ -169,84 +155,47 @@ Template.deleteImageButton.events({
             break;
         }
      }
-     console.log(newCoverImage);
     //  collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': newCoverImage }} );
-     if(collection._name == "projects") {
-      setNewCoverImg.call({
-        collection: true,
-        projectId: template.data.projectId,
-        coverImageId: newCoverImage
-      }, (err, res) => {
-        if (err) {
-          alert(err);
-        }
-      });
-    } else if (collection._name == "drafts") {
-      setNewCoverImg.call({
-        collection: false,
-        projectId: template.data.projectId,
-        coverImageId: newCoverImage
-      }, (err, res) => {
-        if (err) {
-          alert(err);
-        }
-      });
-    }
-   }
+    setCoverImg.call({
+      
+      collection: collection._name,
+      projectId: template.data.projectId,
+      index: parseInt(currentSlot),
+      coverImageId: newCoverImage
+    }, (err, res) => {
+      if (err) {
+        alert(err);
+      }
+    });
    //currentArray[currentSlot].id = null;
    //currentArray[currentSlot].type = null;
   //  collection.update( { _id: template.data.projectId }, { $set: { 'media': currentArray }} );
-  if(collection._name == "projects") {
+    }
+     console.log(collection._name);
     setMediaType.call({
-      collection: true,
+      collection: collection._name,
       type: "null",
       projectId: template.data.projectId,
       index: parseInt(currentSlot)
     }, (err, res) => {
       if (err) {
         alert(err);
-      }else{
-        setMediaId.call({
-          collection: true,
-          id: "null",
-          projectId: template.data.projectId,
-          index: parseInt(currentSlot)
-        }, (err, res) => {
-          if (err) {
-            alert(err);
-          }
-        });
       }
     });
-
-  } else if (collection._name == "drafts") {
-    setMediaType.call({
-      collection: false,
-      type: "null",
+    setMediaId.call({
+      collection: collection._name,
+      id: "null",
       projectId: template.data.projectId,
       index: parseInt(currentSlot)
     }, (err, res) => {
       if (err) {
         alert(err);
-      }else{
-        setMediaId.call({
-          collection: false,
-          id: "null",
-          projectId: template.data.projectId,
-          index: parseInt(currentSlot)
-        }, (err, res) => {
-          if (err) {
-            alert(err);
-          }
-        });
       }
     });
-  }
    Template.instance().setEmptyPreview.set(true);
-   Session.set('result', undefined)
-
-  },
-
+   Session.set('result', undefined);
+   }
+  
 });
 
 /*Template.previewPlaceholder.events({
@@ -366,47 +315,14 @@ Template.wholeGallery.events({
       Session.set('slot', 0);
       // this.currentCollection.update(this.currentDoc._id, {$set: {media: mediaEmpty}});
       // this.currentCollection.update(this.currentDoc._id, {$set: {coverImg: null}});
-      if(this.currentCollection._name == "projects") {
         setMedia.call({
-          collection: true,
+          collection: this.currentCollection._name,
           projectId: this.currentDoc._id,
         }, (err, res) => {
           if (err) {
             alert(err);
-          }else{
-            setCoverImg2.call({
-              collection: true,
-              projectId: this.currentDoc._id,
-              id: "null"
-            }, (err, res) => {
-              if (err) {
-                alert(err);
-              }
-            });
           }
         });
-
-      } else if (this.currentCollection._name == "drafts") {
-        setMedia.call({
-          collection: false,
-          projectId: this.currentDoc._id,
-        }, (err, res) => {
-          if (err) {
-
-            alert(err);
-          }else{
-          setCoverImg2.call({
-            collection: false,
-            projectId: this.currentDoc._id,
-            id: "null"
-          }, (err, res) => {
-            if (err) {
-              alert(err);
-            }
-          });
-          }
-        });
-      }
     }
     const target = event.target;
     Template.instance().editMode.set(true);
