@@ -5,6 +5,7 @@
                         {{#if $and getEditMode ($eq currentUser._id currentDoc.owner.userId)}}
                           {{#if currentDoc.media}}
                             {{> uploadFormCrop slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection
+                            type="gallery"
                             }}
                             {{> setVideoLink slot=slot media=currentDoc.media
                             doc=currentDoc

@@ -1,6 +1,9 @@
 <template name="userProfile">
   {{#if $eq currentUser._id this._id}}
-    {{> uploadForm}}
+    {{> uploadFormCrop type="avatar" currentDoc=this}}
+    {{#if $neq currentUser.profile.avatar false}}
+      <button id="delete-avatar-button" class="btn btn-primary navbar-btn navbar-right">Avatar Löschen</button>
+    {{/if}}
   {{/if}}
     <img src= {{getAvatarURL this._id "avatar50"}} />
     <h1>{{this.profile.firstname}} {{this.profile.lastname}}<br><span>{{this.profile.study}}</span></h1>
