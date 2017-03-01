@@ -55,3 +55,17 @@ AutoForm.addHooks(["setVideoLink"], {
     }
   }
 });
+
+AutoForm.addHooks([
+  "contactItem",
+  "jobItem",
+  "editTeamCommItem"
+], {
+  before: {
+    "method-update": function(doc) {
+      delete doc["$unset"];
+      console.log(doc);
+      return doc;
+    }
+  }
+});
