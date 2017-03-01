@@ -16,7 +16,6 @@ Template.navigationBar.helpers({
   route(){
     const idDraft = Router.current().params._id;
     const currentDraft = Drafts.findOne({"_id": idDraft});
-    console.log(idDraft);
     return currentDraft && currentDraft.owner && currentDraft.owner.userId;
   }
 });

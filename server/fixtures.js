@@ -32,7 +32,7 @@ Factory.define('user', Meteor.users, {
     study: () => faker.name.jobArea(),
     aboutMe: () => faker.lorem.sentences(),
     skills: () => [faker.name.jobArea(), faker.name.jobArea(), faker.name.jobArea(), faker.name.jobArea(), faker.name.jobArea()],
-    avatar: () => null,
+    avatar: () => false,
   },
 });
 const sampleUsers = _.times(sampleCountUsers, i => Factory.create("user"));
