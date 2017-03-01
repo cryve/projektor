@@ -1,6 +1,8 @@
 import {Template} from "meteor/templating" ;
 
 import { deleteContact, deleteLink } from "/lib/methods.js";
+import { contactSchema } from "/lib/collections/schemas.js";
+import { linkSchema } from "/lib/collections/schemas.js";
 
 
 import "./edit_profile.html" ;
@@ -104,6 +106,9 @@ Template.addContactUser.helpers({
   editActive () {
     return Template.instance().editActive.get();
   },
+  contactSchema () {
+    return contactSchema;
+  },
   mediumOptions() {
     return [
       {},
@@ -158,7 +163,7 @@ Template.linkItem.helpers({
 });
 
 Template.linkItem.events({
-  "click .btn-delete-contact" (event) {
+  "click .btn-delete-link" (event) {
     deleteLink.call({
       index: this.slot,
       userId:Meteor.userId(),
@@ -178,13 +183,16 @@ Template.linkItem.events({
   },
 });
 
-Template.addLinks.onCreated(function() {
+Template.addLink.onCreated(function() {
   this.editActive = new ReactiveVar(false);
 });
 
-Template.addLinks.helpers({
+Template.addLink.helpers({
   editActive () {
     return Template.instance().editActive.get();
+  },
+  linkSchema () {
+    return linkSchema;
   },
   mediumOptions() {
     return [
@@ -201,8 +209,8 @@ Template.addLinks.helpers({
   },
 });
 
-Template.addLinks.events({
-  "click #btn-add-contact" (event) {
+Template.addLink.events({
+  "click #btn-add-link" (event) {
     Template.instance().editActive.set(true);
   },
   "click .btn-abort-adding" (event) {

@@ -53,10 +53,10 @@
     <li>
       <button id="btn-add-contact" class="btn btn-primary btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
       {{#if editActive }}
-        {{#autoForm id="addContactUser" type="update-pushArray" doc=currentDoc collection=currentCollection scope="profile.contacts"}}
+        {{#autoForm id="addContactUser" schema=contactSchema type="method" meteormethod=(getMethodString currentCollection._name "addContact") doc=currentDoc}}
           <div class="form-group">
-            {{> afFieldInput name="medium" type="select2" options=mediumOptions placeholder="Neues Kommunikationsmittel hinzufügen" }}
-            {{> afFieldInput name="approach" type="text" placeholder="Details zur Kontaktaufnahme"}}
+            {{> afFieldInput name="contact.medium" type="select2" options=mediumOptions placeholder="Neues Kommunikationsmittel hinzufügen" }}
+            {{> afFieldInput name="contact.approach" type="text" placeholder="Details zur Kontaktaufnahme"}}
           </div>
           <div class="form-group">
             <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
@@ -89,15 +89,15 @@
   </li>
 </template>
 
-<template name="addLinks">
+<template name="addLink">
   {{#if $eq currentUser._id currentDoc._id }}
     <li>
-      <button id="btn-add-contact" class="btn btn-primary btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
+      <button id="btn-add-link" class="btn btn-primary btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
       {{#if editActive }}
-        {{#autoForm id="addLinks" type="update-pushArray" doc=currentDoc collection=currentCollection scope="profile.links"}}
+        {{#autoForm id="addLink" schema=linkSchema type="method" meteormethod=(getMethodString currentCollection._name "addLink") doc=currentDoc}}
           <div class="form-group">
-            {{> afFieldInput name="medium" type="select2" options=mediumOptions placeholder="Neues Kommunikationsmittel hinzufügen" }}
-            {{> afFieldInput name="approach" type="text" placeholder="Details zur Kontaktaufnahme"}}
+            {{> afFieldInput name="link.medium" type="select2" options=mediumOptions placeholder="Neues Kommunikationsmittel hinzufügen" }}
+            {{> afFieldInput name="link.approach" type="text" placeholder="Details zur Kontaktaufnahme"}}
           </div>
           <div class="form-group">
             <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
@@ -124,7 +124,7 @@
       {{medium}}: {{approach}}
       {{#if $eq currentUser._id currentDoc._id}}
         <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-contact"></span></a>
-        <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-contact"></span></a>
+        <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-link"></span></a>
       {{/if}}
     {{/if}}
   </li>

@@ -2,6 +2,9 @@ import { Template } from "meteor/templating";
 
 import "./project_edit.html";
 import { memberSchema } from "/lib/collections/schemas.js";
+import { jobSchema } from "/lib/collections/schemas.js";
+import { contactSchema } from "/lib/collections/schemas.js";
+import { teamCommSchema } from "/lib/collections/schemas.js";
 
 Template.addMember.onCreated(function() {
   this.editActive = new ReactiveVar(false);
@@ -104,6 +107,9 @@ Template.addContact.helpers({
   editActive () {
     return Template.instance().editActive.get();
   },
+  contactSchema () {
+    return contactSchema;
+  },
   mediumOptions() {
     return [
       {},
@@ -193,12 +199,14 @@ Template.addJob.helpers({
   editActive () {
     return Template.instance().editActive.get();
   },
+  jobSchema () {
+    return jobSchema;
+  }
 });
 
 Template.addJob.events({
   "click #btn-add-job" (event) {
     Template.instance().editActive.set(true);
-    console.log(this); //this
   },
   "click .btn-abort-adding" (event) {
     Template.instance().editActive.set(false);
@@ -416,6 +424,9 @@ Template.addTeamCommItem.onCreated(function() {
 Template.addTeamCommItem.helpers({
   editActive () {
     return Template.instance().editActive.get();
+  },
+  teamCommSchema () {
+    return teamCommSchema;
   },
   mediumOptions() {
     return [

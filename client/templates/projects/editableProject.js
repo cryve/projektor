@@ -35,18 +35,11 @@ Template.editableProject.helpers({
     console.log(data);
   },
   getCollection() {
-
-    if(this.isNewProject){
-      // console.log("Drafts");
-      // console.log(this);
+    if(this.isNewProject) {
       return Drafts;
-    }
-    else{
-      // console.log("Projects");
-      // console.log(this);
+    } else {
       return Projects;
     }
-
   },
   suggestedUsers(firstOption) {
     var users = Meteor.users.find({});

@@ -22,10 +22,17 @@ AutoForm.addHooks([
   }
 });
 
-AutoForm.addHooks(["addMember"], {
+AutoForm.addHooks([
+  "addMember",
+  "addJob",
+  "addContact",
+  "addTeamCommItem",
+  "addContactUser",
+  "addLink",
+], {
   before: {
     "method": function(doc) {
-      doc.projectId = this.docId;
+      doc.docId = this.docId;
       return doc;
     }
   }

@@ -41,7 +41,7 @@
           {{#each link in this.profile.links}}
             {{>linkItem medium=link.medium approach=link.approach currentDoc=this currentCollection=getUserCollection slot=@index}}
           {{/each}}
-          {{> addLinks currentDoc=this currentCollection=getUserCollection }}
+          {{> addLink currentDoc=this currentCollection=getUserCollection }}
         </ul>
       </div>
     </div> <!-- /.panel Link -->
