@@ -1,6 +1,6 @@
 <template name="editAboutMe">
   {{#if $and editActive ($eq currentUser._id currentDoc._id) }}
-    {{#autoForm id="editAboutMe" type="update" doc=currentDoc collection=currentCollection }}
+    {{#autoForm id="editAboutMe" type="method-update" singleMethodArgument=true meteormethod="users.updateEditable" doc=currentDoc collection=currentCollection }}
     <div class="form-group">
       {{> afFieldInput name="profile.aboutMe" type="textarea" rows=6 placeholder="Schreibe etwas über dich" }}
     </div>
@@ -25,7 +25,7 @@
 
 <template name="editSkills">
   {{#if $and editActive ($eq currentUser._id currentDoc._id) }}
-    {{#autoForm id="editSkills" type="update" doc=currentDoc collection=currentCollection }}
+    {{#autoForm id="editSkills" type="method-update" singleMethodArgument=true meteormethod="users.updateEditable" doc=currentDoc collection=currentCollection }}
     <div class="form-group">
       {{> afFieldInput name="profile.skills" type="tags" maxTags=20 maxChars=20 trimValue=true placeholder="Tags eingeben" }}
     </div>
@@ -71,7 +71,7 @@
 <template name="contactItemUser">
   <li>
     {{#if $and editActive ($eq currentUser._id currentDoc._id) }}
-      {{#autoForm id="contactItemUser" type="update" doc=currentDoc collection=currentCollection setArrayItems=true}}
+      {{#autoForm id="contactItemUser" type="method-update" singleMethodArgument=true meteormethod="users.updateEditable" doc=currentDoc collection=currentCollection setArrayItems=true}}
         {{> afFieldInput name=contactMediumField type="select2" options=mediumOptions placeholder="Kontaktmittel auswählen" }}
         {{> afFieldInput name=contactApproachField type="text" options=mediumOptions placeholder="Details zur Kontaktaufnahme"}}
         <div class="form-group">
@@ -112,7 +112,7 @@
 <template name="linkItem">
   <li>
     {{#if $and editActive ($eq currentUser._id currentDoc._id) }}
-      {{#autoForm id="linkItem" type="update" doc=currentDoc collection=currentCollection setArrayItems=true}}
+      {{#autoForm id="linkItem" type="method-update" singleMethodArgument=true meteormethod="users.updateEditable" doc=currentDoc collection=currentCollection setArrayItems=true}}
         {{> afFieldInput name=linkMediumField type="select2" options=mediumOptions placeholder="Kontaktmittel auswählen" }}
         {{> afFieldInput name=linkApproachField type="text" options=mediumOptions placeholder="Details zur Kontaktaufnahme"}}
         <div class="form-group">

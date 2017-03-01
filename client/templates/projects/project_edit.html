@@ -6,11 +6,9 @@
       </div>
       <div class="media-body">
         {{#if editActive}}
-          
-          <!--{{#autoForm id="addMember" doc=currentDoc collection=currentCollection type="method-update" meteormethod="project.addMember" singleMethodArgument=true }}-->
-          {{#autoForm id="addMember" doc=currentDoc collection=currentCollection type="normal" }}
+          {{#autoForm id="addMember" schema=memberSchema type="method" meteormethod=(getMethodString currentCollection._name "addMember") doc=currentDoc }}
             <div class="form-group">
-              {{> afFieldInput name="teamuserId" type="select2" options=userList placeholder="Neues Mitglied auswählen" allowClear=true}}
+              {{> afFieldInput name="userId" type="select2" options=userList placeholder="Neues Mitglied auswählen" allowClear=true}}
               {{> afFieldInput name="role" type="text" placeholder="Aufgaben im Projekt"}}
             </div>
             <div class="form-group">

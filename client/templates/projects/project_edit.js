@@ -1,6 +1,7 @@
 import { Template } from "meteor/templating";
 
 import "./project_edit.html";
+import { memberSchema } from "/lib/collections/schemas.js";
 
 Template.addMember.onCreated(function() {
   this.editActive = new ReactiveVar(false);
@@ -9,6 +10,9 @@ Template.addMember.onCreated(function() {
 Template.addMember.helpers({
   editActive () {
     return Template.instance().editActive.get();
+  },
+  memberSchema () {
+    return memberSchema;
   },
 });
 
