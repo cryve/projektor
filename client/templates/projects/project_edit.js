@@ -1,10 +1,8 @@
 import { Template } from "meteor/templating";
 
 import "./project_edit.html";
-import { memberSchema } from "/lib/collections/schemas.js";
-import { jobSchema } from "/lib/collections/schemas.js";
-import { contactSchema } from "/lib/collections/schemas.js";
-import { teamCommSchema } from "/lib/collections/schemas.js";
+import { memberSchema, jobSchema, contactSchema, teamCommSchema } from "/lib/collections/schemas.js";
+import { deleteEditableArrayItem } from "/lib/methods.js";
 
 Template.addMember.onCreated(function() {
   this.editActive = new ReactiveVar(false);
@@ -46,7 +44,16 @@ Template.member.helpers({
 
 Template.member.events({
   "click .btn-delete-member" (event) {
-    this.currentCollection.update(this.currentDoc._id, {$pull: {team: {userId: this.userId}}});
+    deleteEditableArrayItem.call({
+      collectionName: this.currentCollection._name,
+      docId: this.currentDoc._id,
+      arrayField: "team",
+      item: { userId: this.userId, role: this.role },
+    },(err, res) => {
+        if (err) {
+          alert(err);
+        }
+    });
   },
   "click .btn-edit-member" (event) {
     Template.instance().editActive.set(true);
@@ -87,9 +94,16 @@ Template.contactItem.helpers({
 
 Template.contactItem.events({
   "click .btn-delete-contact" (event) {
-    let currentContacts = this.currentDoc.contacts;
-    currentContacts.splice(this.slot, 1);
-    this.currentCollection.update(this.currentDoc._id, {$set: {contacts: currentContacts}});
+    deleteEditableArrayItem.call({
+      collectionName: this.currentCollection._name,
+      docId: this.currentDoc._id,
+      arrayField: "contacts",
+      item: { medium: this.medium, approach: this.approach },
+    },(err, res) => {
+        if (err) {
+          alert(err);
+        }
+    });
   },
   "click .btn-edit-contact" (event) {
     Template.instance().editActive.set(true);
@@ -228,15 +242,15 @@ Template.jobItem.helpers({
 
 Template.jobItem.events({
   "click .btn-delete-job" (event) {
-    let currentJobs = this.currentDoc.jobs;
-    currentJobs.splice(this.slot, 1);
-    // this.currentCollection.update(this.currentDoc._id, {$set: {jobs: currentJobs}});
-    const jobsUpdateCall = this.currentCollection._name + ".updateJobs";
-    console.log(jobsUpdateCall);
-    Meteor.call(removeJobCall, this.currentDoc._id, this.slot, (err, res) => {
-      if (err) {
-        alert(err);
-      }
+    deleteEditableArrayItem.call({
+      collectionName: this.currentCollection._name,
+      docId: this.currentDoc._id,
+      arrayField: "jobs",
+      item: { joblabel: this.jobLabel },
+    },(err, res) => {
+        if (err) {
+          alert(err);
+        }
     });
   },
   "click .btn-edit-job" (event) {
@@ -411,9 +425,16 @@ Template.editTeamCommItem.helpers({
 
 Template.editTeamCommItem.events({
   "click .btn-delete-teamcomm" (event) {
-    let currentTeamComms = this.currentDoc.teamCommunication;
-    currentTeamComms.splice(this.slot, 1);
-    this.currentCollection.update(this.currentDoc._id, {$set: {teamCommunication: currentTeamComms}});
+    deleteEditableArrayItem.call({
+      collectionName: this.currentCollection._name,
+      docId: this.currentDoc._id,
+      arrayField: "teamCommunication",
+      item: { medium: this.medium, url: this.url, isPrivate: this.isPrivate },
+    },(err, res) => {
+        if (err) {
+          alert(err);
+        }
+    });
   },
 });
 
