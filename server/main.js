@@ -23,20 +23,41 @@ Accounts.onCreateUser((options, user) =>{
 });
 
 LDAP.generateSettings = function (request) {
+  console.log(request);
   return {
     // "serverDn": "DC=ad,DC=university,DC=edu",
-    "serverDn": "DC=bui,DC=haw-hamburg,DC=de",
+    "serverDn": "ou=User,o=haw",
+    // "bindDn": ""
     // "serverUrl": "ldap://ad.university.edu:389",
-    "serverUrl": "ldap://ldap2.mt.haw-hamburg.de:389",
-    "whiteListedFields": ["uid", "uidNumber", "sn", "givenName", "departmentNumber", "mail"],
-    "autopublishFields": ["uid", "uidNumber", "sn", "givenName", "departmentNumber", "mail"]
+    "serverUrl": "ldaps://localhost:1636",
+    "whiteListedFields": [
+      "cn", "hhEduPersonStaffCategory", "sn", "givenName", "fullName", "hhEduPersonPrimaryFaculty", "hhEduPersonPrimaryStudyCourse", "mail", "hhEduPersonGender"
+    ],
+    "autopublishFields": ["cn", "hhEduPersonStaffCategory", "sn", "givenName", "fullName", "hhEduPersonPrimaryFaculty", "hhEduPersonPrimaryStudyCourse", "mail", "hhEduPersonGender"]
   }
 }
+
+// LDAP.bindValue = function (usernameOrEmail, isEmailAddress, FQDN) {
+//   return ((isEmailAddress) ? usernameOrEmail.split('@')[0] : usernameOrEmail) + '@' + FQDN;
+// }
+LDAP.bindValue = function (usernameOrEmail) {
+  return "cn=abk742,ou=User,o=haw";
+}
+
+
+// LDAP.bindValue = function (userCn, )
+// LDAP_DEFAULTS.port = 636;
+// LDAP_DEFAULTS.url = "ldaps://corpdir-new.haw-hamburg.de";
+
+
 
 Meteor.startup(function() {
     WebApp.addHtmlAttributeHook(function() {
         return {
             "lang": "de"
         }
-    })
+    });
+    // Accounts.config({
+    //   forbidClientAccountCreation: true
+    // });
 });

@@ -22,10 +22,10 @@ ajduke:bootstrap-tagsinput    # Enable bootstrap-tagsinput for tag forms
 ostrio:files                  # File uploading
 momentjs:moment               # Time and date conversions
 shell-server@0.2.1
-accounts-password@1.3.3             # Meteors account packages
+#accounts-password@1.3.3             # Meteors account packages
 twbs:bootstrap                # Bootstrap CSS framework support
 # accounts-facebook
-# typ:accounts-ldap
+#typ:accounts-ldap
 # natestrauser:x-editable-bootstrap
 natestrauser:select2
 zimme:select2-bootstrap3-css

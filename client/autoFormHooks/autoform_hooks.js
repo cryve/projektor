@@ -59,7 +59,9 @@ AutoForm.addHooks(["setVideoLink"], {
 AutoForm.addHooks([
   "contactItem",
   "jobItem",
-  "editTeamCommItem"
+  "editTeamCommItem",
+  "contactItemUser",
+  "linkItem",
 ], {
   before: {
     "method-update": function(doc) {
