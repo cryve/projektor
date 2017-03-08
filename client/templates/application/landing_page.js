@@ -1,21 +1,54 @@
 import { Template } from 'meteor/templating';
 import { Projects } from '/lib/collections/projects.js';
-
+import { ProjectsIndex } from '/lib/collections/projects.js';
 import './landing_page.html';
 
-var keyWord = new ReactiveArray([]);
+
 
 Template.landingPage.onCreated (function landingPageOnCreated() {
   this.setSearch = new ReactiveVar(true);
   this.setSort = new ReactiveVar("new");
+  this.keyWord = new ReactiveArray([]);
   Meteor.subscribe("projects");
+});
+
+Template.landingPage.onRendered(function landingPageOnRendered(){
+  const keyWord = this.keyWord;
+  Tracker.autorun(function(){
+    keyWord.depend();
+    ProjectsIndex.getComponentMethods().search(keyWord.join([separator = ' ']));
+  });
+  
 });
 
 Template.landingPage.helpers({
   projects() {
     return Projects.find({}, { sort: { createdAt: -1 } });
   },
-  /*searchFilter() {
+  projectsIndex: () => {
+    return ProjectsIndex;
+  },
+  originalDoc(searchDoc) {
+    searchDoc._id = searchDoc.__originalId;
+    delete searchDoc.__originalId;
+    console.log(searchDoc);
+    return searchDoc;
+    
+  },
+  /*projects2() {
+    const body = Projects.search({
+      "query": {
+          "match" : {
+              "title" : "steel"
+          }
+      }
+    }, function(err, people){
+       // all the people who fit the age group are here! 
+    });
+    
+    return body;
+  },*/
+    /*searchFilter() {
     var getSort = Template.instance().setSort.get();
     var search ;
     var count = 0;
@@ -105,37 +138,38 @@ Template.landingPage.helpers({
   },
   isSort(){
     return Template.instance().setSort.get();
-  },
+  },*/
   tags: function() {
-    return keyWord.list();
-  }*/
+    console.log(Template.instance().keyWord.array());
+    return Template.instance().keyWord.array();
+  }
 
 });
 
-/*Template.landingPage.events({
+Template.landingPage.events({
 
   'submit .new-tag' (event){
     event.preventDefault();
-    keyWord.push($('#listExName').val());
+    Template.instance().keyWord.push($('#listExName').val());
     Template.instance().setSearch.set(false);
     return $('#listExName').val('');
 
   },
   'click #listExAdd' (event){
     event.preventDefault();
-    keyWord.push($('#listExName').val());
+    Template.instance().keyWord.push($('#listExName').val());
     Template.instance().setSearch.set(false);
     return $('#listExName').val('');
 
   },
   'click .listExRemove' (event) {
     Template.instance().setSearch.set(false);
-    return keyWord.remove(this.toString());
+    return Template.instance().keyWord.remove(this.toString());
 
   },
   'click .listRemove' (event) {
     Template.instance().setSearch.set(false);
-    return keyWord.clear();
+    return Template.instance().keyWord.clear();
     
   },
   'change #sortStatus' (event, template){
@@ -143,4 +177,4 @@ Template.landingPage.helpers({
     console.log(selectedSort);
     Template.instance().setSort.set(selectedSort);
   }
-});*/
+});

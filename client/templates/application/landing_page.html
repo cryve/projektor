@@ -1,5 +1,52 @@
 <template name="landingPage">
-  <!-- <ul class="unstyled">
+  <!--{{> EasySearch.Input index=projectsIndex }}-->
+
+  {{#EasySearch.IfInputEmpty index=projectsIndex}}
+    <div class="project-cards">
+      <div class="container">
+        <div class="row">
+          {{#each project in projects}}
+            <div class="col-lg-3">
+              {{#if project.coverImg}}
+                {{>projectCard currentDoc=project}}
+              {{else}}
+                {{>projectCardCoverless currentDoc=project}}
+              {{/if}}
+            </div>
+          {{/each}}
+        </div> 
+      </div> 
+    </div>
+  {{else}}
+    {{#EasySearch.IfNoResults index=projectsIndex}}
+      NO RESULTS BASTARD!!!!
+    {{/EasySearch.IfNoResults}}
+  
+    {{#EasySearch.IfSearching index=projectsIndex}}
+      searching.....
+    {{/EasySearch.IfSearching}}
+  
+    <div class="project-cards">
+      <div class="container">
+        <div class="row">
+        {{#EasySearch.Each index=projectsIndex }}
+          <div class="col-lg-3">
+            {{#if coverImg}}
+              {{>projectCard currentDoc=(originalDoc this)}}
+            {{else}}
+              {{>projectCardCoverless currentDoc=(originalDoc this)}}
+            {{/if}}
+          </div>
+        {{/EasySearch.Each}}
+        </div> 
+      </div> 
+    </div>
+  {{/EasySearch.IfInputEmpty}}
+  
+  
+  
+  
+  <ul class="unstyled">
     {{#each tags }}
       {{#if $eq this ""}}
 
@@ -17,7 +64,7 @@
     <a class="btn listRemove" title="Remove this tags">delete</a>
 
   </form>
-  <td>
+  <!-- <td>
     <select id="sortStatus">
         <option value="new">New -> Old</option>
         <option value="old">old -> New</option>
@@ -26,7 +73,7 @@
         <option value="relevanz">Relevanz</option>
     </select>
   </td> -->
-  <div class="project-cards">
+  <!-- <div class="project-cards">
     <div class="container">
       <div class="row">
         {{#each project in projects}}
@@ -38,7 +85,7 @@
             {{/if}}
           </div>
         {{/each}}
-      </div> <!-- /.row project cards -->
-    </div> <!-- /.container -->
-  </div>
+      </div> 
+    </div> 
+  </div> -->
 </template>
