@@ -17,6 +17,7 @@ const maxSizeContacts = 3;
 const maxSizeOccasions = 5;
 const maxSizeJobs = 10;
 const maxSizeSupervisors = 5;
+const maxSizeProfileContacts = 5;
 
 /* Clear databases */
 Meteor.users.remove({});
@@ -32,6 +33,10 @@ Factory.define('user', Meteor.users, {
     study: () => faker.name.jobArea(),
     aboutMe: () => faker.lorem.sentences(),
     skills: () => [faker.name.jobArea(), faker.name.jobArea(), faker.name.jobArea(), faker.name.jobArea(), faker.name.jobArea()],
+    contacts: () => _.times(_.random(maxSizeProfileContacts), i => ({
+      medium: faker.internet.domainWord(),
+      approach: faker.internet.email(),
+    })),
     avatar: () => false,
   },
 });
