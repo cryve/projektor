@@ -26,12 +26,12 @@ Template.landingPage.helpers({
     return Projects.find({}, { sort: { createdAt: -1 } });
   },
   projectsIndex: () => {
+    console.log(ProjectsIndex);
     return ProjectsIndex;
   },
   originalDoc(searchDoc) {
     searchDoc._id = searchDoc.__originalId;
     delete searchDoc.__originalId;
-    console.log(searchDoc);
     return searchDoc;
     
   },
@@ -176,5 +176,9 @@ Template.landingPage.events({
     var selectedSort = template.$("#sortStatus").val();
     console.log(selectedSort);
     Template.instance().setSort.set(selectedSort);
-  }
+  },
+  'change .sorting': (event) => {
+    ProjectsIndex.getComponentMethods()
+      .addProps('sortBy', $(event.target).val())
+  },
 });

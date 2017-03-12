@@ -44,7 +44,11 @@
   {{/EasySearch.IfInputEmpty}}
   
   
-  
+  <select class="sorting">
+    <option value="relevance">Relevance</option>
+    <option value="newest">Newest</option>
+    <option value="bestScore">Score</option>
+  </select>
   
   <ul class="unstyled">
     {{#each tags }}
