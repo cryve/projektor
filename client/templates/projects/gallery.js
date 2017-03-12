@@ -25,6 +25,24 @@ Template.setVideoLink.helpers({
   },
 });
 
+$(document).on("drop",".well.preview-placeholder",function(event){
+    event.preventDefault();
+    console.log(event);
+    var file = event.originalEvent.dataTransfer.files;
+    // der zugriff ist hier leider nicht korrekt, eigentlich sollte hier die resource des events hinterlegt sein.
+
+    var formData = new FormData();
+    formData.append('files',file[0]);
+
+    // hier muesste jetzt ein xmlhttprequest zu der korrekten URL gemacht werden und die formData muessen uebergeben
+    // werden.
+    console.log(formData);
+});
+//
+$(document).on("dragover",".well.preview-placeholder",function(event){
+    console.log(event);
+});
+
 Template.setVideoLink.events({
   "click #video-link-button" (event) {
     Template.instance().editActive.set(true);

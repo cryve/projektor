@@ -61,12 +61,12 @@
                   <h2 class="panel-title">Gesuchte Fähigkeiten</h2>
                 </div>
                 <div class="panel-body">
-                  <ul>
+                  <ul class="list-unstyled">
                       {{#each job in jobs}}
                         {{>jobItem jobLabel=job.joblabel currentDoc=this currentCollection=getCollection slot=@index}}
                       {{/each}}
-                      {{>addJob currentDoc=this currentCollection=getCollection}}
                   </ul>
+                      {{>addJob currentDoc=this currentCollection=getCollection}}
                 </div>
               </div> <!-- /.panel Wanted Skills -->
               <div class="panel panel-default">
@@ -78,8 +78,8 @@
                     {{#each contact in contacts}}
                       {{>contactItem medium=contact.medium approach=contact.approach currentDoc=this currentCollection=getCollection slot=@index}}
                     {{/each}}
-                    {{> addContact currentDoc=this currentCollection=getCollection }}
                   </ul>
+                        {{>addContact currentDoc=this currentCollection=getCollection }}
                 </div>
               </div> <!-- /.panel Contact -->
               <div class="panel panel-default">

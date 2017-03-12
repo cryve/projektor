@@ -82,7 +82,7 @@
 
 <template name="addContact">
   {{#if $eq currentUser._id currentDoc.owner.userId }}
-    <li>
+
       <button id="btn-add-contact" class="btn btn-primary btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
       {{#if editActive }}
         {{#autoForm id="addContact" schema=contactSchema type="method" meteormethod=(getMethodString currentCollection._name "addContact") doc=currentDoc}}
@@ -96,7 +96,6 @@
           </div>
         {{/autoForm}}
       {{/if}}
-    </li>
   {{/if}}
 </template>
 

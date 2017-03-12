@@ -97,19 +97,36 @@
   transition: all 0.3s linear 0s;
 }
 
-.expandable-trigger:hover + .expandable-content .expandable {
+/*.expandable-trigger:hover + .expandable-content .expandable {
   height: 157px;
-}
+}*/
 
-.expandable-trigger:hover + .expandable-content {
+/*.expandable-content:hover {
   top: 126px;
-}
+}*/
+.panel-body:hover > .expandable-content{
+  top:126px;
 
+}
+.jobs-box > .expandable:hover {
+
+  height: 158px;
+
+  transition: all 0.3s linear 0s;
+}
+.panel.panel-default.cover-card:hover {
+
+  box-shadow: 2px 2px #286090;
+}
+.panel.panel-default.coverless-card:hover {
+
+  box-shadow: 2px 2px #286090;
+}
 /*.expandable-trigger:hover + .expandable-content .testTrigger {
   position:relative;
   z-index: 2;
 }*/
-
+/*
 .expandable-trigger:hover + .expandable-content .card {
   position: relative;
 }
@@ -123,10 +140,10 @@
   height: 85px;
   width: 230px;
   bottom: 109px;
-  /*background-color: yellow;*/
+  !*background-color: yellow;*!
   position: absolute;
   z-index: 2;
-}
+}*/
 
 .jobs-box-header {
   position: absolute;
