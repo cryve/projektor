@@ -23,34 +23,34 @@ import { AccountsServer } from 'meteor/accounts-base';
 
 LDAP.logging = false;
 
-LDAP.generateSettings = function (request) {
-  return {
-    "serverDn": "ou=User,o=haw",
-    "serverUrl": "ldaps://corpdir-new.haw-hamburg.de:636",
-    "whiteListedFields": [
-      "cn",
-      "hhEduPersonStaffCategory",
-      "sn",
-      "givenName",
-      "fullName",
-      "hhEduPersonPrimaryFaculty",
-      "hhEduPersonPrimaryStudyCourse",
-      "mail",
-      "hhEduPersonGender",
-    ],
-    "autopublishFields": [
-      "cn",
-      "hhEduPersonStaffCategory",
-      "sn",
-      "givenName",
-      "fullName",
-      "hhEduPersonPrimaryFaculty",
-      "hhEduPersonPrimaryStudyCourse",
-      "mail",
-      "hhEduPersonGender"
-    ],
-  }
-}
+// LDAP.generateSettings = function (request) {
+//   return {
+//     "serverDn": "ou=User,o=haw",
+//     "serverUrl": "ldaps://corpdir-new.haw-hamburg.de:636",
+//     "whiteListedFields": [
+//       "cn",
+//       "hhEduPersonStaffCategory",
+//       "sn",
+//       "givenName",
+//       "fullName",
+//       "hhEduPersonPrimaryFaculty",
+//       "hhEduPersonPrimaryStudyCourse",
+//       "mail",
+//       "hhEduPersonGender",
+//     ],
+//     "autopublishFields": [
+//       "cn",
+//       "hhEduPersonStaffCategory",
+//       "sn",
+//       "givenName",
+//       "fullName",
+//       "hhEduPersonPrimaryFaculty",
+//       "hhEduPersonPrimaryStudyCourse",
+//       "mail",
+//       "hhEduPersonGender"
+//     ],
+//   }
+// }
 
 LDAP.bindValue = function (usernameOrEmail) {
   return "cn="+usernameOrEmail+",ou=User,o=haw";
