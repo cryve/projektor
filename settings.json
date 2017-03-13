@@ -10,7 +10,7 @@
       "hhEduPersonPrimaryFaculty",
       "hhEduPersonPrimaryStudyCourse",
       "mail",
-      "hhEduPersonGender",
+      "hhEduPersonGender"
     ],
     "autopublishFields": [
       "hhEduPersonStaffCategory",
@@ -21,6 +21,6 @@
       "hhEduPersonPrimaryStudyCourse",
       "mail",
       "hhEduPersonGender"
-    ],
+    ]
   }
 }
