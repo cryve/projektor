@@ -9,13 +9,6 @@ Template.setVideoLink.onCreated(function() {
   this.editActive = new ReactiveVar(false);
 });
 
-Template.video.helpers({
-  getUrlId(){
-    var slot = Session.get('slot');
-    return this.media[slot].id;
-  }
-});
-
 Template.setVideoLink.helpers({
   editActive () {
     return Template.instance().editActive.get();
@@ -46,7 +39,7 @@ Template.setVideoLink.events({
   //       index: parseInt(currentSlot)
   //     }, (err, res) => {
   //       if (err) {
-  //         alert(err);  
+  //         alert(err);
   //       }
   //     });
   //   } else if (collection._name == "drafts") {
@@ -64,21 +57,16 @@ Template.setVideoLink.events({
   // },
 });
 
+Template.video.helpers({
+  getUrlId(){
+    var slot = Session.get('slot');
+    return this.media[slot].id;
+  }
+});
 
 Template.deleteImageButton.onCreated (function(){
   this.setEmptyPreview = new ReactiveVar(false);
   Meteor.subscribe("files.images.all");
-});
-
-Template.setTitleImageButton.onCreated(function() {
-  this.setCover = new ReactiveVar(false);
-});
-
-Template.setTitleImageButton.helpers({
-
-  getSetCover(){
-    return Template.instance().setCover.get();
-  },
 });
 
 Template.deleteImageButton.helpers ({
@@ -87,47 +75,7 @@ Template.deleteImageButton.helpers ({
   },
 });
 
-Template.galleryPreview.helpers({
-  getValue(){
-    return Template.instance().valuePreview.get();
-  },
-
-   result: function() {
-    return Session.get('result');
-  },
-
-
-});
-
-
-Template.setTitleImageButton.events({
-
-  "click #title-image-button" (event, template){
-   const target = event.target;
-   var currentArray = template.data.media;
-   var currentSlot = template.data.slot;
-   var collection = template.data.collection;
-  //  collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': currentArray[currentSlot].id }} );
-    setCoverImg.call({
-      collection: collection._name,
-      projectId: template.data.projectId,
-      index: parseInt(currentSlot),
-      coverImageId: "empty"
-    }, (err, res) => {
-      if (err) {
-        alert(err);
-      }
-    });
-   Template.instance().setCover.set(true);
-
-  },
-
-});
-
-
-
 Template.deleteImageButton.events({
-
    "click #delete-image-button" (event, template){
    var currentArray = template.data.media;
    var currentSlot = template.data.slot;
@@ -175,7 +123,7 @@ Template.deleteImageButton.events({
         if (err) {
           alert(err);
         }
-      });  
+      });
     }
    //currentArray[currentSlot].id = null;
    //currentArray[currentSlot].type = null;
@@ -204,7 +152,46 @@ Template.deleteImageButton.events({
    Template.instance().setEmptyPreview.set(true);
    Session.set('result', undefined);
    }
-  
+});
+
+Template.setTitleImageButton.onCreated(function() {
+  this.setCover = new ReactiveVar(false);
+});
+
+Template.setTitleImageButton.helpers({
+  getSetCover(){
+    return Template.instance().setCover.get();
+  },
+});
+
+Template.setTitleImageButton.events({
+  "click #title-image-button" (event, template){
+   const target = event.target;
+   var currentArray = template.data.media;
+   var currentSlot = template.data.slot;
+   var collection = template.data.collection;
+  //  collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': currentArray[currentSlot].id }} );
+    setCoverImg.call({
+      collection: collection._name,
+      projectId: template.data.projectId,
+      index: parseInt(currentSlot),
+      coverImageId: "empty"
+    }, (err, res) => {
+      if (err) {
+        alert(err);
+      }
+    });
+   Template.instance().setCover.set(true);
+  },
+});
+
+Template.galleryPreview.helpers({
+  getValue(){
+    return Template.instance().valuePreview.get();
+  },
+   result: function() {
+    return Session.get('result');
+  },
 });
 
 /*Template.previewPlaceholder.events({
@@ -246,7 +233,7 @@ Template.wholeGallery.helpers({
   //   var match = url.match(regExp);
   //   var newUrlId = (match&&match[7].length==11)? match[7] : false;
   //   var newUrl = "https://www.youtube.com/embed/"+newUrlId;
-  //  
+  //
   //   // this.currentCollection.update({_id: this.currentDoc.id}, {$set: {'media': currentArray}});
   //   if(this.currentCollection._name == "projects") {
   //   setMediaId.call({
@@ -315,11 +302,8 @@ Template.wholeGallery.helpers({
   },
 });
 
-
-
 Template.wholeGallery.events({
-
-  "click #edit-gallery-button" (event){
+                                                                "click #edit-gallery-button" (event){
     if(!this.currentDoc.media) {
       Session.set('slot', 0);
       // this.currentCollection.update(this.currentDoc._id, {$set: {media: mediaEmpty}});
@@ -336,25 +320,19 @@ Template.wholeGallery.events({
     const target = event.target;
     Template.instance().editMode.set(true);
     Template.instance().finishedMode.set(false);
-
-
   },
-
   'click #finished-button' (event){
     const target = event.target;
     Template.instance().finishedMode.set(true);
     Template.instance().editMode.set(false);
-
   },
   'click .edit_button': function(event){
-      const target = event.target;
-      var result = event.currentTarget.dataset.value;
-      var slot = event.currentTarget.dataset.slot;
-      console.log(result + " " + slot);
-      Template.instance().refreshPreview.set(true);
-      Session.set('result', result);
-      Session.set('slot', slot);
-
-
-  }
+    const target = event.target;
+    var result = event.currentTarget.dataset.value;
+    var slot = event.currentTarget.dataset.slot;
+    console.log(result + " " + slot);
+    Template.instance().refreshPreview.set(true);
+    Session.set('result', result);
+    Session.set('slot', slot);
+  },
 });

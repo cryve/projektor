@@ -42,7 +42,7 @@ Template.uploadFormCrop.events({
           chunkSize: 'dynamic',
           meta: {
             type: template.data.type,
-          } 
+          }
         }, false);
 
         uploadInstance.on('start', function() {
@@ -62,7 +62,7 @@ Template.uploadFormCrop.events({
               if(currentCover == currentArray[currentSlot].id){
                 if (currentCover){
                   imageRemove.call({
-                    imageId: currentArray[currentSlot].id, 
+                    imageId: currentArray[currentSlot].id,
                   }, (err, res) => {
                     if (err) {
                       alert(err);
@@ -93,7 +93,7 @@ Template.uploadFormCrop.events({
               else{
                 if (currentArray[currentSlot].id){
                   imageRemove.call({
-                    imageId: currentArray[currentSlot].id, 
+                    imageId: currentArray[currentSlot].id,
                   }, (err, res) => {
                     if (err) {
                       alert(err);
@@ -134,7 +134,7 @@ Template.uploadFormCrop.events({
                 } else {
                    alert("Complete!!");
                 }
-              });             
+              });
             }
           }
 
@@ -153,13 +153,9 @@ Template.fileCrop.onCreated(function fileCropOnCreated() {
 
 Template.fileCrop.helpers({
   imageFile: function () {
-   return Images.findOne();
+    return Images.findOne();
   },
-
-});
-
-Template.fileCrop.helpers({
-   videoFile: function () {
-      return Videos.findOne();
-    }
+  videoFile: function () {
+    return Videos.findOne();
+  },
 });
