@@ -26,8 +26,10 @@
           {{#if currentUser}}
           <a href="{{pathFor 'userProfile' _id=currentUser._id}}"><button class="btn btn-primary navbar-btn navbar-right">Profil</button></a>
           {{/if}}
-          <!-- {{> loginButtons }} -->
-          {{> ldapLoginButtons}}
+          <label class="text-muted">Test: </label>
+          {{> loginButtons }}
+          <label class="text-muted">LDAP: </label>
+          {{> ldapLoginButtons }}
         </div><!--/.navbar-collapse -->
       </div> <!-- /.container -->
     </nav>
