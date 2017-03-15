@@ -55,3 +55,4 @@ aldeed:schema-deny
 mdg:validation-error
 vazco:universe-selectize
 dburles:mongo-collection-instances
+force-ssl
