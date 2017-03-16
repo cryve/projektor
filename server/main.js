@@ -40,3 +40,7 @@ Meteor.startup(function() {
         }
     })
 });
+
+Meteor.startup(function () {
+   fs = require('fs');
+});

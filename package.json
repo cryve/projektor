@@ -16,6 +16,7 @@
     "jquery": "^2.2.4",
     "meteor-node-stubs": "~0.2.0",
     "mmmagic": "^0.4.5",
+    "mongo-xlsx": "^1.0.12",
     "mongoosastic": "^4.3.0",
     "mongoose": "^4.8.6",
     "simpl-schema": "^0.2.2",
