@@ -1,5 +1,5 @@
 <template name="addMember">
-  {{#if $eq currentUser._id currentDoc.owner.userId }}
+  {{#if isProjectEditableBy currentDoc currentUser._id }}
     <li class="media">
       <div class="media-left">
         <button id="btn-add-member" class="btn btn-primary btn-lg btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
@@ -30,7 +30,7 @@
       </a>
     </div>
     <div class="media-body">
-        {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
+        {{#if $and editActive (isProjectEditableBy currentDoc currentUser._id) }}
           {{#autoForm id="member" type="method-update" singleMethodArgument=true meteormethod=(getMethodString currentCollection._name "updateEditable") doc=currentDoc collection=currentCollection setArrayItems=true}}
             <div class="form-group">
               <h4 class="media-heading">
@@ -48,7 +48,7 @@
         {{else}}
           <h4 class="media-heading">
             <a href="{{pathFor 'userProfile' _id=this.userId}}">{{getFullUsername this.userId}}</a>
-            {{#if $eq currentUser._id currentDoc.owner.userId}}
+            {{#if isProjectEditableBy currentDoc currentUser._id}}
               <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-member"></span></a>
               <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-member"></span></a>
             {{/if}}
@@ -61,7 +61,7 @@
 
 <template name="contactItem">
   <li>
-    {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
+    {{#if $and editActive (isProjectEditableBy currentDoc currentUser._id) }}
       {{#autoForm id="contactItem" type="method-update" singleMethodArgument=true meteormethod=(getMethodString currentCollection._name "updateEditable") doc=currentDoc collection=currentCollection setArrayItems=true}}
         {{> afFieldInput name=contactMediumField type="select2" options=mediumOptions placeholder="Kontaktmittel auswählen" }}
         {{> afFieldInput name=contactApproachField type="text" options=mediumOptions placeholder="Details zur Kontaktaufnahme"}}
@@ -72,7 +72,7 @@
       {{/autoForm}}
     {{else}}
       {{medium}}: {{approach}}
-      {{#if $eq currentUser._id currentDoc.owner.userId}}
+      {{#if isProjectEditableBy currentDoc currentUser._id}}
         <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-contact"></span></a>
         <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-contact"></span></a>
       {{/if}}
@@ -81,7 +81,7 @@
 </template>
 
 <template name="addContact">
-  {{#if $eq currentUser._id currentDoc.owner.userId }}
+  {{#if isProjectEditableBy currentDoc currentUser._id }}
     <li>
       <button id="btn-add-contact" class="btn btn-primary btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
       {{#if editActive }}
@@ -101,7 +101,7 @@
 </template>
 
 <template name="editTitle">
-  {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
+  {{#if $and editActive (isProjectEditableBy currentDoc currentUser._id) }}
     <!-- {{#autoForm id="editTitle" type="update" doc=currentDoc collection=currentCollection }} -->
     {{#autoForm id="editTitle" type="method-update" singleMethodArgument=true meteormethod=(getMethodString currentCollection._name "updateEditable") doc=currentDoc collection=currentCollection }}
     <div class="form-group">
@@ -119,7 +119,7 @@
     {{else}}
       <span class="text-danger"><em>Titel deines Projekts</em></span>
     {{/if}}
-    {{#if $eq currentUser._id currentDoc.owner.userId}}
+    {{#if isProjectEditableBy currentDoc currentUser._id}}
       <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-title"></span></a><br>
     {{/if}}
     <small>{{currentDoc.subtitle}}</small>
@@ -127,7 +127,8 @@
 </template>
 
 <template name="editDescription">
-  {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
+  <!-- {{#if $and editActive (isProjectEditableBy currentDoc currentUser._id) }} -->
+  {{#if $and editActive (isProjectEditableBy currentDoc currentUser._id) }}
     {{#autoForm id="editDescription" type="method-update" singleMethodArgument=true meteormethod=(getMethodString currentCollection._name "updateEditable") doc=currentDoc collection=currentCollection }}
     <div class="form-group">
       {{> afFieldInput name="description" type="textarea" rows=6 placeholder="Beschreibung deines Projekts" }}
@@ -141,18 +142,18 @@
       {{#if currentDoc.description}}
         {{currentDoc.description}}
       {{else}}
-        {{#if $eq currentUser._id currentDoc.owner.userId}}
+        {{#if isProjectEditableBy currentDoc currentUser._id}}
           <span class="text-primary"><em>Beschreibung hinzufügen</em></span>
         {{/if}}
       {{/if}}
-      {{#if $eq currentUser._id currentDoc.owner.userId}}
+      {{#if isProjectEditableBy currentDoc currentUser._id}}
         <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-description"></span></a>
       {{/if}}
     {{/if}}
 </template>
 
 <template name="editTags">
-  {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
+  {{#if $and editActive (isProjectEditableBy currentDoc currentUser._id) }}
     {{#autoForm id="editTags" type="method-update" singleMethodArgument=true meteormethod=(getMethodString currentCollection._name "updateEditable") doc=currentDoc collection=currentCollection  }}
     <div class="form-group">
       {{> afFieldInput name="tags" type="tags" maxTags=10 maxChars=20 trimValue=true placeholder="Tags eingeben" }}
@@ -166,11 +167,11 @@
       {{#if currentDoc.tags}}
         {{currentDoc.tags}}
       {{else}}
-        {{#if $eq currentUser._id currentDoc.owner.userId}}
+        {{#if isProjectEditableBy currentDoc currentUser._id}}
           <span class="text-primary"><em>Tags hinzufügen</em></span>
         {{/if}}
       {{/if}}
-      {{#if $eq currentUser._id currentDoc.owner.userId}}
+      {{#if isProjectEditableBy currentDoc currentUser._id}}
         <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-tags"></span></a>
       {{/if}}
     {{/if}}
@@ -178,7 +179,7 @@
 
 <template name="jobItem">
   <li>
-    {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
+    {{#if $and editActive (isProjectEditableBy currentDoc currentUser._id) }}
       {{#autoForm id="jobItem" type="method-update" singleMethodArgument=true meteormethod=(getMethodString currentCollection._name "updateEditable") doc=currentDoc collection=currentCollection setArrayItems=true}}
         {{> afFieldInput name=jobLabelField type="text" placeholder="Gesuchte Fähigkeit" }}
         <div class="form-group">
@@ -188,7 +189,7 @@
       {{/autoForm}}
     {{else}}
       {{jobLabel}}
-      {{#if $eq currentUser._id currentDoc.owner.userId}}
+      {{#if isProjectEditableBy currentDoc currentUser._id}}
         <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-job"></span></a>
         <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-job"></span></a>
       {{/if}}
@@ -197,7 +198,7 @@
 </template>
 
 <template name="addJob">
-  {{#if $eq currentUser._id currentDoc.owner.userId }}
+  {{#if isProjectEditableBy currentDoc currentUser._id }}
       <button id="btn-add-job" class="btn btn-primary btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
       {{#if editActive }}
         {{#autoForm id="addJob" schema=jobSchema type="method" meteormethod=(getMethodString currentCollection._name "addJob") doc=currentDoc}}
@@ -214,7 +215,7 @@
 </template>
 
 <template name="editOccasions">
-  {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
+  {{#if $and editActive (isProjectEditableBy currentDoc currentUser._id) }}
     {{#autoForm id="editOccasions" type="method-update" singleMethodArgument=true meteormethod=(getMethodString currentCollection._name "updateEditable") doc=currentDoc collection=currentCollection }}
       <div class="form-group">
         {{> afFieldInput name="occasions" type="tags" maxTags=10 maxChars=30 trimValue=true placeholder="Kurs, Projektschein oder sonstige Motivation" }}
@@ -228,18 +229,18 @@
     {{#if currentDoc.occasions}}
       {{arrayToString currentDoc.occasions}}
     {{else}}
-      {{#if $eq currentUser._id currentDoc.owner.userId}}
+      {{#if isProjectEditableBy currentDoc currentUser._id}}
         <span class="text-primary"><em>Kurs, Projektschein oder sonstige Motivation</em></span>
       {{/if}}
     {{/if}}
-    {{#if $eq currentUser._id currentDoc.owner.userId}}
+    {{#if isProjectEditableBy currentDoc currentUser._id}}
       <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-occasions"></span></a>
     {{/if}}
   {{/if}}
 </template>
 
 <template name="editSupervisors">
-  {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
+  {{#if $and editActive (isProjectEditableBy currentDoc currentUser._id) }}
     {{#autoForm id="editSupervisors" type="method-update" singleMethodArgument=true meteormethod=(getMethodString currentCollection._name "updateEditable") doc=currentDoc collection=currentCollection }}
       <div class="form-group">
         {{> afFieldInput name="supervisors" type="tags" maxTags=10 maxChars=30 trimValue=true placeholder="Betreuer" }}
@@ -253,18 +254,18 @@
     {{#if currentDoc.supervisors}}
       {{arrayToString currentDoc.supervisors}}
     {{else}}
-      {{#if $eq currentUser._id currentDoc.owner.userId}}
+      {{#if isProjectEditableBy currentDoc currentUser._id}}
         <span class="text-primary"><em>Wer betreut das Projekt?</em></span>
       {{/if}}
     {{/if}}
-    {{#if $eq currentUser._id currentDoc.owner.userId}}
+    {{#if isProjectEditableBy currentDoc currentUser._id}}
       <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-supervisors"></span></a>
     {{/if}}
   {{/if}}
 </template>
 
 <template name="editDeadline">
-  {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
+  {{#if $and editActive (isProjectEditableBy currentDoc currentUser._id) }}
     {{#autoForm id="editDeadline" type="method-update" singleMethodArgument=true meteormethod=(getMethodString currentCollection._name "updateEditable") doc=currentDoc collection=currentCollection }}
       <div class="form-group">
         {{> afFieldInput name="deadline" type="bootstrap-datepicker" placeholder="Deadline" }}
@@ -278,18 +279,18 @@
     {{#if currentDoc.deadline}}
       {{readableDate currentDoc.deadline}}
     {{else}}
-      {{#if $eq currentUser._id currentDoc.owner.userId}}
+      {{#if isProjectEditableBy currentDoc currentUser._id}}
         <span class="text-primary"><em>Wann muss das Projekt fertig sein?</em></span>
       {{/if}}
     {{/if}}
-    {{#if $eq currentUser._id currentDoc.owner.userId}}
+    {{#if isProjectEditableBy currentDoc currentUser._id}}
       <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-deadline"></span></a>
     {{/if}}
   {{/if}}
 </template>
 
 <template name="editBeginning">
-  {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
+  {{#if $and editActive (isProjectEditableBy currentDoc currentUser._id) }}
     {{#autoForm id="editBeginning" type="method-update" singleMethodArgument=true meteormethod=(getMethodString currentCollection._name "updateEditable") doc=currentDoc collection=currentCollection }}
       <div class="form-group">
         {{> afFieldInput name="beginning" type="bootstrap-datepicker" placeholder="Projekt Beginn" }}
@@ -303,11 +304,11 @@
     {{#if currentDoc.beginning}}
       {{readableDate currentDoc.beginning}}
     {{else}}
-      {{#if $eq currentUser._id currentDoc.owner.userId}}
+      {{#if isProjectEditableBy currentDoc currentUser._id}}
         <span class="text-primary"><em>Wann fängt das Projekt an?</em></span>
       {{/if}}
     {{/if}}
-    {{#if $eq currentUser._id currentDoc.owner.userId}}
+    {{#if isProjectEditableBy currentDoc currentUser._id}}
       <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-beginning"></span></a>
     {{/if}}
   {{/if}}
@@ -325,7 +326,7 @@
         <a href="{{pathFor 'userProfile' _id=currentDoc.owner.userId}}">{{getFullUsername currentDoc.owner.userId}}</a>
       </h4>
       <p class="text-muted">
-        {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
+        {{#if $and editActive (isProjectEditableBy currentDoc currentUser._id) }}
           {{#autoForm id="editOwnerRole" type="method-update" singleMethodArgument=true meteormethod=(getMethodString currentCollection._name "updateEditable") doc=currentDoc collection=currentCollection }}
             <div class="form-group">
               {{> afFieldInput name="ownerRole" type="text" placeholder="Deine Aufgaben im Projekt" }}
@@ -340,11 +341,11 @@
           {{#if currentDoc.ownerRole}}
             , {{currentDoc.ownerRole}}
           {{else}}
-            {{#if $eq currentUser._id currentDoc.owner.userId}}
+            {{#if isProjectEditableBy currentDoc currentUser._id}}
               <span class="text-primary"><em>, weitere Aufgaben im Projekt</em></span>
             {{/if}}
           {{/if}}
-          {{#if $eq currentUser._id currentDoc.owner.userId}}
+          {{#if isProjectEditableBy currentDoc currentUser._id}}
             <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-owner"></span></a>
           {{/if}}
         {{/if}}
@@ -354,7 +355,7 @@
 </template>
 
 <template name="editTeamCommunication">
-  {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
+  {{#if $and editActive (isProjectEditableBy currentDoc currentUser._id) }}
     <div class="table table-striped">
       <div class="table-body">
         {{#each item in currentDoc.teamCommunication}}
@@ -375,7 +376,7 @@
           {{/if}}
         </li>
       {{/each}}
-      {{#if $eq currentUser._id currentDoc.owner.userId}}
+      {{#if isProjectEditableBy currentDoc currentUser._id}}
         <li><a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-teamcomm"></span></a></li>
       {{/if}}
     </ul>

@@ -49,14 +49,14 @@ Template.registerHelper("getAvatarURL", (userId, version) => {
   Meteor.subscribe("usersAll");
   var user = Meteor.users.findOne({_id: userId});
   var image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
-  return (image && image.versions[version]) ? image.link(version) : "/img/"+version+".jpg";  
+  return (image && image.versions[version]) ? image.link(version) : "/img/"+version+".jpg";
 });
 
 /*Template.registerHelper("getAvatarCardURL", (userId, version) => {
   var user = Meteor.users.findOne({_id: userId});
   var image = user.profile.avatar && Images.findOne(user.profile.avatar);
   return (image && image.versions[version]) ? image.link(version) : "/img/defaultCardMini.jpg";
-  
+
 });*/
 
 Template.registerHelper("log", (data) => {
@@ -65,4 +65,11 @@ Template.registerHelper("log", (data) => {
 
 Template.registerHelper("getMethodString", (collectionName, methodName) => {
   return collectionName + "." + methodName;
-})
+});
+
+Template.registerHelper("isProjectEditableBy", (project, userId) => {
+  if (project && _.contains(project.editableBy, userId)) {
+    return true;
+  }
+  return false;
+});

@@ -50,8 +50,8 @@ Factory.define("project", Projects, {
     userId: faker.random.arrayElement(sampleUsers)._id,
     //wholeName: faker.name.findName(),
   }),
-
   ownerRole: () => faker.name.jobTitle(),
+  editableBy: () => [faker.random.arrayElement(sampleUsers)._id],
   team: () => _.times(_.random(maxSizeTeam), i => ({
     userId: faker.random.arrayElement(sampleUsers)._id,
     role: faker.name.jobTitle(),
