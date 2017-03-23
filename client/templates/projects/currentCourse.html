@@ -1,0 +1,28 @@
+<template name="currentCourse">
+    {{log this}}
+    {{courseName}}
+    {{courseSemester}}
+    {{studyCourse}}
+
+    <div class="project-cards">
+        <div class="container">
+          <div class="row">
+            {{#each project in projects}}
+                {{#each occasion in project.occasions}}
+                  {{#if $and project.coverImg ($eq occasion this.courseName)}}
+                    <div class="col-lg-3">
+                      {{>projectCard currentDoc=project}}
+                    </div>
+                  {{else}}
+                    {{#if $eq occasion this.courseName}}
+                      <div class="col-lg-3">
+                        {{>projectCardCoverless currentDoc=project}}
+                      </div>
+                    {{/if}}
+                  {{/if}}
+                {{/each}}
+            {{/each}}
+          </div> 
+        </div> 
+      </div>
+</template>
