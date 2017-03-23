@@ -23,6 +23,9 @@ const maxSizeProfileContacts = 5;
 Meteor.users.remove({});
 Projects.remove({});
 
+/* Create sample user roles */
+const sampleUserRoles = ["Student", "Dozent"];
+
 /* Create sample users */
 Factory.define('user', Meteor.users, {
   createdAt: () => faker.date.past(),
@@ -30,6 +33,7 @@ Factory.define('user', Meteor.users, {
   profile: {
     firstname: () => faker.name.firstName(),
     lastname: () => faker.name.lastName(),
+    role: () => faker.random.arrayElement(sampleUserRoles),
     study: () => faker.name.jobArea(),
     aboutMe: () => faker.lorem.sentences(),
     skills: () => [faker.name.jobArea(), faker.name.jobArea(), faker.name.jobArea(), faker.name.jobArea(), faker.name.jobArea()],
@@ -71,9 +75,10 @@ Factory.define("project", Projects, {
     joblabel: faker.name.jobTitle(),
   })),
   deadline: () => faker.date.future(),
-  supervisors: () => _.times(_.random(maxSizeSupervisors), i => {
-    return faker.name.prefix() + " " + faker.name.findName();
-  }),
+  supervisors: () => _.times(_.random(maxSizeSupervisors), i => ({
+    userId: faker.random.arrayElement(sampleUsers)._id,
+    role: faker.name.jobTitle(),
+  })),
   // media: () => [{type: "image", id: Images.findOne()._id}],
   // coverImg: () => Images.findOne()._id,
 });

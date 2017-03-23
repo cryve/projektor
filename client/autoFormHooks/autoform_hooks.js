@@ -6,12 +6,12 @@ AutoForm.addHooks([
   // "addMember",
   "addContact",
   "member",
+  "supervisor",
   "contactItem",
   "editDescription",
   "editTags",
   "jobItem",
   "editOccasions",
-  "editSupervisors",
   "editDeadline",
   "editBeginning",
   "editOwnerRole",
@@ -24,6 +24,7 @@ AutoForm.addHooks([
 
 AutoForm.addHooks([
   "addMember",
+  "addSupervisor",
   "addJob",
   "addContact",
   "addTeamCommItem",
@@ -62,6 +63,8 @@ AutoForm.addHooks([
   "editTeamCommItem",
   "contactItemUser",
   "linkItem",
+  "member",
+  "supervisor"
 ], {
   before: {
     "method-update": function(doc) {

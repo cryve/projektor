@@ -50,12 +50,25 @@
                   <ul class="media-list">
                     {{>editOwnerRole currentDoc=this currentCollection=getCollection}}
                     {{#each teamMember in team}}
-                      {{> member currentDoc=this userId=teamMember.userId role=teamMember.role userList=(suggestedUsers teamMember.userId) slot=@index currentCollection=getCollection }}
+                      {{> member currentDoc=this userId=teamMember.userId role=teamMember.role userList=(suggestedUsers exclude=this.team firstOption=teamMember.userId) slot=@index currentCollection=getCollection }}
                     {{/each}}
-                    {{> addMember currentDoc=this userList=(suggestedUsers " ") currentCollection=getCollection }}
+                    {{> addMember currentDoc=this userList=(suggestedUsers exclude=this.team) currentCollection=getCollection }}
                   </ul>
                 </div>
-              </div> <!-- /.panel-default -->
+              </div> <!-- /.panel-default team  -->
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <span class="panel-title">Betreuer</span>
+                </div>
+                <div class="panel-body">
+                  <ul class="media-list">
+                    {{#each member in supervisors}}
+                      {{> supervisor currentDoc=this userId=member.userId role=member.role userList=(suggestedUsers exclude=this.supervisors role="Dozent" firstOption=member.userId) slot=@index currentCollection=getCollection }}
+                    {{/each}}
+                    {{> addSupervisor currentDoc=this userList=(suggestedUsers exclude=this.supervisors role="Dozent") currentCollection=getCollection }}
+                  </ul>
+                </div>
+              </div> <!-- /.panel-default supervisors  -->
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <h2 class="panel-title">Gesuchte Fähigkeiten</h2>
@@ -90,8 +103,8 @@
                   <dl class="dl">
                     <dt>Projektanlass</dt>
                     <dd>{{>editOccasions currentDoc=this currentCollection=getCollection}}</dd>
-                    <dt>Betreuer</dt>
-                    <dd>{{>editSupervisors currentDoc=this currentCollection=getCollection}}</dd>
+                    <!-- <dt>Betreuer</dt> -->
+                    <!-- <dd>{{>editSupervisors currentDoc=this currentCollection=getCollection}}</dd> -->
                     <dt>Projektbeginn</dt>
                     <dd>{{>editBeginning currentDoc=this currentCollection=getCollection}}</dd>
                     <dt>Deadline</dt>

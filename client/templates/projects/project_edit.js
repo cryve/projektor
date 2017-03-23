@@ -1,7 +1,7 @@
 import { Template } from "meteor/templating";
 
 import "./project_edit.html";
-import { memberSchema, jobSchema, contactSchema, teamCommSchema } from "/lib/collections/schemas.js";
+import { memberSchema, supervisorSchema, jobSchema, contactSchema, teamCommSchema } from "/lib/collections/schemas.js";
 import { deleteEditableArrayItem } from "/lib/methods.js";
 
 Template.addMember.onCreated(function() {
@@ -19,6 +19,28 @@ Template.addMember.helpers({
 
 Template.addMember.events({
   "click #btn-add-member" (event) {
+    Template.instance().editActive.set(true);
+  },
+  "click .btn-abort-adding" (event) {
+    Template.instance().editActive.set(false);
+  },
+});
+
+Template.addSupervisor.onCreated(function() {
+  this.editActive = new ReactiveVar(false);
+});
+
+Template.addSupervisor.helpers({
+  editActive () {
+    return Template.instance().editActive.get();
+  },
+  supervisorSchema () {
+    return supervisorSchema;
+  },
+});
+
+Template.addSupervisor.events({
+  "click #btn-add-supervisor" (event) {
     Template.instance().editActive.set(true);
   },
   "click .btn-abort-adding" (event) {
@@ -60,6 +82,30 @@ Template.member.events({
   },
   "click .btn-abort-editing" (event) {
     Template.instance().editActive.set(false);
+  },
+});
+
+Template.supervisor.helpers({
+  supervisorIdField () {
+    return "supervisors." + this.slot + ".userId";
+  },
+  supervisorRoleField () {
+    return "team." + this.slot + ".role";
+  },
+});
+
+Template.supervisor.events({
+  "click .btn-delete-supervisor"(event) {
+    deleteEditableArrayItem.call({
+      collectionName: this.currentCollection._name,
+      docId: this.currentDoc._id,
+      arrayField: "supervisors",
+      item: { userId: this.userId, role: this.role },
+    },(err, res) => {
+        if (err) {
+          alert(err);
+        }
+    });
   },
 });
 
@@ -273,25 +319,6 @@ Template.editOccasions.helpers({
 
 Template.editOccasions.events({
   "click .btn-edit-occasions" (event) {
-    Template.instance().editActive.set(true);
-  },
-  "click .btn-abort-editing" (event) {
-    Template.instance().editActive.set(false);
-  },
-});
-
-Template.editSupervisors.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
-});
-
-Template.editSupervisors.helpers({
-  editActive () {
-    return Template.instance().editActive.get();
-  },
-});
-
-Template.editSupervisors.events({
-  "click .btn-edit-supervisors" (event) {
     Template.instance().editActive.set(true);
   },
   "click .btn-abort-editing" (event) {
