@@ -4,6 +4,7 @@ import faker from 'faker';
 import { Projects } from '/lib/collections/projects.js';
 
 faker.locale = "de";
+const sampleOccasions = ["test", "Auto"]
 
 /* Set amount of sample docs */
 const sampleCountUsers = 20;
@@ -14,7 +15,7 @@ const maxSizeTeam = 10;
 const maxSizeTags = 10;
 const maxSizeTeamComm = 5;
 const maxSizeContacts = 3;
-const maxSizeOccasions = 5;
+const maxSizeOccasions = 1;
 const maxSizeJobs = 10;
 const maxSizeSupervisors = 5;
 
@@ -61,7 +62,7 @@ Factory.define("project", Projects, {
     url: faker.internet.url(),
     isPrivate: faker.random.boolean(),
   })),
-  occasions: () => _.times(_.random(maxSizeOccasions), i => faker.name.jobArea()),
+  occasions: () => _.times(_.random(maxSizeOccasions), i => faker.random.arrayElement(sampleOccasions)),
   jobs: () => _.times(_.random(maxSizeJobs), i => ({
     joblabel: faker.name.jobTitle(),
   })),

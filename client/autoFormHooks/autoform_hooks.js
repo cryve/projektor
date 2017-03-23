@@ -1,5 +1,6 @@
 import { Projects } from '/lib/collections/projects.js';
 import { Drafts } from '/lib/collections/drafts.js';
+import { Courses } from '/lib/collections/courses.js';
 
 AutoForm.addHooks([
   "editTitle",
@@ -18,6 +19,15 @@ AutoForm.addHooks([
   "setVideoLink"
 ], {
   onSuccess: function(formType, result) {
+    this.template.parent().editActive.set(false);
+  }
+});
+
+AutoForm.addHooks([
+  "course"
+], {
+  onSuccess: function(formType, result) {
+    this.template.parent().editCourse.set(false);
     this.template.parent().editActive.set(false);
   }
 });

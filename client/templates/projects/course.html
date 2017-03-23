@@ -1,4 +1,49 @@
 <template name="course">
+  <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-create-course"></span></a><br>
+  {{#if $and editActive ($eq currentUser.profile.role "Dozent") }}
+    <!-- {{#autoForm id="editTitle" type="update" doc=currentDoc collection=currentCollection }} -->
+    {{#autoForm id="course" type="method" meteormethod=(getMethodString getCollection._name "insert") doc=this collection=getCollection }}
+    <div class="form-group">
+      {{> afFieldInput name="courseName" type="text" placeholder="Kursname hinzufügen" }}
+      {{> afFieldInput name="courseSemester" type="text" placeholder="Semester hinzufügen" }}
+      {{> afFieldInput name="studyCourse" type="text" placeholder="Studienname hinzufügen" }}
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
+      <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
+    </div>
+    {{/autoForm}}
+  {{ else }}
+    {{#if $and editCourse ($eq currentUser.profile.role "Dozent") }}
+      <!-- {{#autoForm id="editTitle" type="update" doc=currentDoc collection=currentCollection }} -->
+      {{#autoForm id="updateCourse" type="method-update" singleMethodArgument=true meteormethod=(getMethodString getCollection._name "updateEditable") doc=currentDoc collection=getCollection }}
+      <div class="form-group">
+        {{> afFieldInput name="courseName" type="text" placeholder="Kursname hinzufügen" }}
+        {{> afFieldInput name="courseSemester" type="text" placeholder="Semester hinzufügen" }}
+        {{> afFieldInput name="studyCourse" type="text" placeholder="Studienname hinzufügen" }}
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
+        <button type="reset" class="btn btn-default btn-abort-course-editing"><span class="glyphicon glyphicon-remove"></span></button>
+      </div>
+      {{/autoForm}}
+    {{ else }}
+      <ul>
+      {{#each course in courses}}
+        {{#if $eq course.owner currentUser._id}}
+        <li>
+
+          <a href="{{pathFor 'currentCourseLink' _id=course._id name=course.courseName}}">{{course.courseName}}
+          {{course.courseSemester}}
+          {{course.studyCourse}}</a>
+            <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-course" data-id="{{course._id}}" id="idUpdate"></span></a>
+            <a href=""><span class="glyphicon glyphicon-minus text-danger  btn-delete-course" data-id="{{course._id}}" id="idResult"></span></a>
+        </li>
+        {{/if}}
+      {{/each}}
+      </ul>
+    {{/if}}
+  {{/if}}
   <button id="excel-button" class="btn btn-primary navbar-btn navbar-right">export</button>
   {{> fileLink}}
 
