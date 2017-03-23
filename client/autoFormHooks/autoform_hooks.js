@@ -1,11 +1,11 @@
 import { Projects } from '/lib/collections/projects.js';
 import { Drafts } from '/lib/collections/drafts.js';
+import { updateEditPermissions } from "/lib/methods.js";
 
 AutoForm.addHooks([
   "editTitle",
   // "addMember",
   "addContact",
-  "member",
   "supervisor",
   "contactItem",
   "editDescription",
@@ -63,8 +63,6 @@ AutoForm.addHooks([
   "editTeamCommItem",
   "contactItemUser",
   "linkItem",
-  "member",
-  "supervisor"
 ], {
   before: {
     "method-update": function(doc) {
@@ -72,5 +70,27 @@ AutoForm.addHooks([
       console.log(doc);
       return doc;
     }
+  }
+});
+
+AutoForm.addHooks([
+  "member",
+], {
+  before: {
+    "method-update": function(doc) {
+      delete doc["$unset"];
+      return doc;
+    }
+  },
+  onSuccess: function(formType, result) {
+    this.template.parent().editActive.set(false);
+    updateEditPermissions.call({
+      collectionName: this.collection._name,
+      docId: this.docId,
+    },(err, res) => {
+        if (err) {
+          alert(err);
+        }
+    });
   }
 });

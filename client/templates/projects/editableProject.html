@@ -50,7 +50,7 @@
                   <ul class="media-list">
                     {{>editOwnerRole currentDoc=this currentCollection=getCollection}}
                     {{#each teamMember in team}}
-                      {{> member currentDoc=this userId=teamMember.userId role=teamMember.role userList=(suggestedUsers exclude=this.team firstOption=teamMember.userId) slot=@index currentCollection=getCollection }}
+                      {{> member currentDoc=this userId=teamMember.userId role=teamMember.role isEditor=teamMember.isEditor userList=(suggestedUsers exclude=this.team firstOption=teamMember.userId) slot=@index currentCollection=getCollection }}
                     {{/each}}
                     {{> addMember currentDoc=this userList=(suggestedUsers exclude=this.team) currentCollection=getCollection }}
                   </ul>

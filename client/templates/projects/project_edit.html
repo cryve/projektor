@@ -10,6 +10,7 @@
             <div class="form-group">
               {{> afFieldInput name="member.userId" type="select2" options=userList placeholder="Neues Mitglied auswählen" allowClear=true}}
               {{> afFieldInput name="member.role" type="text" placeholder="Aufgaben im Projekt"}}
+              {{> afFieldInput name="member.isEditor" type="boolean-checkbox"}}
             </div>
             <div class="form-group">
               <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
@@ -39,6 +40,7 @@
               <p>
                 {{> afFieldInput name=teamUserRoleField type="text" placeholder="Aufgaben im Projekt"}}
               </p>
+              <p>{{> afFieldInput name=teamUserIsEditorField type="boolean-checkbox"}}</p>
             </div>
             <div class="form-group">
               <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>

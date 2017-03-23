@@ -2,7 +2,7 @@ import { Template } from "meteor/templating";
 
 import "./project_edit.html";
 import { memberSchema, supervisorSchema, jobSchema, contactSchema, teamCommSchema } from "/lib/collections/schemas.js";
-import { deleteEditableArrayItem } from "/lib/methods.js";
+import { deleteEditableArrayItem, updateEditPermissions } from "/lib/methods.js";
 
 Template.addMember.onCreated(function() {
   this.editActive = new ReactiveVar(false);
@@ -62,6 +62,9 @@ Template.member.helpers({
   teamUserRoleField () {
     return "team." + this.slot + ".role";
   },
+  teamUserIsEditorField () {
+    return "team." + this.slot + ".isEditor";
+  },
 });
 
 Template.member.events({
@@ -71,6 +74,14 @@ Template.member.events({
       docId: this.currentDoc._id,
       arrayField: "team",
       item: { userId: this.userId, role: this.role },
+    },(err, res) => {
+        if (err) {
+          alert(err);
+        }
+    });
+    updateEditPermissions.call({
+      collectionName: this.currentCollection._name,
+      docId: this.currentDoc._id,
     },(err, res) => {
         if (err) {
           alert(err);
@@ -101,6 +112,14 @@ Template.supervisor.events({
       docId: this.currentDoc._id,
       arrayField: "supervisors",
       item: { userId: this.userId, role: this.role },
+    },(err, res) => {
+        if (err) {
+          alert(err);
+        }
+    });
+    updateEditPermissions.call({
+      collectionName: this.currentCollection._name,
+      docId: this.currentDoc._id,
     },(err, res) => {
         if (err) {
           alert(err);

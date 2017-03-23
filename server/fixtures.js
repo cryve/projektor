@@ -59,6 +59,7 @@ Factory.define("project", Projects, {
   team: () => _.times(_.random(maxSizeTeam), i => ({
     userId: faker.random.arrayElement(sampleUsers)._id,
     role: faker.name.jobTitle(),
+    isEditor: faker.random.boolean(),
   })),
   tags: () => _.times(_.random(maxSizeTags), i => faker.commerce.department()),
   contacts: () => _.times(_.random(maxSizeContacts), i => ({
