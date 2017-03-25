@@ -1,3 +1,5 @@
+import lodash from 'lodash';
+
 import { Projects } from '/lib/collections/projects.js';
 import { Drafts } from '/lib/collections/drafts.js';
 import { updateEditPermissions } from "/lib/methods.js";
@@ -51,7 +53,6 @@ AutoForm.addHooks(["setVideoLink"], {
       doc["$set"]["media."+index+".id"] = newUrl;
       doc["$set"]["media."+index+".type"] = "URL";
       delete doc["$unset"];
-      console.log(doc);
       return doc;
     }
   }
@@ -67,7 +68,6 @@ AutoForm.addHooks([
   before: {
     "method-update": function(doc) {
       delete doc["$unset"];
-      console.log(doc);
       return doc;
     }
   }
@@ -78,7 +78,14 @@ AutoForm.addHooks([
 ], {
   before: {
     "method-update": function(doc) {
-      delete doc["$unset"];
+      // Workaround for autoform behavior of unsetting all preceding items with $unset
+      // Allow $unset only for role of current member
+      const regExpMemberRoleKey = /^team\.\d\.role$/;
+      if(doc["$unset"]) {
+        doc["$unset"] = lodash.pickBy(doc["$unset"], function(value, key) {
+          return regExpMemberRoleKey.test(key);
+        });
+      }
       return doc;
     }
   },
