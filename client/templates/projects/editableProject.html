@@ -101,6 +101,8 @@
                 </div>
                 <div class="panel-body">
                   <dl class="dl">
+                    <dt>Kurs</dt>
+                    <dd>{{> addCourse currentDoc=this courseList=suggestedCourses currentCollection=getCollection }}</dd>
                     <dt>Projektanlass</dt>
                     <dd>{{>editOccasions currentDoc=this currentCollection=getCollection}}</dd>
                     <!-- <dt>Betreuer</dt> -->

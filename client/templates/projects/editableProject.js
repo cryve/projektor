@@ -1,6 +1,7 @@
 import {Template} from "meteor/templating" ;
 import {Projects} from "/lib/collections/projects.js" ;
 import {Drafts} from "/lib/collections/drafts.js";
+import {Courses} from "/lib/collections/courses.js" ;
 import {Images} from "/lib/collections/images.js";
 
 import { publishDraft } from "/lib/methods.js";
@@ -15,6 +16,7 @@ Template.editableProject.onCreated(function() {
   Meteor.subscribe("drafts");
   Meteor.subscribe("files.images.all");
   Meteor.subscribe("usersAll");
+  Meteor.subscribe("courses");
 });
 
 Template.editableProject.helpers({
@@ -59,6 +61,17 @@ Template.editableProject.helpers({
       });
     }
     return userList;
+  },
+  suggestedCourses() {
+    var courses = Courses.find({});
+    let courseList = [" "];
+    courses.forEach(function (course){
+      courseList.push({
+        value: course._id,
+        label: course.courseName + " " + course.courseSemester + " " + course.studyCourse,
+      });
+    });
+    return courseList;
   },
 });
 

@@ -7,6 +7,7 @@ import { updateEditPermissions } from "/lib/methods.js";
 
 AutoForm.addHooks([
   "editTitle",
+  "addCourse",
   // "addMember",
   "addContact",
   "supervisor",
@@ -35,6 +36,7 @@ AutoForm.addHooks([
 });
 
 AutoForm.addHooks([
+  "addCourse",
   "addMember",
   "addSupervisor",
   "addJob",

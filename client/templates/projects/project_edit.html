@@ -216,6 +216,34 @@
   {{/if}}
 </template>
 
+
+<template name="addCourse">
+  {{#if $and editActive ($eq currentUser._id currentDoc.owner.userId) }}
+    {{#autoForm id="addCourse" schema=addCourseSchema type="method" meteormethod=(getMethodString currentCollection._name "addCourse") doc=currentDoc }}
+    <div class="form-group">
+      {{> afFieldInput name="courseId" type="select2" options=courseList placeholder="Kurs auswählen" allowClear=true}}
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
+      <button type="reset" class="btn btn-default btn-abort-course"><span class="glyphicon glyphicon-remove"></span></button>
+    </div>
+    {{/autoForm}}
+  {{ else }}
+    {{#if (courseName currentDoc.courseId)}}
+      {{courseName currentDoc.courseId}}
+      {{#if $eq currentUser._id currentDoc.owner.userId}}
+        <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-course"></span></a>
+      {{/if}}
+    {{else}}
+      <span class="text-primary"><em>Kurs Eintragen</em></span>
+    {{/if}}
+    {{#if $eq currentUser._id currentDoc.owner.userId}}
+      <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-course"></span></a>
+
+    {{/if}}
+  {{/if}}
+</template>
+
 <template name="editOccasions">
   {{#if $and editActive (isProjectEditableBy currentDoc currentUser._id) }}
     {{#autoForm id="editOccasions" type="method-update" singleMethodArgument=true meteormethod=(getMethodString currentCollection._name "updateEditable") doc=currentDoc collection=currentCollection }}

@@ -14,18 +14,18 @@
               {{/if}}
             </div>
           {{/each}}
-        </div> 
-      </div> 
+        </div>
+      </div>
     </div>
   {{else}}
     {{#EasySearch.IfNoResults index=projectsIndex}}
       NO RESULTS BASTARD!!!!
     {{/EasySearch.IfNoResults}}
-  
+
     {{#EasySearch.IfSearching index=projectsIndex}}
       searching.....
     {{/EasySearch.IfSearching}}
-  
+
     <div class="project-cards">
       <div class="container">
         <div class="row">
@@ -38,18 +38,18 @@
             {{/if}}
           </div>
         {{/EasySearch.Each}}
-        </div> 
-      </div> 
+        </div>
+      </div>
     </div>
   {{/EasySearch.IfInputEmpty}}
-  
-  
-  <select class="sorting">
+
+
+  <!--<select class="sorting">
     <option value="relevance">Relevance</option>
     <option value="newest">Newest</option>
     <option value="bestScore">Score</option>
-  </select>
-  
+  </select>-->
+
   <ul class="unstyled">
     {{#each tags }}
       {{#if $eq this ""}}
@@ -89,7 +89,7 @@
             {{/if}}
           </div>
         {{/each}}
-      </div> 
-    </div> 
+      </div>
+    </div>
   </div> -->
 </template>
