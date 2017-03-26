@@ -2,8 +2,11 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 import { Match } from 'meteor/check';
+import mongoxlsx from 'mongo-xlsx';
+
 
 import '../lib/collections/projects.js';
+import { Studies } from '/lib/collections/studies.js';
 
 import { Accounts } from 'meteor/accounts-base';
 import { AccountsServer } from 'meteor/accounts-base';
@@ -85,5 +88,30 @@ Meteor.startup(function() {
 });
 
 Meteor.startup(function () {
-   fs = require('fs');
+  fs = require('fs');
+  const model = [
+    { "displayName": "Studiengangsnummer", "access": "studyCourseId", "type": "number" },
+    { "displayName": "Studiengangsname", "access": "studyCourse", "type": "string" },
+    { "displayName": "Abschlussnummer", "access": "degreeId", "type": "number" },
+    { "displayName": "Abschlussname", "access": "degree", "type": "string" },
+    { "displayName": "Abschlussnummer", "access": "degreeId", "type": "number" },
+    { "displayName": "Prüfungsordnung", "access": "examRegulationsId", "type": "number" },
+    { "displayName": "Abschlussname", "access": "degree", "type": "string" },
+    { "displayName": "Departmentnummer", "access": "departmentId", "type": "number" },
+    { "displayName": "Departmentname", "access": "department", "type": "string" },
+    { "displayName": "Fakultätsnummer", "access": "facultyId", "type": "number" },
+    { "displayName": "Fakultätsname", "access": "faculty", "type": "string" },
+  ];
+  const xlsxFile  = Assets.absoluteFilePath('studycourse_lookup.xlsx');
+  mongoxlsx.xlsx2MongoData(xlsxFile, model, Meteor.bindEnvironment((err, data) => {
+    _.each(data, function(studyCourse) {
+      Studies.upsert({ $and: [
+        { studyCourseId: studyCourse.studyCourseId },
+        { examRegulationsId: studyCourse.examRegulationsId },
+        { degreeId: studyCourse.degreeId },
+        { departmentId: studyCourse.departmentId },
+        { facultyId: studyCourse.facultyId }
+      ]}, { $set: studyCourse });
+    });
+  }));
 });
