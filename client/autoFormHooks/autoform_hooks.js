@@ -4,6 +4,7 @@ import { Courses } from '/lib/collections/courses.js';
 
 AutoForm.addHooks([
   "editTitle",
+  "addCourse",
   // "addMember",
   "addContact",
   "member",
@@ -33,6 +34,7 @@ AutoForm.addHooks([
 });
 
 AutoForm.addHooks([
+  "addCourse",
   "addMember",
   "addJob",
   "addContact",

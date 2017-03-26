@@ -1,10 +1,44 @@
 import { Template } from "meteor/templating";
 
 import "./project_edit.html";
+import { Courses } from "/lib/collections/courses.js" ;
 import { memberSchema } from "/lib/collections/schemas.js";
 import { jobSchema } from "/lib/collections/schemas.js";
 import { contactSchema } from "/lib/collections/schemas.js";
 import { teamCommSchema } from "/lib/collections/schemas.js";
+import { addCourseSchema } from "/lib/collections/schemas.js";
+
+Template.addCourse.onCreated(function() {
+  this.editActive = new ReactiveVar(false);
+});
+
+Template.addCourse.helpers({
+  editActive () {
+    return Template.instance().editActive.get();
+  },
+  addCourseSchema () {
+    return addCourseSchema;
+  },
+  courseName(courseId){
+    var course = Courses.findOne(courseId)
+    if(course){
+      return course.courseName + " " + course.courseSemester + " " + course.studyCourse;
+    }
+  }
+});
+
+Template.addCourse.events({
+  "click .btn-abort-course" (event) {
+    Template.instance().editActive.set(false);
+  },
+  "click .btn-edit-course" (event) {
+    Template.instance().editActive.set(true);
+  },
+  "click .btn-delete-course" (event) {
+    Template.instance().editActive.set(true);
+  },
+});
+
 
 Template.addMember.onCreated(function() {
   this.editActive = new ReactiveVar(false);
