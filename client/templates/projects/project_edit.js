@@ -1,10 +1,8 @@
 import { Template } from "meteor/templating";
 
 import "./project_edit.html";
-import { memberSchema } from "/lib/collections/schemas.js";
-import { jobSchema } from "/lib/collections/schemas.js";
-import { contactSchema } from "/lib/collections/schemas.js";
-import { teamCommSchema } from "/lib/collections/schemas.js";
+import { memberSchema, supervisorSchema, jobSchema, contactSchema, teamCommSchema } from "/lib/collections/schemas.js";
+import { deleteEditableArrayItem, updateEditPermissions } from "/lib/methods.js";
 
 Template.addMember.onCreated(function() {
   this.editActive = new ReactiveVar(false);
@@ -28,6 +26,28 @@ Template.addMember.events({
   },
 });
 
+Template.addSupervisor.onCreated(function() {
+  this.editActive = new ReactiveVar(false);
+});
+
+Template.addSupervisor.helpers({
+  editActive () {
+    return Template.instance().editActive.get();
+  },
+  supervisorSchema () {
+    return supervisorSchema;
+  },
+});
+
+Template.addSupervisor.events({
+  "click #btn-add-supervisor" (event) {
+    Template.instance().editActive.set(true);
+  },
+  "click .btn-abort-adding" (event) {
+    Template.instance().editActive.set(false);
+  },
+});
+
 Template.member.onCreated(function() {
   this.editActive = new ReactiveVar(false);
 });
@@ -42,17 +62,69 @@ Template.member.helpers({
   teamUserRoleField () {
     return "team." + this.slot + ".role";
   },
+  teamUserIsEditorField () {
+    return "team." + this.slot + ".isEditor";
+  },
 });
 
 Template.member.events({
   "click .btn-delete-member" (event) {
-    this.currentCollection.update(this.currentDoc._id, {$pull: {team: {userId: this.userId}}});
+    deleteEditableArrayItem.call({
+      collectionName: this.currentCollection._name,
+      docId: this.currentDoc._id,
+      arrayField: "team",
+      item: { userId: this.userId, role: this.role },
+    },(err, res) => {
+        if (err) {
+          alert(err);
+        }
+    });
+    updateEditPermissions.call({
+      collectionName: this.currentCollection._name,
+      docId: this.currentDoc._id,
+    },(err, res) => {
+        if (err) {
+          alert(err);
+        }
+    });
   },
   "click .btn-edit-member" (event) {
     Template.instance().editActive.set(true);
   },
   "click .btn-abort-editing" (event) {
     Template.instance().editActive.set(false);
+  },
+});
+
+Template.supervisor.helpers({
+  supervisorIdField () {
+    return "supervisors." + this.slot + ".userId";
+  },
+  supervisorRoleField () {
+    return "team." + this.slot + ".role";
+  },
+});
+
+Template.supervisor.events({
+  "click .btn-delete-supervisor"(event) {
+    deleteEditableArrayItem.call({
+      collectionName: this.currentCollection._name,
+      docId: this.currentDoc._id,
+      arrayField: "supervisors",
+      item: { userId: this.userId, role: this.role },
+    },(err, res) => {
+        if (err) {
+          alert(err);
+        }
+    });
+    updateEditPermissions.call({
+      collectionName: this.currentCollection._name,
+      docId: this.currentDoc._id,
+    },(err, res) => {
+        if (err) {
+          alert(err);
+        }
+    });
   },
 });
 
@@ -87,9 +159,16 @@ Template.contactItem.helpers({
 
 Template.contactItem.events({
   "click .btn-delete-contact" (event) {
-    let currentContacts = this.currentDoc.contacts;
-    currentContacts.splice(this.slot, 1);
-    this.currentCollection.update(this.currentDoc._id, {$set: {contacts: currentContacts}});
+    deleteEditableArrayItem.call({
+      collectionName: this.currentCollection._name,
+      docId: this.currentDoc._id,
+      arrayField: "contacts",
+      item: { medium: this.medium, approach: this.approach },
+    },(err, res) => {
+        if (err) {
+          alert(err);
+        }
+    });
   },
   "click .btn-edit-contact" (event) {
     Template.instance().editActive.set(true);
@@ -228,15 +307,15 @@ Template.jobItem.helpers({
 
 Template.jobItem.events({
   "click .btn-delete-job" (event) {
-    let currentJobs = this.currentDoc.jobs;
-    currentJobs.splice(this.slot, 1);
-    // this.currentCollection.update(this.currentDoc._id, {$set: {jobs: currentJobs}});
-    const jobsUpdateCall = this.currentCollection._name + ".updateJobs";
-    console.log(jobsUpdateCall);
-    Meteor.call(removeJobCall, this.currentDoc._id, this.slot, (err, res) => {
-      if (err) {
-        alert(err);
-      }
+    deleteEditableArrayItem.call({
+      collectionName: this.currentCollection._name,
+      docId: this.currentDoc._id,
+      arrayField: "jobs",
+      item: { joblabel: this.jobLabel },
+    },(err, res) => {
+        if (err) {
+          alert(err);
+        }
     });
   },
   "click .btn-edit-job" (event) {
@@ -259,25 +338,6 @@ Template.editOccasions.helpers({
 
 Template.editOccasions.events({
   "click .btn-edit-occasions" (event) {
-    Template.instance().editActive.set(true);
-  },
-  "click .btn-abort-editing" (event) {
-    Template.instance().editActive.set(false);
-  },
-});
-
-Template.editSupervisors.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
-});
-
-Template.editSupervisors.helpers({
-  editActive () {
-    return Template.instance().editActive.get();
-  },
-});
-
-Template.editSupervisors.events({
-  "click .btn-edit-supervisors" (event) {
     Template.instance().editActive.set(true);
   },
   "click .btn-abort-editing" (event) {
@@ -411,9 +471,16 @@ Template.editTeamCommItem.helpers({
 
 Template.editTeamCommItem.events({
   "click .btn-delete-teamcomm" (event) {
-    let currentTeamComms = this.currentDoc.teamCommunication;
-    currentTeamComms.splice(this.slot, 1);
-    this.currentCollection.update(this.currentDoc._id, {$set: {teamCommunication: currentTeamComms}});
+    deleteEditableArrayItem.call({
+      collectionName: this.currentCollection._name,
+      docId: this.currentDoc._id,
+      arrayField: "teamCommunication",
+      item: { medium: this.medium, url: this.url, isPrivate: this.isPrivate },
+    },(err, res) => {
+        if (err) {
+          alert(err);
+        }
+    });
   },
 });
 

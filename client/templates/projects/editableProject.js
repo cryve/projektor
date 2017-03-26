@@ -41,8 +41,8 @@ Template.editableProject.helpers({
       return Projects;
     }
   },
-  suggestedUsers(firstOption) {
-    var users = Meteor.users.find({});
+  suggestedUsers(settings) {
+    const users = Meteor.users.find(settings.hash.role ? { "profile.role" : settings.hash.role } : {});
     let userList = [" "];
     users.forEach(function (user){
       userList.push({
@@ -50,14 +50,11 @@ Template.editableProject.helpers({
         label: user.profile.firstname + " " + user.profile.lastname,
       });
     });
-    // remove users who are already members:
-    if (this.owner) {
-      userList = userList.filter(item => item.value !== this.owner.userId);
-    }
-    if (this.team) {
-      this.team.forEach(function(member) {
-        if (member && member.userId !== firstOption) {
-          userList = userList.filter(item => item.value !== member.userId);
+    // remove users who are already in current group, but keep current user selection (firstOption)
+    if (settings.hash.exclude) {
+      settings.hash.exclude.forEach(function(user) {
+        if (user.userId !== settings.hash.firstOption) {
+          userList = userList.filter(item => item.value !== user.userId);
         }
       });
     }
@@ -107,6 +104,3 @@ Template.editableProject.events({
     Template.instance().editOwnerActive.set(false);
   },
 });
-
-
-// Make sure it's in client

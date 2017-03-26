@@ -31,6 +31,21 @@ Template.projectCard.onCreated(function projectCardOnCreated() {
   });
 });*/
 
+Template.projectCard.events({
+  "mouseenter .list-div": function(event, template){
+        $(event.currentTarget).find('.description').stop().animate({
+          height: "toggle",
+          opacity: "toggle"
+        }, 300);
+      },
+  "mouseleave .list-div": function(event, template){
+        $(event.currentTarget).find('.description').stop().animate({
+          height: "toggle",
+          opacity: "toggle"
+        }, 300);
+      },
+});
+
 /*Template.projectCardCoverless.onRendered(function() {
   this.autorun(function(){
     data = Blaze.getData();
@@ -183,6 +198,20 @@ Template.projectCardCoverless.helpers({
   }
 });
 
+Template.projectCardJobs.onRendered(function() {
+  template = this;
+  this.autorun(() => {
+    let dataContext = Template.currentData(); // Triggers reactive updating
+    Tracker.afterFlush(() => {
+      const lines = (dataContext.expandable)? 6 : 8;
+      this.$(".jobBreak").trunk8({
+        lines: lines,
+        tooltip: false,
+      });
+    });
+  });
+});
+
 Template.projectCardJobs.helpers({
    projects() {
     return Projects.find({}, { sort: { createdAt: -1 } });
@@ -194,23 +223,6 @@ Template.projectCardJobs.helpers({
     if(totalItems > maxItems)
       return totalItems-(maxItems-placeholderItems);
   }
-});
-
-
-
-Template.projectCard.events({
-  "mouseenter .list-div": function(event, template){
-        $(event.currentTarget).find('.description').stop().animate({
-          height: "toggle",
-          opacity: "toggle"
-        }, 300);
-      },
-  "mouseleave .list-div": function(event, template){
-        $(event.currentTarget).find('.description').stop().animate({
-          height: "toggle",
-          opacity: "toggle"
-        }, 300);
-      },
 });
 
 Template.projectCardTitle.onRendered(function() {
@@ -237,21 +249,6 @@ Template.projectCardTitle.onRendered(function() {
     });
   });
 });
-
-Template.projectCardJobs.onRendered(function() {
-  template = this;
-  this.autorun(() => {
-    let dataContext = Template.currentData(); // Triggers reactive updating
-    Tracker.afterFlush(() => {
-      const lines = (dataContext.expandable)? 6 : 8;
-      this.$(".jobBreak").trunk8({
-        lines: lines,
-        tooltip: false,
-      });
-    });
-  });
-});
-
 
 Template.projectCardTags.onRendered(function() {
   template = this;

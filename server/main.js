@@ -12,33 +12,76 @@ Accounts.onCreateUser((options, user) =>{
   options.profile = {};
   options.profile.lastname = "Mustermann";
   options.profile.firstname = "Max";
-  options.profile.role= "Dozent";
+  options.profile.role= "Student";
   options.profile.study = "Media System";
   options.profile.aboutMe = "Lorem Ipsum ist ein einfacher Demo-Text für die Print- und Schriftindustrie. Lorem Ipsum ist in der Industrie bereits der Standard Demo-Text seit 1500, als ein unbekannter Schriftsteller eine Hand voll Wörter nahm und diese durcheinander warf um ein Musterbuch zu erstellen.";
   options.profile.skills = ["Python", "Java", "HTML/CSS", "Webdesign"];
   options.profile.avatar = "null";
   user.profile = options.profile;
   return user;
-
 });
 
-LDAP.generateSettings = function (request) {
+LDAP.logging = false;
+
+// LDAP.generateSettings = function (request) {
+//   return {
+//     "serverDn": "ou=User,o=haw",
+//     "serverUrl": "ldaps://corpdir-new.haw-hamburg.de:636",
+//     "whiteListedFields": [
+//       "cn",
+//       "hhEduPersonStaffCategory",
+//       "sn",
+//       "givenName",
+//       "fullName",
+//       "hhEduPersonPrimaryFaculty",
+//       "hhEduPersonPrimaryStudyCourse",
+//       "mail",
+//       "hhEduPersonGender",
+//     ],
+//     "autopublishFields": [
+//       "cn",
+//       "hhEduPersonStaffCategory",
+//       "sn",
+//       "givenName",
+//       "fullName",
+//       "hhEduPersonPrimaryFaculty",
+//       "hhEduPersonPrimaryStudyCourse",
+//       "mail",
+//       "hhEduPersonGender"
+//     ],
+//   }
+// }
+
+LDAP.bindValue = function (usernameOrEmail) {
+  return "cn="+usernameOrEmail+",ou=User,o=haw";
+}
+
+LDAP.attributes = [
+  "cn",
+  "hhEduPersonStaffCategory",
+  "sn",
+  "givenName",
+  "fullName",
+  "hhEduPersonPrimaryFaculty",
+  "hhEduPersonPrimaryStudyCourse",
+  "mail",
+  "hhEduPersonGender",
+];
+
+LDAP.addFields = function(person) {
   return {
-    // "serverDn": "DC=ad,DC=university,DC=edu",
-    "serverDn": "DC=bui,DC=haw-hamburg,DC=de",
-    // "serverUrl": "ldap://ad.university.edu:389",
-    "serverUrl": "ldap://ldap2.mt.haw-hamburg.de:389",
-    "whiteListedFields": ["uid", "uidNumber", "sn", "givenName", "departmentNumber", "mail"],
-    "autopublishFields": ["uid", "uidNumber", "sn", "givenName", "departmentNumber", "mail"]
+    "profile.firstname": person.givenName,
+    "profile.lastname": person.sn,
+    "profile.role": person.hhEduPersonStaffCategory,
   }
 }
 
 Meteor.startup(function() {
-    WebApp.addHtmlAttributeHook(function() {
-        return {
-            "lang": "de"
-        }
-    })
+  WebApp.addHtmlAttributeHook(function() {
+    return {
+        "lang": "de"
+    }
+  })
 });
 
 Meteor.startup(function () {

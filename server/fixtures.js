@@ -18,10 +18,14 @@ const maxSizeContacts = 3;
 const maxSizeOccasions = 1;
 const maxSizeJobs = 10;
 const maxSizeSupervisors = 5;
+const maxSizeProfileContacts = 5;
 
 /* Clear databases */
 Meteor.users.remove({});
 Projects.remove({});
+
+/* Create sample user roles */
+const sampleUserRoles = ["Student", "Dozent"];
 
 /* Create sample users */
 Factory.define('user', Meteor.users, {
@@ -30,9 +34,14 @@ Factory.define('user', Meteor.users, {
   profile: {
     firstname: () => faker.name.firstName(),
     lastname: () => faker.name.lastName(),
+    role: () => faker.random.arrayElement(sampleUserRoles),
     study: () => faker.name.jobArea(),
     aboutMe: () => faker.lorem.sentences(),
     skills: () => [faker.name.jobArea(), faker.name.jobArea(), faker.name.jobArea(), faker.name.jobArea(), faker.name.jobArea()],
+    contacts: () => _.times(_.random(maxSizeProfileContacts), i => ({
+      medium: faker.internet.domainWord(),
+      approach: faker.internet.email(),
+    })),
     avatar: () => false,
   },
 });
@@ -46,11 +55,12 @@ Factory.define("project", Projects, {
     userId: faker.random.arrayElement(sampleUsers)._id,
     //wholeName: faker.name.findName(),
   }),
-
   ownerRole: () => faker.name.jobTitle(),
+  editableBy: () => [faker.random.arrayElement(sampleUsers)._id],
   team: () => _.times(_.random(maxSizeTeam), i => ({
     userId: faker.random.arrayElement(sampleUsers)._id,
     role: faker.name.jobTitle(),
+    isEditor: faker.random.boolean(),
   })),
   tags: () => _.times(_.random(maxSizeTags), i => faker.commerce.department()),
   contacts: () => _.times(_.random(maxSizeContacts), i => ({
@@ -67,9 +77,10 @@ Factory.define("project", Projects, {
     joblabel: faker.name.jobTitle(),
   })),
   deadline: () => faker.date.future(),
-  supervisors: () => _.times(_.random(maxSizeSupervisors), i => {
-    return faker.name.prefix() + " " + faker.name.findName();
-  }),
+  supervisors: () => _.times(_.random(maxSizeSupervisors), i => ({
+    userId: faker.random.arrayElement(sampleUsers)._id,
+    role: faker.name.jobTitle(),
+  })),
   // media: () => [{type: "image", id: Images.findOne()._id}],
   // coverImg: () => Images.findOne()._id,
 });

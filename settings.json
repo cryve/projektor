@@ -1,0 +1,26 @@
+{
+  "ldap": {
+    "serverDn": "ou=User,o=haw",
+    "serverUrl": "ldaps://corpdir-new.haw-hamburg.de:636",
+    "whiteListedFields": [
+      "hhEduPersonStaffCategory",
+      "sn",
+      "givenName",
+      "fullName",
+      "hhEduPersonPrimaryFaculty",
+      "hhEduPersonPrimaryStudyCourse",
+      "mail",
+      "hhEduPersonGender"
+    ],
+    "autopublishFields": [
+      "hhEduPersonStaffCategory",
+      "sn",
+      "givenName",
+      "fullName",
+      "hhEduPersonPrimaryFaculty",
+      "hhEduPersonPrimaryStudyCourse",
+      "mail",
+      "hhEduPersonGender"
+    ]
+  }
+}

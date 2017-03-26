@@ -1,0 +1,55 @@
+<template name="userList">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Profil</th>
+        <th>Vorname</th>
+        <th>Nachname</th>
+        <th>Studiengang</th>
+        <th>Interessen</th>
+        <th>Kontakt</th>
+        <th>Rolle</th>
+        <th>Projektsuchend</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each user in usersAll}}
+        {{>userListItem
+          userId=user._id
+          avatarURL=(getAvatarURL user._id "avatar50")
+          firstName=user.profile.firstname
+          lastName=user.profile.lastname
+          studyCourse=user.profile.study
+          interests=user.profile.skills
+          contacts=user.profile.contacts
+          role=user.profile.role
+        }}
+      {{/each}}
+    </tbody>
+  </table>
+</template>
+
+<template name="userListItem">
+  <tr>
+    <td>
+      <a href="{{pathFor 'userProfile' _id=this.userId }}"><img src={{avatarURL}}></a>
+    </td>
+    <td>{{firstName}}</td>
+    <td>{{lastName}}</td>
+    <td>{{studyCourse}}</td>
+    <td>
+      {{#each interest in interests}}
+        <span class="label label-default">{{interest}}</span>
+      {{/each}}
+    </td>
+    <td>
+      {{#each contact in contacts}}
+        <a href="{{contact.medium}}">
+          <span class="glyphicon glyphicon-envelope"></span>
+        </a>
+      {{/each}}
+    </td>
+    <td>{{role}}</td>
+    <td>&lt;ja/nein&gt;</td>
+  </tr>
+</template>

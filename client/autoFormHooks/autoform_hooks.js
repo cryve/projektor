@@ -1,18 +1,20 @@
+import lodash from 'lodash';
+
 import { Projects } from '/lib/collections/projects.js';
 import { Drafts } from '/lib/collections/drafts.js';
 import { Courses } from '/lib/collections/courses.js';
+import { updateEditPermissions } from "/lib/methods.js";
 
 AutoForm.addHooks([
   "editTitle",
   // "addMember",
   "addContact",
-  "member",
+  "supervisor",
   "contactItem",
   "editDescription",
   "editTags",
   "jobItem",
   "editOccasions",
-  "editSupervisors",
   "editDeadline",
   "editBeginning",
   "editOwnerRole",
@@ -34,6 +36,7 @@ AutoForm.addHooks([
 
 AutoForm.addHooks([
   "addMember",
+  "addSupervisor",
   "addJob",
   "addContact",
   "addTeamCommItem",
@@ -60,7 +63,6 @@ AutoForm.addHooks(["setVideoLink"], {
       doc["$set"]["media."+index+".id"] = newUrl;
       doc["$set"]["media."+index+".type"] = "URL";
       delete doc["$unset"];
-      console.log(doc);
       return doc;
     }
   }
@@ -69,13 +71,43 @@ AutoForm.addHooks(["setVideoLink"], {
 AutoForm.addHooks([
   "contactItem",
   "jobItem",
-  "editTeamCommItem"
+  "editTeamCommItem",
+  "contactItemUser",
+  "linkItem",
 ], {
   before: {
     "method-update": function(doc) {
       delete doc["$unset"];
-      console.log(doc);
       return doc;
     }
+  }
+});
+
+AutoForm.addHooks([
+  "member",
+], {
+  before: {
+    "method-update": function(doc) {
+      // Workaround for autoform behavior of unsetting all preceding items with $unset
+      // Allow $unset only for role of current member
+      const regExpMemberRoleKey = /^team\.\d\.role$/;
+      if(doc["$unset"]) {
+        doc["$unset"] = lodash.pickBy(doc["$unset"], function(value, key) {
+          return regExpMemberRoleKey.test(key);
+        });
+      }
+      return doc;
+    }
+  },
+  onSuccess: function(formType, result) {
+    this.template.parent().editActive.set(false);
+    updateEditPermissions.call({
+      collectionName: this.collection._name,
+      docId: this.docId,
+    },(err, res) => {
+        if (err) {
+          alert(err);
+        }
+    });
   }
 });
