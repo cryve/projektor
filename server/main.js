@@ -26,35 +26,6 @@ Accounts.onCreateUser((options, user) =>{
 
 LDAP.logging = false;
 
-// LDAP.generateSettings = function (request) {
-//   return {
-//     "serverDn": "ou=User,o=haw",
-//     "serverUrl": "ldaps://corpdir-new.haw-hamburg.de:636",
-//     "whiteListedFields": [
-//       "cn",
-//       "hhEduPersonStaffCategory",
-//       "sn",
-//       "givenName",
-//       "fullName",
-//       "hhEduPersonPrimaryFaculty",
-//       "hhEduPersonPrimaryStudyCourse",
-//       "mail",
-//       "hhEduPersonGender",
-//     ],
-//     "autopublishFields": [
-//       "cn",
-//       "hhEduPersonStaffCategory",
-//       "sn",
-//       "givenName",
-//       "fullName",
-//       "hhEduPersonPrimaryFaculty",
-//       "hhEduPersonPrimaryStudyCourse",
-//       "mail",
-//       "hhEduPersonGender"
-//     ],
-//   }
-// }
-
 LDAP.bindValue = function (usernameOrEmail) {
   return "cn="+usernameOrEmail+",ou=User,o=haw";
 }
@@ -62,11 +33,14 @@ LDAP.bindValue = function (usernameOrEmail) {
 LDAP.attributes = [
   "cn",
   "hhEduPersonStaffCategory",
+  "hhEduPersonActCat",
   "sn",
   "givenName",
   "fullName",
-  "hhEduPersonPrimaryFaculty",
+  "hhEduPersonStdMatrNoStrg",
   "hhEduPersonPrimaryStudyCourse",
+  "hhEduPersonPrimaryDept",
+  "hhEduPersonPrimaryFaculty",
   "mail",
   "hhEduPersonGender",
 ];
@@ -75,9 +49,25 @@ LDAP.addFields = function(person) {
   return {
     "profile.firstname": person.givenName,
     "profile.lastname": person.sn,
+    "profile.fullname": person.fullName,
     "profile.role": person.hhEduPersonStaffCategory,
-  }
-}
+    "profile.title": person.hhEduPersonActCat,
+    "profile.studyCourse": {
+      id: person.hhEduPersonPrimaryStudyCourse,
+      departmentId: person.hhEduPersonPrimaryDept,
+      facultyId: person.hhEduPersonPrimaryFaculty,
+    },
+    "profile.matricNo": person.hhEduPersonStdMatrNoStrg,
+    "profile.gender": () => {
+      if(person.hhEduPersonGender == 0) {
+        return "female";
+      } else if(person.hhEduPersonGender == 1) {
+        return "male";
+      }
+      return "unknown";
+    },
+  };
+};
 
 Meteor.startup(function() {
   WebApp.addHtmlAttributeHook(function() {

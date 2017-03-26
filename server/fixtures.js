@@ -4,7 +4,6 @@ import faker from 'faker';
 import { Projects } from '/lib/collections/projects.js';
 
 faker.locale = "de";
-const sampleOccasions = ["test", "Auto"]
 
 /* Set amount of sample docs */
 const sampleCountUsers = 20;
@@ -24,8 +23,11 @@ const maxSizeProfileContacts = 5;
 Meteor.users.remove({});
 Projects.remove({});
 
-/* Create sample user roles */
-const sampleUserRoles = ["Student", "Dozent"];
+/* Create possible values */
+const sampleUserRoles = ["Student", "Mitarbeiter"];
+const sampleUserTitles = ["Student", "Professur", "Lehrkraft", "Akadem. Mitarbeiter/in", "Vertretungsprofessur"];
+const sampleUserGenders = ["female", "male"];
+const sampleOccasions = ["Projekt C", "Projekt B", "Projekt A", "Hobby", "Praxis"];
 
 /* Create sample users */
 Factory.define('user', Meteor.users, {
@@ -34,8 +36,16 @@ Factory.define('user', Meteor.users, {
   profile: {
     firstname: () => faker.name.firstName(),
     lastname: () => faker.name.lastName(),
+    fullname: () => faker.name.findName(),
+    matricNo: () => faker.random.number(),
     role: () => faker.random.arrayElement(sampleUserRoles),
-    study: () => faker.name.jobArea(),
+    title: () => faker.random.arrayElement(sampleUserTitles),
+    gender: () => faker.random.arrayElement(sampleUserGenders),
+    studyCourse: {
+      id: () => faker.random.number(),
+      departmentId: () => faker.random.number(),
+      facultyId: () => faker.random.number(),
+    },
     aboutMe: () => faker.lorem.sentences(),
     skills: () => [faker.name.jobArea(), faker.name.jobArea(), faker.name.jobArea(), faker.name.jobArea(), faker.name.jobArea()],
     contacts: () => _.times(_.random(maxSizeProfileContacts), i => ({
