@@ -101,15 +101,10 @@ Meteor.startup(function () {
     { "displayName": "Fakultätsname", "access": "faculty", "type": "string" },
   ];
   const xlsxFile  = Assets.absoluteFilePath('studycourse_lookup.xlsx');
+  Studies.remove();
   mongoxlsx.xlsx2MongoData(xlsxFile, model, Meteor.bindEnvironment((err, data) => {
     _.each(data, function(studyCourse) {
-      Studies.upsert({ $and: [
-        { studyCourseId: studyCourse.studyCourseId },
-        { examRegulationsId: studyCourse.examRegulationsId },
-        { degreeId: studyCourse.degreeId },
-        { departmentId: studyCourse.departmentId },
-        { facultyId: studyCourse.facultyId }
-      ]}, { $set: studyCourse });
+      Studies.insert(studyCourse);
     });
   }));
 });
