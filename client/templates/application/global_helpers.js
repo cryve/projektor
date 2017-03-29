@@ -6,6 +6,7 @@
 */
 
 import { Template } from 'meteor/templating';
+import { Studies } from '/lib/collections/studies.js';
 
 Template.registerHelper("readableDate", (date) => {
   return moment(date).format("DD.MM.YYYY");
@@ -72,4 +73,14 @@ Template.registerHelper("isProjectEditableBy", (project, userId) => {
     return true;
   }
   return false;
+});
+
+Template.registerHelper("studyCourseName", (studyCourseIdentifier) => {
+  Meteor.subscribe("studies");
+  const studyCourse = studyCourseIdentifier && Studies.findOne({ $and: [
+    { studyCourseId: studyCourseIdentifier.id },
+    { departmentId: studyCourseIdentifier.departmentId },
+    { facultyId: studyCourseIdentifier.facultyId }
+  ]});
+  return studyCourse && studyCourse.studyCourse;
 });
