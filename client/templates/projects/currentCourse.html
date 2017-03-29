@@ -1,28 +1,42 @@
 <template name="currentCourse">
-    {{log this}}
     {{courseName}}
     {{courseSemester}}
     {{studyCourse}}
 
+    {{#if $eq findProjectInDrafts currentUser._id}}
+      {{#if $eq route currentUser._id}}
+        <button type="button" disabled class="btn btn-primary navbar-btn create-course-project-btn">Fortfahren</button>
+      {{else}}
+        <button class="btn btn-primary navbar-btn create-course-project-btn">Fortfahren</button>
+      {{/if}}
+    {{else}}
+      <button class="btn btn-primary navbar-btn create-course-project-btn">Neues Kursprojekt erstellen</button>
+    {{/if}}
+    <button id="excel-button" class="btn btn-primary navbar-btn navbar-right">export</button>
+    {{#if createLink}}
+      {{> file}}
+    {{/if}}
     <div class="project-cards">
         <div class="container">
           <div class="row">
             {{#each project in projects}}
-                {{#each occasion in project.occasions}}
-                  {{#if $and project.coverImg ($eq occasion this.courseName)}}
-                    <div class="col-lg-3">
-                      {{>projectCard currentDoc=project}}
-                    </div>
-                  {{else}}
-                    {{#if $eq occasion this.courseName}}
-                      <div class="col-lg-3">
-                        {{>projectCardCoverless currentDoc=project}}
-                      </div>
-                    {{/if}}
-                  {{/if}}
-                {{/each}}
+              {{#if $and project.coverImg ($eq project.courseId this._id)}}
+                <div class="col-lg-3">
+                  {{>projectCard currentDoc=project}}
+                </div>
+              {{else}}
+                {{#if $eq project.courseId this._id}}
+                  <div class="col-lg-3">
+                    {{>projectCardCoverless currentDoc=project}}
+                  </div>
+                {{/if}}
+              {{/if}}
             {{/each}}
-          </div> 
-        </div> 
+          </div>
+        </div>
       </div>
+</template>
+
+<template name='file'>
+  {{fileLink}}
 </template>

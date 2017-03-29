@@ -1,5 +1,6 @@
 import {Template} from "meteor/templating" ;
 import {Projects} from "/lib/collections/projects.js" ;
+import {XlsFiles} from "/lib/collections/xlsFiles.js" ;
 import {Drafts} from "/lib/collections/drafts.js";
 import {Courses} from "/lib/collections/courses.js" ;
 import {Images} from "/lib/collections/images.js";
@@ -15,6 +16,7 @@ Template.editableProject.onCreated(function() {
   Meteor.subscribe("projects");
   Meteor.subscribe("drafts");
   Meteor.subscribe("files.images.all");
+  Meteor.subscribe("files.xlsFiles.all");
   Meteor.subscribe("usersAll");
   Meteor.subscribe("courses");
 });
@@ -93,7 +95,13 @@ Template.editableProject.events({
           alert(err);
         }
     });
-    Router.go("projectDetails", {_id: newId, title: this.title});
+    if((Meteor.userId() == this.supervisors[0].userId) && (Meteor.userId() == this.owner.userId) ){
+      var course = Courses.findOne(this.courseId);
+      Router.go("currentCourseLink", {_id: this.courseId, name: course.courseName});
+    } else {
+      Router.go("projectDetails", {_id: newId, title: this.title});
+    }
+
     Session.set('result', "null");
   },
   "click #btn-delete-draft" (event) {
