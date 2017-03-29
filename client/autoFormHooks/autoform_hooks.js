@@ -27,7 +27,7 @@ AutoForm.addHooks([
 });
 
 AutoForm.addHooks([
-  "course"
+  "updateCourse"
 ], {
   onSuccess: function(formType, result) {
     this.template.parent().editCourse.set(false);
