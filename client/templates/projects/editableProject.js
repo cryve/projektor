@@ -95,7 +95,7 @@ Template.editableProject.events({
           alert(err);
         }
     });
-    if((Meteor.userId() == this.supervisors[0].userId) && (Meteor.userId() == this.owner.userId) ){
+    if(this.supervisors && (Meteor.userId() == this.supervisors[0].userId) && (Meteor.userId() == this.owner.userId) ){
       var course = Courses.findOne(this.courseId);
       Router.go("currentCourseLink", {_id: this.courseId, name: course.courseName});
     } else {
