@@ -2,8 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 import { Match } from 'meteor/check';
+import { XlsFiles } from '/lib/collections/xlsFiles.js';
 import mongoxlsx from 'mongo-xlsx';
-
 
 import '../lib/collections/projects.js';
 import { Studies } from '/lib/collections/studies.js';
@@ -17,8 +17,8 @@ Accounts.onCreateUser((options, user) =>{
   options.profile.firstname = "Max";
   options.profile.fullname = "Max Mustermann";
   options.profile.matricNo = 123456;
-  options.profile.role = "Student";
-  options.profile.title = "Student";
+  options.profile.role = "Dozent";
+  options.profile.title = "Dozent";
   options.profile.studyCourse = {
     id: 908,
     departmentId: 23,
@@ -82,7 +82,8 @@ Meteor.startup(function() {
     return {
         "lang": "de"
     }
-  })
+  });
+  XlsFiles.remove({});
 });
 
 Meteor.startup(function () {

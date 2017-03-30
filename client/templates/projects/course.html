@@ -1,5 +1,6 @@
 <template name="course">
-  <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-create-course"></span></a><br>
+  <button type="button" class="btn btn-primary btn-create-course">Kurs Erstellen</button>
+  <br>
   {{#if $and editActive ($eq currentUser.profile.role "Dozent") }}
     <!-- {{#autoForm id="editTitle" type="update" doc=currentDoc collection=currentCollection }} -->
     {{#autoForm id="course" type="method" meteormethod=(getMethodString getCollection._name "insert") doc=this collection=getCollection }}
@@ -15,7 +16,6 @@
     {{/autoForm}}
   {{ else }}
     {{#if $and editCourse ($eq currentUser.profile.role "Dozent") }}
-      <!-- {{#autoForm id="editTitle" type="update" doc=currentDoc collection=currentCollection }} -->
       {{#autoForm id="updateCourse" type="method-update" singleMethodArgument=true meteormethod=(getMethodString getCollection._name "updateEditable") doc=currentDoc collection=getCollection }}
       <div class="form-group">
         {{> afFieldInput name="courseName" type="text" placeholder="Kursname hinzufügen" }}
@@ -28,29 +28,55 @@
       </div>
       {{/autoForm}}
     {{ else }}
-      <ul>
+      <ul class="surveys grid">
       {{#each course in courses}}
         {{#if $eq course.owner currentUser._id}}
-        <li>
 
+          <li class="survey-item">
+            <span class="edit-item">
+              <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-course" data-id="{{course._id}}" id="idUpdate"></span></a>
+              <a href=""><span class="glyphicon glyphicon-minus text-danger  btn-delete-course" data-id="{{course._id}}" id="idResult"></span></a>
+            </span>
+            <span class="survey-name">
+              <a href="{{pathFor 'currentCourseLink' _id=course._id name=course.courseName}}">
+                {{course.courseName}}
+              </a>
+            </span>
+
+            <div class="pull-right">
+              <span class="survey-progress">
+                <span class="survey-studyCourse grid-only">
+                  {{course.studyCourse}}
+                  <p class="test">
+                    {{course.courseSemester}}
+                  </p>
+                </span>
+
+                <span class="survey-progress-labels">
+                  <span class="survey-progress-label">
+                    Projekte: {{countCourseProjects course._id course.owner}}
+                  </span>
+                  <span class="survey-progress-label">
+                    Teilnehmer: {{countStudents course._id course.owner}}
+                  </span>
+                </span>
+              </span>
+
+            </div>
+
+          </li>
+        <!---<li>
           <a href="{{pathFor 'currentCourseLink' _id=course._id name=course.courseName}}">{{course.courseName}}
           {{course.courseSemester}}
           {{course.studyCourse}}</a>
             <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-course" data-id="{{course._id}}" id="idUpdate"></span></a>
             <a href=""><span class="glyphicon glyphicon-minus text-danger  btn-delete-course" data-id="{{course._id}}" id="idResult"></span></a>
-        </li>
+        </li>-->
         {{/if}}
       {{/each}}
       </ul>
     {{/if}}
   {{/if}}
-  <button id="excel-button" class="btn btn-primary navbar-btn navbar-right">export</button>
-  {{> fileLink}}
 
-</template>
 
-<template name='fileLink'>
-  <a href="{{file.link}}?download=true" download="{{file.name}}" target="_parent">
-    {{file.name}}
-  </a>
 </template>
