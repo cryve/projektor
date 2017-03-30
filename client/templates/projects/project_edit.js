@@ -138,7 +138,8 @@ Template.member.events({
       docId: this.currentDoc._id,
       docTitle: this.currentDoc.title,
       userId: this.userId,
-      userRole: this.role
+      userRole: this.role,
+      isLastEditor: this.currentDoc.editableBy.length <= 1,
     });
   },
 });
