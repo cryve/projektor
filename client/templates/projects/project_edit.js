@@ -132,6 +132,40 @@ Template.member.events({
   "click .btn-abort-editing" (event) {
     Template.instance().editActive.set(false);
   },
+  "click .show-leave-modal"(event) {
+    Modal.show("leaveTeamModal", {
+      collectionName: this.currentCollection._name,
+      docId: this.currentDoc._id,
+      docTitle: this.currentDoc.title,
+      userId: this.userId,
+      userRole: this.role
+    });
+  },
+});
+
+Template.leaveTeamModal.events({
+  "click #leave"(event) {
+    event.preventDefault();
+    deleteEditableArrayItem.call({
+      collectionName: this.collectionName,
+      docId: this.docId,
+      arrayField: "team",
+      item: { userId: this.userId, role: this.userRole },
+    },(err, res) => {
+        if (err) {
+          alert(err);
+        }
+    });
+    updateEditPermissions.call({
+      collectionName: this.collectionName,
+      docId: this.docId,
+    },(err, res) => {
+        if (err) {
+          alert(err);
+        }
+    });
+    Modal.hide();
+  },
 });
 
 Template.supervisor.helpers({
