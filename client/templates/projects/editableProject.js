@@ -7,6 +7,7 @@ import {Images} from "/lib/collections/images.js";
 
 import { publishDraft } from "/lib/methods.js";
 import { deleteDraft } from "/lib/methods.js";
+import { deleteProject } from "/lib/methods.js";
 
 import "./editableProject.html";
 
@@ -118,10 +119,32 @@ Template.editableProject.events({
     Router.go("landingPage");
     Session.set('result', "null");
   },
+  "click #btn-show-delete-project"(event) {
+    Modal.show("deleteProjectModal", {
+      docId: this._id,
+      docTitle: this.title,
+    });
+  },
   "click .btn-edit-owner" (event) {
     Template.instance().editOwnerActive.set(true);
   },
   "click .btn-abort-owner-editing" (event) {
     Template.instance().editOwnerActive.set(false);
+  },
+});
+
+Template.deleteProjectModal.events({
+  "click #btn-delete"(event) {
+    deleteProject.call({
+        projectId: this.docId,
+      }, (err, res) => {
+        if (err) {
+          alert(err);
+        } else {
+          Router.go("landingPage");
+          Session.set('result', "null");
+          Modal.hide();
+        }
+    });
   },
 });

@@ -33,9 +33,13 @@
                   </div>
                 </div>
                 <br>
-                {{#if this.isNewProject}}
-                  <button id="btn-delete-draft" class="btn btn-default">Verwerfen</button>
-                  <button id="btn-publish-draft" class="btn btn-primary">Projekt erstellen</button>
+                {{#if isProjectEditableBy this currentUser._id}}
+                  {{#if this.isNewProject}}
+                    <button id="btn-delete-draft" class="btn btn-default">Verwerfen</button>
+                    <button id="btn-publish-draft" class="btn btn-primary">Projekt erstellen</button>
+                  {{else}}
+                    <button id="btn-show-delete-project" class="btn btn-danger">Projekt löschen</button>
+                  {{/if}}
                 {{/if}}
               </div> <!-- /.panel-body -->
             </div> <!-- /.panel -->
@@ -116,4 +120,27 @@
           </div> <!-- /.col-md-4 -->
     </div><!-- /.row -->
   </div> <!-- /.container -->
+</template>
+
+<template name="deleteProjectModal">
+  <div id="deleteProjectModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Projekt löschen</h4>
+        </div>
+        <div class="modal-body">
+          <p>Möchtest du das Projekt <strong>{{docTitle}}</strong> wirklich löschen?</p>
+          <div class="alert alert-warning" role="alert">
+            Wenn du dieses Projekt löscht, werden die Inhalte dieser Seite sowie die Projektkarte für dich und alle anderen Teammitglieder für immer verloren sein!
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+          <button id="btn-delete" type="button" class="btn btn-danger">Projekt entgültig löschen</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal Delete Project -->
 </template>
