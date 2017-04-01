@@ -391,46 +391,6 @@
   {{/if}}
 </template>
 
-<template name="editOwnerRole">
-  <li class="media">
-    <div class="media-left">
-      <a href="{{pathFor 'userProfile' _id=currentDoc.owner.userId}}">
-        <img class="media-object img-circle" src="{{getAvatarURL currentDoc.owner.userId "avatar50"}}" alt="...">
-      </a>
-    </div>
-    <div class="media-body">
-      <h4 class="media-heading">
-        <a href="{{pathFor 'userProfile' _id=currentDoc.owner.userId}}">{{getFullUsername currentDoc.owner.userId}}</a>
-      </h4>
-      <p class="text-muted">
-        {{#if $and editActive (isProjectEditableBy currentDoc currentUser._id) }}
-          {{#autoForm id="editOwnerRole" type="method-update" singleMethodArgument=true meteormethod=(getMethodString currentCollection._name "updateEditable") doc=currentDoc collection=currentCollection }}
-            <div class="form-group">
-              {{> afFieldInput name="ownerRole" type="text" placeholder="Deine Aufgaben im Projekt" }}
-            </div>
-            <div class="form-group">
-              <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
-              <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
-            </div>
-          {{/autoForm}}
-        {{ else }}
-          Projektleiter
-          {{#if currentDoc.ownerRole}}
-            , {{currentDoc.ownerRole}}
-          {{else}}
-            {{#if isProjectEditableBy currentDoc currentUser._id}}
-              <span class="text-primary"><em>, weitere Aufgaben im Projekt</em></span>
-            {{/if}}
-          {{/if}}
-          {{#if isProjectEditableBy currentDoc currentUser._id}}
-            <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-owner"></span></a>
-          {{/if}}
-        {{/if}}
-      </p>
-    </div>
-  </li>
-</template>
-
 <template name="editTeamCommunication">
   {{#if $and editActive (isProjectEditableBy currentDoc currentUser._id) }}
     <div class="table table-striped">

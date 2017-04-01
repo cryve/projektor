@@ -10,11 +10,6 @@
       <div class="expandable-content">
         <div class="member-icons-box">
           <ul class="member-icons list-inline">
-          <li>
-            <a href="{{pathFor 'userProfile' _id=currentDoc.owner.userId }}">
-              <img class="img-circle" rel="tooltip" title={{getFullUsername currentDoc.owner.userId}} src={{getAvatarURL currentDoc.owner.userId "avatar20"}}>
-            </a>
-          </li>
           {{#each member in currentDoc.team}}
             {{#if $lt @index (itemsToShow currentDoc.team.length 3 1)}}
               <li>
@@ -44,7 +39,6 @@
         </div>
         <!-- </div> -->
         {{>projectCardJobs jobs=currentDoc.jobs expandable=true}}
-        
       </div> <!-- ./expandable-content -->
       {{>projectCardTags tags=currentDoc.tags}}
     </div> <!-- ./panel-body cover-card-body -->
@@ -62,11 +56,6 @@
       </div>
       <hr class="hr-top">
       <ul class="member-icons list-inline">
-        <li>
-          <a href="{{pathFor 'userProfile' _id=currentDoc.owner.userId }}">
-            <img class="img-circle" rel="tooltip" title={{getFullUsername currentDoc.owner.userId}} src={{getAvatarURL currentDoc.owner.userId "avatar30"}}>
-          </a>
-        </li>
         {{#each member in currentDoc.team}}
           {{#if $lt @index (itemsToShow currentDoc.team.length 5 1)}}
             <li>
@@ -89,7 +78,6 @@
         {{/if}}
       </ul>
       <hr class="hr-bottom">
-      
       {{>projectCardJobs jobs=currentDoc.jobs expandable=false}}
       {{>projectCardTags tags=currentDoc.tags}}
     </div> <!-- /.panel-body -->

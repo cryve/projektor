@@ -18,7 +18,6 @@ AutoForm.addHooks([
   "editOccasions",
   "editDeadline",
   "editBeginning",
-  "editOwnerRole",
   "setVideoLink"
 ], {
   onSuccess: function(formType, result) {

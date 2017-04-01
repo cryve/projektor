@@ -13,7 +13,6 @@ import "./editableProject.html";
 
 
 Template.editableProject.onCreated(function() {
-  this.editOwnerActive = new ReactiveVar(false);
   Meteor.subscribe("projects");
   Meteor.subscribe("drafts");
   Meteor.subscribe("files.images.all");
@@ -125,12 +124,12 @@ Template.editableProject.events({
       docTitle: this.title,
     });
   },
-  "click .btn-edit-owner" (event) {
-    Template.instance().editOwnerActive.set(true);
-  },
-  "click .btn-abort-owner-editing" (event) {
-    Template.instance().editOwnerActive.set(false);
-  },
+  // "click .btn-edit-owner" (event) {
+  //   Template.instance().editOwnerActive.set(true);
+  // },
+  // "click .btn-abort-owner-editing" (event) {
+  //   Template.instance().editOwnerActive.set(false);
+  // },
 });
 
 Template.deleteProjectModal.events({

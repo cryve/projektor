@@ -51,7 +51,6 @@
               </div>
               <div class="panel-body">
                 <ul class="media-list">
-                  {{>editOwnerRole currentDoc=this currentCollection=getCollection}}
                   {{#each teamMember in team}}
                     {{> member currentDoc=this userId=teamMember.userId role=teamMember.role isEditor=teamMember.isEditor userList=(suggestedUsers exclude=this.team firstOption=teamMember.userId) slot=@index currentCollection=getCollection }}
                   {{/each}}

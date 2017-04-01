@@ -455,24 +455,6 @@ Template.editBeginning.events({
     Template.instance().editActive.set(false);
   },
 });
-Template.editOwnerRole.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
-});
-
-Template.editOwnerRole.helpers({
-  editActive () {
-    return Template.instance().editActive.get();
-  },
-});
-
-Template.editOwnerRole.events({
-  "click .btn-edit-owner" (event) {
-    Template.instance().editActive.set(true);
-  },
-  "click .btn-abort-editing" (event) {
-    Template.instance().editActive.set(false);
-  },
-});
 
 Template.editTeamCommunication.onCreated(function() {
   this.editActive = new ReactiveVar(false);
@@ -484,15 +466,11 @@ Template.editTeamCommunication.helpers({
   },
   isTeamMember(userId, team) {
     let isMember = false;
-    if (this.currentDoc.owner.userId == userId) {
-      isMember = true;
-    } else if (team) {
-      team.forEach(function(member) {
-        if (member.userId == userId) {
-          isMember = true;
-        }
-      });
-    }
+    team.forEach(function(member) {
+      if (member.userId == userId) {
+        isMember = true;
+      }
+    });
     return isMember;
   },
 });
