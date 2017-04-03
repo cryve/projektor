@@ -1,35 +1,28 @@
 import { Drafts } from "/lib/collections/drafts.js";
 import { insertEmptyDraft } from "/lib/methods.js";
+import { setDraftIdInProfile } from "/lib/methods.js";
 
 Template.navigationBar.onCreated(function navigationBarOnCreated() {
   Meteor.subscribe("drafts");
+  Meteor.subscribe("usersAll");
 });
 
 Template.navigationBar.helpers({
   result: function() {
       return Session.get('result');
   },
-  findProjectInDrafts(){
-    const currentDraft = Drafts.findOne({"owner.userId": Meteor.userId()});
-    return currentDraft && currentDraft.owner && currentDraft.owner.userId;
-  },
-  route(){
-    const idDraft = Router.current().params._id;
-    const currentDraft = Drafts.findOne({"_id": idDraft});
-    return currentDraft && currentDraft.owner && currentDraft.owner.userId;
+  isDraftRendered() {
+    return Router.current().params._id === Meteor.user().profile.currentDraftId;
   }
 });
 
 Template.navigationBar.events({
   "click .create-project-btn" (event) {
     // Go to a not finished draft if exists, else go to new draft
-    const lastDraft = Drafts.findOne({"owner.userId": Meteor.userId()});
-    let draftId;
+    let currentDraftId = Meteor.user().profile.currentDraftId;
     Session.set('result', "null");
-    if (lastDraft && lastDraft._id) {
-      draftId = lastDraft._id;
-    } else {
-      draftId = insertEmptyDraft.call((err, res) => {
+    if (!currentDraftId) {
+      currentDraftId = insertEmptyDraft.call((err, res) => {
         if (err) {
           if(err.error == "drafts.insertNew.unauthorized") {
             Router.go("loginPage");
@@ -39,7 +32,14 @@ Template.navigationBar.events({
           }
         }
       });
+      setDraftIdInProfile.call({
+        userId: Meteor.userId(),
+        draftId: currentDraftId }, (err, res) => {
+        if (err) {
+          alert(err);
+        }
+      });
     }
-    Router.go("newProject", {_id: draftId});
+    Router.go("newProject", {_id: currentDraftId});
   }
 });

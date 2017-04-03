@@ -132,6 +132,41 @@ Template.member.events({
   "click .btn-abort-editing" (event) {
     Template.instance().editActive.set(false);
   },
+  "click .show-leave-modal"(event) {
+    Modal.show("leaveTeamModal", {
+      collectionName: this.currentCollection._name,
+      docId: this.currentDoc._id,
+      docTitle: this.currentDoc.title,
+      userId: this.userId,
+      userRole: this.role,
+      isLastEditor: this.currentDoc.editableBy.length <= 1,
+    });
+  },
+});
+
+Template.leaveTeamModal.events({
+  "click #leave"(event) {
+    event.preventDefault();
+    deleteEditableArrayItem.call({
+      collectionName: this.collectionName,
+      docId: this.docId,
+      arrayField: "team",
+      item: { userId: this.userId, role: this.userRole },
+    },(err, res) => {
+        if (err) {
+          alert(err);
+        }
+    });
+    updateEditPermissions.call({
+      collectionName: this.collectionName,
+      docId: this.docId,
+    },(err, res) => {
+        if (err) {
+          alert(err);
+        }
+    });
+    Modal.hide();
+  },
 });
 
 Template.supervisor.helpers({
@@ -420,24 +455,6 @@ Template.editBeginning.events({
     Template.instance().editActive.set(false);
   },
 });
-Template.editOwnerRole.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
-});
-
-Template.editOwnerRole.helpers({
-  editActive () {
-    return Template.instance().editActive.get();
-  },
-});
-
-Template.editOwnerRole.events({
-  "click .btn-edit-owner" (event) {
-    Template.instance().editActive.set(true);
-  },
-  "click .btn-abort-editing" (event) {
-    Template.instance().editActive.set(false);
-  },
-});
 
 Template.editTeamCommunication.onCreated(function() {
   this.editActive = new ReactiveVar(false);
@@ -449,15 +466,11 @@ Template.editTeamCommunication.helpers({
   },
   isTeamMember(userId, team) {
     let isMember = false;
-    if (this.currentDoc.owner.userId == userId) {
-      isMember = true;
-    } else if (team) {
-      team.forEach(function(member) {
-        if (member.userId == userId) {
-          isMember = true;
-        }
-      });
-    }
+    team.forEach(function(member) {
+      if (member.userId == userId) {
+        isMember = true;
+      }
+    });
     return isMember;
   },
 });
