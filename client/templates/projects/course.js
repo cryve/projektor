@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { Courses } from '/lib/collections/courses.js';
 import { Projects } from '/lib/collections/projects.js';
 import { Template } from 'meteor/templating';
-
+import lodash from 'lodash';
 import {deleteCourse} from "/lib/methods.js";
 
 import './course.html';
@@ -27,21 +27,18 @@ Template.course.helpers({
     return count;
   },
   countStudents(courseId, owner){
-    var count = 0;
+    var students = [];
     const courseProjects = Projects.find({courseId:courseId}, {supervisors:{$elemMatch:{userId: owner}}})
     courseProjects.forEach(function(project) {
       if(project.team){
-        count = count + project.team.length + 1;
-        if (project.owner.userId == owner){
-          count--;
-        }
-      }else{
-        if(project.owner.userId != owner){
-          count = count + 1;
-        }
+        lodash.forEach(project.team, function(value) {
+          if((!lodash.includes(students, value.userId)) && (value.userId != owner)){
+            students.push(value.userId)
+          }
+        });
       }
     });
-    return count
+    return students.length;
   },
   editActive () {
     return Template.instance().editActive.get();
@@ -64,6 +61,7 @@ Template.course.helpers({
 
 Template.course.events({
   "click .btn-create-course" (event) {
+    Template.instance().editCourse.set(false);
     Template.instance().editActive.set(true);
   },
   "click .btn-abort-editing" (event) {
@@ -87,6 +85,7 @@ Template.course.events({
   "click .btn-edit-course" (event) {
     var result = event.currentTarget;
     var courseId = result.dataset.id;
+    Template.instance().editActive.set(false);
     Template.instance().editCourse.set(courseId);
   },
 });

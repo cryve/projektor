@@ -1,7 +1,7 @@
 import { Template } from "meteor/templating";
 
 import { Courses } from "/lib/collections/courses.js" ;
-import { deleteEditableArrayItem, updateEditPermissions } from "/lib/methods.js";
+import { deleteEditableArrayItem, updateEditPermissions, deleteEditableCourse } from "/lib/methods.js";
 import { memberSchema } from "/lib/collections/schemas.js";
 import { jobSchema } from "/lib/collections/schemas.js";
 import { contactSchema } from "/lib/collections/schemas.js";
@@ -38,7 +38,14 @@ Template.addCourse.events({
     Template.instance().editActive.set(true);
   },
   "click .btn-delete-course" (event) {
-    Template.instance().editActive.set(true);
+    deleteEditableCourse.call({
+      collectionName: this.currentCollection._name,
+      docId: this.currentDoc._id,
+    },(err, res) => {
+        if (err) {
+          alert(err);
+        }
+    });
   },
 });
 
