@@ -3,6 +3,7 @@ import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 import { Match } from 'meteor/check';
 import { XlsFiles } from '/lib/collections/xlsFiles.js';
+import { Courses } from '/lib/collections/courses.js';
 import mongoxlsx from 'mongo-xlsx';
 
 import '../lib/collections/projects.js';
@@ -84,6 +85,7 @@ Meteor.startup(function() {
     }
   });
   XlsFiles.remove({});
+  Courses.remove({});
 });
 
 Meteor.startup(function () {

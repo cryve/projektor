@@ -95,8 +95,8 @@ Template.editableProject.events({
           alert(err);
         }
     });
-    if(this.supervisors && (Meteor.userId() == this.supervisors[0].userId) && (Meteor.userId() == this.owner.userId) ){
-      var course = Courses.findOne(this.courseId);
+    var course = Courses.findOne(this.courseId);
+    if(course && this.supervisors && (Meteor.userId() == this.supervisors[0].userId) && (Meteor.userId() == course.owner)){
       Router.go("currentCourseLink", {_id: this.courseId, name: course.courseName});
     } else {
       Router.go("projectDetails", {_id: newId, title: this.title});
@@ -115,8 +115,13 @@ Template.editableProject.events({
           alert("Dein Entwurf wurde gelöscht!");
         }
     });
-    Router.go("landingPage");
-    Session.set('result', "null");
+    var course = Courses.findOne(this.courseId);
+    if(course && this.supervisors && this.supervisors[0] && (Meteor.userId() == this.supervisors[0].userId) && (Meteor.userId() == course.owner)){
+      Router.go("currentCourseLink", {_id: this.courseId, name: course.courseName});
+    } else {
+      Router.go("landingPage");
+      Session.set('result', "null");
+    }
   },
   "click #btn-show-delete-project"(event) {
     Modal.show("deleteProjectModal", {

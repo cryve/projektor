@@ -27,56 +27,54 @@
         <button type="reset" class="btn btn-default btn-abort-course-editing"><span class="glyphicon glyphicon-remove"></span></button>
       </div>
       {{/autoForm}}
-    {{ else }}
-      <ul class="surveys grid">
-      {{#each course in courses}}
-        {{#if $eq course.owner currentUser._id}}
-
-          <li class="survey-item">
-            <span class="edit-item">
-              <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-course" data-id="{{course._id}}" id="idUpdate"></span></a>
-              <a href=""><span class="glyphicon glyphicon-minus text-danger  btn-delete-course" data-id="{{course._id}}" id="idResult"></span></a>
-            </span>
-            <span class="survey-name">
-              <a href="{{pathFor 'currentCourseLink' _id=course._id name=course.courseName}}">
-                {{course.courseName}}
-              </a>
-            </span>
-
-            <div class="pull-right">
-              <span class="survey-progress">
-                <span class="survey-studyCourse grid-only">
-                  {{course.studyCourse}}
-                  <p class="test">
-                    {{course.courseSemester}}
-                  </p>
-                </span>
-
-                <span class="survey-progress-labels">
-                  <span class="survey-progress-label">
-                    Projekte: {{countCourseProjects course._id course.owner}}
-                  </span>
-                  <span class="survey-progress-label">
-                    Teilnehmer: {{countStudents course._id course.owner}}
-                  </span>
-                </span>
-              </span>
-
-            </div>
-
-          </li>
-        <!---<li>
-          <a href="{{pathFor 'currentCourseLink' _id=course._id name=course.courseName}}">{{course.courseName}}
-          {{course.courseSemester}}
-          {{course.studyCourse}}</a>
-            <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-course" data-id="{{course._id}}" id="idUpdate"></span></a>
-            <a href=""><span class="glyphicon glyphicon-minus text-danger  btn-delete-course" data-id="{{course._id}}" id="idResult"></span></a>
-        </li>-->
-        {{/if}}
-      {{/each}}
-      </ul>
     {{/if}}
   {{/if}}
+  <ul class="surveys grid">
+  {{#each course in courses}}
+    {{#if $and course ($eq course.owner currentUser._id)}}
 
+      <li class="survey-item">
+        <span class="edit-item">
+          <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-course" data-id="{{course._id}}" id="idUpdate"></span></a>
+          <a href=""><span class="glyphicon glyphicon-minus text-danger  btn-delete-course" data-id="{{course._id}}" id="idResult"></span></a>
+        </span>
+        <span class="survey-name">
+          <a href="{{pathFor 'currentCourseLink' _id=course._id name=course.courseName}}">
+            {{course.courseName}}
+          </a>
+        </span>
+
+        <div class="pull-right">
+          <span class="survey-progress">
+            <span class="survey-studyCourse grid-only">
+              {{course.studyCourse}}
+              <p class="test">
+                {{course.courseSemester}}
+              </p>
+            </span>
+
+            <span class="survey-progress-labels">
+              <span class="survey-progress-label">
+                Projekte: {{countCourseProjects course._id course.owner}}
+              </span>
+              <span class="survey-progress-label">
+                Teilnehmer: {{countStudents course._id course.owner}}
+              </span>
+            </span>
+          </span>
+
+        </div>
+
+      </li>
+    <!---<li>
+      <a href="{{pathFor 'currentCourseLink' _id=course._id name=course.courseName}}">{{course.courseName}}
+      {{course.courseSemester}}
+      {{course.studyCourse}}</a>
+        <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-course" data-id="{{course._id}}" id="idUpdate"></span></a>
+        <a href=""><span class="glyphicon glyphicon-minus text-danger  btn-delete-course" data-id="{{course._id}}" id="idResult"></span></a>
+    </li>-->
+    {{/if}}
+  {{/each}}
+  </ul>
 
 </template>

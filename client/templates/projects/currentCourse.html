@@ -21,14 +21,22 @@
           <div class="row">
             {{#each project in projects}}
               {{#if $and project.coverImg ($eq project.courseId this._id)}}
-                <div class="col-lg-3">
-                  {{>projectCard currentDoc=project}}
-                </div>
+                {{#each supervisor in project.supervisors}}
+                  {{#if $eq supervisor.userId currentUser._id}}
+                    <div class="col-lg-3">
+                      {{>projectCard currentDoc=project}}
+                    </div>
+                  {{/if}}
+                {{/each}}
               {{else}}
                 {{#if $eq project.courseId this._id}}
-                  <div class="col-lg-3">
-                    {{>projectCardCoverless currentDoc=project}}
-                  </div>
+                  {{#each supervisor in project.supervisors}}
+                    {{#if $eq supervisor.userId currentUser._id}}
+                      <div class="col-lg-3">
+                        {{>projectCardCoverless currentDoc=project}}
+                      </div>
+                    {{/if}}
+                  {{/each}}
                 {{/if}}
               {{/if}}
             {{/each}}
