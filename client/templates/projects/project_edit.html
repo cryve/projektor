@@ -35,12 +35,18 @@
           {{#autoForm id="member" type="method-update" singleMethodArgument=true meteormethod=(getMethodString currentCollection._name "updateEditable") doc=currentDoc collection=currentCollection setArrayItems=true}}
             <div class="form-group">
               <h4 class="media-heading">
+              {{#if $or ($neq this.userId currentUser._id) (isUserInGroup currentDoc.supervisors this.userId)}}
                 {{> afFieldInput name=teamUserIdField type="select2" options=userList placeholder="Neues Mitglied auswählen" value=this.userId }}
+              {{else}}
+                {{getFullUsername this.userId}}
+              {{/if}}
               </h4>
               <p>
                 {{> afFieldInput name=teamUserRoleField type="text" placeholder="Aufgaben im Projekt"}}
               </p>
-              <p>{{> afFieldInput name=teamUserIsEditorField type="boolean-checkbox"}}</p>
+              {{#if $or ($neq this.userId currentUser._id) (isUserInGroup currentDoc.supervisors this.userId)}}
+                <p>{{> afFieldInput name=teamUserIsEditorField type="boolean-checkbox"}}</p>
+              {{/if}}
             </div>
             <div class="form-group">
               <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
@@ -50,12 +56,16 @@
         {{else}}
           <h4 class="media-heading">
             <a href="{{pathFor 'userProfile' _id=this.userId}}">{{getFullUsername this.userId}}</a>
-            {{#if $or (isProjectEditableBy currentDoc currentUser._id) ($eq this.userId currentUser._id)}}
+            {{#if isProjectEditableBy currentDoc currentUser._id}}
               <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-member"></span></a>
               {{#if $eq this.userId currentUser._id }}
                 <a href=""><span class="glyphicon glyphicon-minus text-danger show-leave-modal"></span></a>
               {{else}}
                 <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-member"></span></a>
+              {{/if}}
+            {{else}}
+              {{#if $eq this.userId currentUser._id}}
+                <a href=""><span class="glyphicon glyphicon-minus text-danger show-leave-modal"></span></a>
               {{/if}}
             {{/if}}
           </h4>
