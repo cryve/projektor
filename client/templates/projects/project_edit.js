@@ -124,14 +124,6 @@ Template.member.events({
           alert(err);
         }
     });
-    updateEditPermissions.call({
-      collectionName: this.currentCollection._name,
-      docId: this.currentDoc._id,
-    },(err, res) => {
-        if (err) {
-          alert(err);
-        }
-    });
   },
   "click .btn-edit-member" (event) {
     Template.instance().editActive.set(true);
@@ -176,14 +168,6 @@ Template.leaveGroupModal.events({
           alert(err);
         }
     });
-    updateEditPermissions.call({
-      collectionName: this.collectionName,
-      docId: this.docId,
-    },(err, res) => {
-        if (err) {
-          alert(err);
-        }
-    });
     Modal.hide();
   },
 });
@@ -204,14 +188,6 @@ Template.supervisor.events({
       docId: this.currentDoc._id,
       arrayField: "supervisors",
       item: { userId: this.userId, role: this.role },
-    },(err, res) => {
-        if (err) {
-          alert(err);
-        }
-    });
-    updateEditPermissions.call({
-      collectionName: this.currentCollection._name,
-      docId: this.currentDoc._id,
     },(err, res) => {
         if (err) {
           alert(err);
