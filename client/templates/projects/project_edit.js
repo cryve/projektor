@@ -140,10 +140,11 @@ Template.member.events({
     Template.instance().editActive.set(false);
   },
   "click .show-leave-modal"(event) {
-    Modal.show("leaveTeamModal", {
+    Modal.show("leaveGroupModal", {
       collectionName: this.currentCollection._name,
       docId: this.currentDoc._id,
       docTitle: this.currentDoc.title,
+      group: "team",
       userId: this.userId,
       userRole: this.role,
       isLastEditor: this.currentDoc.editableBy.length <= 1,
@@ -151,13 +152,24 @@ Template.member.events({
   },
 });
 
-Template.leaveTeamModal.events({
+Template.leaveGroupModal.helpers({
+  groupName() {
+    if(this.group == "team") {
+      return "Team";
+    } else if (this.group == "supervisors") {
+      return "Betreuer";
+    }
+    return "Unbekannt";
+  },
+});
+
+Template.leaveGroupModal.events({
   "click #leave"(event) {
     event.preventDefault();
     deleteEditableArrayItem.call({
       collectionName: this.collectionName,
       docId: this.docId,
-      arrayField: "team",
+      arrayField: this.group,
       item: { userId: this.userId, role: this.userRole },
     },(err, res) => {
         if (err) {
@@ -204,6 +216,17 @@ Template.supervisor.events({
         if (err) {
           alert(err);
         }
+    });
+  },
+  "click .show-leave-modal"(event) {
+    Modal.show("leaveGroupModal", {
+      collectionName: this.currentCollection._name,
+      docId: this.currentDoc._id,
+      docTitle: this.currentDoc.title,
+      group: "supervisors",
+      userId: this.userId,
+      userRole: this.role,
+      isLastEditor: this.currentDoc.editableBy.length <= 1,
     });
   },
 });
