@@ -3,7 +3,7 @@
     <ol class="breadcrumb">
       <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
       <li><a href="{{pathFor 'courseLink' _id=currentUser._id}}">Meine Kurse</a></li>
-      <li><a href="{{pathFor 'currentCourseLink' _id=this.courseId name=courseProjekt}}">{{courseProjekt}}</a></li>
+      <li><a href="{{pathFor 'currentCourseLink' _id=this.courseId name=(encodeUrlString courseProjekt)}}">{{courseProjekt}}</a></li>
       <li class="active">{{this.title}}</li>
     </ol>
   {{else}}

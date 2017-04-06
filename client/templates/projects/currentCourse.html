@@ -38,7 +38,7 @@
                   {{#each supervisor in project.supervisors}}
                     {{#if $eq supervisor.userId currentUser._id}}
                       <div class="col-lg-3">
-                        {{>projectCardCoverless currentDoc=project previousPage=courseName }}
+                        {{>projectCardCoverless currentDoc=project}}
                       </div>
                     {{/if}}
                   {{/each}}

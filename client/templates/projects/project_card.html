@@ -22,7 +22,7 @@
           {{#if itemsRemaining currentDoc.team.length 3 1}}
             <li class="remaining-member">
               <!-- <span class="badge">+{{itemsRemaining currentDoc.team.length 5 1}}</span> -->
-              <a class="text-info" href="{{pathFor 'projectDetails' _id=currentDoc._id title=currentDoc.title previousPage=previousPage }}">
+              <a class="text-info" href="{{pathFor 'projectDetails' _id=currentDoc._id title=(encodeUrlString currentDoc.title)}}">
                 <div class="text-center bg-info circle20-remaining-members">
                   <span>
                     <strong>+{{itemsRemaining currentDoc.team.length 3 1}}</strong>
@@ -35,7 +35,7 @@
         </div> <!-- /.member-icons-box -->
         <!-- <div class="cover-card-title"> -->
         <div class="cover-card-title">
-          {{> projectCardTitle _id=currentDoc._id title=currentDoc.title subtitle=currentDoc.subtitle subtitleLines=1 previousPage=previousPage}}
+          {{> projectCardTitle _id=currentDoc._id title=currentDoc.title subtitle=currentDoc.subtitle subtitleLines=1}}
         </div>
         <!-- </div> -->
         {{>projectCardJobs jobs=currentDoc.jobs expandable=true}}
@@ -52,7 +52,7 @@
   <div class="panel panel-default coverless-card">
     <div class="panel-body coverless-card-body">
       <div class="coverless-card-title">
-        {{> projectCardTitle _id=currentDoc._id title=currentDoc.title subtitle=currentDoc.subtitle subtitleLines=2 previousPage=previousPage}}
+        {{> projectCardTitle _id=currentDoc._id title=currentDoc.title subtitle=currentDoc.subtitle subtitleLines=2 }}
       </div>
       <hr class="hr-top">
       <ul class="member-icons list-inline">
@@ -67,7 +67,7 @@
         {{/each}}
         {{#if itemsRemaining currentDoc.team.length 5 1}}
           <li class="remaining-member">
-            <a class="text-info" href="{{pathFor 'projectDetails' _id=currentDoc._id title=currentDoc.title previousPage=previousPage}}">
+            <a class="text-info" href="{{pathFor 'projectDetails' _id=currentDoc._id title=(encodeUrlString currentDoc.title)}}">
               <div class="text-center bg-info circle30-remaining-members">
                 <span>
                   <strong>+{{itemsRemaining currentDoc.team.length 5 1}}</strong>
@@ -89,8 +89,7 @@
 
 <template name="projectCardTitle">
   <h3>
-    {{log this.previousPage}}
-    <a href="{{pathFor 'projectDetails' _id=_id title=title previousPage=this.previousPage}}" class="{{#if subtitle}}title-1row{{else}}title-2row{{/if}}">{{title}}</a>
+    <a href="{{pathFor 'projectDetails' _id=_id title=(encodeUrlString title)}}" class="{{#if subtitle}}title-1row{{else}}title-2row{{/if}}">{{title}}</a>
     {{#if subtitle}}
       <br>
       <small class="subtitle-{{subtitleLines}}row">{{subtitle}}</small>

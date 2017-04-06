@@ -43,7 +43,7 @@
           <a href=""><span class="glyphicon glyphicon-minus text-danger  btn-delete-course" data-id="{{course._id}}" id="idResult"></span></a>
         </span>
         <span class="survey-name">
-          <a href="{{pathFor 'currentCourseLink' _id=course._id name=course.courseName}}">
+          <a href="{{pathFor 'currentCourseLink' _id=course._id name=(encodeUrlString course.courseName)}}">
             {{course.courseName}}
           </a>
         </span>

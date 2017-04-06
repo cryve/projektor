@@ -95,9 +95,9 @@ Template.editableProject.events({
     });
     var course = Courses.findOne(this.courseId);
     if(course && this.supervisors && (Meteor.userId() == this.supervisors[0].userId) && (Meteor.userId() == course.owner)){
-      Router.go("currentCourseLink", {_id: this.courseId, name: course.courseName});
+      Router.go("currentCourseLink", {_id: this.courseId, name: encodeURIComponent(course.courseName)});
     } else {
-      Router.go("projectDetails", {_id: newId, title: this.title});
+      Router.go("projectDetails", {_id: newId, title: encodeURIComponent(this.title)});
     }
 
     Session.set('result', "null");
@@ -115,7 +115,7 @@ Template.editableProject.events({
     });
     var course = Courses.findOne(this.courseId);
     if(course && this.supervisors && this.supervisors[0] && (Meteor.userId() == this.supervisors[0].userId) && (Meteor.userId() == course.owner)){
-      Router.go("currentCourseLink", {_id: this.courseId, name: course.courseName});
+      Router.go("currentCourseLink", {_id: this.courseId, name: encodeURIComponent(course.courseName)});
     } else {
       Router.go("landingPage");
       Session.set('result', "null");
