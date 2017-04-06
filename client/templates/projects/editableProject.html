@@ -1,11 +1,32 @@
 <template name="editableProject">
+  {{#if $eq previousRoute "currentCourseLink"}}
+    <ol class="breadcrumb">
+      <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
+      <li><a href="{{pathFor 'courseLink' _id=currentUser._id}}">Meine Kurse</a></li>
+      <li><a href="{{pathFor 'currentCourseLink' _id=this.courseId name=(encodeUrlString courseProjekt)}}">{{courseProjekt}}</a></li>
+      <li class="active">{{this.title}}</li>
+    </ol>
+  {{else}}
+    {{#if $eq previousRoute "userProfile"}}
+      <ol class="breadcrumb">
+        <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
+        <li><a href="{{pathFor 'userProfile' _id=currentUser._id}}"> Profil</a></li>
+        <li class="active">{{this.title}}</li>
+      </ol>
+    {{else}}
+      <ol class="breadcrumb">
+        <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
+        <li class="active">{{this.title}}</li>
+      </ol>
+    {{/if}}
+  {{/if}}
   <div class="container">
     <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">
-              {{> editTitle currentDoc=this currentCollection=getCollection }}
-            </h1>
-        </div>
+      <div class="col-lg-12">
+        <h1 class="page-header">
+          {{> editTitle currentDoc=this currentCollection=getCollection }}
+        </h1>
+      </div>
     </div> <!-- /.row -->
     <div class="row">
       <div class="col-md-8 col-lg-8">

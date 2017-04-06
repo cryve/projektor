@@ -46,6 +46,10 @@ Template.registerHelper("getImgURL", (imgId, version) => {
   }
 });
 
+Template.registerHelper('encodeUrlString', function(string) {
+  return encodeURIComponent(string);
+});
+
 Template.registerHelper("getAvatarURL", (userId, version) => {
   Meteor.subscribe("files.images.all");
   Meteor.subscribe("usersAll");

@@ -1,4 +1,8 @@
 <template name="userProfile">
+  <ol class="breadcrumb">
+    <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
+    <li class="active"> Profil</li>
+  </ol>
   {{#if $eq currentUser._id this._id}}
     {{> uploadFormCrop type="avatar" currentDoc=this}}
     <button id="delete-avatar-button" class="btn btn-primary navbar-btn navbar-right">Avatar Löschen</button>
@@ -6,7 +10,7 @@
     <img src= {{getAvatarURL this._id "avatar50"}} />
     <h1>{{this.profile.fullname}}<br><span>{{studyCourseName this.profile.studyCourse}}</span></h1>
     <p>{{departmentName this.profile.studyCourse}}</p>
-    <p>Fakultät {{facultyName this.profile.studyCourse}}</p>  
+    <p>Fakultät {{facultyName this.profile.studyCourse}}</p>
     <br>
 
   <div class="row">

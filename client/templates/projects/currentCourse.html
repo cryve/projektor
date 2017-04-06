@@ -1,4 +1,9 @@
 <template name="currentCourse">
+  <ol class="breadcrumb">
+    <li><a href="{{pathFor 'landingPage'}}">Home</a></li>
+    <li><a href="{{pathFor 'courseLink' _id=currentUser._id}}">Meine Kurse</a></li>
+    <li class="active">{{courseName}} {{courseSemester}}</li>
+  </ol>
     {{courseName}}
     {{courseSemester}}
     {{studyCourse}}
@@ -24,7 +29,7 @@
                 {{#each supervisor in project.supervisors}}
                   {{#if $eq supervisor.userId currentUser._id}}
                     <div class="col-lg-3">
-                      {{>projectCard currentDoc=project}}
+                      {{>projectCard currentDoc=project checkIfCourse=courseName}}
                     </div>
                   {{/if}}
                 {{/each}}
