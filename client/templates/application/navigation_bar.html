@@ -17,10 +17,27 @@
             <button class="btn btn-primary navbar-btn create-project-btn">Neues Projekt erstellen</button>
           {{/if}}
           {{#if $eq currentUser.profile.role "Dozent"}}
-          <a href="{{pathFor 'courseLink' _id=currentUser._id}}"><button class="btn btn-primary navbar-btn">Meine Kurse</button></a>
+            <a href="{{pathFor 'courseLink' _id=currentUser._id}}"><button class="btn btn-primary navbar-btn">Meine Kurse</button></a>
           {{/if}}
+
+          <ul class="nav navbar-nav navbar-right">
+            {{#if currentUser}}
+              <li>
+                <a href="{{pathFor 'userProfile' _id=currentUser._id}}"><button class="btn btn-primary navbar-btn navbar-right">Profil</button></a>
+              </li>
+            {{/if}}
+      			<li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-log-in"></span> Anmeldung</a>
+      				<div class="dropdown-menu" style="padding: 15px; padding-bottom: 10px;">
+      				<form class="form-horizontal"  method="post" accept-charset="UTF-8">
+      				  <input id="sp_uname" class="form-control login" type="text" name="sp_uname" placeholder="HAW-Kennung" />
+      				  <input id="sp_pass" class="form-control login" type="password" name="sp_pass" placeholder="HAW-Passwort"/>
+      				  <input class="btn btn-primary" type="submit" name="submit" value="login" />
+      				</form>
+      				</div>
+      			</li>
+      		</ul>
           {{#if currentUser}}
-          <a href="{{pathFor 'userProfile' _id=currentUser._id}}"><button class="btn btn-primary navbar-btn navbar-right">Profil</button></a>
+            <a href="{{pathFor 'userList'}}"><button class="btn btn-primary navbar-btn">Mitglieder</button></a>
           {{/if}}
           <label class="text-muted">Test: </label>
           {{> loginButtons }}

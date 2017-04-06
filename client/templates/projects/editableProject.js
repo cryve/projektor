@@ -34,7 +34,9 @@ Template.editableProject.helpers({
   },
   courseProjekt(){
    const course = Courses.findOne(this.courseId);
-   return course.courseName + " " + course.courseSemester;
+   if (course){
+     return course.courseName + " " + course.courseSemester;
+   }
   },
   getCollection() {
     if(this.isNewProject) {
@@ -94,7 +96,7 @@ Template.editableProject.events({
         }
     });
     var course = Courses.findOne(this.courseId);
-    if(course && this.supervisors && (Meteor.userId() == this.supervisors[0].userId) && (Meteor.userId() == course.owner)){
+    if(course && this.supervisors && ((Meteor.userId() == this.supervisors[0].userId) || (Meteor.userId() == this.editableBy[0]))){
       Router.go("currentCourseLink", {_id: this.courseId, name: encodeURIComponent(course.courseName)});
     } else {
       Router.go("projectDetails", {_id: newId, title: encodeURIComponent(this.title)});

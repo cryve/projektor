@@ -25,15 +25,19 @@ Template.currentCourse.helpers({
     return Projects.find({}, { sort: { createdAt: -1 } });
   },
   findProjectInDrafts(){
-    const currentDraft = Drafts.findOne({"owner.userId": Meteor.userId()});
-    return currentDraft && currentDraft.owner && currentDraft.owner.userId;
+    return Meteor.user() && Meteor.user().profile && Meteor.user().profile.currentDraftId;
   },
 });
 
 Template.currentCourse.events({
   "click .create-course-project-btn" (event) {
     // Go to a not finished draft if exists, else go to new draft
-    const lastDraft = Drafts.findOne({"owner.userId": Meteor.userId()});
+    var lastDraft 
+    if(Meteor.user().profile.currentDraftId){
+      const id = Meteor.user().profile.currentDraftId;
+      lastDraft = Drafts.findOne(id);
+    }
+
     let draftId;
     Session.set('result', "null");
     if (lastDraft && lastDraft._id) {

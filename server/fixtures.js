@@ -61,11 +61,11 @@ Factory.define("project", Projects, {
   title: () => faker.commerce.productName(),
   subtitle: () => faker.company.catchPhrase(),
   description: () => faker.lorem.sentences(),
-  owner: () => ({
-    userId: faker.random.arrayElement(sampleUsers)._id,
-    //wholeName: faker.name.findName(),
-  }),
-  ownerRole: () => faker.name.jobTitle(),
+  // owner: () => ({
+  //   userId: faker.random.arrayElement(sampleUsers)._id,
+  //   //wholeName: faker.name.findName(),
+  // }),
+  // ownerRole: () => faker.name.jobTitle(),
   editableBy: () => [faker.random.arrayElement(sampleUsers)._id],
   team: () => _.times(_.random(maxSizeTeam), i => ({
     userId: faker.random.arrayElement(sampleUsers)._id,
