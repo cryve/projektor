@@ -57,9 +57,9 @@ LDAP.attributes = [
 
 LDAP.addFields = function(person) {
   const getGenderString = (genderId) => {
-    if(genderId === 0) {
+    if(genderId === '0') {
       return "female";
-    } else if(genderId === 1) {
+    } else if(genderId === '1') {
       return "male";
     }
     return "unknown";
