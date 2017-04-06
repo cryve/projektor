@@ -58,14 +58,12 @@
             <a href="{{pathFor 'userProfile' _id=this.userId}}">{{getFullUsername this.userId}}</a>
             {{#if isProjectEditableBy currentDoc currentUser._id}}
               <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-member"></span></a>
-              {{#if $eq this.userId currentUser._id }}
-                <a href=""><span class="glyphicon glyphicon-minus text-danger show-leave-modal"></span></a>
-              {{else}}
-                <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-member"></span></a>
-              {{/if}}
+            {{/if}}
+            {{#if showLeaveButton }}
+              <a href=""><span class="glyphicon glyphicon-minus text-danger show-leave-modal"></span></a>
             {{else}}
-              {{#if $eq this.userId currentUser._id}}
-                <a href=""><span class="glyphicon glyphicon-minus text-danger show-leave-modal"></span></a>
+              {{#if showDeleteButton }}
+                <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-member"></span></a>
               {{/if}}
             {{/if}}
           </h4>
@@ -321,10 +319,10 @@
     <div class="media-body">
       <h4 class="media-heading">
         <a href="{{pathFor 'userProfile' _id=this.userId}}">{{getFullUsername this.userId}}</a>
-        {{#if isProjectEditableBy currentDoc currentUser._id}}
-          {{#if $eq this.userId currentUser._id }}
-            <a href=""><span class="glyphicon glyphicon-minus text-danger show-leave-modal"></span></a>
-          {{else}}
+        {{#if showLeaveButton }}
+          <a href=""><span class="glyphicon glyphicon-minus text-danger show-leave-modal"></span></a>
+        {{else}}
+          {{#if showDeleteButton }}
             <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-supervisor"></span></a>
           {{/if}}
         {{/if}}

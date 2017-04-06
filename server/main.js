@@ -5,6 +5,7 @@ import { Match } from 'meteor/check';
 import { XlsFiles } from '/lib/collections/xlsFiles.js';
 import { Courses } from '/lib/collections/courses.js';
 import mongoxlsx from 'mongo-xlsx';
+import lodash from 'lodash';
 
 import '../lib/collections/projects.js';
 import { Studies } from '/lib/collections/studies.js';
@@ -12,26 +13,26 @@ import { Studies } from '/lib/collections/studies.js';
 import { Accounts } from 'meteor/accounts-base';
 import { AccountsServer } from 'meteor/accounts-base';
 
-Accounts.onCreateUser((options, user) =>{
-  options.profile = {};
-  options.profile.lastname = "Mustermann";
-  options.profile.firstname = "Max";
-  options.profile.fullname = "Max Mustermann";
-  options.profile.matricNo = 123456;
-  options.profile.role = "Dozent";
-  options.profile.title = "Dozent";
-  options.profile.studyCourse = {
-    id: 908,
-    departmentId: 23,
-    facultyId: 20
-  },
-  options.profile.gender = "male";
-  options.profile.aboutMe = "Lorem Ipsum ist ein einfacher Demo-Text für die Print- und Schriftindustrie. Lorem Ipsum ist in der Industrie bereits der Standard Demo-Text seit 1500, als ein unbekannter Schriftsteller eine Hand voll Wörter nahm und diese durcheinander warf um ein Musterbuch zu erstellen.";
-  options.profile.skills = ["Python", "Java", "HTML/CSS", "Webdesign"];
-  options.profile.avatar = "null";
-  user.profile = options.profile;
-  return user;
-});
+// Accounts.onCreateUser((options, user) =>{
+//   options.profile = {};
+//   options.profile.lastname = "Mustermann";
+//   options.profile.firstname = "Max";
+//   options.profile.fullname = "Max Mustermann";
+//   options.profile.matricNo = 123456;
+//   options.profile.role = "Dozent";
+//   options.profile.title = "Dozent";
+//   options.profile.studyCourse = {
+//     id: 908,
+//     departmentId: 23,
+//     facultyId: 20
+//   },
+//   options.profile.gender = "male";
+//   options.profile.aboutMe = "Lorem Ipsum ist ein einfacher Demo-Text für die Print- und Schriftindustrie. Lorem Ipsum ist in der Industrie bereits der Standard Demo-Text seit 1500, als ein unbekannter Schriftsteller eine Hand voll Wörter nahm und diese durcheinander warf um ein Musterbuch zu erstellen.";
+//   options.profile.skills = ["Python", "Java", "HTML/CSS", "Webdesign"];
+//   options.profile.avatar = "null";
+//   user.profile = options.profile;
+//   return user;
+// });
 
 LDAP.logging = false;
 
@@ -55,26 +56,34 @@ LDAP.attributes = [
 ];
 
 LDAP.addFields = function(person) {
-  return {
-    "profile.firstname": person.givenName,
-    "profile.lastname": person.sn,
-    "profile.fullname": person.fullName,
-    "profile.role": person.hhEduPersonStaffCategory,
-    "profile.title": person.hhEduPersonActCat,
-    "profile.studyCourse": {
+  const getGenderString = (genderId) => {
+    if(genderId === '0') {
+      return "female";
+    } else if(genderId === '1') {
+      return "male";
+    }
+    return "unknown";
+  };
+  let profile = {
+    firstname: person.givenName,
+    lastname: person.sn,
+    fullname: person.fullName,
+    role: person.hhEduPersonStaffCategory,
+    title: person.hhEduPersonActCat,
+    studyCourse: {
       id: person.hhEduPersonPrimaryStudyCourse,
       departmentId: person.hhEduPersonPrimaryDept,
       facultyId: person.hhEduPersonPrimaryFaculty,
     },
-    "profile.matricNo": person.hhEduPersonStdMatrNoStrg,
-    "profile.gender": () => {
-      if(person.hhEduPersonGender == 0) {
-        return "female";
-      } else if(person.hhEduPersonGender == 1) {
-        return "male";
-      }
-      return "unknown";
-    },
+    matricNo: person.hhEduPersonStdMatrNoStrg,
+    gender: getGenderString(person.hhEduPersonGender),
+  };
+  console.log(profile);
+  profile.studyCourse = lodash.omitBy(profile.studyCourse, lodash.isNil);
+  profile = lodash.omitBy(profile, lodash.isNil);
+  console.log(profile);
+  return {
+    "profile": profile,
   };
 };
 

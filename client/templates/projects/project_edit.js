@@ -1,7 +1,8 @@
 import { Template } from "meteor/templating";
+import lodash from 'lodash';
 
 import { Courses } from "/lib/collections/courses.js" ;
-import { deleteEditableArrayItem, updateEditPermissions, deleteEditableCourse } from "/lib/methods.js";
+import { deleteEditableArrayItem, deleteEditableCourse } from "/lib/methods.js";
 import { memberSchema } from "/lib/collections/schemas.js";
 import { jobSchema } from "/lib/collections/schemas.js";
 import { contactSchema } from "/lib/collections/schemas.js";
@@ -10,6 +11,13 @@ import { supervisorSchema } from "/lib/collections/schemas.js";
 import { addCourseSchema } from "/lib/collections/schemas.js";
 
 import "./project_edit.html";
+
+const isMembersLastPermission = (editableBy, userId) => {
+  const membersPermissions = lodash.filter(editableBy, function(value) {
+    return value === userId;
+  });
+  return membersPermissions.length === 1;
+};
 
 Template.addCourse.onCreated(function() {
   this.editActive = new ReactiveVar(false);
@@ -110,6 +118,15 @@ Template.member.helpers({
   teamUserIsEditorField () {
     return "team." + this.slot + ".isEditor";
   },
+  showDeleteButton() {
+    return this.userId != Meteor.userId()
+      && lodash.includes(this.currentDoc.editableBy, Meteor.userId());
+  },
+  showLeaveButton() {
+    return this.userId === Meteor.userId()
+      && !(this.currentDoc.isNewProject
+        && isMembersLastPermission(this.currentDoc.editableBy, this.userId));
+  },
 });
 
 Template.member.events({
@@ -139,7 +156,7 @@ Template.member.events({
       group: "team",
       userId: this.userId,
       userRole: this.role,
-      isLastEditor: this.currentDoc.editableBy.length <= 1,
+      editableBy: this.currentDoc.editableBy,
     });
   },
 });
@@ -152,6 +169,10 @@ Template.leaveGroupModal.helpers({
       return "Betreuer";
     }
     return "Unbekannt";
+  },
+  isLastEditor() {
+    const project = Mongo.Collection.get(this.collectionName).findOne(this.docId);
+    return project.editableBy.length === 1;
   },
 });
 
@@ -179,6 +200,15 @@ Template.supervisor.helpers({
   supervisorRoleField () {
     return "team." + this.slot + ".role";
   },
+  showDeleteButton() {
+    return this.userId != Meteor.userId()
+      && lodash.includes(this.currentDoc.editableBy, this.userId);
+  },
+  showLeaveButton() {
+    return this.userId === Meteor.userId()
+      && !(this.currentDoc.isNewProject
+        && isMembersLastPermission(this.currentDoc.editableBy, this.userId));
+  },
 });
 
 Template.supervisor.events({
@@ -202,7 +232,7 @@ Template.supervisor.events({
       group: "supervisors",
       userId: this.userId,
       userRole: this.role,
-      isLastEditor: this.currentDoc.editableBy.length <= 1,
+      editableBy: this.currentDoc.editableBy,
     });
   },
 });
