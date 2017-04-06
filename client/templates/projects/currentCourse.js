@@ -14,6 +14,7 @@ Template.currentCourse.onCreated (function courseOnCreated() {
   Meteor.subscribe("projects");
   Meteor.subscribe("drafts");
   this.createLink = new ReactiveVar(false);
+  Session.set("previousRoute", Router.current().route.getName());
 });
 
 Template.currentCourse.helpers({

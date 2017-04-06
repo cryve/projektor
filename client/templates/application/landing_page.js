@@ -10,6 +10,7 @@ Template.landingPage.onCreated (function landingPageOnCreated() {
   this.setSort = new ReactiveVar("new");
   this.keyWord = new ReactiveArray([]);
   Meteor.subscribe("projects");
+  Session.set("previousRoute", Router.current().route.getName());
 });
 
 Template.landingPage.onRendered(function landingPageOnRendered(){
@@ -18,7 +19,7 @@ Template.landingPage.onRendered(function landingPageOnRendered(){
     keyWord.depend();
     ProjectsIndex.getComponentMethods().search(keyWord.join([separator = ' ']));
   });
-  
+
 });
 
 Template.landingPage.helpers({
@@ -33,7 +34,7 @@ Template.landingPage.helpers({
     searchDoc._id = searchDoc.__originalId;
     delete searchDoc.__originalId;
     return searchDoc;
-    
+
   },
   /*projects2() {
     const body = Projects.search({
@@ -43,9 +44,9 @@ Template.landingPage.helpers({
           }
       }
     }, function(err, people){
-       // all the people who fit the age group are here! 
+       // all the people who fit the age group are here!
     });
-    
+
     return body;
   },*/
     /*searchFilter() {
@@ -170,7 +171,7 @@ Template.landingPage.events({
   'click .listRemove' (event) {
     Template.instance().setSearch.set(false);
     return Template.instance().keyWord.clear();
-    
+
   },
   'change #sortStatus' (event, template){
     var selectedSort = template.$("#sortStatus").val();

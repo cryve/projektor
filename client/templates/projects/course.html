@@ -1,4 +1,8 @@
 <template name="course">
+  <ol class="breadcrumb">
+    <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
+    <li class="active">Meine Kurse</li>
+  </ol>
   <button type="button" class="btn btn-primary btn-create-course">Kurs Erstellen</button>
   <br>
   {{#if $and editActive ($eq currentUser.profile.role "Dozent") }}

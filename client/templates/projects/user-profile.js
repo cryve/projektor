@@ -9,6 +9,7 @@ Template.userProfile.onCreated(function userProfileOnCreated() {
   Meteor.subscribe("projects");
   Meteor.subscribe("usersAll");
   Meteor.subscribe("studies");
+  Session.set("previousRoute", Router.current().route.getName());
 });
 
 Template.userProfile.helpers({

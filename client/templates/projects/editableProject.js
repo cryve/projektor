@@ -23,20 +23,18 @@ Template.editableProject.onCreated(function() {
 
 Template.editableProject.helpers({
 
-
-  result: function() {
-
+  result() {
     return Session.get('result');
   },
-
-  slot: function() {
-
+  previousRoute(){
+    return Session.get("previousRoute");
+  },
+  slot(){
     return Session.get('slot');
   },
-
-
-  log (data) {
-    console.log(data);
+  courseProjekt(){
+   const course = Courses.findOne(this.courseId);
+   return course.courseName + " " + course.courseSemester;
   },
   getCollection() {
     if(this.isNewProject) {
