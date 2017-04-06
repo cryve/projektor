@@ -7,6 +7,7 @@
 
 import { Template } from 'meteor/templating';
 import { Studies } from '/lib/collections/studies.js';
+import lodash from 'lodash';
 
 Template.registerHelper("readableDate", (date) => {
   return moment(date).format("DD.MM.YYYY");
@@ -83,4 +84,15 @@ Template.registerHelper("studyCourseName", (studyCourseIdentifier) => {
     { facultyId: studyCourseIdentifier.facultyId }
   ]});
   return studyCourse && studyCourse.studyCourse;
+});
+
+Template.registerHelper("isUserInGroup", (group, userId) => {
+  let foundUser = false;
+  lodash.forEach(group, function(value) {
+    if(lodash.includes(value, userId)) {
+      foundUser = true;
+      return false; // breaks the loop
+    }
+  });
+  return foundUser;
 });
