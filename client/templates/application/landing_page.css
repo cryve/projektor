@@ -4,53 +4,53 @@ body {
     padding-right: 70px;*/
 }
 
+.tags {
+    background: none repeat scroll 0 0 #fff;
+    border: 1px solid #ccc;
+    display: table;
+    padding: 0.5em;
+    width: 100%;
+}
+
+.tagsRange {
+    width: 70%;
+}
+.tags li.tagAdd, .tags li.addedTag {
+    float: left;
+    margin-bottom: 0.25em;
+    margin-left: 0.25em;
+    margin-right: 0.25em;
+}
+.tags li.addedTag {
+    background: none repeat scroll 0 0 #019f86;
+    border-radius: 2px;
+    color: #fff;
+    padding: 1em;
+}
+.tags input, li.addedTag {
+    border: 1px solid;
+    border-radius: 2px;
+    box-shadow: none;
+    display: block;
+    padding: 0.5em;
+}
+.tags input:hover {
+    border: 1px solid #000;
+}
+span.tagRemove {
+    cursor: pointer;
+    display: inline-block;
+    padding-left: 0.5em;
+}
+span.tagRemove:hover {
+    color: #222222;
+}
+
 .navbar-inverse .navbar-brand {
   color: white;
 }
 
-.search-box {
-  display: inline-block;
-  width: 100%;
-  border-radius: 3px;
-  padding: 4px 55px 4px 15px;
-  position: relative;
-  background: #fff;
-  border: 1px solid #ddd;
-  -webkit-transition: all 200ms ease-in-out;
-  -moz-transition: all 200ms ease-in-out;
-  transition: all 200ms ease-in-out;
-}
-.search-box.hovered, .search-box:hover, .search-box:active {
-  border: 1px solid #aaa;
-}
-.search-box input[type=text] {
-  border: none;
-  box-shadow: none;
-  display: inline-block;
-  padding: 0;
-  background: transparent;
-}
-.search-box input[type=text]:hover, .search-box input[type=text]:focus, .search-box input[type=text]:active {
-  box-shadow: none;
-}
-.search-box .search-btn {
-  position: absolute;
-  right: 2px;
-  top: 2px;
-  color: #aaa;
-  border-radius: 3px;
-  font-size: 21px;
-  padding: 5px 10px 1px;
-  -webkit-transition: all 200ms ease-in-out;
-  -moz-transition: all 200ms ease-in-out;
-  transition: all 200ms ease-in-out;
-}
-.search-box .search-btn:hover {
-  color: #fff;
-  background-color: #428bca;
-}
-
-.tags {
+/*.tags {
   zoom: 1;
 }
 
@@ -157,4 +157,4 @@ body {
   -moz-transition-property: padding, max-width;
   -o-transition-property: padding, max-width;
   transition-property: padding, max-width;
-}
+}*/

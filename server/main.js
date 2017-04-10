@@ -13,26 +13,26 @@ import { Studies } from '/lib/collections/studies.js';
 import { Accounts } from 'meteor/accounts-base';
 import { AccountsServer } from 'meteor/accounts-base';
 
-// Accounts.onCreateUser((options, user) =>{
-//   options.profile = {};
-//   options.profile.lastname = "Mustermann";
-//   options.profile.firstname = "Max";
-//   options.profile.fullname = "Max Mustermann";
-//   options.profile.matricNo = 123456;
-//   options.profile.role = "Dozent";
-//   options.profile.title = "Dozent";
-//   options.profile.studyCourse = {
-//     id: 908,
-//     departmentId: 23,
-//     facultyId: 20
-//   },
-//   options.profile.gender = "male";
-//   options.profile.aboutMe = "Lorem Ipsum ist ein einfacher Demo-Text für die Print- und Schriftindustrie. Lorem Ipsum ist in der Industrie bereits der Standard Demo-Text seit 1500, als ein unbekannter Schriftsteller eine Hand voll Wörter nahm und diese durcheinander warf um ein Musterbuch zu erstellen.";
-//   options.profile.skills = ["Python", "Java", "HTML/CSS", "Webdesign"];
-//   options.profile.avatar = "null";
-//   user.profile = options.profile;
-//   return user;
-// });
+Accounts.onCreateUser((options, user) =>{
+  options.profile = {};
+  options.profile.lastname = "Mustermann";
+  options.profile.firstname = "Max";
+  options.profile.fullname = "Max Mustermann";
+  options.profile.matricNo = 123456;
+  options.profile.role = "Dozent";
+  options.profile.title = "Dozent";
+  options.profile.studyCourse = {
+    id: 908,
+    departmentId: 23,
+    facultyId: 20
+  },
+  options.profile.gender = "male";
+  options.profile.aboutMe = "Lorem Ipsum ist ein einfacher Demo-Text für die Print- und Schriftindustrie. Lorem Ipsum ist in der Industrie bereits der Standard Demo-Text seit 1500, als ein unbekannter Schriftsteller eine Hand voll Wörter nahm und diese durcheinander warf um ein Musterbuch zu erstellen.";
+  options.profile.skills = ["Python", "Java", "HTML/CSS", "Webdesign"];
+  options.profile.avatar = "null";
+  user.profile = options.profile;
+  return user;
+});
 
 LDAP.logging = false;
 

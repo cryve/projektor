@@ -2,20 +2,50 @@
   <ol class="breadcrumb">
     <li class="active">Startseite</li>
   </ol>
-  <div class='row'>
-    <div class='col-md-6'>
-      <div class='search-box'>
-        <form class='search-form new-tag'>
-          <input id="listExName" class='form-control' placeholder='ex: Ruby, Webdesign, Java, CSS, Javascript, Node, C#, SQL, etc.' type='text'>
-          <button id="listExAdd" class='btn btn-link search-btn'>
-            <i class='glyphicon glyphicon-search'></i>
-          </button>
+
+
+  <div id="container">
+  	<ul class="tags">
+      <form class="navbar-form navbar-right">
+        <div class="form-group searchBoxFixed" style="display:inline">
+          <div class="input-group">
+            <input type="text" id="listExName" class="form-control" placeholder="Search">
+          </div>
+        </div>
+        <button type="submit" id="listExAdd" class="btn btn-primary">Submit</button>
+      </form>
+      <div class="tagsRange">
+      {{#each tags }}
+        {{#if $eq this ""}}
+
+        {{else}}
+          <li class="addedTag">{{this}}<span class="tagRemove listExRemove">x</span><input type="hidden" name="tags[]" value="Web Deisgn"></li>
+        {{/if}}
+      {{/each}}
+    </div>
+
+  	</ul>
+  </div>
+  <!-- <section class="input">
+    <div class="container">
+      <div class="col-xs-8 col-xs-offset-2">
+        <form>
+          <div class="input-group">
+            <input class="form-control" type="text" id="input-text" data-toggle="tooltip" data-placemnet="top" title="Example: John Doe, yyyy-mm-dd" placeholder="Enter your name and birthdate..."/>
+            <div class="input-group-btn">
+              <button class="btn btn-default" onclick="addRecord()" id="submit">Submit</button>
+            </div>
+          </div>
         </form>
       </div>
     </div>
-  </div>
-  <div class="container">
-    <ul class="tags unstyled">
+  </section> -->
+
+              <!-- <button class="btn btn-primary listRemove" type="button" title="Delete tags">
+                Filter Löschen <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+              </button> -->
+
+    <!-- <ul class="tags unstyled">
       {{#each tags }}
         {{#if $eq this ""}}
 
@@ -28,29 +58,26 @@
         {{/if}}
       {{/each}}
 
-    </ul>
-  </div>
+    </ul> -->
   <!--{{> EasySearch.Input index=projectsIndex }}-->
 
   {{#EasySearch.IfInputEmpty index=projectsIndex}}
     <div class="project-cards">
-      <div class="container">
-        <div class="row">
-          {{#each project in projects}}
-            <div class="col-lg-3">
-              {{#if project.coverImg}}
-                {{>projectCard currentDoc=project}}
-              {{else}}
-                {{>projectCardCoverless currentDoc=project}}
-              {{/if}}
-            </div>
-          {{/each}}
-        </div>
+      <div class="row">
+        {{#each project in projects}}
+          <div class="col-lg-3">
+            {{#if project.coverImg}}
+              {{>projectCard currentDoc=project}}
+            {{else}}
+              {{>projectCardCoverless currentDoc=project}}
+            {{/if}}
+          </div>
+        {{/each}}
       </div>
     </div>
   {{else}}
     {{#EasySearch.IfNoResults index=projectsIndex}}
-      Keine Ergebnise!
+      <h3>Leider keine Projekte gefunden :( </h3>
     {{/EasySearch.IfNoResults}}
 
     {{#EasySearch.IfSearching index=projectsIndex}}
