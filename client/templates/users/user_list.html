@@ -3,7 +3,30 @@
     <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
     <li class="active">Mitglieder</li>
   </ol>
-  
+
+  <div id="container">
+  	<ul class="tags">
+      <form class="navbar-form navbar-right">
+        <div class="form-group searchBoxFixed" style="display:inline">
+          <div class="input-group">
+            <input type="text" id="listExName" class="form-control" placeholder="Search">
+          </div>
+        </div>
+        <button type="submit" id="listExAdd" class="btn btn-primary">Suchen</button>
+      </form>
+      <div class="tagsRange">
+      {{#each tags }}
+        {{#if $eq this ""}}
+
+        {{else}}
+          <li class="addedTag">{{this}}<span class="tagRemove listExRemove">x</span></li>
+        {{/if}}
+      {{/each}}
+    </div>
+
+  	</ul>
+  </div>
+
   <table class="table table-hover">
     <thead>
       <tr>
