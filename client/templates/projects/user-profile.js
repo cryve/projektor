@@ -19,22 +19,6 @@ Template.userProfile.helpers({
   getUserCollection() {
     return Meteor.users;
   },
-  departmentName(studyCourseIdentifier) {
-    const studyCourse = studyCourseIdentifier && Studies.findOne({ $and: [
-      { studyCourseId: studyCourseIdentifier.id },
-      { departmentId: studyCourseIdentifier.departmentId },
-      { facultyId: studyCourseIdentifier.facultyId }
-    ]});
-    return studyCourse && studyCourse.department;
-  },
-  facultyName(studyCourseIdentifier) {
-    const studyCourse = studyCourseIdentifier && Studies.findOne({ $and: [
-      { studyCourseId: studyCourseIdentifier.id },
-      { departmentId: studyCourseIdentifier.departmentId },
-      { facultyId: studyCourseIdentifier.facultyId }
-    ]});
-    return studyCourse && studyCourse.faculty;
-  },
 });
 
 Template.userProfile.events({

@@ -13,6 +13,7 @@ import { Studies } from '/lib/collections/studies.js';
 import { Accounts } from 'meteor/accounts-base';
 import { AccountsServer } from 'meteor/accounts-base';
 
+<<<<<<< HEAD
 Accounts.onCreateUser((options, user) =>{
   options.profile = {};
   options.profile.lastname = "Mustermann";
@@ -33,6 +34,26 @@ Accounts.onCreateUser((options, user) =>{
   user.profile = options.profile;
   return user;
 });
+=======
+// Accounts.onCreateUser((options, user) =>{
+//   options.profile = {};
+//   options.profile.lastname = "Mustermann";
+//   options.profile.firstname = "Max";
+//   options.profile.fullname = "Max Mustermann";
+//   options.profile.matricNo = 123456;
+//   options.profile.role = "Mitarbeiter";
+//   options.profile.title = "Akadem. Mitarbeiter/in";
+//   options.profile.studyCourseId = 908;
+//   options.profile.departmentId = 23;
+//   options.profile.facultyId = 20;
+//   options.profile.gender = "male";
+//   options.profile.aboutMe = "Lorem Ipsum ist ein einfacher Demo-Text für die Print- und Schriftindustrie. Lorem Ipsum ist in der Industrie bereits der Standard Demo-Text seit 1500, als ein unbekannter Schriftsteller eine Hand voll Wörter nahm und diese durcheinander warf um ein Musterbuch zu erstellen.";
+//   options.profile.skills = ["Python", "Java", "HTML/CSS", "Webdesign"];
+//   options.profile.avatar = "null";
+//   user.profile = options.profile;
+//   return user;
+// });
+>>>>>>> ffa2b0275ce78e6f7c2f12a2ca26973607fb4cce
 
 LDAP.logging = false;
 
@@ -95,25 +116,21 @@ Meteor.startup(function() {
   });
   XlsFiles.remove({});
   Courses.remove({});
-});
+  Studies.remove();
 
-Meteor.startup(function () {
   fs = require('fs');
   const model = [
     { "displayName": "Studiengangsnummer", "access": "studyCourseId", "type": "number" },
-    { "displayName": "Studiengangsname", "access": "studyCourse", "type": "string" },
+    { "displayName": "Studiengangsname", "access": "studyCourseName", "type": "string" },
     { "displayName": "Abschlussnummer", "access": "degreeId", "type": "number" },
-    { "displayName": "Abschlussname", "access": "degree", "type": "string" },
-    { "displayName": "Abschlussnummer", "access": "degreeId", "type": "number" },
+    { "displayName": "Abschlussname", "access": "degreeName", "type": "string" },
     { "displayName": "Prüfungsordnung", "access": "examRegulationsId", "type": "number" },
-    { "displayName": "Abschlussname", "access": "degree", "type": "string" },
     { "displayName": "Departmentnummer", "access": "departmentId", "type": "number" },
-    { "displayName": "Departmentname", "access": "department", "type": "string" },
+    { "displayName": "Departmentname", "access": "departmentName", "type": "string" },
     { "displayName": "Fakultätsnummer", "access": "facultyId", "type": "number" },
-    { "displayName": "Fakultätsname", "access": "faculty", "type": "string" },
+    { "displayName": "Fakultätsname", "access": "facultyName", "type": "string" },
   ];
   const xlsxFile  = Assets.absoluteFilePath('studycourse_lookup.xlsx');
-  Studies.remove();
   mongoxlsx.xlsx2MongoData(xlsxFile, model, Meteor.bindEnvironment((err, data) => {
     _.each(data, function(studyCourse) {
       Studies.insert(studyCourse);

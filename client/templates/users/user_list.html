@@ -24,7 +24,7 @@
           avatarURL=(getAvatarURL user._id "avatar50")
           firstName=user.profile.firstname
           lastName=user.profile.lastname
-          studyCourse=(studyCourseName user.profile.studyCourse)
+          studyCourse=(studyCourseName user.profile.studyCourseId user.profile.departmentId user.profile.facultyId)
           interests=user.profile.skills
           contacts=user.profile.contacts
           role=user.profile.role

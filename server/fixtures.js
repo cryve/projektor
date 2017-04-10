@@ -41,11 +41,9 @@ Factory.define('user', Meteor.users, {
     role: () => faker.random.arrayElement(sampleUserRoles),
     title: () => faker.random.arrayElement(sampleUserTitles),
     gender: () => faker.random.arrayElement(sampleUserGenders),
-    studyCourse: {
-      id: () => faker.random.number(),
-      departmentId: () => faker.random.number(),
-      facultyId: () => faker.random.number(),
-    },
+    studyCourseId: () => faker.random.number(),
+    departmentId: () => faker.random.number(),
+    facultyId: () => faker.random.number(),
     aboutMe: () => faker.lorem.sentences(),
     skills: () => [faker.name.jobArea(), faker.name.jobArea(), faker.name.jobArea(), faker.name.jobArea(), faker.name.jobArea()],
     contacts: () => _.times(_.random(maxSizeProfileContacts), i => ({
