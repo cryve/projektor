@@ -8,9 +8,12 @@
     <button id="delete-avatar-button" class="btn btn-primary navbar-btn navbar-right">Avatar Löschen</button>
   {{/if}}
     <img src= {{getAvatarURL this._id "avatar50"}} />
-    <h1>{{this.profile.fullname}}<br><span>{{studyCourseName this.profile.studyCourse}}</span></h1>
-    <p>{{departmentName this.profile.studyCourse}}</p>
-    <p>Fakultät {{facultyName this.profile.studyCourse}}</p>
+    <h1>{{this.profile.fullname}}<br><small>{{this.profile.title}}</small></h1>
+    {{#if this.profile.studyCourseId}}
+      <p>{{studyCourseName this.profile.studyCourseId this.profile.departmentId this.profile.facultyId}}</p>
+    {{/if}}
+    <p>{{departmentName this.profile.departmentId}}</p>
+    <p>Fakultät: {{facultyName this.profile.facultyId}}</p>
     <br>
 
   <div class="row">

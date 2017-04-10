@@ -80,14 +80,26 @@ Template.registerHelper("isProjectEditableBy", (project, userId) => {
   return false;
 });
 
-Template.registerHelper("studyCourseName", (studyCourseIdentifier) => {
+Template.registerHelper("studyCourseName", (studyCourseId, departmentId, facultyId) => {
   Meteor.subscribe("studies");
-  const studyCourse = studyCourseIdentifier && Studies.findOne({ $and: [
-    { studyCourseId: studyCourseIdentifier.id },
-    { departmentId: studyCourseIdentifier.departmentId },
-    { facultyId: studyCourseIdentifier.facultyId }
+  const studyCourse = Studies.findOne({ $and: [
+    { "studyCourseId": studyCourseId },
+    { "departmentId": departmentId },
+    { "facultyId": facultyId }
   ]});
-  return studyCourse && studyCourse.studyCourse;
+  return studyCourse && studyCourse.name;
+});
+
+Template.registerHelper("departmentName", (departmentId) => {
+  Meteor.subscribe("studies");
+  const studyCourse = Studies.findOne({ "departmentId": departmentId });
+  return studyCourse && studyCourse.departmentName;
+});
+
+Template.registerHelper("facultyName", (facultyId) => {
+  Meteor.subscribe("studies");
+  const studyCourse = Studies.findOne({ "facultyId": facultyId });
+  return studyCourse && studyCourse.facultyName;
 });
 
 Template.registerHelper("isUserInGroup", (group, userId) => {
