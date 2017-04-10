@@ -1,0 +1,27 @@
+<template name="loginDropdown">
+  <li class="dropdown">
+    <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+      <span class="glyphicon glyphicon-log-in"></span> Anmelden
+    </a>
+    <div class="dropdown-menu" style="padding: 15px; padding-bottom: 10px;">
+    <form class="form-horizontal">
+      <input id="inputUserId" class="form-control login" type="text" name="ldap" placeholder="HAW-Benutzerkennung" />
+      <input id="inputPassword" class="form-control login" type="password" name="password" placeholder="HAW-Passwort"/>
+      {{#if loggingIn}}
+        <div class="alert alert-info" role="alert">
+          Anmeldung wird durchgeführt...
+        </div>
+      {{else}}
+        {{#if failedLogin}}
+          <div class="alert alert-danger" role="alert">
+            <strong>Anmeldung fehlgeschlagen!</strong> Bitte überprüfe Benutzerkennung und Passwort.
+          </div>
+        {{/if}}
+      {{/if}}
+      <button type="submit" id="login-buttons-password" class="btn btn-primary btn-block">
+        Anmelden
+      </button>
+    </form>
+    </div>
+  </li>
+</template>
