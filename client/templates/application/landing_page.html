@@ -12,14 +12,14 @@
             <input type="text" id="listExName" class="form-control" placeholder="Search">
           </div>
         </div>
-        <button type="submit" id="listExAdd" class="btn btn-primary">Submit</button>
+        <button type="submit" id="listExAdd" class="btn btn-primary">Suchen</button>
       </form>
       <div class="tagsRange">
       {{#each tags }}
         {{#if $eq this ""}}
 
         {{else}}
-          <li class="addedTag">{{this}}<span class="tagRemove listExRemove">x</span><input type="hidden" name="tags[]" value="Web Deisgn"></li>
+          <li class="addedTag">{{this}}<span class="tagRemove listExRemove">x</span></li>
         {{/if}}
       {{/each}}
     </div>
