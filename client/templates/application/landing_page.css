@@ -21,13 +21,14 @@ body {
     margin-right: 0.25em;
 }
 .tags li.addedTag {
-    background: none repeat scroll 0 0 #99ccff;
-    border-radius: 100px 100px 100px 100px;
-    -moz-border-radius: 100px 100px 100px 100px;
-    -webkit-border-radius: 100px 100px 100px 100px;
-    border: 0px solid #000000;
-    margin-top:0.65em;
-    padding: 0.5em;
+  border: 0px solid #000000;
+  color: white;
+  margin-top:0.65em;
+  padding: 0.5em;
+  background: #428bca;
+  -webkit-box-shadow: 4px 6px 5px -2px rgba(0,0,0,0.75);
+  -moz-box-shadow: 4px 6px 5px -2px rgba(0,0,0,0.75);
+  box-shadow: 4px 6px 5px -2px rgba(0,0,0,0.75);
 }
 .tags input, li.addedTag {
     border: 1px solid;
