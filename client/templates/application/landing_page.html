@@ -2,6 +2,34 @@
   <ol class="breadcrumb">
     <li class="active">Startseite</li>
   </ol>
+  <div class='row'>
+    <div class='col-md-6'>
+      <div class='search-box'>
+        <form class='search-form new-tag'>
+          <input id="listExName" class='form-control' placeholder='ex: Ruby, Webdesign, Java, CSS, Javascript, Node, C#, SQL, etc.' type='text'>
+          <button id="listExAdd" class='btn btn-link search-btn'>
+            <i class='glyphicon glyphicon-search'></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <ul class="tags unstyled">
+      {{#each tags }}
+        {{#if $eq this ""}}
+
+        {{else}}
+          <li>
+            <a class="btn listExRemove" title="Remove this tag">
+              {{this}} <span>x</span>
+            </a>
+          </li>
+        {{/if}}
+      {{/each}}
+
+    </ul>
+  </div>
   <!--{{> EasySearch.Input index=projectsIndex }}-->
 
   {{#EasySearch.IfInputEmpty index=projectsIndex}}
@@ -22,11 +50,11 @@
     </div>
   {{else}}
     {{#EasySearch.IfNoResults index=projectsIndex}}
-      NO RESULTS BASTARD!!!!
+      Keine Ergebnise!
     {{/EasySearch.IfNoResults}}
 
     {{#EasySearch.IfSearching index=projectsIndex}}
-      searching.....
+      Suchen.....
     {{/EasySearch.IfSearching}}
 
     <div class="project-cards">
@@ -53,24 +81,8 @@
     <option value="bestScore">Score</option>
   </select>-->
 
-  <ul class="unstyled">
-    {{#each tags }}
-      {{#if $eq this ""}}
 
-      {{else}}
-        <li>
-          <a class="btn listExRemove" title="Remove this tag">x</a> {{ this }}
-        </li>
-      {{/if}}
-    {{/each}}
-  </ul>
-  <br>
-  Suche:
-  <form class="new-tag">
-    <input id="listExName" type="text"> <a class="btn" id="listExAdd">Search</a>
-    <a class="btn listRemove" title="Remove this tags">delete</a>
 
-  </form>
   <!-- <td>
     <select id="sortStatus">
         <option value="new">New -> Old</option>

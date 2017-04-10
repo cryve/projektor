@@ -49,10 +49,12 @@ Template.editableProject.helpers({
     const users = Meteor.users.find(settings.hash.role ? { "profile.role" : settings.hash.role } : {});
     let userList = [" "];
     users.forEach(function (user){
-      userList.push({
-        value: user._id,
-        label: user.profile.firstname + " " + user.profile.lastname,
-      });
+      if (user && user.profile){
+        userList.push({
+          value: user._id,
+          label: user.profile.firstname + " " + user.profile.lastname,
+        });
+      }
     });
     // remove users who are already in current group, but keep current user selection (firstOption)
     if (settings.hash.exclude) {
