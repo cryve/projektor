@@ -6,6 +6,7 @@ import { XlsFiles } from '/lib/collections/xlsFiles.js';
 import { Courses } from '/lib/collections/courses.js';
 import mongoxlsx from 'mongo-xlsx';
 import lodash from 'lodash';
+import { EasySearch } from 'meteor/easysearch'
 
 import '../lib/collections/projects.js';
 import { Studies } from '/lib/collections/studies.js';
@@ -87,6 +88,9 @@ LDAP.addFields = function(person) {
 };
 
 Meteor.startup(function() {
+  EasySearch.config({
+    'host': '141.22.50.208:9200'
+  });
   WebApp.addHtmlAttributeHook(function() {
     return {
         "lang": "de"
