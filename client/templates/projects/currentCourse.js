@@ -6,12 +6,15 @@ import { Projects } from '/lib/collections/projects.js';
 import { Drafts } from '/lib/collections/drafts.js';
 import { Template } from 'meteor/templating';
 import { insertEmptyCourseDraft } from "/lib/methods.js";
+import { setDraftIdInProfile } from "/lib/methods.js";
+import lodash from 'lodash';
 
 Template.currentCourse.onCreated (function courseOnCreated() {
   XlsFiles.remove({userId:this._id});
   Meteor.subscribe('files.xlsFiles.all');
   Meteor.subscribe("courses");
   Meteor.subscribe("projects");
+  Meteor.subscribe("usersAll");
   Meteor.subscribe("drafts");
   this.createLink = new ReactiveVar(false);
   Session.set("previousRoute", Router.current().route.getName());
@@ -24,18 +27,50 @@ Template.currentCourse.helpers({
   projects(){
     return Projects.find({}, { sort: { createdAt: -1 } });
   },
-  findProjectInDrafts(){
-    return Meteor.user() && Meteor.user().profile && Meteor.user().profile.currentDraftId;
+  checkIfDraft(){
+    var check = false;
+    const currentDoc = this;
+    if(Meteor.user() && Meteor.user().profile && Meteor.user().profile.drafts){
+      lodash.forEach(Meteor.user().profile.drafts, function(value){
+        if (value.draftId && (value.courseId == currentDoc._id)){
+          console.log("test");
+          console.log(this);
+          console.log(value.draftId)
+          console.log(value.courseId);
+          console.log(currentDoc._id);
+          check = true
+          return false;
+        }
+      });
+    }
+    return check;
+  },
+  isDraftRendered() {
+    var check = false;
+    const currentDoc = this;
+    if(Meteor.user() && Meteor.user().profile && Meteor.user().profile.drafts){
+      lodash.forEach(Meteor.user().profile.drafts, function(value){
+        if (value.draftId && (value.courseId == currentDoc._id)){
+          check = Router.current().params._id === value.draftId;
+          return false;
+        }
+      });
+    }
+    return check
   },
 });
 
 Template.currentCourse.events({
   "click .create-course-project-btn" (event) {
     // Go to a not finished draft if exists, else go to new draft
-    var lastDraft 
-    if(Meteor.user().profile.currentDraftId){
-      const id = Meteor.user().profile.currentDraftId;
-      lastDraft = Drafts.findOne(id);
+    var lastDraft
+    const currentDoc = this;
+    if(Meteor.user() && Meteor.user().profile && Meteor.user().profile.drafts){
+      lodash.forEach(Meteor.user().profile.drafts, function(value){
+        if (value.draftId && (value.courseId == currentDoc._id)){
+          lastDraft = Drafts.findOne(value.draftId);
+        }
+      });
     }
 
     let draftId;
@@ -53,6 +88,14 @@ Template.currentCourse.events({
           } else {
             alert(err);
           }
+        }
+      });
+      setDraftIdInProfile.call({
+        userId: Meteor.userId(),
+        draftId: draftId,
+        courseId: this._id}, (err, res) => {
+        if (err) {
+          alert(err);
         }
       });
     }

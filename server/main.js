@@ -86,9 +86,6 @@ LDAP.addFields = function(person) {
 };
 
 Meteor.startup(function() {
-  EasySearch.config({
-    'host': '141.22.50.208:9200'
-  });
   WebApp.addHtmlAttributeHook(function() {
     return {
         "lang": "de"

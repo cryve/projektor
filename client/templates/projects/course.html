@@ -5,7 +5,7 @@
   </ol>
   <button type="button" class="btn btn-primary btn-create-course">Kurs Erstellen</button>
   <br>
-  {{#if $and editActive ($neq currentUser.profile.role "Student") }}
+  {{#if $and editActive ($eq currentUser.profile.role "Mitarbeiter") }}
     <!-- {{#autoForm id="editTitle" type="update" doc=currentDoc collection=currentCollection }} -->
     {{#autoForm id="course" type="method" meteormethod=(getMethodString getCollection._name "insert") doc=this collection=getCollection }}
     <div class="form-group">
@@ -19,7 +19,7 @@
     </div>
     {{/autoForm}}
   {{ else }}
-    {{#if $and editCourse ($neq currentUser.profile.role "Student") }}
+    {{#if $and editCourse ($eq currentUser.profile.role "Mitarbeiter") }}
       {{#autoForm id="updateCourse" type="method-update" singleMethodArgument=true meteormethod=(getMethodString getCollection._name "updateEditable") doc=currentDoc collection=getCollection }}
       <div class="form-group">
         {{> afFieldInput name="courseName" type="text" placeholder="Kursname hinzufügen" }}

@@ -8,15 +8,12 @@
     {{courseSemester}}
     {{studyCourse}}
 
-    {{#if $eq findProjectInDrafts currentUser._id}}
-      {{#if $eq route currentUser._id}}
-        <button type="button" disabled class="btn btn-primary navbar-btn create-course-project-btn">Fortfahren</button>
-      {{else}}
-        <button class="btn btn-primary navbar-btn create-course-project-btn">Fortfahren</button>
-      {{/if}}
+    {{#if checkIfDraft }}
+      <button type="button" disabled={{isDraftRendered}} class="btn btn-primary navbar-btn create-course-project-btn">Fortfahren</button>
     {{else}}
       <button class="btn btn-primary navbar-btn create-course-project-btn">Neues Kursprojekt erstellen</button>
     {{/if}}
+    
     <button id="excel-button" class="btn btn-primary navbar-btn navbar-right">export</button>
     {{#if createLink}}
       {{> file}}
