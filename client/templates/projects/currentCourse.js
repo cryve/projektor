@@ -62,6 +62,7 @@ Template.currentCourse.helpers({
 
 Template.currentCourse.events({
   "click .create-course-project-btn" (event) {
+    Session.set("currentCourse", this._id);
     // Go to a not finished draft if exists, else go to new draft
     var lastDraft
     const currentDoc = this;

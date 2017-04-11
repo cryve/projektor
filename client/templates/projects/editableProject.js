@@ -33,10 +33,14 @@ Template.editableProject.helpers({
     return Session.get('slot');
   },
   courseProjekt(){
-   const course = Courses.findOne(this.courseId);
+    console.log(Session.get("currentCourse"));
+   const course = Courses.findOne(Session.get("currentCourse"));
    if (course){
      return course.courseName + " " + course.courseSemester;
    }
+  },
+  getCourseId(){
+    return Session.get("currentCourse")
   },
   getCollection() {
     if(this.isNewProject) {

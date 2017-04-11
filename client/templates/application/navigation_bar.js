@@ -40,6 +40,7 @@ Template.navigationBar.helpers({
 
 Template.navigationBar.events({
   "click .create-project-btn" (event) {
+    Session.set("previousRoute", Router.current().route.getName());
     let currentDraftId
     // Go to a not finished draft if exists, else go to new draft
     if(Meteor.user() && Meteor.user().profile && Meteor.user().profile.drafts){
@@ -62,14 +63,18 @@ Template.navigationBar.events({
           }
         }
       });
-      setDraftIdInProfile.call({
-        userId: Meteor.userId(),
-        draftId: currentDraftId }, (err, res) => {
-        if (err) {
-          alert(err);
-        }
-      });
+      if(Meteor.user()){
+        setDraftIdInProfile.call({
+          userId: Meteor.userId(),
+          draftId: currentDraftId }, (err, res) => {
+          if (err) {
+            alert(err);
+          }
+        });
+      }
     }
-    Router.go("newProject", {_id: currentDraftId});
+    if(Meteor.user()){
+      Router.go("newProject", {_id: currentDraftId});
+    }
   }
 });
