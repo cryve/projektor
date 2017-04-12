@@ -319,11 +319,21 @@
     <div class="media-body">
       <h4 class="media-heading">
         <a href="{{pathFor 'userProfile' _id=this.userId}}">{{getFullUsername this.userId}}</a>
-        {{#if showLeaveButton }}
-          <a href=""><span class="glyphicon glyphicon-minus text-danger show-leave-modal"></span></a>
+        {{#if currentDoc.isNewProject}}
+          {{#if $and showLeaveButton ($neq this.userId currentUser._id) }}
+            <a href=""><span class="glyphicon glyphicon-minus text-danger show-leave-modal"></span></a>
+          {{else}}
+            {{#if showDeleteButton }}
+              <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-supervisor"></span></a>
+            {{/if}}
+          {{/if}}
         {{else}}
-          {{#if showDeleteButton }}
-            <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-supervisor"></span></a>
+          {{#if $and showLeaveButton this }}
+            <a href=""><span class="glyphicon glyphicon-minus text-danger show-leave-modal"></span></a>
+          {{else}}
+            {{#if showDeleteButton }}
+              <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-supervisor"></span></a>
+            {{/if}}
           {{/if}}
         {{/if}}
       </h4>

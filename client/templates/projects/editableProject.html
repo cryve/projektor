@@ -93,9 +93,9 @@
               <div class="panel-body">
                 <ul class="media-list">
                   {{#each member in supervisors}}
-                    {{> supervisor currentDoc=this userId=member.userId role=member.role userList=(suggestedUsers exclude=this.supervisors role="Dozent" firstOption=member.userId) slot=@index currentCollection=getCollection }}
+                    {{> supervisor currentDoc=this userId=member.userId role=member.role userList=(suggestedUsers exclude=this.supervisors role="Mitarbeiter" firstOption=member.userId) slot=@index currentCollection=getCollection }}
                   {{/each}}
-                  {{> addSupervisor currentDoc=this userList=(suggestedUsers exclude=this.supervisors role="Dozent") currentCollection=getCollection }}
+                  {{> addSupervisor currentDoc=this userList=(suggestedUsers exclude=this.supervisors role="Mitarbeiter") currentCollection=getCollection }}
                 </ul>
               </div>
             </div> <!-- /.panel-default supervisors  -->

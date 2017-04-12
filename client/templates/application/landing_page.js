@@ -27,7 +27,6 @@ Template.landingPage.helpers({
     return Projects.find({}, { sort: { createdAt: -1 } });
   },
   projectsIndex: () => {
-    console.log(ProjectsIndex);
     return ProjectsIndex;
   },
   originalDoc(searchDoc) {
@@ -141,7 +140,6 @@ Template.landingPage.helpers({
     return Template.instance().setSort.get();
   },*/
   tags: function() {
-    console.log(Template.instance().keyWord.array());
     return Template.instance().keyWord.array();
   }
 

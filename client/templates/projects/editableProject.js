@@ -34,10 +34,10 @@ Template.editableProject.helpers({
   },
   courseProjekt(){
     console.log(Session.get("currentCourse"));
-   const course = Courses.findOne(Session.get("currentCourse"));
-   if (course){
-     return course.courseName + " " + course.courseSemester;
-   }
+    const course = Courses.findOne(Session.get("currentCourse"));
+    if (course){
+      return course.courseName + " " + course.courseSemester;
+    }
   },
   getCourseId(){
     return Session.get("currentCourse")

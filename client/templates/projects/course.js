@@ -23,17 +23,18 @@ Template.course.helpers({
     return Courses.find({});
   },
   countCourseProjects(courseId, owner){
-    var count = Projects.find({courseId: courseId},{supervisors:{$elemMatch:{userId: owner}}}).count();
+    var count = Projects.find({courseId: courseId, supervisors:{$elemMatch:{userId: owner}}}).count();
     return count;
   },
   countStudents(courseId, owner){
     var students = [];
-    const courseProjects = Projects.find({courseId:courseId}, {supervisors:{$elemMatch:{userId: owner}}})
+    const courseProjects = Projects.find({courseId:courseId, supervisors:{$elemMatch:{userId: owner}}})
     courseProjects.forEach(function(project) {
       if(project.team){
         lodash.forEach(project.team, function(value) {
-          if((!lodash.includes(students, value.userId)) && (value.userId != owner)){
-            students.push(value.userId)
+          var user = Meteor.users.findOne(value.userId)
+          if((!lodash.includes(students, user._id)) && (user.profile.role == "Student") ){
+            students.push(user._id)
           }
         });
       }
