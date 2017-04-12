@@ -102,7 +102,7 @@ Template.editableProject.events({
         }
     });
     var course = Courses.findOne(this.courseId);
-    if(course && this.supervisors && ((Meteor.userId() == this.supervisors[0].userId) || (Meteor.userId() == this.editableBy[0]))){
+    if(course && this.supervisors && ((Meteor.userId() == this.supervisors[0].userId) || (this.supervisors[0].userId == this.editableBy[0]))){
       Router.go("currentCourseLink", {_id: this.courseId, name: encodeURIComponent(course.courseName)});
     } else {
       Router.go("projectDetails", {_id: newId, title: encodeURIComponent(this.title)});

@@ -98,7 +98,9 @@ Template.registerHelper("departmentName", (departmentId) => {
 
 Template.registerHelper("facultyName", (facultyId) => {
   Meteor.subscribe("studies");
+  console.log(facultyId);
   const studyCourse = Studies.findOne({ "facultyId": facultyId });
+  console.log(studyCourse);
   return studyCourse && studyCourse.facultyName;
 });
 
