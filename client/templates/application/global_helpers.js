@@ -87,7 +87,7 @@ Template.registerHelper("studyCourseName", (studyCourseId, departmentId, faculty
     { "departmentId": departmentId },
     { "facultyId": facultyId }
   ]});
-  return studyCourse && studyCourse.name;
+  return studyCourse && studyCourse.studyCourseName;
 });
 
 Template.registerHelper("departmentName", (departmentId) => {
