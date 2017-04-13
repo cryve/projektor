@@ -4,15 +4,34 @@ import {XlsFiles} from "/lib/collections/xlsFiles.js" ;
 import {Drafts} from "/lib/collections/drafts.js";
 import {Courses} from "/lib/collections/courses.js" ;
 import {Images} from "/lib/collections/images.js";
-
+import toastr from 'toastr';
+import 'toastr/build/toastr.css';
 import { publishDraft } from "/lib/methods.js";
 import { deleteDraft } from "/lib/methods.js";
 import { deleteProject } from "/lib/methods.js";
+import { enterProject } from "/lib/methods.js";
 
 import "./editableProject.html";
 
 
 Template.editableProject.onCreated(function() {
+  toastr.options = {
+  "closeButton": false,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": false,
+  "positionClass": "toast-top-left",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+  }
   Meteor.subscribe("projects");
   Meteor.subscribe("drafts");
   Meteor.subscribe("files.images.all");
@@ -22,7 +41,10 @@ Template.editableProject.onCreated(function() {
 });
 
 Template.editableProject.helpers({
-
+  enterProject(){
+    var enterCheck = Courses.findOne(this.courseId);
+    return enterCheck && enterCheck.selfEnter;
+  },
   result() {
     return Session.get('result');
   },
@@ -91,7 +113,8 @@ Template.editableProject.events({
         if (err) {
           alert(err);
         } else {
-          alert("Dein Projekt wurde veröffentlicht!");
+          Command: toastr["success"]("Projekt Erfolgreich erstellt!")
+
         }
     });
     deleteDraft.call({
@@ -135,6 +158,12 @@ Template.editableProject.events({
       docTitle: this.title,
     });
   },
+  "click #btn-enter-project"(event) {
+    Modal.show("enterProjectModal", {
+      docId: this._id,
+      docTitle: this.title,
+    });
+  },
   // "click .btn-edit-owner" (event) {
   //   Template.instance().editOwnerActive.set(true);
   // },
@@ -142,10 +171,25 @@ Template.editableProject.events({
   //   Template.instance().editOwnerActive.set(false);
   // },
 });
-
 Template.deleteProjectModal.events({
   "click #btn-delete"(event) {
     deleteProject.call({
+        projectId: this.docId,
+      }, (err, res) => {
+        if (err) {
+          alert(err);
+        } else {
+          Router.go("landingPage");
+          Session.set('result', "null");
+          Modal.hide();
+        }
+    });
+  },
+});
+
+Template.enterProjectModal.events({
+  "click #btn-enter"(event) {
+    enterProject.call({
         projectId: this.docId,
       }, (err, res) => {
         if (err) {

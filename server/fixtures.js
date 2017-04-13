@@ -22,7 +22,6 @@ const maxSizeProfileContacts = 5;
 /* Clear databases */
 Meteor.users.remove({});
 Projects.remove({});
-
 /* Create possible values */
 const sampleUserRoles = ["Student", "Mitarbeiter"];
 const sampleUserTitles = ["Student", "Professur", "Lehrkraft", "Akadem. Mitarbeiter/in", "Vertretungsprofessur"];

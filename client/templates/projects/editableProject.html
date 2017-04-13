@@ -72,7 +72,11 @@
               </div> <!-- /.panel-body -->
             </div> <!-- /.panel -->
       </div> <!-- /.col-md-8 -->
+
       <div class="col-lg-4">
+        {{#if enterProject}}
+          <button class="btn btn-primary" id="btn-enter-project">Kursprojekt beitreten</button>
+        {{/if}}
             <div class="panel panel-default">
               <div class="panel-heading">
                 <span class="panel-title">Team</span>
@@ -166,6 +170,33 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
           <button id="btn-delete" type="button" class="btn btn-danger">Projekt entgültig löschen</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal Delete Project -->
+</template>
+
+<template name="enterProjectModal">
+  <div id="enterProjectModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Projekt beitreten</h4>
+        </div>
+        <div class="modal-body">
+          <p>Möchtest du dem Kursprojekt <strong>{{docTitle}}</strong> beitreten?</p>
+          <div class="alert alert-warning" role="alert">
+            Wenn du diesem Krusprojekt beitreten möchtest, benötigst du den zugehörigen Einschreibeschlüssel!
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">Einschreibeschlüssel:</span>
+            <input type="text" class="form-control" placeholder="Enter here" aria-describedby="basic-addon1">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+          <button id="btn-enter" type="button" class="btn btn-primary">Projekt beitreten</button>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

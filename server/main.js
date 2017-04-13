@@ -6,6 +6,7 @@ import { XlsFiles } from '/lib/collections/xlsFiles.js';
 import { Courses } from '/lib/collections/courses.js';
 import mongoxlsx from 'mongo-xlsx';
 import lodash from 'lodash';
+import toastr from 'toastr';
 import '../lib/collections/projects.js';
 import { Studies } from '/lib/collections/studies.js';
 
