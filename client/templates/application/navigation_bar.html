@@ -21,11 +21,6 @@
           {{/if}}
 
           <ul class="nav navbar-nav navbar-right">
-            {{#if currentUser}}
-              <li>
-                <a href="{{pathFor 'userProfile' _id=currentUser._id}}"><button class="btn btn-primary navbar-btn navbar-right">Profil</button></a>
-              </li>
-            {{/if}}
             {{> ldapLoginButtons }}
           </ul>
           {{#if currentUser}}

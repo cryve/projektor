@@ -1,7 +1,8 @@
-.dropdown-menu {
-    width: 300px !important;
+.login-dropdown {
+    width: 250px !important;
+    padding-top: 10px;
 }
 
-.login {
-margin-bottom:5px;
+.navbar-avatar {
+  margin-right: 10px;
 }
