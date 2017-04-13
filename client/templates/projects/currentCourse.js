@@ -6,7 +6,7 @@ import { Projects } from '/lib/collections/projects.js';
 import { Drafts } from '/lib/collections/drafts.js';
 import { Template } from 'meteor/templating';
 import { insertEmptyCourseDraft } from "/lib/methods.js";
-import { setDraftIdInProfile } from "/lib/methods.js";
+import { setDraftIdInProfile, setSelfEnter} from "/lib/methods.js";
 import lodash from 'lodash';
 
 Template.currentCourse.onCreated (function courseOnCreated() {
@@ -61,6 +61,17 @@ Template.currentCourse.helpers({
 });
 
 Template.currentCourse.events({
+  "click .btn-toggle"(event){
+    console.log(this.selfEnter);
+    setSelfEnter.call({
+      buttonEvent: this.selfEnter,
+      courseId: this._id
+    }, (err, res) => {
+      if (err) {
+        alert(err);
+      }
+    });
+  },
   "click .create-course-project-btn" (event) {
     Session.set("currentCourse", this._id);
     // Go to a not finished draft if exists, else go to new draft
@@ -124,6 +135,8 @@ Template.currentCourse.events({
 
 
 });
+
+
 
 Template.file.onCreated (function fileLinkOnCreated() {
   Meteor.subscribe('files.xlsFiles.all');

@@ -4,47 +4,51 @@
     <li><a href="{{pathFor 'courseLink' _id=currentUser._id}}">Meine Kurse</a></li>
     <li class="active">{{courseName}} {{courseSemester}}</li>
   </ol>
-    {{courseName}}
-    {{courseSemester}}
-    {{studyCourse}}
+  <div class="page-header">
+    <h1>
+      {{courseName}}
+      {{courseSemester}}
+      {{studyCourse}}
+    </h1>
+  </div>
 
     {{#if checkIfDraft }}
       <button type="button" disabled={{isDraftRendered}} class="btn btn-primary navbar-btn create-course-project-btn">Fortfahren</button>
     {{else}}
       <button class="btn btn-primary navbar-btn create-course-project-btn">Neues Kursprojekt erstellen</button>
     {{/if}}
-    
+<p class="navbar-text">Selbsteinschreibung</p>
+    <div class="btn-group  btn-toggle">
+      {{#if selfEnter}}
+        <button class="btn btn-default">ON</button>
+        <button class="btn btn-primary active">OFF</button>
+      {{else}}
+        <button class="btn btn-primary active">ON</button>
+        <button class="btn btn-default">OFF</button>
+      {{/if}}
+    </div>
+
     <button id="excel-button" class="btn btn-primary navbar-btn navbar-right">export</button>
     {{#if createLink}}
       {{> file}}
     {{/if}}
+
     <div class="project-cards">
-        <div class="container">
-          <div class="row">
-            {{#each project in projects}}
-              {{#if $and project.coverImg ($eq project.courseId this._id)}}
-                {{#each supervisor in project.supervisors}}
-                  {{#if $eq supervisor.userId currentUser._id}}
-                    <div class="col-lg-3">
-                      {{>projectCard currentDoc=project checkIfCourse=courseName}}
-                    </div>
-                  {{/if}}
-                {{/each}}
-              {{else}}
-                {{#if $eq project.courseId this._id}}
-                  {{#each supervisor in project.supervisors}}
-                    {{#if $eq supervisor.userId currentUser._id}}
-                      <div class="col-lg-3">
-                        {{>projectCardCoverless currentDoc=project}}
-                      </div>
-                    {{/if}}
-                  {{/each}}
-                {{/if}}
+      <div class="row">
+        {{#each project in projects}}
+          {{#if $eq project.courseId this._id}}
+            {{#each supervisor in project.supervisors}}
+              {{#if $eq supervisor.userId currentUser._id}}
+                <div class="col-lg-3">
+                  {{log this}}
+                  {{>projectCardCoverless currentDoc=project checkIfCourse = this._id}}
+                </div>
               {{/if}}
             {{/each}}
-          </div>
-        </div>
+          {{/if}}
+        {{/each}}
       </div>
+    </div>
 </template>
 
 <template name='file'>

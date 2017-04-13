@@ -2,6 +2,10 @@
   height: 78px;
 }
 
+.coverless-card-titleCourse {
+  height: 25px;
+}
+
 .cover-card-title {
   height: 62px;
 }
@@ -41,6 +45,10 @@
 
 .panel-body.coverless-card-body {
   height: 400px;
+}
+
+.panel-body.coverless-card-bodyCourse {
+  height: 100px;
 }
 
 .coverless-card-body .ellipsis-tags {
