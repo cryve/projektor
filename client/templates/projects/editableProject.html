@@ -74,7 +74,7 @@
       </div> <!-- /.col-md-8 -->
 
       <div class="col-lg-4">
-        {{#if enterProject}}
+        {{#if $and enterProject ($and memberCheck supervisorCheck)}}
           <button class="btn btn-primary" id="btn-enter-project">Kursprojekt beitreten</button>
         {{/if}}
             <div class="panel panel-default">
@@ -191,7 +191,7 @@
           </div>
           <div class="input-group">
             <span class="input-group-addon" id="basic-addon1">Einschreibeschlüssel:</span>
-            <input type="text" class="form-control" placeholder="Enter here" aria-describedby="basic-addon1">
+            <input type="text" class="form-control" id="modalInputKey" placeholder="Enter here" aria-describedby="basic-addon1">
           </div>
         </div>
         <div class="modal-footer">

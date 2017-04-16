@@ -1,4 +1,5 @@
 <template name="currentCourse">
+  {{#if checkCourseAccess}}
   <ol class="breadcrumb">
     <li><a href="{{pathFor 'landingPage'}}">Home</a></li>
     <li><a href="{{pathFor 'courseLink' _id=currentUser._id}}">Meine Kurse</a></li>
@@ -40,7 +41,6 @@
             {{#each supervisor in project.supervisors}}
               {{#if $eq supervisor.userId currentUser._id}}
                 <div class="col-lg-3">
-                  {{log this}}
                   {{>projectCardCoverless currentDoc=project checkIfCourse = this._id}}
                 </div>
               {{/if}}
@@ -49,6 +49,7 @@
         {{/each}}
       </div>
     </div>
+  {{/if}}
 </template>
 
 <template name='file'>

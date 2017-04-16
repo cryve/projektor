@@ -10,7 +10,6 @@ import { setDraftIdInProfile, setSelfEnter} from "/lib/methods.js";
 import lodash from 'lodash';
 
 Template.currentCourse.onCreated (function courseOnCreated() {
-  XlsFiles.remove({userId:this._id});
   Meteor.subscribe('files.xlsFiles.all');
   Meteor.subscribe("courses");
   Meteor.subscribe("projects");
@@ -18,6 +17,7 @@ Template.currentCourse.onCreated (function courseOnCreated() {
   Meteor.subscribe("drafts");
   this.createLink = new ReactiveVar(false);
   Session.set("previousRoute", Router.current().route.getName());
+
 });
 
 Template.currentCourse.helpers({
@@ -27,17 +27,25 @@ Template.currentCourse.helpers({
   projects(){
     return Projects.find({}, { sort: { createdAt: -1 } });
   },
+  checkCourseAccess(){
+    Session.set("currentCourse", this._id);
+    /*const courseId = this._id;
+    var course = Courses.findOne({_id: this._id, owner: Meteor.userId()});
+    console.log(course);
+    if(course && (courseId == course._id)){
+      console.log(courseId, course.owner)
+      return true
+    } else {
+      Router.go("loginPage");
+    }*/
+    return true;
+  },
   checkIfDraft(){
     var check = false;
     const currentDoc = this;
     if(Meteor.user() && Meteor.user().profile && Meteor.user().profile.drafts){
       lodash.forEach(Meteor.user().profile.drafts, function(value){
         if (value.draftId && (value.courseId == currentDoc._id)){
-          console.log("test");
-          console.log(this);
-          console.log(value.draftId)
-          console.log(value.courseId);
-          console.log(currentDoc._id);
           check = true
           return false;
         }

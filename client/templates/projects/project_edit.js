@@ -171,8 +171,11 @@ Template.leaveGroupModal.helpers({
     return "Unbekannt";
   },
   isLastEditor() {
-    const project = Mongo.Collection.get(this.collectionName).findOne(this.docId);
-    return project.editableBy.length === 1;
+    const project = Mongo.Collection.get(this.collectionName).findOne({_id: this.docId, editableBy: Meteor.userId()});
+    console.log(project);
+    if (project && project.editableBy){
+      return project.editableBy.length === 1;
+    }
   },
 });
 

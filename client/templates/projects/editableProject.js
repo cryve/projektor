@@ -5,6 +5,7 @@ import {Drafts} from "/lib/collections/drafts.js";
 import {Courses} from "/lib/collections/courses.js" ;
 import {Images} from "/lib/collections/images.js";
 import toastr from 'toastr';
+import lodash from 'lodash';
 import 'toastr/build/toastr.css';
 import { publishDraft } from "/lib/methods.js";
 import { deleteDraft } from "/lib/methods.js";
@@ -44,6 +45,26 @@ Template.editableProject.helpers({
   enterProject(){
     var enterCheck = Courses.findOne(this.courseId);
     return enterCheck && enterCheck.selfEnter;
+  },
+  memberCheck(){
+    var check = true;
+    lodash.forEach(this.team, function(member){
+      if(member.userId == Meteor.userId()){
+        check = false;
+        return false;
+      }
+    })
+    return check;
+  },
+  supervisorCheck(){
+    var check = true;
+    lodash.forEach(this.supervisors, function(supervisor){
+      if(supervisor.userId == Meteor.userId()){
+        check = false;
+        return false;
+      }
+    })
+    return check;
   },
   result() {
     return Session.get('result');
@@ -159,10 +180,15 @@ Template.editableProject.events({
     });
   },
   "click #btn-enter-project"(event) {
-    Modal.show("enterProjectModal", {
-      docId: this._id,
-      docTitle: this.title,
-    });
+    const projectCheck = Projects.findOne({courseId: this.courseId, team:{$elemMatch:{ userId: Meteor.userId()}}})
+    if (projectCheck){
+      Command: toastr["error"]("Du bist schon Mitglied in einem Projekt dieses Kurses!");
+    } else {
+      Modal.show("enterProjectModal", {
+        docId: this._id,
+        docTitle: this.title,
+      });
+    }
   },
   // "click .btn-edit-owner" (event) {
   //   Template.instance().editOwnerActive.set(true);
@@ -188,15 +214,20 @@ Template.deleteProjectModal.events({
 });
 
 Template.enterProjectModal.events({
+
   "click #btn-enter"(event) {
+    console.log(this);
+    console.log(document.getElementById("modalInputKey").value);
     enterProject.call({
         projectId: this.docId,
+        input: document.getElementById("modalInputKey").value,
       }, (err, res) => {
         if (err) {
           alert(err);
         } else {
-          Router.go("landingPage");
+          //Router.go("landingPage");
           Session.set('result', "null");
+          Command: toastr["success"]("Erfolgreich beigetreten!")
           Modal.hide();
         }
     });
