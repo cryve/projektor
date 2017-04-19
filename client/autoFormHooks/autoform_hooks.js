@@ -23,6 +23,14 @@ AutoForm.addHooks([
 ], {
   onSuccess: function(formType, result) {
     this.template.parent().editActive.set(false);
+    //this.template.parent().deadline.set(false);
+  }
+});
+
+AutoForm.addHooks([
+  "editDeadlineCourse"
+], {
+  onSuccess: function(formType, result) {
     this.template.parent().deadline.set(false);
   }
 });
