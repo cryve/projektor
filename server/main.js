@@ -69,16 +69,13 @@ LDAP.addFields = function(person) {
     fullname: person.fullName,
     role: person.hhEduPersonStaffCategory,
     title: person.hhEduPersonActCat,
-    studyCourse: {
-      id: person.hhEduPersonPrimaryStudyCourse,
-      departmentId: person.hhEduPersonPrimaryDept,
-      facultyId: person.hhEduPersonPrimaryFaculty,
-    },
+    studyCourseId: person.hhEduPersonPrimaryStudyCourse,
+    departmentId: person.hhEduPersonPrimaryDept,
+    facultyId: person.hhEduPersonPrimaryFaculty,
     matricNo: person.hhEduPersonStdMatrNoStrg,
     gender: getGenderString(person.hhEduPersonGender),
   };
   console.log(profile);
-  profile.studyCourse = lodash.omitBy(profile.studyCourse, lodash.isNil);
   profile = lodash.omitBy(profile, lodash.isNil);
   console.log(profile);
   return {
