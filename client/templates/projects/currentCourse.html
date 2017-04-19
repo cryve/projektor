@@ -7,49 +7,165 @@
   </ol>
   <div class="page-header">
     <h1>
-      {{courseName}}
-      {{courseSemester}}
+      {{courseName}} /
+      {{courseSemester}} /
       {{studyCourse}}
     </h1>
   </div>
+  <div class="col-xs-7 col-sm-3 col-md-2 sidebar sidebar-left sidebar-animate sidebar-show-lg">
+    <ul class="nav navbar-stacked">
+      <div class="form-group form-group-border">
+        <div class="form-group">
+          {{#if checkIfDraft }}
+            <button type="button" disabled={{isDraftRendered}} class="btn btn-primary navbar-btn create-course-project-btn">Fortfahren</button>
+          {{else}}
+            <button class="btn btn-primary create-course-project-btn btn-block ">Kursprojekt erstellen</button>
+          {{/if}}
+        </div>
+      </div>
+      <div class="form-group form-group-border">
+        <a href="#" class="btn-add-supervisor"><p class="form-control-static">Kollegen Hinzufügen:<span class="caret"></span></p></a>
+        {{#if addSupervisor}}
+          {{#autoForm id="addCourseOwner" schema=courseOwnerSchema type="method" meteormethod="addSupervisorToCourse" doc=this}}
+            <div class="form-group">
+              {{> afFieldInput name="userId" type="select2" options=(suggestedUsers exclude=this.owner role="Mitarbeiter") placeholder="Neuen Betreuer auswählen" allowClear=true}}
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
+              <button type="reset" class="btn btn-default btn-abort-adding"><span class="glyphicon glyphicon-remove"></span></button>
+            </div>
+          {{/autoForm}}
+        {{/if}}
+      </div>
+      <div class="form-group form-group-border">
+        <a href="#" class="btn-add-selfEntering"><p class="form-control-static">Selbsteinschreibung:<span class="caret"></span></p></a>
+        {{#if selfEntering}}
+        <div class="btn-group  btn-toggle">
+          <div class="form-group">
+            {{#if selfEnter}}
+              <button class="btn btn-primary activedefault">ON</button>
+              <button class="btn btn-default">OFF</button>
+            {{else}}
+              <button class="btn btn-default">ON</button>
+              <button class="btn btn-primary active">OFF</button>
+            {{/if}}
+          </div>
+        </div>
+        {{/if}}
+      </div>
+      <div class="form-group form-group-border">
+      {{#if setDeadline }}
+        <a href="#" class="btn-edit-deadline"><p class="form-control-static">Deadline setzen:<span class="caret"></span></p></a>
+        {{#autoForm id="editDeadline" type="method-update" singleMethodArgument=true meteormethod="setCourseDeadline" doc=this collection=getCollection }}
+          <div class="form-group">
+            {{> afFieldInput name="deadline" type="bootstrap-datepicker" placeholder="Deadline" }}
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
+            <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
+          </div>
+        {{/autoForm}}
+      {{ else }}
 
-    {{#if checkIfDraft }}
-      <button type="button" disabled={{isDraftRendered}} class="btn btn-primary navbar-btn create-course-project-btn">Fortfahren</button>
-    {{else}}
-      <button class="btn btn-primary navbar-btn create-course-project-btn">Neues Kursprojekt erstellen</button>
-    {{/if}}
-<p class="navbar-text">Selbsteinschreibung</p>
-    <div class="btn-group  btn-toggle">
-      {{#if selfEnter}}
-        <button class="btn btn-primary activedefault">ON</button>
-        <button class="btn btn-default">OFF</button>
-      {{else}}
-        <button class="btn btn-default">ON</button>
-        <button class="btn btn-primary active">OFF</button>
+          {{#if this.deadline}}
+            <div class="form-group">
+              <p class="form-control-static">Deadline:</p>
+              {{readableDate this.deadline}}
+              <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-deadline"></span></a>
+            </div>
+          {{else}}
+            <a href="#" class="btn-edit-deadline"><p class="form-control-static">Deadline setzen:<span class="caret"></span></p></a>
+
+          {{/if}}
+
+
       {{/if}}
-    </div>
+      </div>
 
-    <button id="excel-button" class="btn btn-primary navbar-btn navbar-right">export</button>
+      <div class="form-group form-group-border">
+        <div class="form-group">
+          <button id="excel-button" disabled={{isCourseProject}} class="btn btn-primary btn-block">Teilnehmer Export</button>
+        </div>
+      </div>
+      <div class="form-group form-group-border">
+        <div class="form-group">
+          <button id="btn-delete-course-projects" disabled={{isCourseProject}} class="btn btn-danger btn-block">Alle Projekte Löschen</button>
+        </div>
+      </div>
+      <div class="form-group form-group-border">
+        <div class="form-group">
+          <button id="btn-leave-course" disabled={{isLastOwner}} class="btn btn-danger btn-block">Kurs Verlassen</button>
+        </div>
+      </div>
+
+    </ul>
+  </div>
+
+  <div class="project-cards">
+    <div class="row">
+      {{#each project in projects}}
+        {{#if $eq project.courseId this._id}}
+          {{#each supervisor in project.supervisors}}
+            {{#if $eq supervisor.userId currentUser._id}}
+              <div class="col-lg-3">
+                {{>projectCardCoverless currentDoc=project checkIfCourse = this._id}}
+              </div>
+            {{/if}}
+          {{/each}}
+        {{/if}}
+      {{/each}}
+    </div>
+  </div>
     {{#if createLink}}
       {{> file}}
     {{/if}}
-
-    <div class="project-cards">
-      <div class="row">
-        {{#each project in projects}}
-          {{#if $eq project.courseId this._id}}
-            {{#each supervisor in project.supervisors}}
-              {{#if $eq supervisor.userId currentUser._id}}
-                <div class="col-lg-3">
-                  {{>projectCardCoverless currentDoc=project checkIfCourse = this._id}}
-                </div>
-              {{/if}}
-            {{/each}}
-          {{/if}}
-        {{/each}}
-      </div>
-    </div>
   {{/if}}
+</template>
+
+<template name="deleteAllCourseProjectsModal">
+  <div id="deleteAllCourseProjectsModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Projekte löschen</h4>
+        </div>
+        <div class="modal-body">
+          <p>Möchtest du wirklich <strong>Alle</strong> Projekte löschen?</p>
+          <div class="alert alert-warning" role="alert">
+            Alle Projekte in diesem Kurs werden unwideruflich gelöscht!
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+          <button id="btn-delete" type="button" class="btn btn-danger">Projekte engültig löschen</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal Delete Project -->
+</template>
+
+<template name="leaveCourseModal">
+  <div id="leaveCourseModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Kurs Verlassen</h4>
+        </div>
+        <div class="modal-body">
+          <p>Möchtest du wirklich diesen Kurs verlassen?</p>
+          <div class="alert alert-warning" role="alert">
+            Du wirst keinen Zugriff auf diesen Kurs mehr haben und auf dessen Projekte!
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+          <button id="btn-leave-course-modal" type="button" class="btn btn-danger">Kurs Verlassen</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal Delete Project -->
 </template>
 
 <template name='file'>

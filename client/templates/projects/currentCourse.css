@@ -1,0 +1,8 @@
+/*@media (min-width: 1200px){
+  .col-lg-3 {
+      width: 20%;
+  }
+}*/
+.form-group-border {
+  border-bottom: 2px solid #a8a6a8;
+}

@@ -4,29 +4,110 @@ import { XlsFiles } from '/lib/collections/xlsFiles.js';
 import { Courses } from '/lib/collections/courses.js';
 import { Projects } from '/lib/collections/projects.js';
 import { Drafts } from '/lib/collections/drafts.js';
+import {courseOwnerSchema} from '/lib/collections/schemas.js'
 import { Template } from 'meteor/templating';
-import { insertEmptyCourseDraft } from "/lib/methods.js";
-import { setDraftIdInProfile, setSelfEnter} from "/lib/methods.js";
+import { insertEmptyCourseDraft, leaveCourse } from "/lib/methods.js";
+import { setDraftIdInProfile, setSelfEnter, deleteAllProjects, addSupervisorToCourse} from "/lib/methods.js";
 import lodash from 'lodash';
+import toastr from 'toastr';
 
 Template.currentCourse.onCreated (function courseOnCreated() {
+  toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-top-left",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  };
   Meteor.subscribe('files.xlsFiles.all');
   Meteor.subscribe("courses");
   Meteor.subscribe("projects");
   Meteor.subscribe("usersAll");
   Meteor.subscribe("drafts");
+  this.editActive = new ReactiveVar(false);
   this.createLink = new ReactiveVar(false);
+  this.addSupervisor = new ReactiveVar(false);
+  this.selfEntering = new ReactiveVar(false);
+  this.deadline = new ReactiveVar(false);
   Session.set("previousRoute", Router.current().route.getName());
 
 });
 
 Template.currentCourse.helpers({
+  editActive () {
+    return Template.instance().editActive.get();
+  },
   createLink () {
     return Template.instance().createLink.get();
+  },
+  selfEntering(){
+    return Template.instance().selfEntering.get();
+  },
+  addSupervisor () {
+    return Template.instance().addSupervisor.get();
+  },
+  setDeadline(){
+    return Template.instance().deadline.get();
   },
   projects(){
     return Projects.find({}, { sort: { createdAt: -1 } });
   },
+  getCollection() {
+    return Courses;
+  },
+  courseOwnerSchema(){
+    return courseOwnerSchema;
+  },
+  suggestedUsers(settings) {
+    const users = Meteor.users.find(settings.hash.role ? { "profile.role" : settings.hash.role } : {});
+    let userList = [" "];
+    users.forEach(function (user){
+      if (user && user.profile){
+        userList.push({
+          value: user._id,
+          label: user.profile.firstname + " " + user.profile.lastname,
+        });
+      }
+    });
+    // remove users who are already in current group, but keep current user selection (firstOption)
+    if (settings.hash.exclude) {
+      settings.hash.exclude.forEach(function(userId) {
+        if (userId !== settings.hash.firstOption) {
+          userList = userList.filter(item => item.value !== userId);
+        }
+      });
+    }
+    return userList;
+  },
+
+  isCourseProject(){
+    const courseProjects = Projects.findOne({courseId:this._id, supervisors:{$elemMatch:{userId: Meteor.userId()}}});
+    if(courseProjects){
+      return false;
+    } else {
+      return true;
+    }
+  },
+
+  isLastOwner(){
+    const course = Courses.findOne(this._id);
+    if(course && course.owner && course.owner.length > 1){
+      return false;
+    } else {
+      return true;
+    }
+  },
+
   checkCourseAccess(){
     Session.set("currentCourse", this._id);
     /*const courseId = this._id;
@@ -69,14 +150,56 @@ Template.currentCourse.helpers({
 });
 
 Template.currentCourse.events({
+  "click #btn-delete-course-projects" (event) {
+    Modal.show("deleteAllCourseProjectsModal", {
+      courseId: this._id,
+    });
+  },
+  "click #btn-leave-course" (event) {
+    Modal.show("leaveCourseModal", {
+      courseId: this._id,
+    });
+  },
+  "click .btn-edit-deadline" (event) {
+    if(Template.instance().deadline.get()){
+      Template.instance().deadline.set(false);
+    } else {
+      Template.instance().deadline.set(true);
+    }
+  },
+  "click .btn-abort-editing" (event) {
+    Template.instance().editActive.set(false);
+    Template.instance().deadline.set(false);
+  },
+  "click .btn-abort-adding" (event) {
+    Template.instance().addSupervisor.set(false);
+  },
+  "click .btn-add-supervisor" (event) {
+    if(Template.instance().addSupervisor.get()){
+      Template.instance().addSupervisor.set(false);
+    } else {
+      Template.instance().addSupervisor.set(true);
+    }
+  },
+  "click .btn-add-selfEntering" (event) {
+    if(Template.instance().selfEntering.get()){
+      Template.instance().selfEntering.set(false);
+    } else {
+      Template.instance().selfEntering.set(true);
+    }
+  },
   "click .btn-toggle"(event){
-    console.log(this.selfEnter);
     setSelfEnter.call({
       buttonEvent: this.selfEnter,
       courseId: this._id
     }, (err, res) => {
       if (err) {
         alert(err);
+      }
+      if(this.selfEnter){
+        Command: toastr["success"]("Selbsteinschreibung wurde deaktiviert!");
+      } else {
+        Command: toastr["success"]("Selbsteinschreibung wurde aktiviert!");
       }
     });
   },
@@ -92,7 +215,6 @@ Template.currentCourse.events({
         }
       });
     }
-
     let draftId;
     Session.set('result', "null");
     if (lastDraft && lastDraft._id) {
@@ -137,14 +259,12 @@ Template.currentCourse.events({
       //     }
       // }
     );
+
     Template.instance().createLink.set(true);
     console.log(Template.instance().createLink.get());
   },
 
-
 });
-
-
 
 Template.file.onCreated (function fileLinkOnCreated() {
   Meteor.subscribe('files.xlsFiles.all');
@@ -158,11 +278,60 @@ Template.file.helpers({
   fileLink:function(){
     var file = XlsFiles.findOne({userId:this._id});
     if(file && file._id){
-      console.log(this._id);
-      console.log(file._id);
       var link = "http://localhost:3000/cdn/storage/XlsFiles/"+file._id+"/original/"+file._id+"?download=true"
       window.location = link;
       Template.instance().createLink.set(false);
     }
   }
+});
+
+Template.deleteAllCourseProjectsModal.onCreated(function deleteModalOnCreated(){
+  toastr.options = {
+  "closeButton": false,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": false,
+  "positionClass": "toast-top-left",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+  }
+})
+
+Template.deleteAllCourseProjectsModal.events({
+  "click #btn-delete"(event) {
+    deleteAllProjects.call({
+      courseId: this.courseId,
+      }, (err, res) => {
+        if (err) {
+          alert(err);
+        } else {
+          Command: toastr["success"]("Alle Projekte wurden erfolgreich gelöscht!");
+          Modal.hide();
+        }
+    });
+  },
+});
+
+Template.leaveCourseModal.events({
+  "click #btn-leave-course-modal"(event){
+    console.log(this.selfEnter);
+    leaveCourse.call({
+      courseId: this.courseId,
+    }, (err, res) => {
+      if (err) {
+        alert(err);
+      }
+      Router.go("courseLink", {_id: Meteor.userId()});
+      Command: toastr["success"]("Kurs erfolgreich verlassen!");
+      Modal.hide();
+    });
+  },
 });

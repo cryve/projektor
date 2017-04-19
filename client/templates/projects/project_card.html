@@ -50,7 +50,6 @@
 
 <template name="projectCardCoverless">
   <div class="panel panel-default coverless-card">
-    {{log checkIfCourse}}
     <div class="panel-body {{#unless checkIfCourse}} coverless-card-body {{else}} coverless-card-bodyCourse {{/unless}}">
       <div class="{{#unless checkIfCourse}} coverless-card-title {{else}} coverless-card-titleCourse {{/unless}}">
         {{> projectCardTitle _id=currentDoc._id title=currentDoc.title checkIfCourse=checkIfCourse subtitle=currentDoc.subtitle subtitleLines=2 }}
@@ -69,7 +68,7 @@
         {{#if itemsRemaining currentDoc.team.length 5 1}}
           <li class="remaining-member">
             <a class="text-info" href="{{pathFor 'projectDetails' _id=currentDoc._id title=(encodeUrlString currentDoc.title)}}">
-              <div class="text-center bg-info circle30-remaining-members">
+              <div class="text-center{{#unless checkIfCourse}} bg-info circle30-remaining-members {{/unless}}">
                 <span>
                   <strong>+{{itemsRemaining currentDoc.team.length 5 1}}</strong>
                 </span>
@@ -91,13 +90,20 @@
 </template>
 
 <template name="projectCardTitle">
-  <h3>
-    <a href="{{pathFor 'projectDetails' _id=_id title=(encodeUrlString title)}}" class="{{#if subtitle}}title-1row{{else}}title-2row{{/if}}">{{title}}</a>
-    {{#if $and ($not checkIfCourse) subtitle}}
-      <br>
-      <small class="subtitle-{{subtitleLines}}row">{{subtitle}}</small>
-    {{/if}}
-  </h3>
+  {{#if checkIfCourse}}
+    <h4>
+      <a href="{{pathFor 'projectDetails' _id=_id title=(encodeUrlString title)}}" class="{{#if subtitle}}title-1row{{else}}title-2row{{/if}}">{{title}}</a>
+    </h4>
+  {{else}}
+    <h3>
+      <a href="{{pathFor 'projectDetails' _id=_id title=(encodeUrlString title)}}" class="{{#if subtitle}}title-1row{{else}}title-2row{{/if}}">{{title}}</a>
+      {{#if $and ($not checkIfCourse) subtitle}}
+        <br>
+        <small class="subtitle-{{subtitleLines}}row">{{subtitle}}</small>
+      {{/if}}
+    </h3>
+  {{/if}}
+
 </template>
 
 <template name="projectCardJobs">

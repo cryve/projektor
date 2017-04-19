@@ -37,12 +37,12 @@
   {{/if}}
   <ul class="surveys grid">
   {{#each course in courses}}
-    {{#if $and course ($eq course.owner currentUser._id)}}
+    {{#if $and course (checkCourseOwner course._id)}}
 
       <li class="survey-item">
         <span class="edit-item">
           <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-course" data-id="{{course._id}}" id="idUpdate"></span></a>
-          <a href=""><span class="glyphicon glyphicon-minus text-danger  btn-delete-course" data-id="{{course._id}}" id="idResult"></span></a>
+          <a href=""><span class="glyphicon glyphicon-minus text-danger  btn-delete-course"  data-id="{{course._id}}" id="idResult"></span></a>
         </span>
         <span class="survey-name">
           <a href="{{pathFor 'currentCourseLink' _id=course._id name=(encodeUrlString course.courseName)}}">
@@ -83,4 +83,27 @@
   {{/each}}
   </ul>
 
+</template>
+
+<template name="deleteCourseModal">
+  <div id="deleteCourseModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Kurs löschen</h4>
+        </div>
+        <div class="modal-body">
+          <p>Möchtest du den Kurs <strong>{{docTitle}}</strong> wirklich löschen?</p>
+          <div class="alert alert-warning" role="alert">
+            Wenn du diesen Kurs löschst, werden die Inhalte dieses Kurses verloren gehen, sowie alle Projekte ihre zugehörigkeit zu diesem Kurs!
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+          <button id="btn-delete" type="button" class="btn btn-danger">Kurs entgültig löschen</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal Delete Project -->
 </template>

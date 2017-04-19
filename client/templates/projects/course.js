@@ -4,11 +4,28 @@ import { Projects } from '/lib/collections/projects.js';
 import { Template } from 'meteor/templating';
 import lodash from 'lodash';
 import {deleteCourse} from "/lib/methods.js";
-
+import toastr from 'toastr';
 import './course.html';
 
 
 Template.course.onCreated (function courseOnCreated() {
+  toastr.options = {
+  "closeButton": false,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": false,
+  "positionClass": "toast-top-left",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+  }
   Meteor.subscribe("courses");
   Meteor.subscribe("projects");
   this.editActive = new ReactiveVar(false);
@@ -25,6 +42,12 @@ Template.course.helpers({
   countCourseProjects(courseId, owner){
     var count = Projects.find({courseId: courseId, supervisors:{$elemMatch:{userId: owner}}}).count();
     return count;
+  },
+  checkCourseOwner(courseId){
+    if (Courses.findOne({_id: courseId, owner: Meteor.userId()})){
+      return true;
+    }
+
   },
   countStudents(courseId, owner){
     var students = [];
@@ -74,19 +97,31 @@ Template.course.events({
   "click .btn-delete-course" (event) {
     var result = event.currentTarget;
     var courseId = result.dataset.id
-    deleteCourse.call({
-      courseId: courseId
-    }, (err, res) => {
-      if (err) {
-        alert(err);
-      }
+    var course = Courses.findOne(courseId);
+    Modal.show("deleteCourseModal", {
+      docId: courseId,
+      docTitle: course.courseName,
     });
-
   },
   "click .btn-edit-course" (event) {
     var result = event.currentTarget;
     var courseId = result.dataset.id;
     Template.instance().editActive.set(false);
     Template.instance().editCourse.set(courseId);
+  },
+});
+
+Template.deleteCourseModal.events({
+  "click #btn-delete"(event) {
+    deleteCourse.call({
+      courseId: this.docId,
+      }, (err, res) => {
+        if (err) {
+          alert(err);
+        } else {
+          Command: toastr["success"]("Kurs wurde erfolgreich gelöscht!")
+          Modal.hide();
+        }
+    });
   },
 });

@@ -76,7 +76,6 @@ Template.editableProject.helpers({
     return Session.get('slot');
   },
   courseProjekt(){
-    console.log(Session.get("currentCourse"));
     const course = Courses.findOne(Session.get("currentCourse"));
     if (course){
       return course.courseName + " " + course.courseSemester;
@@ -146,7 +145,7 @@ Template.editableProject.events({
         }
     });
     var course = Courses.findOne(this.courseId);
-    if(course && this.supervisors && (Meteor.userId() == this.supervisors[0].userId)){
+    if(course && this.supervisors.map(function(supervisor) { return supervisor.userId; }).indexOf('Mitarbeiter') && (Session.get("previousRoute") == "currentCourseLink")){
       Router.go("currentCourseLink", {_id: this.courseId, name: encodeURIComponent(course.courseName)});
     } else {
       Router.go("projectDetails", {_id: newId, title: encodeURIComponent(this.title)});
