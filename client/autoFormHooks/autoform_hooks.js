@@ -9,6 +9,7 @@ AutoForm.addHooks([
   "editTitle",
   "addCourse",
   "course",
+  "notesBox",
   // "addMember",
   "addContact",
   "supervisor",

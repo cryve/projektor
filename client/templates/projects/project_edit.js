@@ -101,6 +101,39 @@ Template.addSupervisor.events({
   },
 });
 
+Template.notesBoxSupervisors.onCreated(function() {
+  this.editActive = new ReactiveVar(false);
+});
+
+Template.notesBoxSupervisors.helpers({
+  supervisorNotes(currentDoc){
+    if(currentDoc && currentDoc.supervisors){
+      var check = false
+      lodash.forEach(currentDoc.supervisors, function(supervisor){
+        if (supervisor.userId == Meteor.userId()){
+          check = true;
+          return false;
+        }
+      });
+      return check;
+    }
+  },
+  editActive(){
+    return Template.instance().editActive.get();
+  }
+});
+
+Template.notesBoxSupervisors.events({
+  "click .btn-edit-description" (event) {
+    console.log(Template.instance().editActive.get())
+    Template.instance().editActive.set(true);
+    console.log(Template.instance().editActive.get())
+  },
+  "click .btn-abort-editing" (event) {
+    Template.instance().editActive.set(false);
+  },
+});
+
 Template.member.onCreated(function() {
   this.editActive = new ReactiveVar(false);
 });

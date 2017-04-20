@@ -13,7 +13,7 @@
     </h1>
   </div>
   <div class="col-xs-7 col-sm-3 col-md-2 sidebar sidebar-left sidebar-animate sidebar-show-lg">
-    <ul class="nav navbar-stacked">
+    <div class="nav navbar-stacked">
       <div class="form-group form-group-border">
         <div class="form-group">
           {{#if checkIfDraft }}
@@ -24,18 +24,34 @@
         </div>
       </div>
       <div class="form-group form-group-border">
-        <a href="#" class="btn-add-supervisor"><p class="form-control-static">Kollegen Hinzufügen:<span class="caret"></span></p></a>
-        {{#if addSupervisor}}
-          {{#autoForm id="addCourseOwner" schema=courseOwnerSchema type="method" meteormethod="addSupervisorToCourse" doc=this}}
-            <div class="form-group">
-              {{> afFieldInput name="userId" type="select2" options=(suggestedUsers exclude=this.owner role="Mitarbeiter") placeholder="Neuen Betreuer auswählen" allowClear=true}}
-            </div>
-            <div class="form-group">
-              <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
-              <button type="reset" class="btn btn-default btn-abort-adding"><span class="glyphicon glyphicon-remove"></span></button>
-            </div>
-          {{/autoForm}}
-        {{/if}}
+        <h4>Kurs-Dozenten:</h4>
+        <ul>
+          {{#each ownerId in this.owner}}
+          <li>
+            <div class="form-group"><a href="{{pathFor 'userProfile' _id=ownerId}}">{{getFullUsername ownerId}}</a></div>
+          </li>
+          {{/each}}
+          <li>
+            <a href="#" class="btn-add-supervisor">
+              <p class="form-control-static"> Kollegen hinzufügen:<span class="caret"></span>
+              </p>
+            </a>
+            {{#if addSupervisor}}
+              {{#autoForm id="addCourseOwner" schema=courseOwnerSchema type="method" meteormethod="addSupervisorToCourse" doc=this}}
+                <div class="form-group">
+                  {{> afFieldInput name="userId" type="select2" options=(suggestedUsers exclude=this.owner role="Mitarbeiter") placeholder="Neuen Betreuer auswählen" allowClear=true}}
+                </div>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
+                  <button type="reset" class="btn btn-default btn-abort-adding"><span class="glyphicon glyphicon-remove"></span></button>
+                </div>
+              {{/autoForm}}
+            {{/if}}
+          </li>
+        </ul>
+
+
+
       </div>
       <div class="form-group form-group-border">
         <a href="#" class="btn-add-selfEntering"><p class="form-control-static">Selbsteinschreibung:<span class="caret"></span></p></a>
@@ -98,7 +114,7 @@
         </div>
       </div>
 
-    </ul>
+    </div>
   </div>
 
   <div class="project-cards">
