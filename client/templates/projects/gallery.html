@@ -2,7 +2,7 @@
  <div class="panel-header">
                     <div class="row">
                       <div class="col-sm-12">
-                        {{#if $and getEditMode (isProjectEditableBy currentDoc currentUser._id)}}
+                        {{#if $and getEditMode (hasPermissions 'editInfos' currentDoc)}}
                           {{#if currentDoc.media}}
                             {{> uploadFormCrop slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection
                             type="gallery"
@@ -89,7 +89,7 @@
                     <div class="col-sm-12">
 
                       <ul class="list-inline thumbnails">
-                          {{#if $and getEditMode (isProjectEditableBy currentDoc currentUser._id)}}
+                          {{#if $and getEditMode (hasPermissions 'editInfos' currentDoc)}}
                             {{#each image in currentDoc.media}}
                               <div class="mergeInputImage">
                                   {{#if $eq image.type null}}
@@ -141,7 +141,7 @@
 
                       </ul>
 
-                      {{#if isProjectEditableBy currentDoc currentUser._id}}
+                      {{#if hasPermissions 'editInfos' currentDoc }}
                         {{#if getEditMode }}
                           <button id="finished-button" class="btn btn-primary navbar-btn navbar-right">Fertig</button>
                         {{else}}

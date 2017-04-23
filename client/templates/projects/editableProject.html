@@ -61,7 +61,7 @@
                   </div>
                 </div>
                 <br>
-                {{#if isProjectEditableBy this currentUser._id}}
+                {{#if hasPermissions 'deleteProject' this }}
                   {{#if this.isNewProject}}
                     <button id="btn-delete-draft" class="btn btn-default">Verwerfen</button>
                     <button id="btn-publish-draft" class="btn btn-primary">Projekt erstellen</button>

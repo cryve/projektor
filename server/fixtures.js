@@ -64,11 +64,21 @@ Factory.define("project", Projects, {
   //   //wholeName: faker.name.findName(),
   // }),
   // ownerRole: () => faker.name.jobTitle(),
-  editableBy: () => [faker.random.arrayElement(sampleUsers)._id],
+  permissions: {
+    editInfos: () => [faker.random.arrayElement(sampleUsers)._id],
+    manageMembers: () => [faker.random.arrayElement(sampleUsers)._id],
+    manageCourses: () => [faker.random.arrayElement(sampleUsers)._id],
+    deleteProject: () => [faker.random.arrayElement(sampleUsers)._id],
+  },
   team: () => _.times(_.random(maxSizeTeam), i => ({
     userId: faker.random.arrayElement(sampleUsers)._id,
     role: faker.name.jobTitle(),
-    isEditor: faker.random.boolean(),
+    permissions: {
+      editInfos: faker.random.boolean(),
+      manageMembers: faker.random.boolean(),
+      manageCourses: faker.random.boolean(),
+      deleteProject: faker.random.boolean(),
+    },
   })),
   tags: () => _.times(_.random(maxSizeTags), i => faker.commerce.department()),
   contacts: () => _.times(_.random(maxSizeContacts), i => ({
