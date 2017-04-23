@@ -7,7 +7,7 @@ import { Drafts } from '/lib/collections/drafts.js';
 import {courseOwnerSchema} from '/lib/collections/schemas.js'
 import { Template } from 'meteor/templating';
 import { insertEmptyCourseDraft, leaveCourse } from "/lib/methods.js";
-import { setDraftIdInProfile, setSelfEnter, deleteAllProjects, addSupervisorToCourse} from "/lib/methods.js";
+import { setDraftIdInProfile, createMassProjects, setSelfEnter, deleteAllProjects, addSupervisorToCourse} from "/lib/methods.js";
 import lodash from 'lodash';
 import toastr from 'toastr';
 
@@ -157,6 +157,11 @@ Template.currentCourse.events({
   },
   "click #btn-leave-course" (event) {
     Modal.show("leaveCourseModal", {
+      courseId: this._id,
+    });
+  },
+  "click .create-mass-course-projects-btn" (event) {
+    Modal.show("createMassProjectsModal", {
       courseId: this._id,
     });
   },
@@ -315,6 +320,44 @@ Template.deleteAllCourseProjectsModal.events({
           alert(err);
         } else {
           Command: toastr["success"]("Alle Projekte wurden erfolgreich gelöscht!");
+          Modal.hide();
+        }
+    });
+  },
+});
+
+
+Template.createMassProjectsModal.onCreated(function deleteModalOnCreated(){
+  toastr.options = {
+  "closeButton": false,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": false,
+  "positionClass": "toast-top-left",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+  }
+})
+
+
+Template.createMassProjectsModal.events({
+  "click #create-mass-course-projects-btn"(event) {
+    createMassProjects.call({
+      courseId: this.courseId,
+      text: document.getElementById("myTextarea").value,
+      }, (err, res) => {
+        if (err) {
+          alert(err);
+        } else {
+          Command: toastr["success"]("Alle Projekte wurden erfolgreich erstellt!");
           Modal.hide();
         }
     });

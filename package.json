@@ -22,6 +22,7 @@
     "mongoosastic": "^4.3.0",
     "mongoose": "^4.8.6",
     "simpl-schema": "^0.2.2",
+    "tinyurl": "^1.1.2",
     "toastr": "^2.1.2",
     "truncate.js": "^1.1.2",
     "trunk8": "0.0.1"

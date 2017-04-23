@@ -4,11 +4,26 @@
 
 <template name="uploadFormCrop">
   {{#with currentUploadCrop}}
-    Uploading <b>{{file.name}}</b>: 
+    Uploading <b>{{file.name}}</b>:
     <span id="progress">{{progress.get}}%</span>
   {{else}}
-
-        <input type="file" id="fileInput" class="btn btn-primary navbar-btn navbar-right" />
+    <div class="wrapper">
+      <div class="drop">
+        <div class="cont">
+          <i class="fa fa-cloud-upload"></i>
+          <div class="tit">
+            Drag & Drop
+          </div>
+          <div class="desc">
+            oder
+          </div>
+          <div class="browse">
+            Klicke hier zum durchsuchen!
+          </div>
+        </div>
+         <input id="fileInput"  type="file" />
+      </div>
+    </div>
 
     <!--<input id="fileInput" type="file" />-->
   {{/with}}
@@ -20,7 +35,7 @@
       {{#each file in uploadedFilesCrop.each}}
         <li>
           <a href="{{file.link}}?download=true" id="imageLink" download="{{file.name}}">{{file.name}}</a>
-          
+
         </li>
       {{/each}}
     </ul>
@@ -44,4 +59,3 @@
     Loading Video...
   {{/with}}
 </template>
-

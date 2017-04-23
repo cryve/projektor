@@ -21,7 +21,6 @@ Template.setVideoLink.helpers({
 Template.setVideoLink.events({
   "click #video-link-button" (event) {
     Template.instance().editActive.set(true);
-    console.log(this); //this
   },
   "click .btn-abort-adding" (event) {
     Template.instance().editActive.set(false);
