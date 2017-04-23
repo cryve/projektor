@@ -12,12 +12,27 @@ import { addCourseSchema } from "/lib/collections/schemas.js";
 
 import "./project_edit.html";
 
-const isMembersLastPermission = (editableBy, userId) => {
-  const membersPermissions = lodash.filter(editableBy, function(value) {
-    return value === userId;
+const isUserInGroup = (group, userId) => {
+  let foundUser = false;
+  lodash.forEach(group, function(value) {
+    if(lodash.includes(value, userId)) {
+      foundUser = true;
+      return false; // breaks the loop
+    }
   });
-  return membersPermissions.length === 1;
+  return foundUser;
 };
+
+const isUserAdminMember = (team, userId) => {
+  member = lodash.find(team, function(member) {
+    return member.userId == userId;
+  });
+  if(member && member.permissions.editInfos && member.permissions.manageMembers
+    && member.permissions.manageCourses && member.permissions.deleteProject) {
+    return true;
+  }
+  return false;
+}
 
 Template.addCourse.onCreated(function() {
   this.editActive = new ReactiveVar(false);
@@ -148,17 +163,29 @@ Template.member.helpers({
   teamUserRoleField () {
     return "team." + this.slot + ".role";
   },
-  teamUserIsEditorField () {
-    return "team." + this.slot + ".isEditor";
+  teamUserCanEditInfosField () {
+    return "team." + this.slot + ".permissions.editInfos";
   },
-  showDeleteButton() {
-    return this.userId != Meteor.userId()
-      && lodash.includes(this.currentDoc.editableBy, Meteor.userId());
+  teamUserCanManageMembersField () {
+    return "team." + this.slot + ".permissions.manageMembers";
+  },
+  teamUserCanManageCoursesField () {
+    return "team." + this.slot + ".permissions.manageCourses";
+  },
+  teamUserCanDeleteProjectField () {
+    return "team." + this.slot + ".permissions.deleteProject";
   },
   showLeaveButton() {
-    return this.userId === Meteor.userId()
-      && !(this.currentDoc.isNewProject
-        && isMembersLastPermission(this.currentDoc.editableBy, this.userId));
+    if(this.userId == Meteor.userId()) {
+      if(this.currentDoc.isNewProject) {
+        if(isUserInGroup(this.currentDoc.supervisors, Meteor.userId())) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    }
+    return false;
   },
 });
 
@@ -189,7 +216,6 @@ Template.member.events({
       group: "team",
       userId: this.userId,
       userRole: this.role,
-      editableBy: this.currentDoc.editableBy,
     });
   },
 });
@@ -204,11 +230,23 @@ Template.leaveGroupModal.helpers({
     return "Unbekannt";
   },
   isLastEditor() {
-    const project = Mongo.Collection.get(this.collectionName).findOne({_id: this.docId, editableBy: Meteor.userId()});
-    console.log(project);
-    if (project && project.editableBy){
-      return project.editableBy.length === 1;
+    const project = Mongo.Collection.get(this.collectionName).findOne(this.docId);
+    const adminMembers = lodash.filter(project.team, function(member) {
+      return member.permissions.editInfos && member.permissions.manageMembers
+        && member.permissions.manageCourses && member.permissions.deleteProject;
+    });
+    if(this.group == "team") {
+      if(isUserAdminMember(project.team, this.userId) && adminMembers.length === 1
+      && (!project.supervisors || project.supervisors.length === 0)) {
+          return true;
+      }
     }
+    if (this.group == "supervisors") {
+      if(project.supervisors.length === 1 && adminMembers.length === 0) {
+        return true;
+      }
+    }
+    return false;
   },
 });
 
@@ -236,14 +274,17 @@ Template.supervisor.helpers({
   supervisorRoleField () {
     return "team." + this.slot + ".role";
   },
-  showDeleteButton() {
-    return this.userId != Meteor.userId()
-      && lodash.includes(this.currentDoc.editableBy, this.userId);
-  },
   showLeaveButton() {
-    return this.userId === Meteor.userId()
-      && !(this.currentDoc.isNewProject
-        && isMembersLastPermission(this.currentDoc.editableBy, this.userId));
+    if(this.userId == Meteor.userId()) {
+      if(this.currentDoc.isNewProject) {
+        if(isUserAdminMember(this.currentDoc.team, Meteor.userId())) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    }
+    return false;
   },
 });
 
@@ -268,7 +309,6 @@ Template.supervisor.events({
       group: "supervisors",
       userId: this.userId,
       userRole: this.role,
-      editableBy: this.currentDoc.editableBy,
     });
   },
 });
@@ -498,6 +538,12 @@ Template.editDeadline.helpers({
   editActive () {
     return Template.instance().editActive.get();
   },
+  requiredPermissions() {
+    if(this.currentDoc && this.currentDoc.courseId) {
+      return "editInfos,manageCourses";
+    }
+    return "editInfos";
+  }
 });
 
 Template.editDeadline.events({
