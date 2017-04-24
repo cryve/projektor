@@ -202,33 +202,15 @@
 </template>
 
 <template name="notesBoxSupervisors">
-  {{#if $and editActive (supervisorNotes currentDoc)}}
+  {{#if supervisorNotes currentDoc}}
     {{#autoForm id="notesBox" type="method-update" singleMethodArgument=true meteormethod=(getMethodString currentCollection._name "updateEditable") doc=currentDoc collection=currentCollection }}
-    <div class="form-group">
-      {{> afFieldInput name="notes" type="textarea" rows=6 placeholder="Deine Notizen zum Projekt" }}
-    </div>
-    <div class="form-group">
-      <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
-      <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
-    </div>
+      <div class="form-group">
+        {{> afFieldInput name="notes" type="textarea" rows=6 placeholder="Deine Notizen zum Projekt" }}
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
+      </div>
     {{/autoForm}}
-  {{else}}
-    {{#if $and currentDoc.notes (supervisorNotes currentDoc)}}
-      <p>{{currentDoc.notes}}</p>
-      <a href="#">Notizen bearbeiten<span class="glyphicon glyphicon-pencil text-primary btn-edit-description"></span></a>
-    {{else}}
-      {{#if supervisorNotes currentDoc}}
-        {{#autoForm id="notesBox" type="method-update" singleMethodArgument=true meteormethod=(getMethodString currentCollection._name "updateEditable") doc=currentDoc collection=currentCollection }}
-          <div class="form-group">
-            {{> afFieldInput name="notes" type="textarea" rows=6 placeholder="Deine Notizen zum Projekt" }}
-          </div>
-          <div class="form-group">
-            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
-            <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
-          </div>
-        {{/autoForm}}
-      {{/if}}
-    {{/if}}
   {{/if}}
 </template>
 
@@ -258,7 +240,6 @@
 </template>
 
 <template name="jobItem">
-  <li>
     {{#if $and editActive (hasPermissions 'editInfos' currentDoc) }}
       {{#autoForm id="jobItem" type="method-update" singleMethodArgument=true meteormethod=(getMethodString currentCollection._name "updateEditableInfo") doc=currentDoc collection=currentCollection setArrayItems=true}}
         {{> afFieldInput name=jobLabelField type="text" placeholder="Gesuchte Fähigkeit" }}
@@ -268,13 +249,16 @@
         </div>
       {{/autoForm}}
     {{else}}
-      {{jobLabel}}
-      {{#if hasPermissions 'editInfos' currentDoc}}
-        <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-job"></span></a>
-        <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-job"></span></a>
-      {{/if}}
+      <li>
+        {{jobLabel}}
+        {{#if hasPermissions 'editInfos' currentDoc}}
+          <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-job"></span></a>
+          <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-job"></span></a>
+        {{/if}}
+      </li>
     {{/if}}
-  </li>
+
+
 </template>
 
 <template name="addJob">
