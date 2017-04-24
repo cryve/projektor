@@ -109,7 +109,7 @@ Template.registerHelper("isUserInGroup", (group, userId) => {
 });
 
 Template.registerHelper("hasPermissions", (permissionNames, doc) => {
-  if(doc) {
+  if(doc && doc.permissions) {
     permissionNames = permissionNames.split(',');
     let hasMissingPermission = false;
     lodash.forEach(permissionNames, function(permissionName) {
