@@ -42,6 +42,7 @@ Template.uploadFormCrop.events({
           chunkSize: 'dynamic',
           meta: {
             type: template.data.type,
+            projectId: template.data.projectId,
           }
         }, false);
 

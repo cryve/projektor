@@ -7,6 +7,7 @@
     Uploading <b>{{file.name}}</b>:
     <span id="progress">{{progress.get}}%</span>
   {{else}}
+    {{#if $eq type "gallery"}}
     <div class="wrapper">
       <div class="drop">
         <div class="cont">
@@ -24,7 +25,9 @@
          <input id="fileInput"  type="file" />
       </div>
     </div>
-
+    {{else}}
+      <input id="fileInput"  type="file" />
+    {{/if}}
     <!--<input id="fileInput" type="file" />-->
   {{/with}}
 </template>

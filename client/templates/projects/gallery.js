@@ -80,11 +80,13 @@ Template.deleteImageButton.events({
    var currentSlot = template.data.slot;
    var currentCover = template.data.coverImg;
    var collection = template.data.collection;
+   var projectId = template.data.projectId;
    if (currentArray && currentArray[currentSlot].id
        &&(currentArray[currentSlot].type == "image")){
     //Images.remove({_id: currentArray[currentSlot].id});
      deleteImg.call({
-      imageId: currentArray[currentSlot].id
+      imageId: currentArray[currentSlot].id,
+      projectId: projectId,
      }, (err, res) => {
       if (err) {
         alert(err);
