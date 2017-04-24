@@ -21,6 +21,23 @@ Template.uploadedFilesCrop.helpers({
 
 Template.uploadFormCrop.onCreated(function () {
   this.currentUploadCrop = new ReactiveVar(false);
+  toastr.options = {
+  "closeButton": false,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": false,
+  "positionClass": "toast-top-left",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+  }
 });
 
 Template.uploadFormCrop.helpers({
@@ -59,7 +76,7 @@ Template.uploadFormCrop.events({
               var currentSlot = template.data.slot;
               var currentCover = template.data.coverImg;
               var collection = template.data.collection;
-              alert('File "' + fileObj.name + '" successfully uploaded to ' + currentSlot);
+              Command: toastr["success"](fileObj.name + " wurde erfolgreich in Slot " + currentSlot +  " hochgeladen!")
               if(currentCover == currentArray[currentSlot].id){
                 if (currentCover){
                   imageRemove.call({
@@ -80,9 +97,7 @@ Template.uploadFormCrop.events({
                 }, (err, res) => {
                   if (err) {
                     alert(err);
-                  } else {
-                    alert("Complete!!");
-                  }
+                  } 
                 });
 
                 /*Images.remove({_id: currentArray[currentSlot].id});
