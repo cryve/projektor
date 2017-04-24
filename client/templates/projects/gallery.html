@@ -2,7 +2,7 @@
   <div class="panel-header">
     <div class="row">
       <div class="col-sm-12">
-        {{#if $and getEditMode (isProjectEditableBy currentDoc currentUser._id)}}
+        {{#if $and getEditMode (hasPermissions 'editInfos' currentDoc)}}
           {{#if currentDoc.media}}
             {{> uploadFormCrop slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection
             type="gallery"
@@ -79,32 +79,32 @@
   <div class="panel-body">
     <div class="row">
       <div class="col-sm-12">
-        <ul class="list-inline thumbnails thumbnailsJustify">
-          {{#if $and getEditMode (isProjectEditableBy currentDoc currentUser._id)}}
+        <ul class="list-inline thumbnails">
+          {{#if $and getEditMode (hasPermissions 'editInfos' currentDoc)}}
             {{#each image in currentDoc.media}}
               <div class="mergeInputImage">
-                  {{#if $eq image.type null}}
+                {{#if $eq image.type null}}
+                  <li>
+                    <button data-value="{{image.id}}" data-slot={{@index}} type="button" class="edit_button">
+                      <div class="well thumbnail-placeholder"></div>
+                    </button>
+                  </li>
+                {{else}}
+                  {{#if $eq image.type "URL"}}
                     <li>
-                      <button data-value="{{image.id}}" data-slot={{@index}} type="button" class="edit_button">
-                        <div class="well thumbnail-placeholder"></div>
-                      </button>
-                    </li>
-                  {{else}}
-                    {{#if $eq image.type "URL"}}
-                      <li>
                       <button data-value="{{image.id}}" data-slot={{@index}} type="button" class="edit_button ">
                         <img class="img-responsive videoImage "  src= {{getVideoImage image.id}}>
                       </button>
                     </li>
-                    {{else}}
-                      <li>
-                        <button data-value="{{image.id}}" data-slot={{@index}} type="button" class="edit_button ">
-                          <img class="img-responsive "  src= {{getImgURL image.id "thumbnail115"}} alt="">
-                        </button>
-                      </li>
-                    {{/if}}
+                  {{else}}
+                    <li>
+                      <button data-value="{{image.id}}" data-slot={{@index}} type="button" class="edit_button ">
+                        <img class="img-responsive "  src= {{getImgURL image.id "thumbnail115"}} alt="">
+                      </button>
+                    </li>
                   {{/if}}
-                </div>
+                {{/if}}
+              </div>
             {{/each}}
           {{else}}
             {{#each image in currentDoc.media}}
@@ -117,16 +117,16 @@
               {{else}}
                 {{#if $eq image.type "URL"}}
                   <li>
-                  <button data-value="{{image.id}}" data-slot={{@index}} type="button" class="edit_button ">
-                    <img class="img-responsive videoImage"  src= {{getVideoImage image.id}}>
-                  </button>
-                </li>
+                    <button data-value="{{image.id}}" data-slot={{@index}} type="button" class="edit_button ">
+                      <img class="img-responsive videoImage "  src= {{getVideoImage image.id}}>
+                    </button>
+                  </li>
                 {{/if}}
               {{/if}}
             {{/each}}
           {{/if}}
         </ul>
-        {{#if isProjectEditableBy currentDoc currentUser._id}}
+        {{#if hasPermissions 'editInfos' currentDoc }}
           {{#if getEditMode }}
             <button id="finished-button" class="btn btn-primary navbar-btn navbar-right">Fertig</button>
           {{else}}

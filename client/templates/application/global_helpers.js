@@ -73,13 +73,6 @@ Template.registerHelper("getMethodString", (collectionName, methodName) => {
   return collectionName + "." + methodName;
 });
 
-Template.registerHelper("isProjectEditableBy", (project, userId) => {
-  if (project && _.contains(project.editableBy, userId)) {
-    return true;
-  }
-  return false;
-});
-
 Template.registerHelper("studyCourseName", (studyCourseId, departmentId, facultyId) => {
   Meteor.subscribe("studies");
   const studyCourse = Studies.findOne({ $and: [
@@ -113,4 +106,19 @@ Template.registerHelper("isUserInGroup", (group, userId) => {
     }
   });
   return foundUser;
+});
+
+Template.registerHelper("hasPermissions", (permissionNames, doc) => {
+  if(doc && doc.permissions) {
+    permissionNames = permissionNames.split(',');
+    let hasMissingPermission = false;
+    lodash.forEach(permissionNames, function(permissionName) {
+      if(!lodash.includes(doc.permissions[permissionName], Meteor.userId())) {
+        hasMissingPermission = true;
+        return false;
+      };
+    });
+    return !hasMissingPermission;
+  }
+  return false;
 });

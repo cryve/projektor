@@ -114,13 +114,5 @@ AutoForm.addHooks([
   },
   onSuccess: function(formType, result) {
     this.template.parent().editActive.set(false);
-    updateEditPermissions.call({
-      collectionName: this.collection._name,
-      docId: this.docId,
-    },(err, res) => {
-        if (err) {
-          alert(err);
-        }
-    });
   }
 });
