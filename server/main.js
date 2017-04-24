@@ -9,7 +9,6 @@ import lodash from 'lodash';
 import toastr from 'toastr';
 import '../lib/collections/projects.js';
 import { Studies } from '/lib/collections/studies.js';
-import tinyurl from 'tinyurl';
 import { Accounts } from 'meteor/accounts-base';
 import { AccountsServer } from 'meteor/accounts-base';
 
@@ -82,9 +81,6 @@ LDAP.addFields = function(person) {
 };
 
 Meteor.startup(function() {
-  // tinyurl.shorten('https://projektor.mt.haw-hamburg.de', function(res) {
-  // 	console.log(res);
-  // });
   WebApp.addHtmlAttributeHook(function() {
     return {
         "lang": "de"

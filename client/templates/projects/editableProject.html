@@ -109,11 +109,11 @@
               </div>
               <div class="panel-body">
                 <ul>
-                    {{#each job in jobs}}
-                      {{>jobItem jobLabel=job.joblabel currentDoc=this currentCollection=getCollection slot=@index}}
-                    {{/each}}
-                    {{>addJob currentDoc=this currentCollection=getCollection}}
+                  {{#each job in jobs}}
+                    {{>jobItem jobLabel=job.joblabel currentDoc=this currentCollection=getCollection slot=@index}}
+                  {{/each}}
                 </ul>
+                {{>addJob currentDoc=this currentCollection=getCollection}}
               </div>
             </div> <!-- /.panel Wanted Skills -->
             <div class="panel panel-default">

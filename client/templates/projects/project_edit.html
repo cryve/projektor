@@ -233,7 +233,7 @@
 </template>
 
 <template name="jobItem">
-  <li>
+
     {{#if $and editActive (isProjectEditableBy currentDoc currentUser._id) }}
       {{#autoForm id="jobItem" type="method-update" singleMethodArgument=true meteormethod=(getMethodString currentCollection._name "updateEditable") doc=currentDoc collection=currentCollection setArrayItems=true}}
         {{> afFieldInput name=jobLabelField type="text" placeholder="Gesuchte Fähigkeit" }}
@@ -243,13 +243,15 @@
         </div>
       {{/autoForm}}
     {{else}}
-      {{jobLabel}}
-      {{#if isProjectEditableBy currentDoc currentUser._id}}
-        <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-job"></span></a>
-        <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-job"></span></a>
-      {{/if}}
+      <li>
+        {{jobLabel}}
+        {{#if isProjectEditableBy currentDoc currentUser._id}}
+          <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-job"></span></a>
+          <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-job"></span></a>
+        {{/if}}
+      </li>
     {{/if}}
-  </li>
+
 </template>
 
 <template name="addJob">

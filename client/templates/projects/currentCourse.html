@@ -61,18 +61,24 @@
       <div class="form-group form-group-border">
         <a href="#" class="btn-add-selfEntering"><p class="form-control-static">Selbsteinschreibung:<span class="caret"></span></p></a>
         {{#if selfEntering}}
-        <div class="btn-group  btn-toggle">
-          <div class="form-group">
-            {{#if selfEnter}}
-              <button class="btn btn-primary activedefault">ON</button>
-              <button class="btn btn-default">OFF</button>
-            {{else}}
-              <button class="btn btn-default">ON</button>
-              <button class="btn btn-primary active">OFF</button>
-            {{/if}}
+          <div class="btn-group  btn-toggle">
+            <div class="form-group">
+              {{#if selfEnter}}
+                <button class="btn btn-primary activedefault">ON</button>
+                <button class="btn btn-default">OFF</button>
+              {{else}}
+                <button class="btn btn-default">ON</button>
+                <button class="btn btn-primary active">OFF</button>
+              {{/if}}
+            </div>
           </div>
-        </div>
         {{/if}}
+        {{#if selfEnter}}
+          <p class="text-success"><h5>Aktiviert</h5></p>
+        {{else}}
+          <p class="text-danger"><h5>Deaktiviert</h5></p>
+        {{/if}}
+
       </div>
       <div class="form-group form-group-border">
       {{#if setDeadline }}
