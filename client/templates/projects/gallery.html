@@ -79,10 +79,10 @@
   <div class="panel-body">
     <div class="row">
       <div class="col-sm-12">
-        <ul class="list-inline thumbnails">
           {{#if $and getEditMode (hasPermissions 'editInfos' currentDoc)}}
+            <ul class="list-inline thumbnails thumbnailsJustify">
             {{#each image in currentDoc.media}}
-              <div class="mergeInputImage">
+              <div class="mergeInputImage ">
                 {{#if $eq image.type null}}
                   <li>
                     <button data-value="{{image.id}}" data-slot={{@index}} type="button" class="edit_button">
@@ -106,7 +106,9 @@
                 {{/if}}
               </div>
             {{/each}}
+          </ul>
           {{else}}
+          <ul class="list-inline thumbnails">
             {{#each image in currentDoc.media}}
               {{#if $eq image.type "image" }}
                 <li>
@@ -124,8 +126,8 @@
                 {{/if}}
               {{/if}}
             {{/each}}
+            </ul>
           {{/if}}
-        </ul>
         {{#if hasPermissions 'editInfos' currentDoc }}
           {{#if getEditMode }}
             <button id="finished-button" class="btn btn-primary navbar-btn navbar-right">Fertig</button>
