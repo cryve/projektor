@@ -3,6 +3,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { Images } from '/lib/collections/images.js';
 import { Projects } from "/lib/collections/projects.js" ;
 import { Drafts } from "/lib/collections/drafts.js";
+import toastr from 'toastr';
 
 import { imageRemove, galleryUpdate, coverImageUpdate, userAvatar} from "/lib/methods.js";
 
@@ -21,6 +22,23 @@ Template.uploadedFilesCrop.helpers({
 
 Template.uploadFormCrop.onCreated(function () {
   this.currentUploadCrop = new ReactiveVar(false);
+  toastr.options = {
+  "closeButton": false,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": false,
+  "positionClass": "toast-top-left",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+  }
 });
 
 Template.uploadFormCrop.helpers({
@@ -42,6 +60,7 @@ Template.uploadFormCrop.events({
           chunkSize: 'dynamic',
           meta: {
             type: template.data.type,
+            projectId: template.data.projectId,
           }
         }, false);
 
@@ -58,7 +77,7 @@ Template.uploadFormCrop.events({
               var currentSlot = template.data.slot;
               var currentCover = template.data.coverImg;
               var collection = template.data.collection;
-              alert('File "' + fileObj.name + '" successfully uploaded to ' + currentSlot);
+              Command: toastr["success"](fileObj.name + " wurde erfolgreich in Slot " + currentSlot +  " hochgeladen!")
               if(currentCover == currentArray[currentSlot].id){
                 if (currentCover){
                   imageRemove.call({
@@ -79,8 +98,6 @@ Template.uploadFormCrop.events({
                 }, (err, res) => {
                   if (err) {
                     alert(err);
-                  } else {
-                    alert("Complete!!");
                   }
                 });
 

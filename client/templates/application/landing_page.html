@@ -60,8 +60,20 @@
 
     </ul> -->
   <!--{{> EasySearch.Input index=projectsIndex }}-->
-
-  {{#EasySearch.IfInputEmpty index=projectsIndex}}
+  <div class="project-cards">
+    <div class="row">
+      {{#each project in projects}}
+        <div class="col-lg-3">
+          {{#if project.coverImg}}
+            {{>projectCard currentDoc=project}}
+          {{else}}
+            {{>projectCardCoverless currentDoc=project}}
+          {{/if}}
+        </div>
+      {{/each}}
+    </div>
+  </div>
+  <!-- {{#EasySearch.IfInputEmpty index=projectsIndex}}
     <div class="project-cards">
       <div class="row">
         {{#each project in projects}}
@@ -99,7 +111,7 @@
         </div>
       </div>
     </div>
-  {{/EasySearch.IfInputEmpty}}
+  {{/EasySearch.IfInputEmpty}} -->
 
 
   <!--<select class="sorting">

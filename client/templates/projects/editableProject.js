@@ -212,6 +212,26 @@ Template.deleteProjectModal.events({
   },
 });
 
+Template.enterProjectModal.onCreated(function() {
+  toastr.options = {
+  "closeButton": false,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": false,
+  "positionClass": "toast-top-left",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+  }
+});
+
 Template.enterProjectModal.events({
 
   "click #btn-enter"(event) {
@@ -222,7 +242,7 @@ Template.enterProjectModal.events({
         input: document.getElementById("modalInputKey").value,
       }, (err, res) => {
         if (err) {
-          alert(err);
+          Command: toastr["error"]("Falscher Einschreibeschlüssel!")
         } else {
           //Router.go("landingPage");
           Session.set('result', "null");
