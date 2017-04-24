@@ -76,26 +76,25 @@
     </div>
   </div> -->
   <div class="project-cards">
-    <div class="container">
-      <div class="row">
-        <div>Meine Projekte</div>
-        <ul>
-            {{#each project in projects}}
-              {{#each member in project.team}}
-                {{#if $eq this._id member.userId}}
-                  <div class="col-lg-3">
-                  {{#if project.coverImg}}
-                    {{>projectCard currentDoc=project}}
-                  {{else}}
-                    {{>projectCardCoverless currentDoc=project}}
-                  {{/if}}
-                  </div>
-                {{ /if }}
-              {{/each}}
-            {{/each}}
-          </ul>
-        </div>
-     </div>
+    <div class="row">
+      <div>Meine Projekte</div>
+      <ul>
+        {{#each project in projects}}
+          {{#each member in project.team}}
+            {{log this._id}}
+            {{#if $eq this._id member.userId}}
+              <div class="col-lg-3">
+              {{#if project.coverImg}}
+                {{>projectCard currentDoc=project}}
+              {{else}}
+                {{>projectCardCoverless currentDoc=project}}
+              {{/if}}
+              </div>
+            {{ /if }}
+          {{/each}}
+        {{/each}}
+      </ul>
+    </div>
   </div>
         <!--{{#if $eq currentUser._id this._id}}
             {{>editProfile}}

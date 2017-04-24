@@ -3,6 +3,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { Images } from '/lib/collections/images.js';
 import { Projects } from "/lib/collections/projects.js" ;
 import { Drafts } from "/lib/collections/drafts.js";
+import toastr from 'toastr';
 
 import { imageRemove, galleryUpdate, coverImageUpdate, userAvatar} from "/lib/methods.js";
 
@@ -97,7 +98,7 @@ Template.uploadFormCrop.events({
                 }, (err, res) => {
                   if (err) {
                     alert(err);
-                  } 
+                  }
                 });
 
                 /*Images.remove({_id: currentArray[currentSlot].id});
