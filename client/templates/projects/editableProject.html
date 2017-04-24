@@ -50,15 +50,15 @@
                   </div> <!-- /.col Tags -->
                 </div> <!-- /.row Tags -->
 
-                <div class="row">
-                  <div class="col-sm-12">
+                <!-- <div class="row">
+                  <div class="col-sm-12"> -->
                       <!-- {{#each item in teamCommunication}}
                         {{> editTeamCommItem medium=item.medium url=item.url isPrivate=item.isPrivate currentDoc=this currentCollection=getCollection slot=@index}}
                       {{/each}}
                       {{> addTeamComm currentDoc=this currentCollection=getCollection }} -->
-                    {{> editTeamCommunication currentDoc=this currentCollection=getCollection }}
+                    <!-- {{> editTeamCommunication currentDoc=this currentCollection=getCollection }}
                   </div>
-                </div>
+                </div> -->
                 <br>
                 {{#if hasPermissions 'deleteProject' this }}
                   {{#if this.isNewProject}}
