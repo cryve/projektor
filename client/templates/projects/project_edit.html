@@ -34,11 +34,11 @@
       </a>
     </div>
     <div class="media-body">
-        {{#if $and editActive (hasPermissions 'editInfos,manageMembers' currentDoc._id currentCollection._name) }}
+        {{#if $and editActive (hasPermissions 'editInfos,manageMembers' currentDoc) }}
           {{#autoForm id="member" type="method-update" singleMethodArgument=true meteormethod=(getMethodString currentCollection._name "updateMember") doc=currentDoc collection=currentCollection setArrayItems=true}}
             <div class="form-group">
               <h4 class="media-heading">
-              {{#if $or ($neq this.userId currentUser._id) (isUserInGroup currentDoc.supervisors this.userId)}}
+              {{#if $neq this.userId currentUser._id }}
                 {{> afFieldInput name=teamUserIdField type="select2" options=userList placeholder="Neues Mitglied auswählen" value=this.userId }}
               {{else}}
                 {{getFullUsername this.userId}}
@@ -62,10 +62,10 @@
         {{else}}
           <h4 class="media-heading">
             <a href="{{pathFor 'userProfile' _id=this.userId}}">{{getFullUsername this.userId}}</a>
-            {{#if hasPermissions 'editInfos,manageMembers' currentDoc._id currentCollection._name}}
+            {{#if hasPermissions 'editInfos,manageMembers' currentDoc }}
               <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-member"></span></a>
             {{/if}}
-            {{#if $and ($neq this.userId currentUser._id) (hasPermissions 'editInfos,manageMembers' this.currentDoc) }}
+            {{#if $and ($neq this.userId currentUser._id) (hasPermissions 'editInfos,manageMembers' currentDoc) }}
               <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-member"></span></a>
             {{else}}
               {{#if showLeaveButton }}
@@ -338,7 +338,7 @@
     <div class="media-body">
       <h4 class="media-heading">
         <a href="{{pathFor 'userProfile' _id=this.userId}}">{{getFullUsername this.userId}}</a>
-        {{#if $and ($neq this.userId currentUser._id) (hasPermissions 'manageMembers' this.currentDoc) }}
+        {{#if $and ($neq this.userId currentUser._id) (hasPermissions 'manageMembers' currentDoc) }}
           <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-supervisor"></span></a>
         {{else}}
           {{#if showLeaveButton }}
