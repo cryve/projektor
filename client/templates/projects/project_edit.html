@@ -203,7 +203,7 @@
 
 <template name="notesBoxSupervisors">
   {{#if supervisorNotes currentDoc}}
-    {{#autoForm id="notesBox" type="method-update" singleMethodArgument=true meteormethod=(getMethodString currentCollection._name "updateEditable") doc=currentDoc collection=currentCollection }}
+    {{#autoForm id="notesBox" type="method-update" autosave=true singleMethodArgument=true meteormethod=(getMethodString currentCollection._name "updateEditableSupervisorNotes") doc=currentDoc collection=currentCollection }}
       <div class="form-group">
         {{> afFieldInput name="notes" type="textarea" rows=6 placeholder="Deine Notizen zum Projekt" }}
       </div>
