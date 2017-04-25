@@ -1,8 +1,9 @@
-.login-dropdown {
-    width: 250px !important;
-    padding-top: 10px;
+@media (min-width: 768px) {
+  .login-dropdown {
+      width: 250px !important;
+      padding-top: 10px;
+  }
 }
-
 .navbar-avatar {
   margin-right: 10px;
 }

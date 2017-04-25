@@ -19,13 +19,14 @@
           {{#if $eq currentUser.profile.role "Mitarbeiter"}}
             <a href="{{pathFor 'courseLink' _id=currentUser._id}}"><button class="btn btn-primary navbar-btn">Meine Kurse</button></a>
           {{/if}}
+          {{#if currentUser}}
+            <a href="{{pathFor 'userList'}}"><button class="btn btn-primary navbar-btn">Mitglieder</button></a>
+          {{/if}}
 
           <ul class="nav navbar-nav navbar-right">
             {{> ldapLoginButtons }}
           </ul>
-          {{#if currentUser}}
-            <a href="{{pathFor 'userList'}}"><button class="btn btn-primary navbar-btn">Mitglieder</button></a>
-          {{/if}}
+
           <!-- <label class="text-muted">Test: </label>
           {{> loginButtons }} -->
         </div><!--/.navbar-collapse -->
