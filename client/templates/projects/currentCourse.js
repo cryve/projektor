@@ -60,7 +60,12 @@ Template.currentCourse.helpers({
     return Template.instance().deadline.get();
   },
   projects(){
-    return Projects.find({}, { sort: { createdAt: -1 } });
+    let ownersAsSupervisors = [];
+    lodash.forEach(this.owner, function(ownerId) {
+      const owner = Meteor.users.findOne(ownerId);
+      ownersAsSupervisors.push({userId: owner._id, role: owner.profile.title});
+    });
+    return Projects.find({courseId: this._id, supervisors: { $in: ownersAsSupervisors}}, { sort: { createdAt: -1 } });
   },
   getCollection() {
     return Courses;
@@ -91,7 +96,12 @@ Template.currentCourse.helpers({
   },
 
   isCourseProject(){
-    const courseProjects = Projects.findOne({courseId:this._id, supervisors:{$elemMatch:{userId: Meteor.userId()}}});
+    let ownersAsSupervisors = [];
+    lodash.forEach(this.owner, function(ownerId) {
+      const owner = Meteor.users.findOne(ownerId);
+      ownersAsSupervisors.push({userId: owner._id, role: owner.profile.title});
+    });
+    const courseProjects = Projects.findOne({courseId:this._id, supervisors: { $in: ownersAsSupervisors } });
     if(courseProjects){
       return false;
     } else {

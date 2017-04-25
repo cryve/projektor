@@ -131,15 +131,9 @@
   <div class="project-cards">
     <div class="row">
       {{#each project in projects}}
-        {{#if $eq project.courseId this._id}}
-          {{#each supervisor in project.supervisors}}
-            {{#if $eq supervisor.userId currentUser._id}}
-              <div class="col-lg-3">
-                {{>projectCardCoverless currentDoc=project checkIfCourse = this._id}}
-              </div>
-            {{/if}}
-          {{/each}}
-        {{/if}}
+        <div class="col-lg-3">
+          {{>projectCardCoverless currentDoc=project checkIfCourse = this._id}}
+        </div>
       {{/each}}
     </div>
   </div>
