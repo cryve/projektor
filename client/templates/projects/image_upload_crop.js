@@ -99,6 +99,7 @@ Template.uploadFormCrop.events({
                   if (err) {
                     alert(err);
                   }
+                  Command: toastr["success"]("Gallerie wurde erfolgreich aktualisiert!");
                 });
 
                 /*Images.remove({_id: currentArray[currentSlot].id});
@@ -115,7 +116,7 @@ Template.uploadFormCrop.events({
                     if (err) {
                       alert(err);
                     } else {
-                       alert("Complete!!");
+                       Command: toastr["success"]("Bild wurde erfolgreich gelöscht!");
                     }
                   });
                  }
@@ -129,7 +130,7 @@ Template.uploadFormCrop.events({
                     if (err) {
                       alert(err);
                     } else {
-                       alert("Complete!!");
+                       Command: toastr["success"]("Gallerie wurde erfolgreich aktualisiert!");
                     }
                   });
                 /*Images.remove({_id: currentArray[currentSlot].id});
@@ -149,7 +150,7 @@ Template.uploadFormCrop.events({
                 if (err) {
                   alert(err);
                 } else {
-                   alert("Complete!!");
+                   Command: toastr["success"]("Avatarbild wurde erfolgreich gesetzt!");
                 }
               });
             }

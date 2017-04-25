@@ -86,8 +86,8 @@ Meteor.startup(function() {
         "lang": "de"
     }
   });
-  XlsFiles.remove({});
-  Courses.remove({});
+  // XlsFiles.remove({});
+  // Courses.remove({});
   Studies.remove();
 
   fs = require('fs');
