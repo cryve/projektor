@@ -58,3 +58,5 @@ matteodem:server-session
 dburles:mongo-collection-instances
 force-ssl
 peppelg:bootstrap-3-modal
+kurounin:pagination
+kurounin:pagination-blaze

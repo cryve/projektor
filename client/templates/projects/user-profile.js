@@ -6,7 +6,7 @@ import './user-profile.html';
 import './project_card.js';
 
 Template.userProfile.onCreated(function userProfileOnCreated() {
-  Meteor.subscribe("projects");
+  Meteor.subscribe("projectsAll");
   Meteor.subscribe("usersAll");
   Meteor.subscribe("studies");
   Session.set("previousRoute", Router.current().route.getName());

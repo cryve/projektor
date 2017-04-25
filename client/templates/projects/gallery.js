@@ -209,7 +209,7 @@ Template.wholeGallery.onCreated(function() {
   this.refreshPreview = new ReactiveVar(false);
   this.finishedMode = new ReactiveVar(false);
   console.log()
-  Meteor.subscribe("projects");
+  Meteor.subscribe("projectsAll");
   Meteor.subscribe("drafts");
 });
 

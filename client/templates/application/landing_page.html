@@ -62,15 +62,21 @@
   <!--{{> EasySearch.Input index=projectsIndex }}-->
   <div class="project-cards">
     <div class="row">
-      {{#each project in projects}}
-        <div class="col-lg-3">
-          {{#if project.coverImg}}
-            {{>projectCard currentDoc=project}}
-          {{else}}
-            {{>projectCardCoverless currentDoc=project}}
-          {{/if}}
-        </div>
-      {{/each}}
+      {{#if isReady}}
+      {{log documents}}
+        {{#each documents}}
+          <div class="col-lg-3">
+            {{#if this.coverImg}}
+              {{>projectCard currentDoc=this}}
+            {{else}}
+              {{>projectCardCoverless currentDoc=this}}
+            {{/if}}
+          </div>
+        {{/each}}
+        {{> defaultBootstrapPaginator pagination=templatePagination limit=8 containerClass="text-center" onClick=clickEvent}}
+      {{else}}
+          Loading...
+      {{/if}}
     </div>
   </div>
   <!-- {{#EasySearch.IfInputEmpty index=projectsIndex}}
