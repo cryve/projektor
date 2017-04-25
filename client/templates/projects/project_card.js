@@ -7,7 +7,7 @@ import './project_card.html';
 
 
 Template.projectCard.onCreated(function projectCardOnCreated() {
-  Meteor.subscribe("projects");
+  Meteor.subscribe("projectsAll");
 });
 
 /*Template.projectCard.onRendered(function() {
@@ -82,7 +82,7 @@ Template.projectCardCoverless.onCreated(function() {
   // });
   this.remainingMemberCount = new ReactiveVar(0);
   this.remainingJobsCount = new ReactiveVar(0);
-  Meteor.subscribe("projects");
+  Meteor.subscribe("projectsAll");
 });
 
 Template.projectCardCoverless.onRendered(function() {

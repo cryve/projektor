@@ -9,8 +9,14 @@ Template.landingPage.onCreated (function landingPageOnCreated() {
   this.setSearch = new ReactiveVar(true);
   this.setSort = new ReactiveVar("new");
   this.keyWord = new ReactiveArray([]);
-  Meteor.subscribe("projects");
+  Meteor.subscribe("projectsAll");
   Session.set("previousRoute", Router.current().route.getName());
+  this.pagination = new Meteor.Pagination(Projects, {
+    perPage: 8,
+    sort: {
+      _id: -1
+    },
+  });
 });
 
 // Template.landingPage.onRendered(function landingPageOnRendered(){
@@ -23,6 +29,20 @@ Template.landingPage.onCreated (function landingPageOnCreated() {
 // });
 
 Template.landingPage.helpers({
+  isReady: function () {
+    return Template.instance().pagination.ready();
+  },
+  templatePagination: function () {
+    return Template.instance().pagination;
+  },
+  documents: function () {
+    return Template.instance().pagination.getPage();
+  },
+	clickEvent: function() {
+		return function(e, templateInstance, clickedPage) {
+			e.preventDefault();
+		};
+	},
   projects() {
     return Projects.find({}, { sort: { createdAt: -1 } });
   },
@@ -146,6 +166,9 @@ Template.landingPage.helpers({
 });
 
 Template.landingPage.events({
+  'click #change': function (event, templateInstance) {
+        templateInstance.pagination.currentPage(Math.round(Math.random() * 10));
+    },
 
   'submit .new-tag' (event){
     event.preventDefault();

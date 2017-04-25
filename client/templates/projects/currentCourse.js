@@ -31,7 +31,7 @@ Template.currentCourse.onCreated (function courseOnCreated() {
   };
   Meteor.subscribe('files.xlsFiles.all');
   Meteor.subscribe("courses");
-  Meteor.subscribe("projects");
+  Meteor.subscribe("projectsAll");
   Meteor.subscribe("usersAll");
   Meteor.subscribe("drafts");
   this.editActive = new ReactiveVar(false);

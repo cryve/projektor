@@ -33,7 +33,7 @@ Template.editableProject.onCreated(function() {
   "showMethod": "fadeIn",
   "hideMethod": "fadeOut"
   }
-  Meteor.subscribe("projects");
+  Meteor.subscribe("projectsAll");
   Meteor.subscribe("drafts");
   Meteor.subscribe("files.images.all");
   Meteor.subscribe("files.xlsFiles.all");

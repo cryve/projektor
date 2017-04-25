@@ -27,7 +27,7 @@ Template.course.onCreated (function courseOnCreated() {
   "hideMethod": "fadeOut"
   }
   Meteor.subscribe("courses");
-  Meteor.subscribe("projects");
+  Meteor.subscribe("projectsAll");
   this.editActive = new ReactiveVar(false);
   this.editCourse = new ReactiveVar(false);
 });

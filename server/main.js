@@ -31,7 +31,6 @@ import { AccountsServer } from 'meteor/accounts-base';
 //   return user;
 // });
 
-
 LDAP.logging = false;
 
 LDAP.bindValue = function (usernameOrEmail) {
