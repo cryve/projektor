@@ -18,8 +18,8 @@ const maxSizeSupervisors = 5;
 const maxSizeProfileContacts = 5;
 
 /* Clear databases */
-Meteor.users.remove({});
-Projects.remove({});
+// Meteor.users.remove({});
+// Projects.remove({});
 /* Create possible values */
 const sampleUserRoles = ["Student", "Mitarbeiter"];
 const sampleUserTitles = ["Student", "Professur", "Lehrkraft", "Akadem. Mitarbeiter/in", "Vertretungsprofessur"];
@@ -50,7 +50,7 @@ Factory.define('user', Meteor.users, {
     avatar: () => false,
   },
 });
-const sampleUsers = _.times(sampleCountUsers, i => Factory.create("user"));
+//const sampleUsers = _.times(sampleCountUsers, i => Factory.create("user"));
 /* Create sample projects */
 Factory.define("project", Projects, {
   title: () => faker.commerce.productName(),
@@ -99,4 +99,4 @@ Factory.define("project", Projects, {
   // media: () => [{type: "image", id: Images.findOne()._id}],
   // coverImg: () => Images.findOne()._id,
 });
-_.times(sampleCountProjects, i => Factory.create("project"));
+//_.times(sampleCountProjects, i => Factory.create("project"));
