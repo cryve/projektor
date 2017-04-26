@@ -20,7 +20,8 @@ AutoForm.addHooks([
   "editOccasions",
   "editDeadline",
   "editBeginning",
-  "setVideoLink"
+  "setVideoLink",
+  "editAboutMe",
 ], {
   onSuccess: function(formType, result) {
     this.template.parent().editActive.set(false);
@@ -94,6 +95,19 @@ AutoForm.addHooks([
       return doc;
     }
   }
+});
+
+AutoForm.addHooks(["editAboutMe"], {
+  before: {
+    "method-update": function(doc) {
+      // Workaround for autoform behavior of unsetting entire profile object
+      // Allow $unset only for aboutMe field
+      if(doc["$unset"]) {
+        doc["$unset"] = { "profile.aboutMe": "" };
+      }
+      return doc;
+    }
+  },
 });
 
 AutoForm.addHooks([
