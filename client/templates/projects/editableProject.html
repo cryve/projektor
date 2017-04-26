@@ -147,6 +147,18 @@
                 </dl>
               </div>
             </div> <!-- /.panel Project Details -->
+            {{#if $or (isUserInGroup team currentUser._id) (isUserInGroup supervisors currentUser._id)}}
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h2 class="panel-title">PDF-Abgabe</h2>
+                </div>
+                <div class="panel-body">
+                  <dl class="dl">
+                    {{> projectFileUpload currentDoc=this currentCollection=getCollection}}
+                  </dl>
+                </div>
+              </div> <!-- /.panel Project Details -->
+            {{/if}}
 
           </div> <!-- /.col-md-4 -->
     </div><!-- /.row -->

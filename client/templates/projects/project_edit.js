@@ -2,6 +2,7 @@ import { Template } from "meteor/templating";
 import lodash from 'lodash';
 
 import { Courses } from "/lib/collections/courses.js" ;
+import { ProjectFiles } from "/lib/collections/projectFiles.js" ;
 import { deleteEditableArrayItem, deleteEditableCourse } from "/lib/methods.js";
 import { memberSchema } from "/lib/collections/schemas.js";
 import { jobSchema } from "/lib/collections/schemas.js";
@@ -694,4 +695,56 @@ Template.addTeamCommItem.events({
   "click .btn-abort-adding" (event) {
     Template.instance().editActive.set(false);
   },
+});
+
+Template.projectFileUpload.onCreated(function () {
+  this.currentUpload = new ReactiveVar(false);
+  Meteor.subscribe('files.projectFiles.all');
+});
+
+Template.projectFileUpload.helpers({
+  currentUpload: function () {
+    return Template.instance().currentUpload.get();
+  },
+  file: function () {
+    const pdfId = this.currentDoc && this.currentDoc.pdfs && this.currentDoc.pdfs[this.currentDoc.pdfs.length-1]
+    var file = ProjectFiles.findOne(pdfId)
+    return ProjectFiles.findOne(pdfId);
+  }
+});
+
+Template.projectFileUpload.events({
+  'change #fileInput': function (e, template) {
+    if (e.currentTarget.files && e.currentTarget.files[0]) {
+      // We upload only one file, in case
+      // multiple files were selected
+      var collection = template.data.currentCollection._name;
+      var projectId = template.data.currentDoc._id;
+      var upload = ProjectFiles.insert({
+        file: e.currentTarget.files[0],
+        streams: 'dynamic',
+        chunkSize: 'dynamic',
+        meta: {
+          collection: collection,
+          projectId: projectId,
+          createdAt: new Date(),
+        },
+      }, false);
+
+      upload.on('start', function () {
+        template.currentUpload.set(this);
+      });
+
+      upload.on('end', function (error, fileObj) {
+        if (error) {
+          alert('Error during upload: ' + error);
+        } else {
+          alert('File "' + fileObj.name + '" successfully uploaded');
+        }
+        template.currentUpload.set(false);
+      });
+
+      upload.start();
+    }
+  }
 });

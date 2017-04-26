@@ -489,3 +489,15 @@
     </div>
   {{/autoForm}}
 </template>
+
+<template name="projectFileUpload">
+  {{#with currentUpload}}
+    Uploading <b>{{file.name}}</b>:
+    <span id="progress">{{progress.get}}%</span>
+  {{else}}
+    <input id="fileInput" type="file" />
+  {{/with}}
+  <a href="{{file.link}}" download="{{file.name}}" target="_parent">
+    {{file.name}}
+  </a>
+</template>
