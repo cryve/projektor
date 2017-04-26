@@ -293,7 +293,8 @@ Template.file.helpers({
   fileLink:function(){
     var file = XlsFiles.findOne({userId:this._id});
     if(file && file._id){
-      var link = "https://projektor.mt.haw-hamburg.de/cdn/storage/XlsFiles/"+file._id+"/original/"+file._id+"?download=true"
+      var link = file.link();
+      //var link = "https://projektor.mt.haw-hamburg.de/cdn/storage/XlsFiles/"+file._id+"/original/"+file._id+"?download=true"
       //var link = "http://localhost:3000/cdn/storage/XlsFiles/"+file._id+"/original/"+file._id+"?download=true"
       window.location = link;
       Template.instance().createLink.set(false);

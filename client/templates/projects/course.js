@@ -40,7 +40,8 @@ Template.course.helpers({
     return Courses.find({});
   },
   countCourseProjects(courseId){
-    var count = Projects.find({courseId: courseId, supervisors:{$elemMatch:{userId: Meteor.userId()}}}).count();
+    var course = Courses.findOne(courseId)
+    var count = Projects.find({courseId:courseId, supervisors:{$elemMatch:{userId:{$in: course.owner}}}}).count();
     return count;
   },
   checkCourseOwner(courseId){
@@ -51,7 +52,8 @@ Template.course.helpers({
   },
   countStudents(courseId){
     var students = [];
-    const courseProjects = Projects.find({courseId:courseId, supervisors:{$elemMatch:{userId: Meteor.userId()}}})
+    var course = Courses.findOne(courseId)
+    const courseProjects = Projects.find({courseId:courseId, supervisors:{$elemMatch:{userId:{$in: course.owner}}}})
     courseProjects.forEach(function(project) {
       if(project.team){
         lodash.forEach(project.team, function(value) {
