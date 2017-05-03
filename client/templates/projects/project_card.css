@@ -326,7 +326,7 @@
 
 .containerFlip {
   position: relative;
-  perspective: 800px;
+  /*perspective: 800px;*/
   height: 380px;
 }
 
@@ -355,11 +355,18 @@
   background: white;
 }*/
 #card .back {
-
   background: white;
   transform: rotateY( 180deg );
+  -webkit-transform: rotateY( 180deg );
+  -moz-transform: rotateY( 180deg );
+  -ms-transform: rotateY( 180deg );
+  -o-transform: rotateY( 180deg );
 }
 
 #card.flipped {
   transform: rotateY( 180deg );
+  -webkit-transform: rotateY( 180deg );
+  -moz-transform: rotateY( 180deg );
+  -ms-transform: rotateY( 180deg );
+  -o-transform: rotateY( 180deg );
 }
