@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import { Projects } from '/lib/collections/projects.js';
-//import { ProjectsIndex } from '/lib/collections/projects.js';
+import { ProjectsIndex } from '/lib/collections/projects.js';
 import './landing_page.html';
 
 
@@ -19,14 +19,14 @@ Template.landingPage.onCreated (function landingPageOnCreated() {
   });
 });
 
-// Template.landingPage.onRendered(function landingPageOnRendered(){
-//   const keyWord = this.keyWord;
-//   Tracker.autorun(function(){
-//     keyWord.depend();
-//     ProjectsIndex.getComponentMethods().search(keyWord.join([separator = ' ']));
-//   });
-//
-// });
+Template.landingPage.onRendered(function landingPageOnRendered(){
+  const keyWord = this.keyWord;
+  Tracker.autorun(function(){
+    keyWord.depend();
+    ProjectsIndex.getComponentMethods().search(keyWord.join([separator = ' ']));
+  });
+
+});
 
 Template.landingPage.helpers({
   isReady: function () {
@@ -46,9 +46,9 @@ Template.landingPage.helpers({
   projects() {
     return Projects.find({}, { sort: { createdAt: -1 } });
   },
-  // projectsIndex: () => {
-  //   return ProjectsIndex;
-  // },
+  projectsIndex: () => {
+    return ProjectsIndex;
+  },
   originalDoc(searchDoc) {
     searchDoc._id = searchDoc.__originalId;
     delete searchDoc.__originalId;

@@ -4,7 +4,7 @@
   </ol>
 
 
-  <!-- <div id="container">
+  <div id="container">
   	<ul class="tags">
       <form class="navbar-form navbar-right">
         <div class="form-group searchBoxFixed" style="display:inline">
@@ -25,8 +25,8 @@
     </div>
 
   	</ul>
-  </div> -->
-  <!-- <section class="input">
+  </div>
+  <section class="input">
     <div class="container">
       <div class="col-xs-8 col-xs-offset-2">
         <form>
@@ -39,13 +39,13 @@
         </form>
       </div>
     </div>
-  </section> -->
+  </section>
 
-              <!-- <button class="btn btn-primary listRemove" type="button" title="Delete tags">
+              <button class="btn btn-primary listRemove" type="button" title="Delete tags">
                 Filter Löschen <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-              </button> -->
+              </button>
 
-    <!-- <ul class="tags unstyled">
+    <ul class="tags unstyled">
       {{#each tags }}
         {{#if $eq this ""}}
 
@@ -58,8 +58,8 @@
         {{/if}}
       {{/each}}
 
-    </ul> -->
-  <!--{{> EasySearch.Input index=projectsIndex }}-->
+    </ul>
+  {{> EasySearch.Input index=projectsIndex }}
   <div class="project-cards">
     <div class="row">
       {{#if isReady}}
@@ -79,7 +79,7 @@
       {{/if}}
     </div>
   </div>
-  <!-- {{#EasySearch.IfInputEmpty index=projectsIndex}}
+  {{#EasySearch.IfInputEmpty index=projectsIndex}}
     <div class="project-cards">
       <div class="row">
         {{#each project in projects}}
@@ -117,18 +117,18 @@
         </div>
       </div>
     </div>
-  {{/EasySearch.IfInputEmpty}} -->
+  {{/EasySearch.IfInputEmpty}}
 
 
-  <!--<select class="sorting">
+  <select class="sorting">
     <option value="relevance">Relevance</option>
     <option value="newest">Newest</option>
     <option value="bestScore">Score</option>
-  </select>-->
+  </select>
 
 
 
-  <!-- <td>
+  <td>
     <select id="sortStatus">
         <option value="new">New -> Old</option>
         <option value="old">old -> New</option>
@@ -136,8 +136,8 @@
         <option value="deadlineFar">Deadline fern</option>
         <option value="relevanz">Relevanz</option>
     </select>
-  </td> -->
-  <!-- <div class="project-cards">
+  </td>
+  <div class="project-cards">
     <div class="container">
       <div class="row">
         {{#each project in projects}}
@@ -151,5 +151,5 @@
         {{/each}}
       </div>
     </div>
-  </div> -->
+  </div>
 </template>

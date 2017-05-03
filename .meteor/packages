@@ -52,11 +52,11 @@ yogiben:autoform-tags
 aldeed:schema-deny
 mdg:validation-error
 vazco:universe-selectize
-easysearch:elasticsearch
-easy:search
 matteodem:server-session
 dburles:mongo-collection-instances
 force-ssl
 peppelg:bootstrap-3-modal
 kurounin:pagination
 kurounin:pagination-blaze
+easy:search
+easysearch:elasticsearch
