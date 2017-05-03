@@ -1,4 +1,5 @@
 <template name="landingPage">
+
   <ol class="breadcrumb">
     <li class="active">Startseite</li>
   </ol>
@@ -60,7 +61,7 @@
 
     </ul> -->
   <!--{{> EasySearch.Input index=projectsIndex }}-->
-  <div class="project-cards">
+  <!-- <div class="project-cards">
     <div class="row">
       {{#if isReady}}
       {{log documents}}
@@ -78,7 +79,7 @@
           Loading...
       {{/if}}
     </div>
-  </div>
+  </div> -->
   <!-- {{#EasySearch.IfInputEmpty index=projectsIndex}}
     <div class="project-cards">
       <div class="row">
@@ -118,6 +119,17 @@
       </div>
     </div>
   {{/EasySearch.IfInputEmpty}} -->
+  <!-- <section class="containerFlip">
+    <div id="card">
+      <figure class="front" onclick="$('#card').addClass('flipped');">1</figure>
+      <figure class="back" onclick="$('#card').removeClass('flipped');">2</figure>
+    </div>
+  </section> -->
+
+    {{#each navItems}}
+      {{> UI.dynamic template=this data=@index}}
+    {{/each}}
+  <a href="#" class="load-more btn btn-primary" id="viewMore">Load more</a>
 
 
   <!--<select class="sorting">
@@ -152,4 +164,17 @@
       </div>
     </div>
   </div> -->
+</template>
+
+<template name="testLoad">
+  {{value}}
+  {{#each documents}}
+    <div class="col-lg-3  containerFlip">
+      {{#if this.coverImg}}
+        {{>projectCard currentDoc=this}}
+      {{else}}
+        {{>projectCardCoverless currentDoc=this}}
+      {{/if}}
+    </div>
+  {{/each}}
 </template>
