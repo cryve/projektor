@@ -1,4 +1,4 @@
-<template name="projectCard">
+<template name="projectCard_bak">
   <div class="panel panel-default cover-card" id="card">
     <div class="panel-header cover">
       <img class="img-responsive center-block" src="{{getImgURL currentDoc.coverImg "cover400"}}">
@@ -45,6 +45,57 @@
     <div class="panel-footer">
       {{>projectCardFooter beginning=currentDoc.beginning deadline=currentDoc.deadline}}
     </div> <!-- /.panel-footer -->
+  </div> <!-- /.panel project card -->
+</template>
+
+<template name="projectCard">
+  <div class="panel panel-default coverless-card" id="card">
+  <figure class="front" style="background-image:url({{getImgURL currentDoc.coverImg "cover400"}});">
+    <div class="panel-body {{#unless checkIfCourse}} coverless-card-body {{else}} coverless-card-bodyCourse {{/unless}}">
+      <div class="{{#unless checkIfCourse}} coverless-card-title {{else}} coverless-card-titleCourse {{/unless}}">
+        {{> projectCardTitle _id=currentDoc._id title=currentDoc.title checkIfCourse=checkIfCourse subtitle=currentDoc.subtitle subtitleLines=2 }}
+      </div>
+      <hr class="hr-top">
+      <ul class="member-icons list-inline">
+        {{#each member in currentDoc.team}}
+          {{#if $lt @index (itemsToShow currentDoc.team.length 5 1)}}
+            <li>
+              <a href="{{pathFor 'userProfile' _id=member.userId }}">
+                <img class="img-circle" rel="tooltip" title="{{getFullUsername member.userId}}" src={{getAvatarURL member.userId "avatar20"}}>
+              </a>
+            </li>
+          {{/if}}
+        {{/each}}
+        {{#if itemsRemaining currentDoc.team.length 5 1}}
+          <li class="remaining-member">
+            <a class="text-info" href="{{pathFor 'projectDetails' _id=currentDoc._id title=(encodeUrlString currentDoc.title)}}">
+              <div class="text-center{{#unless checkIfCourse}} bg-info circle30-remaining-members {{/unless}}">
+                <span>
+                  <strong>+{{itemsRemaining currentDoc.team.length 5 1}}</strong>
+                </span>
+              </div>
+            </a>
+          </li>
+        {{/if}}
+      </ul>
+      <hr class="hr-bottom">
+      {{>projectCardTags tags=currentDoc.tags}}
+    </div> <!-- /.panel-body -->
+    <div class="panel-footer">
+      {{>projectCardFooter beginning=currentDoc.beginning deadline=currentDoc.deadline}}
+    </div> <!-- /.panel-footer -->
+    </figure>
+    <figure class="back">
+      <div class="panel-body {{#unless checkIfCourse}} coverless-card-body {{else}} coverless-card-bodyCourse {{/unless}}">
+        {{#unless checkIfCourse}}
+          {{>projectCardJobs jobs=currentDoc.jobs expandable=false}}
+        {{/unless}}
+
+      </div>
+      <div class="panel-footer">
+        CLICK HERE!
+      </div> <!-- /.panel-footer -->
+    </figure>
   </div> <!-- /.panel project card -->
 </template>
 

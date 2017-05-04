@@ -1,5 +1,5 @@
 .coverless-card-title {
-  height: 78px;
+   height: 78px;
 }
 
 .coverless-card-titleCourse {
@@ -44,7 +44,10 @@
 }
 
 .panel-body.coverless-card-body {
-  height: 300px;
+  height: 450px;
+  background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 30%, rgba(255,255,255,1) 40%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 30%,rgba(255,255,255,1) 40%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 30%,rgba(255,255,255,1) 40%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
 .panel-body.coverless-card-bodyCourse {
@@ -56,14 +59,14 @@
 }
 
 .coverless-card-body .jobs-box {
-  height: 182px;
+  height: 382px;
 }
 
 .jobs-box-body {
   padding: 15px;
   width: 100%;
   overflow: hidden;
-  height: 180px;
+  height: 380px;
   /*-moz-box-shadow: inset 0 -10px 10px -10px #333;
     -webkit-box-shadow: inset 0 -10px 10px -10px #333;
     box-shadow: inset 0 -10px 10px -10px #333;*/
@@ -327,13 +330,13 @@
 .containerFlip {
   position: relative;
   perspective: 800px;
-  height: 380px;
+  height: 530px;
 }
 
 #card {
   position: absolute;
   width: 260px;
-  height: 300px;
+  height: 450px;
   -webkit-transform-style: preserve-3d; /* Chrome, Safari, Opera */
   transform-style: preserve-3d;
   transition: transform 1s;
@@ -345,14 +348,19 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  position: absolute;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  background-repeat: no-repeat;
 }
 
 #card .front {
-  background: white;
+  background-color: white;
 }
+
+#card .front .panel-body{
+  padding-top:200px;
+}
+
 #card .back {
   background: white;
   transform: rotateY( 180deg );

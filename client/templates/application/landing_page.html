@@ -107,7 +107,7 @@
       <div class="container">
         <div class="row">
         {{#EasySearch.Each index=projectsIndex }}
-          <div class="col-lg-3">
+          <div class="col-lg-4 col-md-3 col-sm-2 col-xs-1">
             {{#if coverImg}}
               {{>projectCard currentDoc=(originalDoc this)}}
             {{else}}
@@ -129,9 +129,11 @@
     {{#each navItems}}
       {{> UI.dynamic template=this data=@index}}
     {{/each}}
-  <a href="#" class="load-more btn btn-primary" id="viewMore">Load more</a>
-
-
+    <div class="col-md-12">
+      <div class="col-xs-12 col-md-2 col-md-offset-5">
+  	<a href="#" class="load-more btn btn-primary" id="viewMore">Load more</a>
+      </div>
+    </div>
   <!--<select class="sorting">
     <option value="relevance">Relevance</option>
     <option value="newest">Newest</option>

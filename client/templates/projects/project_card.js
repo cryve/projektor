@@ -56,6 +56,16 @@ Template.projectCardCoverless.events({
     $(event.currentTarget).parent().removeClass("flipped");
   },
 });
+Template.projectCard.events({
+  "click .front": function(event, template){
+      $('.flipped').removeClass("flipped");
+    $(event.currentTarget).parent().addClass("flipped");
+
+  },
+  "click .back": function(event, template){
+    $(event.currentTarget).parent().removeClass("flipped");
+  },
+});
 /*Template.projectCardCoverless.onRendered(function() {
   this.autorun(function(){
     data = Blaze.getData();
