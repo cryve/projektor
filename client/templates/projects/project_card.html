@@ -101,7 +101,7 @@
 
 <template name="projectCardCoverless">
   <div class="panel panel-default coverless-card" id="card">
-    <figure class="front">
+    <figure class="front" style="background: -webkit-linear-gradient(top, rgba(0,0,0,0.4) 0%,rgba(0,0,0,0) 100%); background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%,rgba(0,0,0,0) 100%); ">
     <div class="panel-body {{#unless checkIfCourse}} coverless-card-body {{else}} coverless-card-bodyCourse {{/unless}}">
       <div class="{{#unless checkIfCourse}} coverless-card-title {{else}} coverless-card-titleCourse {{/unless}}">
         {{> projectCardTitle _id=currentDoc._id title=currentDoc.title checkIfCourse=checkIfCourse subtitle=currentDoc.subtitle subtitleLines=2 }}
