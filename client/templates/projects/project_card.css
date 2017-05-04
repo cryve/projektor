@@ -11,8 +11,8 @@
 }
 
 .ellipsis-tags {
-  position: relative;
-  top: 156px;
+  /*position: relative;*/
+  /*top: 156px;*/
 }
 
 .expandable-content {
@@ -326,16 +326,15 @@
 
 .containerFlip {
   position: relative;
-  /*perspective: 800px;*/
+  perspective: 800px;
   height: 380px;
 }
 
 #card {
-
   position: absolute;
   width: 260px;
   height: 300px;
-
+  -webkit-transform-style: preserve-3d; /* Chrome, Safari, Opera */
   transform-style: preserve-3d;
   transition: transform 1s;
 }
@@ -351,22 +350,16 @@
   backface-visibility: hidden;
 }
 
-/*#card .front {
+#card .front {
   background: white;
-}*/
+}
 #card .back {
   background: white;
   transform: rotateY( 180deg );
   -webkit-transform: rotateY( 180deg );
-  -moz-transform: rotateY( 180deg );
-  -ms-transform: rotateY( 180deg );
-  -o-transform: rotateY( 180deg );
 }
 
 #card.flipped {
-  transform: rotateY( 180deg );
-  -webkit-transform: rotateY( 180deg );
-  -moz-transform: rotateY( 180deg );
-  -ms-transform: rotateY( 180deg );
-  -o-transform: rotateY( 180deg );
+  transform: rotateY( -180deg );
+  -webkit-transform: rotateY( -180deg );
 }
