@@ -61,10 +61,6 @@
 
 
     </ul>
-  {{> EasySearch.Input index=projectsIndex }}
-  <div class="project-cards">
-
-    </ul> -->
   <!--{{> EasySearch.Input index=projectsIndex }}-->
   <!-- <div class="project-cards">
     <div class="row">
@@ -130,7 +126,6 @@
       <figure class="back" onclick="$('#card').removeClass('flipped');">2</figure>
     </div>
   </section> -->
-
     {{#each navItems}}
       {{> UI.dynamic template=this data=@index}}
     {{/each}}
@@ -144,8 +139,6 @@
     <option value="newest">Newest</option>
     <option value="bestScore">Score</option>
   </select>
-
-
 
   <td>
     <select id="sortStatus">
@@ -170,8 +163,8 @@
         {{/each}}
       </div>
     </div>
-  </div>
-</template> --->
+  </div> -->
+</template>
 
 <template name="testLoad">
   {{value}}
