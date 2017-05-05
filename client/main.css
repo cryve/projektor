@@ -1,5 +1,5 @@
 body{
-  background: #e8e8e8;
+  background: white;  /* fallback for old browsers */
   margin-bottom: 60px;
 }
 
@@ -7,6 +7,9 @@ textarea {
    resize: none;
 }
 
+.breadcrumb {
+  background-color:white;
+}
 
 
 #loader {

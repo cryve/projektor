@@ -5,7 +5,6 @@
     </div> <!-- /.panel-header -->
     <div class="panel-body cover-card-body">
       <div class="expandable-trigger">
-
       </div>
       <div class="expandable-content">
         <div class="member-icons-box">
@@ -101,8 +100,9 @@
 
 <template name="projectCardCoverless">
   <div class="panel panel-default coverless-card" id="card">
-    <figure class="front" style="background: -webkit-linear-gradient(top, rgba(0,0,0,0.4) 0%,rgba(0,0,0,0) 100%); background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%,rgba(0,0,0,0) 100%); ">
-	<span class="glyphicon glyphicon-refresh pull-right" aria-hidden="true"></span>
+    <figure class="front" style="{{#if currentDoc.coverImg}} background-image:url({{getImgURL currentDoc.coverImg "cover400"}}){{else}}background-color:#f8b500{{/if}} ">
+	     <i class="fa fa-ellipsis-v fa-2x panel-right" aria-hidden="true"></i>
+
     <div class="panel-body {{#unless checkIfCourse}} coverless-card-body {{else}} coverless-card-bodyCourse {{/unless}}">
       <div class="{{#unless checkIfCourse}} coverless-card-title {{else}} coverless-card-titleCourse {{/unless}}">
         {{> projectCardTitle _id=currentDoc._id title=currentDoc.title checkIfCourse=checkIfCourse subtitle=currentDoc.subtitle subtitleLines=2 }}
@@ -144,8 +144,8 @@
         {{/unless}}
 
       </div>
-      <div class="panel-footer">
-        CLICK HERE!
+      <div class="panel-footer panel-footerBack">
+        <a href="{{pathFor 'projectDetails' _id=currentDoc._id title=(encodeUrlString currentDoc.title)}}">Zum Projekt  <i class="fa fa-power-off" aria-hidden="true"></i></a>
       </div> <!-- /.panel-footer -->
     </figure>
   </div> <!-- /.panel project card -->
@@ -158,10 +158,10 @@
     </h4>
   {{else}}
     <p class="title-ellipses">
-      <i class="">{{title}}</i>
+       <a href="{{pathFor 'projectDetails' _id=_id title=(encodeUrlString title)}}" class="{{#if subtitle}}title-1row{{else}}title-2row{{/if}}">{{title}}</a>
     </p>
     {{#if $and ($not checkIfCourse) subtitle}}
-       <small class="subtitle-{{subtitleLines}}row subtitle-ellipses">{{subtitle}}</small>    
+       <small class="subtitle-{{subtitleLines}}row subtitle-ellipses">{{subtitle}}</small>
     {{/if}}
   {{/if}}
 
@@ -188,7 +188,7 @@
 <template name="projectCardTags">
   <span class="ellipsis-tags">
     {{#each tag in tags}}
-      <span class="label label-default">{{tag}}</span>
+      <span class="label label-default tags-color">{{tag}}</span>
     {{/each}}
   </span>
 </template>
