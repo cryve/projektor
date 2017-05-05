@@ -12,9 +12,9 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           {{#if checkIfDraft }}
-            <button class="btn btn-primary navbar-btn create-project-btn" disabled={{isDraftRendered}}>Fortfahren</button>
+            <button class="btn btn-warning navbar-btn create-project-btn" disabled={{isDraftRendered}}>Fortfahren</button>
           {{else}}
-            <button class="btn btn-primary navbar-btn create-project-btn">Neues Projekt erstellen</button>
+            <button class="btn btn-success navbar-btn create-project-btn">Neues Projekt erstellen</button>
           {{/if}}
           {{#if $eq currentUser.profile.role "Mitarbeiter"}}
             <a href="{{pathFor 'courseLink' _id=currentUser._id}}"><button class="btn btn-primary navbar-btn">Meine Kurse</button></a>

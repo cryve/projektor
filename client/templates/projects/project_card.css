@@ -44,7 +44,8 @@
 }
 
 .panel-body.coverless-card-body {
-  height: 450px;
+  height: 400px;
+  overflow:hidden;
   background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 30%, rgba(255,255,255,1) 40%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
   background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 30%,rgba(255,255,255,1) 40%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 30%,rgba(255,255,255,1) 40%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
@@ -59,14 +60,14 @@
 }
 
 .coverless-card-body .jobs-box {
-  height: 382px;
+  height: 332px;
 }
 
 .jobs-box-body {
   padding: 15px;
   width: 100%;
   overflow: hidden;
-  height: 380px;
+  height: 330px;
   /*-moz-box-shadow: inset 0 -10px 10px -10px #333;
     -webkit-box-shadow: inset 0 -10px 10px -10px #333;
     box-shadow: inset 0 -10px 10px -10px #333;*/
@@ -330,13 +331,13 @@
 .containerFlip {
   position: relative;
   perspective: 800px;
-  height: 530px;
+  height: 480px;
 }
 
 #card {
   position: absolute;
   width: 260px;
-  height: 450px;
+  height: 400px;
   -webkit-transform-style: preserve-3d; /* Chrome, Safari, Opera */
   transform-style: preserve-3d;
   transition: transform 1s;
@@ -358,7 +359,7 @@
 }
 
 #card .front .panel-body{
-  padding-top:200px;
+  padding-top:180px;
 }
 
 #card .back {
@@ -370,4 +371,27 @@
 #card.flipped {
   transform: rotateY( -180deg );
   -webkit-transform: rotateY( -180deg );
+}
+
+.title-ellipses {
+  width: 200px;
+  font-size:24px;
+  height: 1.2em;
+  /*elipsis style*/
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.subtitle-ellipses {
+  width: 200px;
+  height: 2.4em;
+  /*elipsis style*/
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
