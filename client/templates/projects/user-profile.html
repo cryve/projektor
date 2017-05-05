@@ -84,11 +84,7 @@
             {{log this._id}}
             {{#if $eq this._id member.userId}}
               <div class="col-lg-3">
-              {{#if project.coverImg}}
-                {{>projectCard currentDoc=project}}
-              {{else}}
                 {{>projectCardCoverless currentDoc=project}}
-              {{/if}}
               </div>
             {{ /if }}
           {{/each}}

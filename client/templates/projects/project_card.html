@@ -1,11 +1,10 @@
-<template name="projectCard">
-  <div class="panel panel-default cover-card">
+<template name="projectCard_bak">
+  <div class="panel panel-default cover-card" id="card">
     <div class="panel-header cover">
       <img class="img-responsive center-block" src="{{getImgURL currentDoc.coverImg "cover400"}}">
     </div> <!-- /.panel-header -->
     <div class="panel-body cover-card-body">
       <div class="expandable-trigger">
-
       </div>
       <div class="expandable-content">
         <div class="member-icons-box">
@@ -48,8 +47,9 @@
   </div> <!-- /.panel project card -->
 </template>
 
-<template name="projectCardCoverless">
-  <div class="panel panel-default coverless-card">
+<template name="projectCard">
+  <div class="panel panel-default coverless-card" id="card">
+  <figure class="front" style="background-image:url({{getImgURL currentDoc.coverImg "cover400"}});">
     <div class="panel-body {{#unless checkIfCourse}} coverless-card-body {{else}} coverless-card-bodyCourse {{/unless}}">
       <div class="{{#unless checkIfCourse}} coverless-card-title {{else}} coverless-card-titleCourse {{/unless}}">
         {{> projectCardTitle _id=currentDoc._id title=currentDoc.title checkIfCourse=checkIfCourse subtitle=currentDoc.subtitle subtitleLines=2 }}
@@ -77,15 +77,77 @@
           </li>
         {{/if}}
       </ul>
-      {{#unless checkIfCourse}}
-        <hr class="hr-bottom">
-        {{>projectCardJobs jobs=currentDoc.jobs expandable=false}}
-        {{>projectCardTags tags=currentDoc.tags}}
-      {{/unless}}
+      <hr class="hr-bottom">
+      {{>projectCardTags tags=currentDoc.tags}}
     </div> <!-- /.panel-body -->
     <div class="panel-footer">
       {{>projectCardFooter beginning=currentDoc.beginning deadline=currentDoc.deadline}}
     </div> <!-- /.panel-footer -->
+    </figure>
+    <figure class="back">
+      <div class="panel-body {{#unless checkIfCourse}} coverless-card-body {{else}} coverless-card-bodyCourse {{/unless}}">
+        {{#unless checkIfCourse}}
+          {{>projectCardJobs jobs=currentDoc.jobs expandable=false}}
+        {{/unless}}
+
+      </div>
+      <div class="panel-footer">
+        CLICK HERE!
+      </div> <!-- /.panel-footer -->
+    </figure>
+  </div> <!-- /.panel project card -->
+</template>
+
+<template name="projectCardCoverless">
+  <div class="panel panel-default coverless-card" id="card">
+    <figure class="front" style="{{#if currentDoc.coverImg}} background-image:url({{getImgURL currentDoc.coverImg "cover400"}}){{else}}background-color:#f8b500{{/if}} ">
+	     <i class="fa fa-ellipsis-v fa-2x panel-right" aria-hidden="true"></i>
+
+    <div class="panel-body {{#unless checkIfCourse}} coverless-card-body {{else}} coverless-card-bodyCourse {{/unless}}">
+      <div class="{{#unless checkIfCourse}} coverless-card-title {{else}} coverless-card-titleCourse {{/unless}}">
+        {{> projectCardTitle _id=currentDoc._id title=currentDoc.title checkIfCourse=checkIfCourse subtitle=currentDoc.subtitle subtitleLines=2 }}
+      </div>
+      <hr class="hr-top">
+      <ul class="member-icons list-inline">
+        {{#each member in currentDoc.team}}
+          {{#if $lt @index (itemsToShow currentDoc.team.length 5 1)}}
+            <li>
+              <a href="{{pathFor 'userProfile' _id=member.userId }}">
+                <img class="img-circle" rel="tooltip" title="{{getFullUsername member.userId}}" src={{getAvatarURL member.userId "avatar20"}}>
+              </a>
+            </li>
+          {{/if}}
+        {{/each}}
+        {{#if itemsRemaining currentDoc.team.length 5 1}}
+          <li class="remaining-member">
+            <a class="text-info" href="{{pathFor 'projectDetails' _id=currentDoc._id title=(encodeUrlString currentDoc.title)}}">
+              <div class="text-center{{#unless checkIfCourse}} bg-info circle30-remaining-members {{/unless}}">
+                <span>
+                  <strong>+{{itemsRemaining currentDoc.team.length 5 1}}</strong>
+                </span>
+              </div>
+            </a>
+          </li>
+        {{/if}}
+      </ul>
+      <hr class="hr-bottom">
+      {{>projectCardTags tags=currentDoc.tags}}
+    </div> <!-- /.panel-body -->
+    <div class="panel-footer">
+      {{>projectCardFooter beginning=currentDoc.beginning deadline=currentDoc.deadline}}
+    </div> <!-- /.panel-footer -->
+    </figure>
+    <figure class="back">
+      <div class="panel-body {{#unless checkIfCourse}} coverless-card-body {{else}} coverless-card-bodyCourse {{/unless}}">
+        {{#unless checkIfCourse}}
+          {{>projectCardJobs jobs=currentDoc.jobs expandable=false}}
+        {{/unless}}
+
+      </div>
+      <div class="panel-footer panel-footerBack">
+        <a href="{{pathFor 'projectDetails' _id=currentDoc._id title=(encodeUrlString currentDoc.title)}}">Zum Projekt  <i class="fa fa-power-off" aria-hidden="true"></i></a>
+      </div> <!-- /.panel-footer -->
+    </figure>
   </div> <!-- /.panel project card -->
 </template>
 
@@ -95,21 +157,23 @@
       <a href="{{pathFor 'projectDetails' _id=_id title=(encodeUrlString title)}}" class="{{#if subtitle}}title-1row{{else}}title-2row{{/if}}">{{title}}</a>
     </h4>
   {{else}}
-    <h3>
-      <a href="{{pathFor 'projectDetails' _id=_id title=(encodeUrlString title)}}" class="{{#if subtitle}}title-1row{{else}}title-2row{{/if}}">{{title}}</a>
-      {{#if $and ($not checkIfCourse) subtitle}}
-        <br>
-        <small class="subtitle-{{subtitleLines}}row">{{subtitle}}</small>
-      {{/if}}
-    </h3>
+    <p class="title-ellipses">
+       <a href="{{pathFor 'projectDetails' _id=_id title=(encodeUrlString title)}}" class="{{#if subtitle}}title-1row{{else}}title-2row{{/if}}">{{title}}</a>
+    </p>
+    {{#if $and ($not checkIfCourse) subtitle}}
+       <small class="subtitle-{{subtitleLines}}row subtitle-ellipses">{{subtitle}}</small>
+    {{/if}}
   {{/if}}
 
 </template>
 
 <template name="projectCardJobs">
   <div class="jobs-box">
-    <span class="text-muted text-center jobs-box-header"><span>Gesucht</span></span>
+
     <div class="container jobs-box-body {{#if expandable}}expandable{{/if}}">
+
+        <span class="text-muted text-center jobs-box-header"><h3>Gesucht</h3></span>
+        <hr class="hr-top">
       <ul class="jobBreak list-unstyled">
           {{#each job in jobs}}
             <li class="text-primary {{#if $gte @index 3}}job-expand{{/if}}">
@@ -124,7 +188,7 @@
 <template name="projectCardTags">
   <span class="ellipsis-tags">
     {{#each tag in tags}}
-      <span class="label label-default">{{tag}}</span>
+      <span class="label label-default tags-color">{{tag}}</span>
     {{/each}}
   </span>
 </template>

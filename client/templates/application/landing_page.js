@@ -6,9 +6,11 @@ import './landing_page.html';
 
 
 Template.landingPage.onCreated (function landingPageOnCreated() {
+  this.skipValue = 0;
   this.setSearch = new ReactiveVar(true);
   this.setSort = new ReactiveVar("new");
   this.keyWord = new ReactiveArray([]);
+  this.navItems = new ReactiveArray(["testLoad"]);
   Meteor.subscribe("projectsAll");
   Session.set("previousRoute", Router.current().route.getName());
   this.pagination = new Meteor.Pagination(Projects, {
@@ -161,11 +163,52 @@ Template.landingPage.helpers({
   },*/
   tags: function() {
     return Template.instance().keyWord.array();
-  }
+  },
+  navItems(){
 
+    if (Template.instance().navItems.array()){
+      return Template.instance().navItems.array();
+    }
+  },
+  myDataContext(){
+
+    skip = Template.instance().skipValue
+
+    console.log(skip);
+    return skip;
+  }
 });
 
+Template.testLoad.onCreated (function landingPageOnCreated() {
+  Meteor.subscribe("projectsAll");
+});
+
+Template.testLoad.helpers({
+  value(){
+    console.log(this);
+    console.log(Template.instance());
+  },
+  documents: function () {
+    var skip = Template.instance().data * 4
+    $("#loader").css({'display':'none'});
+    // $('.load-more--loading').removeClass('load-more--loading');
+    return Projects.find({}, {skip: skip, limit: 4})
+
+  },
+
+}),
+
 Template.landingPage.events({
+
+  "click #viewMore"(event){
+    $("#loader").css({'display':'block'});
+    //$(event.currentTarget).addClass('load-more--loading');
+    event.preventDefault();
+    Template.instance().navItems.push("testLoad")
+    console.log(Template.instance().navItems.array());
+
+
+  },
   'click #change': function (event, templateInstance) {
         templateInstance.pagination.currentPage(Math.round(Math.random() * 10));
     },
@@ -203,4 +246,5 @@ Template.landingPage.events({
     ProjectsIndex.getComponentMethods()
       .addProps('sortBy', $(event.target).val())
   },
+
 });

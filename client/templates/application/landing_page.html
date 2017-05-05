@@ -1,4 +1,5 @@
 <template name="landingPage">
+
   <ol class="breadcrumb">
     <li class="active">Startseite</li>
   </ol>
@@ -58,9 +59,15 @@
         {{/if}}
       {{/each}}
 
+<<<<<<< HEAD
     </ul>
   {{> EasySearch.Input index=projectsIndex }}
   <div class="project-cards">
+=======
+    </ul> -->
+  <!--{{> EasySearch.Input index=projectsIndex }}-->
+  <!-- <div class="project-cards">
+>>>>>>> 79006dda1691bd5ec862aff4d5462a9f9bf15559
     <div class="row">
       {{#if isReady}}
       {{log documents}}
@@ -78,8 +85,13 @@
           Loading...
       {{/if}}
     </div>
+<<<<<<< HEAD
   </div>
   {{#EasySearch.IfInputEmpty index=projectsIndex}}
+=======
+  </div> -->
+  <!-- {{#EasySearch.IfInputEmpty index=projectsIndex}}
+>>>>>>> 79006dda1691bd5ec862aff4d5462a9f9bf15559
     <div class="project-cards">
       <div class="row">
         {{#each project in projects}}
@@ -106,7 +118,7 @@
       <div class="container">
         <div class="row">
         {{#EasySearch.Each index=projectsIndex }}
-          <div class="col-lg-3">
+          <div class="col-lg-4 col-md-3 col-sm-2 col-xs-1">
             {{#if coverImg}}
               {{>projectCard currentDoc=(originalDoc this)}}
             {{else}}
@@ -117,10 +129,30 @@
         </div>
       </div>
     </div>
+<<<<<<< HEAD
   {{/EasySearch.IfInputEmpty}}
 
 
   <select class="sorting">
+=======
+  {{/EasySearch.IfInputEmpty}} -->
+  <!-- <section class="containerFlip">
+    <div id="card">
+      <figure class="front" onclick="$('#card').addClass('flipped');">1</figure>
+      <figure class="back" onclick="$('#card').removeClass('flipped');">2</figure>
+    </div>
+  </section> -->
+
+    {{#each navItems}}
+      {{> UI.dynamic template=this data=@index}}
+    {{/each}}
+    <div class="col-md-12">
+      <div class="col-xs-12 col-md-2 col-md-offset-5">
+  	<a href="#" class="load-more btn btn-primary" id="viewMore">Load more</a>
+      </div>
+    </div>
+  <!--<select class="sorting">
+>>>>>>> 79006dda1691bd5ec862aff4d5462a9f9bf15559
     <option value="relevance">Relevance</option>
     <option value="newest">Newest</option>
     <option value="bestScore">Score</option>
@@ -152,4 +184,13 @@
       </div>
     </div>
   </div>
+</template>
+
+<template name="testLoad">
+  {{value}}
+  {{#each documents}}
+    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 containerFlip">
+      {{>projectCardCoverless currentDoc=this}}
+    </div>
+  {{/each}}
 </template>

@@ -58,5 +58,9 @@ force-ssl
 peppelg:bootstrap-3-modal
 kurounin:pagination
 kurounin:pagination-blaze
+
 easy:search
 easysearch:elasticsearch
+
+fortawesome:fontawesome
+

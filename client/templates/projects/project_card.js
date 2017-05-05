@@ -46,6 +46,26 @@ Template.projectCard.events({
       },
 });
 
+Template.projectCardCoverless.events({
+  "click .front": function(event, template){
+      $('.flipped').removeClass("flipped");
+    $(event.currentTarget).parent().addClass("flipped");
+
+  },
+  "click .back": function(event, template){
+    $(event.currentTarget).parent().removeClass("flipped");
+  },
+});
+Template.projectCard.events({
+  "click .front": function(event, template){
+      $('.flipped').removeClass("flipped");
+    $(event.currentTarget).parent().addClass("flipped");
+
+  },
+  "click .back": function(event, template){
+    $(event.currentTarget).parent().removeClass("flipped");
+  },
+});
 /*Template.projectCardCoverless.onRendered(function() {
   this.autorun(function(){
     data = Blaze.getData();
@@ -114,12 +134,12 @@ Template.projectCardCoverless.onRendered(function() {
   // });
   // $(".title-1row").trunk8("update", "Test mit viel zu langem String");
 
-  $(".title-2row").trunk8({
-    lines: 3, // bug in trunk8? lines: n seems to result in n-1 lines
-    tooltip: false,
-    parseHTML: true,
-    // fill: "<span class='label label-default'>...<span>"
-  });
+  // $(".title-2row").trunk8({
+  //   lines: 3, // bug in trunk8? lines: n seems to result in n-1 lines
+  //   tooltip: false,
+  //   parseHTML: true,
+  //   // fill: "<span class='label label-default'>...<span>"
+  // });
   // $(".subtitle-2row").trunk8({
   //   lines: 2,
   //   tooltip: false,
@@ -198,19 +218,19 @@ Template.projectCardCoverless.helpers({
   }
 });
 
-Template.projectCardJobs.onRendered(function() {
-  template = this;
-  this.autorun(() => {
-    let dataContext = Template.currentData(); // Triggers reactive updating
-    Tracker.afterFlush(() => {
-      const lines = (dataContext.expandable)? 6 : 8;
-      this.$(".jobBreak").trunk8({
-        lines: lines,
-        tooltip: false,
-      });
-    });
-  });
-});
+// Template.projectCardJobs.onRendered(function() {
+//   template = this;
+//   this.autorun(() => {
+//     let dataContext = Template.currentData(); // Triggers reactive updating
+//     Tracker.afterFlush(() => {
+//       const lines = (dataContext.expandable)? 6 : 8;
+//       this.$(".jobBreak").trunk8({
+//         lines: lines,
+//         tooltip: false,
+//       });
+//     });
+//   });
+// });
 
 Template.projectCardJobs.helpers({
    projects() {
@@ -226,42 +246,41 @@ Template.projectCardJobs.helpers({
 });
 
 Template.projectCardTitle.onRendered(function() {
-  this.$(".title-1row").trunk8({
-    lines: 2
-  });
-  this.$(".title-2row").trunk8({
-    lines: 3
-  });
-  this.$(".subtitle-1row").trunk8();
-  this.$(".subtitle-2row").trunk8({
-    lines: 2
-  });
+  // this.$(".title-1row").trunk8({
+  //   lines: 2
+  // });
+  // this.$(".title-2row").trunk8({
+  //   lines: 3
+  // });
+  // this.$(".subtitle-1row").trunk8();
+  // this.$(".subtitle-2row").trunk8({
+  //   lines: 2
+  // });
   template = this;
   this.autorun(() => {
     let dataContext = Template.currentData(); // Triggers reactive updating
     Tracker.afterFlush(() => {
       //FIXME: Workaround to force trunk8 to use the new titel
       // should not be neccessary and using the elements text reactively instead
-      this.$(".title-1row").trunk8("update", dataContext.title);
-      this.$(".title-2row").trunk8("update", dataContext.title);
-      this.$(".subtitle-1row").trunk8("update", dataContext.subtitle);
-      this.$(".subtitle-2row").trunk8("update", dataContext.subtitle);
+      // this.$(".title-1row").trunk8("update", dataContext.title);
+      // this.$(".title-2row").trunk8("update", dataContext.title);
+      // this.$(".subtitle-1row").trunk8("update", dataContext.subtitle);
+      // this.$(".subtitle-2row").trunk8("update", dataContext.subtitle);
     });
   });
 });
 
-Template.projectCardTags.onRendered(function() {
-  template = this;
-  this.autorun(() => {
-    let dataContext = Template.currentData();
-    Tracker.afterFlush(() => {
-      //FIXME: Rerender tags when dataContext changes
-      $(".ellipsis-tags").trunk8({
-        lines: 1,
-        tooltip: false,
-        // parseHTML: true,
-        // fill: "<span class='label label-default'>...<span>"
-      });
-    });
-  });
-});
+// Template.projectCardTags.onRendered(function() {
+//   template = this;
+//   this.autorun(() => {
+//     let dataContext = Template.currentData();
+//     Tracker.afterFlush(() => {
+//       $(".ellipsis-tags").trunk8({
+//         lines: 1,
+//         tooltip: false,
+//         // parseHTML: true,
+//         // fill: "<span class='label label-default'>...<span>"
+//       });
+//     });
+//   });
+// });
