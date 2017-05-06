@@ -100,8 +100,8 @@
 
 <template name="projectCardCoverless">
   <div class="panel panel-default coverless-card" id="card">
-    <figure class="front" style="{{#if currentDoc.coverImg}} background-image:url({{getImgURL currentDoc.coverImg "cover400"}}){{else}}background-color:#f8b500{{/if}} ">
-	     <i class="fa fa-ellipsis-v fa-2x panel-right" aria-hidden="true"></i>
+    <figure class="front" style="{{#if currentDoc.coverImg}} background-image:url({{getImgURL currentDoc.coverImg "cover400"}}) {{else}} background-color:{{randomColor}} {{/if}}">
+	  <i class="fa fa-ellipsis-v fa-2x panel-right" aria-hidden="true"></i>
     <div class="panel-body {{#unless checkIfCourse}} coverless-card-body {{else}} coverless-card-bodyCourse {{/unless}}">
       <div class="{{#unless checkIfCourse}} coverless-card-title {{else}} coverless-card-titleCourse {{/unless}}">
         {{> projectCardTitle _id=currentDoc._id title=currentDoc.title checkIfCourse=checkIfCourse subtitle=currentDoc.subtitle subtitleLines=2 }}

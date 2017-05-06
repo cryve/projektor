@@ -17,7 +17,7 @@
 
 .ellipsis-tags {
   width: 240px;
-  height: 2.8em;
+  /*height: 2.8em;*/
   /*elipsis style*/
   overflow: hidden;
   text-overflow: ellipsis;
@@ -380,9 +380,9 @@
   background-repeat: no-repeat;
 }
 
-#card .front {
+/*#card .front {
   background-color: white;
-}
+}*/
 
 #card .front .panel-body{
   padding-top:165px;
@@ -399,6 +399,10 @@
   -webkit-transform: rotateY( -180deg );
 }
 
+.noCover{
+  background-color:#D6E3FF;
+}
+
 .title-ellipses {
   width: 240px;
   font-size:24px;
@@ -412,8 +416,8 @@
 }
 
 .subtitle-ellipses {
-  width: 240px;
-  height: 1.2em;
+  width: 238px;
+  /*height: 1.2em;*/
   /*elipsis style*/
   overflow: hidden;
   text-overflow: ellipsis;
