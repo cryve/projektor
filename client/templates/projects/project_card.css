@@ -15,18 +15,7 @@
   height: 62px;
 }
 
-.ellipsis-tags {
-  width: 240px;
-  /*height: 2.8em;*/
-  /*elipsis style*/
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  /*position: relative;*/
-  /*top: 156px;*/
-}
+
 
 .expandable-content {
   position: absolute;
@@ -51,8 +40,9 @@
 /*.expandable:hover .expandable-content  {
   top: 101px;
 }*/
-.tags-color{
+#tags-color{
   background-color: #5cb85c;
+  line-height: :2.3;
 }
 
 .panel-body.cover-card-body {
@@ -60,7 +50,7 @@
 }
 
 .panel-body.coverless-card-body {
-  height: 370px;
+  height: 390px;
   overflow:hidden;
   background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 30%, rgba(255,255,255,1) 40%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
   background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 30%,rgba(255,255,255,1) 40%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
@@ -177,6 +167,11 @@
 .remaining-member > a.text-info:hover {
   text-decoration: none;
 }
+
+.remaining-size{
+  font-size:12px;
+}
+
 .circle30-remaining-members {
   border-radius: 50%;
   width: 30px;
@@ -223,6 +218,9 @@
 
 .hr-top {
   margin-bottom: 7px;
+}
+hr{
+  margin-top:40px;
 }
 
 .hr-bottom {
@@ -358,7 +356,7 @@
 #card {
   position: absolute;
   width: 260px;
-  height: 410px;
+  height: 430px;
   -webkit-transform-style: preserve-3d; /* Chrome, Safari, Opera */
   transform-style: preserve-3d;
   transition: transform 1s;
@@ -404,24 +402,98 @@
 }
 
 .title-ellipses {
-  width: 240px;
+  width: 237px;
   font-size:24px;
   /*height: 2.4em;*/
   /*elipsis style*/
+  display: block;
+	display: -webkit-box;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
 
+.title-ellipses:after
+{
+	content    : '   ';
+  color: #337ab7;
+	text-align : right;
+	top     : 46%;
+	right      : 3%;
+	width      : 35%;
+	display    : block;
+	position   : absolute;
+	height     : calc(1.2em * 1.2);
+	background : linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 75%);
+}
+
+.line-clamp-2
+{
+	-webkit-line-clamp : 2;
+  color: #337ab7;
+	height             : calc(1.2em * 1.2 * 2);
+}
+
+@supports (-webkit-line-clamp: 1)
+{
+	.title-ellipses:after{
+		display : none !important;
+	}
+  .subtitle-ellipses:after{
+    display : none !important;
+  }
+  .ellipsis-tags:after{
+    display : none !important;
+  }
+}
+
 .subtitle-ellipses {
-  width: 238px;
+  width: 237px;
   /*height: 1.2em;*/
   /*elipsis style*/
+  display: block;
+	display: -webkit-box;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
+}
+
+.subtitle-ellipses:after
+{
+	content    : '   ';
+	text-align : right;
+	top     : 61%;
+	right      : 3%;
+	width      : 40%;
+	display    : block;
+	position   : absolute;
+	height     : calc(1.2em * 1.2);
+	background : linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 75%);
+}
+
+.ellipsis-tags {
+  width: 240px;
+  /*height: 2.8em;*/
+  /*elipsis style*/
+  display: block;
+	display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.ellipsis-tags:after
+{
+	content    : '   ';
+	text-align : right;
+	top     : 82%;
+	right      : 3%;
+	width      : 40%;
+	display    : block;
+	position   : absolute;
+	height     : calc(1.2em * 1.2);
+	background : linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 75%);
 }

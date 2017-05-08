@@ -25,5 +25,3 @@ UI.registerHelper('addKeys', function (all) {
         return {key: k, value: i};
     });
 });
-
-

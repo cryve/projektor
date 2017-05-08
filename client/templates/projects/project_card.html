@@ -109,7 +109,7 @@
       <hr class="hr-top">
       <ul class="member-icons list-inline">
         {{#each member in currentDoc.team}}
-          {{#if $lt @index (itemsToShow currentDoc.team.length 5 1)}}
+          {{#if $lt @index (itemsToShow currentDoc.team.length 6 1)}}
             <li>
               <a href="{{pathFor 'userProfile' _id=member.userId }}">
                 <img class="img-circle" rel="tooltip" title="{{getFullUsername member.userId}}" src={{getAvatarURL member.userId "avatar20"}}>
@@ -117,12 +117,12 @@
             </li>
           {{/if}}
         {{/each}}
-        {{#if itemsRemaining currentDoc.team.length 5 1}}
+        {{#if itemsRemaining currentDoc.team.length 6 1}}
           <li class="remaining-member">
             <a class="text-info" href="{{pathFor 'projectDetails' _id=currentDoc._id title=(encodeUrlString currentDoc.title)}}">
-              <div class="text-center{{#unless checkIfCourse}} bg-info circle30-remaining-members {{/unless}}">
+              <div class="text-center{{#unless checkIfCourse}} bg-info circle20-remaining-members {{/unless}}">
                 <span>
-                  <strong>+{{itemsRemaining currentDoc.team.length 5 1}}</strong>
+                  <em class="remaining-size">+{{itemsRemaining currentDoc.team.length 6 1}}</em>
                 </span>
               </div>
             </a>
@@ -144,7 +144,7 @@
 
       </div>
       <div class="panel-footer panel-footerBack">
-        <a href="{{pathFor 'projectDetails' _id=currentDoc._id title=(encodeUrlString currentDoc.title)}}">Zum Projekt  <i class="fa fa-power-off" aria-hidden="true"></i></a>
+        <a href="{{pathFor 'projectDetails' _id=currentDoc._id title=(encodeUrlString currentDoc.title)}}"> &gt;&gt; Zum Projekt &lt;&lt; </a>
       </div> <!-- /.panel-footer -->
     </figure>
   </div> <!-- /.panel project card -->
@@ -156,14 +156,13 @@
       <a href="{{pathFor 'projectDetails' _id=_id title=(encodeUrlString title)}}" class="{{#if subtitle}}title-1row{{else}}title-2row{{/if}}">{{title}}</a>
     </h4>
   {{else}}
-    <p class="title-ellipses">
+    <p class="title-ellipses line-clamp-2">
        <a href="{{pathFor 'projectDetails' _id=_id title=(encodeUrlString title)}}" class="{{#if subtitle}}title-1row{{else}}title-2row{{/if}}">{{title}}</a>
     </p>
     {{#if $and ($not checkIfCourse) subtitle}}
-       <small class="subtitle-{{subtitleLines}}row subtitle-ellipses">{{subtitle}}</small>
+       <small class="subtitle-ellipses line-clamp-2">{{subtitle}}</small>
     {{/if}}
   {{/if}}
-
 </template>
 
 <template name="projectCardJobs">
@@ -185,9 +184,9 @@
 </template>
 
 <template name="projectCardTags">
-  <span class="ellipsis-tags">
+  <span class="ellipsis-tags line-clamp-2">
     {{#each tag in tags}}
-      <span class="label label-default tags-color">{{tag}}</span>
+      <span class="label label-default" id="tags-color">{{tag}}</span>
     {{/each}}
   </span>
 </template>

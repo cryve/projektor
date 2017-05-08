@@ -3,6 +3,7 @@ import { Projects } from '/lib/collections/projects.js';
 import truncate from "truncate.js";
 import trunk8 from "trunk8";
 
+import $clamp from "clamp-js-main";
 import './project_card.html';
 
 
@@ -254,7 +255,7 @@ Template.projectCardJobs.helpers({
   }
 });
 
-Template.projectCardTitle.onRendered(function() {
+// Template.projectCardTitle.onRendered(function() {
   // this.$(".title-1row").trunk8({
   //   lines: 2
   // });
@@ -265,20 +266,24 @@ Template.projectCardTitle.onRendered(function() {
   // this.$(".subtitle-2row").trunk8({
   //   lines: 2
   // });
-  template = this;
-  this.autorun(() => {
-    let dataContext = Template.currentData(); // Triggers reactive updating
-    Tracker.afterFlush(() => {
-      //FIXME: Workaround to force trunk8 to use the new titel
+  // template = this;
+  // this.autorun(() => {
+  //   let dataContext = Template.currentData(); // Triggers reactive updating
+  //   Tracker.afterFlush(() => {
       // should not be neccessary and using the elements text reactively instead
       // this.$(".title-1row").trunk8("update", dataContext.title);
       // this.$(".title-2row").trunk8("update", dataContext.title);
       // this.$(".subtitle-1row").trunk8("update", dataContext.subtitle);
       // this.$(".subtitle-2row").trunk8("update", dataContext.subtitle);
-    });
-  });
-});
+//     });
+//   });
+// });
 
+// Template.projectCardTitle.onRendered(function() {
+//   console.log(document.getElementById("title-ellipses"))
+//   var test = $clamp(document.getElementById("title-ellipses"), {clamp: 2});
+//   return test;
+// });
 // Template.projectCardTags.onRendered(function() {
 //   template = this;
 //   this.autorun(() => {
