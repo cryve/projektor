@@ -5,9 +5,9 @@ import trunk8 from "trunk8";
 import './project_card.html';
 
 
-Template.projectCard.onCreated(function projectCardOnCreated() {
-  Meteor.subscribe("projectsAll");
-});
+// Template.projectCard.onCreated(function projectCardOnCreated() {
+//   Meteor.subscribe("projectsAll");
+// });
 
 /*Template.projectCard.onRendered(function() {
   // this.autorun(function(){
@@ -30,31 +30,21 @@ Template.projectCard.onCreated(function projectCardOnCreated() {
   });
 });*/
 
-Template.projectCard.events({
-  "mouseenter .list-div": function(event, template){
-        $(event.currentTarget).find('.description').stop().animate({
-          height: "toggle",
-          opacity: "toggle"
-        }, 300);
-      },
-  "mouseleave .list-div": function(event, template){
-        $(event.currentTarget).find('.description').stop().animate({
-          height: "toggle",
-          opacity: "toggle"
-        }, 300);
-      },
-});
+// Template.projectCard.events({
+//   "mouseenter .list-div": function(event, template){
+//         $(event.currentTarget).find('.description').stop().animate({
+//           height: "toggle",
+//           opacity: "toggle"
+//         }, 300);
+//       },
+//   "mouseleave .list-div": function(event, template){
+//         $(event.currentTarget).find('.description').stop().animate({
+//           height: "toggle",
+//           opacity: "toggle"
+//         }, 300);
+//       },
+// });
 
-Template.projectCardCoverless.events({
-  "click .front": function(event, template){
-      $('.flipped').removeClass("flipped");
-    $(event.currentTarget).parent().addClass("flipped");
-
-  },
-  "click .back": function(event, template){
-    $(event.currentTarget).parent().removeClass("flipped");
-  },
-});
 Template.projectCard.events({
   "click .front": function(event, template){
       $('.flipped').removeClass("flipped");
@@ -65,6 +55,16 @@ Template.projectCard.events({
     $(event.currentTarget).parent().removeClass("flipped");
   },
 });
+// Template.projectCard.events({
+//   "click .front": function(event, template){
+//       $('.flipped').removeClass("flipped");
+//     $(event.currentTarget).parent().addClass("flipped");
+//
+//   },
+//   "click .back": function(event, template){
+//     $(event.currentTarget).parent().removeClass("flipped");
+//   },
+// });
 /*Template.projectCardCoverless.onRendered(function() {
   this.autorun(function(){
     data = Blaze.getData();
@@ -73,24 +73,24 @@ Template.projectCard.events({
 });
 
 */
-Template.projectCard.helpers({
-   projects() {
-       return Projects.find({}, { sort: { createdAt: -1 } });
-   },
-   itemsToShow(totalItems, maxItems, placeholderItems) {
-     return (totalItems <= maxItems) ? totalItems : maxItems-placeholderItems;
-    },
-   itemsRemaining(totalItems, maxItems, placeholderItems) {
-     if(totalItems > maxItems)
-       return totalItems-(maxItems-placeholderItems);
-   }
- });
+// Template.projectCard.helpers({
+//    projects() {
+//        return Projects.find({}, { sort: { createdAt: -1 } });
+//    },
+//    itemsToShow(totalItems, maxItems, placeholderItems) {
+//      return (totalItems <= maxItems) ? totalItems : maxItems-placeholderItems;
+//     },
+//    itemsRemaining(totalItems, maxItems, placeholderItems) {
+//      if(totalItems > maxItems)
+//        return totalItems-(maxItems-placeholderItems);
+//    }
+//  });
 
 /*Template.projectCardCoverless.onRendered(function() {
   $('[data-toggle="tooltip"]').tooltip();
 });*/
 
-Template.projectCardCoverless.onCreated(function() {
+Template.projectCard.onCreated(function() {
   // var tmplInst = this;
   // tmplInst.autorun(function() {
   //   console.log("autorun");
@@ -106,7 +106,7 @@ Template.projectCardCoverless.onCreated(function() {
   Meteor.subscribe("projectsAll");
 });
 
-Template.projectCardCoverless.onRendered(function() {
+Template.projectCard.onRendered(function() {
   // var tmplInst = this;
   // tmplInst.autorun(function() {
   //   Tracker.afterFlush(function() {
@@ -206,7 +206,7 @@ Template.projectCardCoverless.onRendered(function() {
   // $(".title-1row").trunk8("update");
 });
 
-Template.projectCardCoverless.helpers({
+Template.projectCard.helpers({
    projects() {
     return Projects.find({}, { sort: { createdAt: -1 } });
    },
@@ -218,8 +218,6 @@ Template.projectCardCoverless.helpers({
       return totalItems-(maxItems-placeholderItems);
   },
   randomColor(){
-    console.log(Template.instance())
-    console.log(Template.instance().colorArray)
     const colorArray = Template.instance().colorArray;
     const color = colorArray[Math.floor(Math.random() * colorArray.length)];
     return color;

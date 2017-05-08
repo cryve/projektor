@@ -37,10 +37,12 @@
           </li>
           {{/each}}
           <li>
-            <a href="#" class="btn-add-supervisor">
-              <p class="form-control-static"> Kollegen hinzufügen:<span class="caret"></span>
-              </p>
-            </a>
+            <div class="form-group">
+              <a href="#" class="btn-add-supervisor">
+                <p class="form-control-static"> Kollegen hinzufügen:<span class="caret"></span>
+                </p>
+              </a>
+            </div>
             {{#if addSupervisor}}
               {{#autoForm id="addCourseOwner" schema=courseOwnerSchema type="method" meteormethod="addSupervisorToCourse" doc=this}}
                 <div class="form-group">
@@ -131,8 +133,8 @@
   <div class="project-cards">
     <div class="row">
       {{#each project in projects}}
-        <div class="col-lg-3">
-          {{>projectCardCoverless currentDoc=project checkIfCourse = this._id}}
+        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 containerFlipCourse">
+          {{>projectCard currentDoc=project checkIfCourse = this._id}}
         </div>
       {{/each}}
     </div>

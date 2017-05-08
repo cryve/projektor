@@ -6,3 +6,9 @@
 .form-group-border {
   border-bottom: 2px solid #a8a6a8;
 }
+
+.containerFlipCourse{
+  position: relative;
+  perspective: 800px;
+  height: 150px;
+}

@@ -84,7 +84,7 @@
             {{log this._id}}
             {{#if $eq this._id member.userId}}
               <div class="col-lg-3">
-                {{>projectCardCoverless currentDoc=project}}
+                {{>projectCard currentDoc=project}}
               </div>
             {{ /if }}
           {{/each}}

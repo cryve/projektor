@@ -379,6 +379,17 @@ hr{
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
+#cardCourse {
+  position: absolute;
+  width: 220px;
+  height: 140px;
+  -webkit-transform-style: preserve-3d; /* Chrome, Safari, Opera */
+  transform-style: preserve-3d;
+  transition: transform 1s;
+  border-color: none;
+  border: none;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
 
 
 #card figure {
@@ -442,6 +453,34 @@ hr{
 	background : linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 75%);
 }
 
+.title-ellipses-course {
+  width: 195px;
+  font-size:14px;
+  /*height: 2.4em;*/
+  /*elipsis style*/
+  display: block;
+	display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.title-ellipses-course:after
+{
+	content    : '   ';
+  color: #337ab7;
+	text-align : right;
+	top     : 40px;
+	right      : 3%;
+	width      : 35%;
+	display    : block;
+	position   : absolute;
+	height     : calc(1.2em * 1.2);
+	background : linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 75%);
+}
+
+
 .line-clamp-2
 {
 	-webkit-line-clamp : 2;
@@ -458,6 +497,9 @@ hr{
     display : none !important;
   }
   .ellipsis-tags:after{
+    display : none !important;
+  }
+  .title-ellipses-course:after{
     display : none !important;
   }
 }
