@@ -2,8 +2,6 @@ import { Template } from 'meteor/templating';
 import { Projects } from '/lib/collections/projects.js';
 import truncate from "truncate.js";
 import trunk8 from "trunk8";
-
-import $clamp from "clamp-js-main";
 import './project_card.html';
 
 
