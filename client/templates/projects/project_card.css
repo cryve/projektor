@@ -357,6 +357,10 @@ hr{
 
 }
 
+.img-circle-transparent{
+  opacity: 0.3;
+}
+
 .containerFlip {
   position: relative;
   perspective: 800px;
@@ -499,8 +503,8 @@ hr{
 {
 	content    : '   ';
 	text-align : right;
-	top     : 340px;
-	right      : 3%;
+	top     : 368px;
+	right      : 0%;
 	width      : 40%;
 	display    : block;
 	position   : absolute;

@@ -109,6 +109,7 @@
       </div>
       <hr class="hr-top">
       <ul class="member-icons list-inline">
+      {{#if currentDoc.team}}
         {{#each member in currentDoc.team}}
           {{#if $lt @index (itemsToShow currentDoc.team.length 6 1)}}
             <li>
@@ -118,6 +119,13 @@
             </li>
           {{/if}}
         {{/each}}
+      {{else}}
+        <li>
+          <a href="{{pathFor 'userProfile' _id=member.userId }}">
+            <img class="img-circle img-circle-transparent" rel="tooltip" title="Keine Mitglieder" src={{getAvatarURL 0 "avatar20"}}>
+          </a>
+        </li>
+      {{/if}}
         {{#if itemsRemaining currentDoc.team.length 6 1}}
           <li class="remaining-member">
             <a class="text-info" href="{{pathFor 'projectDetails' _id=currentDoc._id title=(encodeUrlString currentDoc.title)}}">
