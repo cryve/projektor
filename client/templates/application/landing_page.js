@@ -171,10 +171,7 @@ Template.landingPage.helpers({
     }
   },
   myDataContext(){
-
     skip = Template.instance().skipValue
-
-    console.log(skip);
     return skip;
   }
 });
@@ -185,8 +182,6 @@ Template.testLoad.onCreated (function landingPageOnCreated() {
 
 Template.testLoad.helpers({
   value(){
-    console.log(this);
-    console.log(Template.instance());
   },
   documents: function () {
     var skip = Template.instance().data * 4
@@ -205,7 +200,6 @@ Template.landingPage.events({
     //$(event.currentTarget).addClass('load-more--loading');
     event.preventDefault();
     Template.instance().navItems.push("testLoad")
-    console.log(Template.instance().navItems.array());
 
 
   },
