@@ -104,11 +104,13 @@
     {{#each navItems}}
       {{> UI.dynamic template=this data=@index}}
     {{/each}}
-    <div class="col-md-12">
-      <div class="col-xs-12 col-md-2 col-md-offset-5">
-  	     <a href="#" class="load-more btn btn-primary" id="viewMore">Load more</a>
+    {{#if endOfDocuments}}
+      <div class="col-md-12">
+        <div class="col-xs-12 col-md-2 col-md-offset-5">
+    	     <a href="#" class="load-more btn btn-primary" id="viewMore">Mehr Anzeigen</a>
+        </div>
       </div>
-    </div>
+    {{/if}}
   <!--<select class="sorting">
     <option value="relevance">Relevance</option>
     <option value="newest">Newest</option>

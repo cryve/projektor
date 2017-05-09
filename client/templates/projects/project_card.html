@@ -4,7 +4,7 @@
   <div class="panel panel-default coverless-card" id="{{#unless checkIfCourse}}card{{else}}cardCourse{{/unless}}">
     <figure class="front" >
     {{#unless checkIfCourse}}
-      <div class="header-image" style="{{#if currentDoc.coverImg}} background-image:url({{getImgURL currentDoc.coverImg "cover400"}}) {{else}} background-color:{{randomColor}} {{/if}}"><i class="fa fa-ellipsis-v fa-2x panel-right" aria-hidden="true"></i></div>
+      <div class="header-image" style="{{#if currentDoc.coverImg}} background-image:url({{getImgURL currentDoc.coverImg "cover400"}}) {{else}} background-color:{{randomColor}} {{/if}}"><i class="fa fa-ellipsis-v fa-2x panel-right fa-ellipsis-cursor" aria-hidden="true"></i></div>
     {{/unless}}
     <div class="panel-body {{#unless checkIfCourse}}coverless-card-body{{else}} coverless-card-bodyCourse{{/unless}}">
       <div class="{{#unless checkIfCourse}}coverless-card-title{{else}}coverless-card-titleCourse{{/unless}}">

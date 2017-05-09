@@ -8,6 +8,7 @@ import './landing_page.html';
 Template.landingPage.onCreated (function landingPageOnCreated() {
   this.skipValue = 0;
   this.setSearch = new ReactiveVar(true);
+  this.endOfProjects = new ReactiveVar(2);
   this.setSort = new ReactiveVar("new");
   this.keyWord = new ReactiveArray([]);
   this.navItems = new ReactiveArray(["loadCards"]);
@@ -159,26 +160,36 @@ Template.landingPage.helpers({
     return Template.instance().keyWord.array();
   },
   navItems(){
-
     if (Template.instance().navItems.array()){
       return Template.instance().navItems.array();
     }
   },
-  myDataContext(){
-    skip = Template.instance().skipValue
-    return skip;
-  }
+  endOfDocuments: function () {
+    return Template.instance().endOfProjects.get();
+  },
 });
 
 Template.landingPage.events({
 
   "click #viewMore"(event){
+    var amountOfProjects = Projects.find({});
+    const value = Template.instance().endOfProjects.get();
+    var number = value * 4;
     $("#loader").css({'display':'block'});
     //$(event.currentTarget).addClass('load-more--loading');
     event.preventDefault();
-    Template.instance().navItems.push("loadCards")
-
-
+    Template.instance().navItems.push("loadCards");
+    if (number < amountOfProjects.count()){
+      console.log(number);
+      console.log(amountOfProjects.count());
+      const newValue = value + 1;
+      Template.instance().endOfProjects.set(newValue);
+    }
+    else {
+      console.log(number);
+      console.log(amountOfProjects.count());
+      Template.instance().endOfProjects.set(false);
+    }
   },
   'click #change': function (event, templateInstance) {
         templateInstance.pagination.currentPage(Math.round(Math.random() * 10));

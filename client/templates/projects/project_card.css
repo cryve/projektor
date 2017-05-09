@@ -14,9 +14,9 @@
 .cover-card-title {
   height: 62px;
 }
-
-
-
+.fa-ellipsis-cursor{
+  cursor:pointer;
+}
 .expandable-content {
   position: absolute;
   top: 201px;
