@@ -4,6 +4,11 @@ body {
     padding-right: 70px;*/
 }
 
+.listRemove{
+  position: relative;
+
+}
+
 .tags {
     background: none repeat scroll 0 0 #fff transparent;
     border: 1px solid #ccc transparent;
@@ -12,7 +17,7 @@ body {
 }
 
 .tagsRange {
-    width: 75%;
+    width: 70%;
 }
 .tags li.tagAdd, .tags li.addedTag {
     float: left;
@@ -21,14 +26,17 @@ body {
     margin-right: 0.25em;
 }
 .tags li.addedTag {
+  border-radius: 65px 65px 65px 65px;
+  -moz-border-radius: 65px 65px 65px 65px;
+  -webkit-border-radius: 65px 65px 65px 65px;
   border: 0px solid #000000;
   color: white;
   margin-top:0.65em;
   padding: 0.5em;
   background: #428bca;
-  -webkit-box-shadow: 4px 6px 5px -2px rgba(0,0,0,0.75);
-  -moz-box-shadow: 4px 6px 5px -2px rgba(0,0,0,0.75);
-  box-shadow: 4px 6px 5px -2px rgba(0,0,0,0.75);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  -webkit-box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  -moz-box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 .tags input, li.addedTag {
     border: 1px solid;

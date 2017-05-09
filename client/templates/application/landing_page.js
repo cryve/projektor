@@ -10,15 +10,9 @@ Template.landingPage.onCreated (function landingPageOnCreated() {
   this.setSearch = new ReactiveVar(true);
   this.setSort = new ReactiveVar("new");
   this.keyWord = new ReactiveArray([]);
-  this.navItems = new ReactiveArray(["testLoad"]);
+  this.navItems = new ReactiveArray(["loadCards"]);
   Meteor.subscribe("projectsAll");
   Session.set("previousRoute", Router.current().route.getName());
-  this.pagination = new Meteor.Pagination(Projects, {
-    perPage: 8,
-    sort: {
-      _id: -1
-    },
-  });
 });
 
 Template.landingPage.onRendered(function landingPageOnRendered(){
@@ -176,30 +170,13 @@ Template.landingPage.helpers({
   }
 });
 
-Template.testLoad.onCreated (function landingPageOnCreated() {
-  Meteor.subscribe("projectsAll");
-});
-
-Template.testLoad.helpers({
-  value(){
-  },
-  documents: function () {
-    var skip = Template.instance().data * 4
-    $("#loader").css({'display':'none'});
-    // $('.load-more--loading').removeClass('load-more--loading');
-    return Projects.find({}, {skip: skip, limit: 4})
-
-  },
-
-}),
-
 Template.landingPage.events({
 
   "click #viewMore"(event){
     $("#loader").css({'display':'block'});
     //$(event.currentTarget).addClass('load-more--loading');
     event.preventDefault();
-    Template.instance().navItems.push("testLoad")
+    Template.instance().navItems.push("loadCards")
 
 
   },
@@ -241,4 +218,16 @@ Template.landingPage.events({
       .addProps('sortBy', $(event.target).val())
   },
 
+});
+
+Template.loadCards.onCreated (function landingPageOnCreated() {
+  Meteor.subscribe("projectsAll");
+});
+Template.loadCards.helpers({
+  documents: function () {
+    var skip = Template.instance().data * 4
+    $("#loader").css({'display':'none'});
+    // $('.load-more--loading').removeClass('load-more--loading');
+    return Projects.find({}, {skip: skip, limit: 4,sort: { createdAt: -1 }})
+  },
 });
