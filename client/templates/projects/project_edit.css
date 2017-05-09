@@ -2,3 +2,11 @@
 .table-row { display: table-row; }
 .table-cell { display: table-cell; }
 .table-body { display: table-row-group }
+
+#uploadAlert{
+  display:none;
+}
+
+#uploadSuccess{
+  display:none;
+}

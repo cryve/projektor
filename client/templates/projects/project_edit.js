@@ -737,9 +737,11 @@ Template.projectFileUpload.events({
 
       upload.on('end', function (error, fileObj) {
         if (error) {
-          alert('Error during upload: ' + error);
+          // alert('Error during upload: ' + error);
         } else {
-          alert('File "' + fileObj.name + '" successfully uploaded');
+          $("#uploadAlert").hide();
+          $("#uploadSuccess").show();
+          // alert('File "' + fileObj.name + '" successfully uploaded');
         }
         template.currentUpload.set(false);
       });

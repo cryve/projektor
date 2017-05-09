@@ -491,6 +491,8 @@
 </template>
 
 <template name="projectFileUpload">
+  <div class="alert alert-danger" id="uploadAlert" role="alert">Fehler: Deine Datei ist entweder größer als 10MB oder hat nicht die Dateiendung ".pdf".</div>
+  <div class="alert alert-success" id="uploadSuccess" role="alert">Upload war erfolgreich!</div>
   {{#with currentUpload}}
     Uploading <b>{{file.name}}</b>:
     <span id="progress">{{progress.get}}%</span>

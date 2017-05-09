@@ -12,7 +12,9 @@
       {{studyCourse}}
     </h1>
   </div>
-  <div class="col-xs-7 col-sm-3 col-md-2 sidebar sidebar-left sidebar-animate sidebar-show-lg">
+  <div class="row">
+    <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2">
+      <div class="sidebar sidebar-left sidebar-animate sidebar-show-lg">
     <div class="nav navbar-stacked">
       <div class="form-group form-group-border">
         <div class="form-group">
@@ -129,14 +131,17 @@
 
     </div>
   </div>
-
-  <div class="project-cards">
+    </div>
+    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
+      <div class="project-cards">
     <div class="row">
       {{#each project in projects}}
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 containerFlipCourse">
           {{>projectCard currentDoc=project checkIfCourse = this._id}}
         </div>
       {{/each}}
+    </div>
+  </div>
     </div>
   </div>
     {{#if createLink}}

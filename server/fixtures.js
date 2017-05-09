@@ -5,7 +5,7 @@ faker.locale = "de";
 
 /* Set amount of sample docs */
 const sampleCountUsers = 20;
-const sampleCountProjects = 12;
+const sampleCountProjects = 48;
 
 /* Set field limits */
 const maxSizeTeam = 10;

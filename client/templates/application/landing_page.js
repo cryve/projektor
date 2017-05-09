@@ -174,7 +174,7 @@ Template.landingPage.events({
   "click #viewMore"(event){
     var amountOfProjects = Projects.find({});
     const value = Template.instance().endOfProjects.get();
-    var number = value * 4;
+    var number = value * 12;
     $("#loader").css({'display':'block'});
     //$(event.currentTarget).addClass('load-more--loading');
     event.preventDefault();
@@ -236,9 +236,9 @@ Template.loadCards.onCreated (function landingPageOnCreated() {
 });
 Template.loadCards.helpers({
   documents: function () {
-    var skip = Template.instance().data * 4
+    var skip = Template.instance().data * 12
     $("#loader").css({'display':'none'});
     // $('.load-more--loading').removeClass('load-more--loading');
-    return Projects.find({}, {skip: skip, limit: 4,sort: { createdAt: -1 }})
+    return Projects.find({}, {skip: skip, limit: 12,sort: { createdAt: -1 }})
   },
 });

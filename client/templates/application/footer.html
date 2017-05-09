@@ -6,7 +6,23 @@
       </span>
     </div>
   </footer>
+<script>
+  var lastScrollTop = 0;
+  $(window).scroll(function() {
+    var st = $(this).scrollTop();
+    if (st > lastScrollTop)
+     {
+       $('.footer').fadeOut();
+     }
+    else
+     {
+       $('.footer').fadeIn();
+     }
+     lastScrollTop = st;
+   });
+ </script>
   <div id="loader">
+
     <a href="#" class="load-more--loading"></a>
   </div>
 </template>
