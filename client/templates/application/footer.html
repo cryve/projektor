@@ -8,12 +8,35 @@
   </footer>
 <script>
 $('body').bind('scroll mousewheel', function(event) {
-  console.log(event);
+  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+      $('#viewMore').click();
+      console.log("Mouse Event");
+
+    }
   if (event.originalEvent.wheelDelta >= 0) {
       $('.footer').fadeIn();
   }  else {
       $('.footer').fadeOut();
   }
+});
+
+$('body').bind('wheel', function(event) {
+  console.log(event);
+  var lastPos = 0;
+  if (event.originalEvent.deltaY >= 0) {
+      $('.footer').fadeIn();
+      console.log(window.innerHeight + window.scrollY);
+      console.log(document.body.offsetHeight);
+      if (((window.innerHeight + window.scrollY) >= document.body.offsetHeight) && (lastPos == (window.innerHeight + window.scrollY))) {
+        //  $('#viewMore').click();
+        console.log("Mouse Event");
+
+        }
+  }  else {
+      $('.footer').fadeOut();
+
+  }
+  lastPos = window.innerHeight + window.scrollY;
 });
 
 /*
