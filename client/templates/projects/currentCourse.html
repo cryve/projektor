@@ -65,8 +65,36 @@
       <div class="form-group form-group-border">
         <a href="#" class="btn-add-selfEntering"><p class="form-control-static">Selbsteinschreibung:<span class="caret"></span></p></a>
         {{#if selfEntering}}
-          <div class="btn-group  btn-toggle">
-            <div class="form-group">
+        <div class="btn-group">
+          {{#if selfEnter}}
+          <div class="wrap">
+
+            <input type="checkbox" class="btn-toggle" id="s4" checked="" />
+            <label class="slider-v2" for="s4"></label>
+
+          </div>
+          {{else}}
+          <div class="wrap">
+
+            <input type="checkbox" class="btn-toggle" id="s3" />
+            <label class="slider-v2" for="s3"></label>
+
+          </div>
+          {{/if}}
+          <!--/wrap-->
+          <!-- <div class="btn-group  btn-toggle">
+            <div class="switch white">
+
+      			<input type="radio" name="switch" id="switch-off">
+      			<input type="radio" name="switch" id="switch-on" checked>
+
+      			<label for="switch-off">Off</label>
+      			<label for="switch-on">On</label>
+
+      			<span class="toggle"></span>
+
+      		</div>  -->
+            <!-- <div class="form-group">
               {{#if selfEnter}}
                 <button class="btn btn-primary activedefault">ON</button>
                 <button class="btn btn-default">OFF</button>
@@ -74,7 +102,7 @@
                 <button class="btn btn-default">ON</button>
                 <button class="btn btn-primary active">OFF</button>
               {{/if}}
-            </div>
+            </div> -->
           </div>
         {{/if}}
         {{#if selfEnter}}

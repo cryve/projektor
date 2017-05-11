@@ -1,14 +1,44 @@
 Template.userList.onCreated(function userListOnCreated() {
   Meteor.subscribe("usersAll");
+  this.endOfUsers = new ReactiveVar(2);
+  this.userItems = new ReactiveArray(["loadUser"]);
 });
 
 Template.userList.helpers({
   usersAll() {
     return Meteor.users.find({});
-  }
+  },
+  userItems(){
+    if (Template.instance().userItems.array()){
+      return Template.instance().userItems.array();
+    }
+  },
+  endOfUsers() {
+    return Template.instance().endOfUsers.get();
+  },
 });
 
 Template.userList.events({
+  "click #viewMore"(event){
+    var amountOfUser =  Meteor.users.find({});
+    const value = Template.instance().endOfUsers.get();
+    var number = value * 50;
+    $("#loader").css({'display':'block'});
+    //$(event.currentTarget).addClass('load-more--loading');
+    event.preventDefault();
+    Template.instance().userItems.push("loadUser");
+    if (number < amountOfUser.count()){
+      console.log(number);
+      console.log(amountOfUser.count());
+      const newValue = value + 1;
+      Template.instance().endOfUsers.set(newValue);
+    }
+    else {
+      console.log(number);
+      console.log(amountOfUsers.count());
+      Template.instance().endOfUsers.set(false);
+    }
+  },
 
   'submit .new-tag' (event){
     event.preventDefault();
@@ -42,5 +72,14 @@ Template.userList.events({
   'change .sorting': (event) => {
     ProjectsIndex.getComponentMethods()
       .addProps('sortBy', $(event.target).val())
+  },
+});
+
+Template.loadUser.helpers({
+  documents: function () {
+    var skip = Template.instance().data * 50
+    $("#loader").css({'display':'none'});
+    // $('.load-more--loading').removeClass('load-more--loading');
+    return Meteor.users.find({}, {skip: skip, limit: 50,sort: { createdAt: -1 }})
   },
 });

@@ -180,14 +180,10 @@ Template.landingPage.events({
     event.preventDefault();
     Template.instance().navItems.push("loadCards");
     if (number < amountOfProjects.count()){
-      console.log(number);
-      console.log(amountOfProjects.count());
       const newValue = value + 1;
       Template.instance().endOfProjects.set(newValue);
     }
     else {
-      console.log(number);
-      console.log(amountOfProjects.count());
       Template.instance().endOfProjects.set(false);
     }
   },

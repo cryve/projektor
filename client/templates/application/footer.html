@@ -8,11 +8,7 @@
   </footer>
 <script>
 $('body').bind('scroll mousewheel', function(event) {
-  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-      $('#viewMore').click();
-      console.log("Mouse Event");
 
-    }
   if (event.originalEvent.wheelDelta >= 0) {
       $('.footer').fadeIn();
   }  else {
