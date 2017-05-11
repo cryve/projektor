@@ -35,9 +35,7 @@
           {{/each}}
         {{else}}
         <li>
-          <a href="{{pathFor 'userProfile' _id=member.userId }}">
-            <img class="img-circle img-circle-transparent" rel="tooltip" title="Keine Mitglieder" src={{getAvatarURL 0 "avatar20"}}>
-          </a>
+          <img class="img-circle img-circle-transparent" rel="tooltip" title="Keine Mitglieder" src={{getAvatarURL 0 "avatar20"}}>
         </li>
         {{/if}}
       {{/if}}

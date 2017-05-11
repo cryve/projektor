@@ -41,20 +41,33 @@
       </tr>
     </thead>
     <tbody>
-      {{#each user in usersAll}}
-        {{>userListItem
-          userId=user._id
-          avatarURL=(getAvatarURL user._id "avatar50")
-          firstName=user.profile.firstname
-          lastName=user.profile.lastname
-          studyCourse=(studyCourseName user.profile.studyCourseId user.profile.departmentId user.profile.facultyId)
-          interests=user.profile.skills
-          contacts=user.profile.contacts
-          role=user.profile.role
-        }}
+      {{#each userItems}}
+        {{> UI.dynamic template=this data=@index}}
       {{/each}}
     </tbody>
   </table>
+  {{#if endOfUsers}}
+    <div class="col-md-12">
+      <div class="col-xs-12 col-md-2 col-md-offset-5">
+         <a href="#" class="load-more btn btn-primary" id="viewMore">Mehr Anzeigen</a>
+      </div>
+    </div>
+  {{/if}}
+</template>
+
+<template name="loadUser">
+  {{#each user in documents}}
+    {{>userListItem
+      userId=user._id
+      avatarURL=(getAvatarURL user._id "avatar50")
+      firstName=user.profile.firstname
+      lastName=user.profile.lastname
+      studyCourse=(studyCourseName user.profile.studyCourseId user.profile.departmentId user.profile.facultyId)
+      interests=user.profile.skills
+      contacts=user.profile.contacts
+      role=user.profile.role
+    }}
+  {{/each}}
 </template>
 
 <template name="userListItem">

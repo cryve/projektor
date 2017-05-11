@@ -2,9 +2,8 @@ import { Random } from 'meteor/random'
 import faker from 'faker';
 import { Projects } from '/lib/collections/projects.js';
 faker.locale = "de";
-
 /* Set amount of sample docs */
-const sampleCountUsers = 20;
+const sampleCountUsers = 200;
 const sampleCountProjects = 48;
 
 /* Set field limits */
