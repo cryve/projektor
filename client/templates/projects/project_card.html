@@ -12,6 +12,11 @@
       </div>
       <hr class="hr-top" style="{{#if checkIfCourse}}margin-top:20px{{/if}}">
       <ul class="member-icons list-inline">
+      {{#unless currentDoc.team}}
+        <li>
+          <img class="img-circle img-circle-transparent" rel="tooltip" title="Keine Mitglieder" src={{getAvatarURL 0 "avatar20"}}>
+        </li>
+      {{/unless}}
       {{#if $and currentDoc.team ($not checkIfCourse)}}
         {{#each member in currentDoc.team}}
           {{#if $lt @index (itemsToShow currentDoc.team.length 6 1)}}
@@ -33,10 +38,6 @@
               </li>
             {{/if}}
           {{/each}}
-        {{else}}
-        <li>
-          <img class="img-circle img-circle-transparent" rel="tooltip" title="Keine Mitglieder" src={{getAvatarURL 0 "avatar20"}}>
-        </li>
         {{/if}}
       {{/if}}
         {{#if $and ($not checkIfCourse) (itemsRemaining currentDoc.team.length 6 1)}}
