@@ -204,6 +204,7 @@ Template.currentCourse.events({
     }
   },
   "click .btn-toggle"(event){
+    event.stopPropagation();
     setSelfEnter.call({
       buttonEvent: this.selfEnter,
       courseId: this._id
