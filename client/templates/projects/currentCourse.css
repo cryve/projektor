@@ -157,6 +157,6 @@ input:checked + .slider-v2::after {
   left: 3em;
 }
 
-input[type="checkbox"]{
+#s4, #s3{
   display:none;
 }
