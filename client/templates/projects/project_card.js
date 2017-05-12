@@ -111,7 +111,7 @@ Template.projectCard.onCreated(function() {
     this.subscribe("files.images.all");
   });
   this.autorun(() => {
-    this.subscribe("usersAll");
+    //this.subscribe("usersAll");
   });
 });
 

@@ -8,16 +8,16 @@ import './project_card.js';
 
 Template.userProfile.onCreated(function userProfileOnCreated() {
   this.autorun(() => {
-    this.subscribe("projectsAll");
+    //this.subscribe("projectsAll");
   });
   this.autorun(() => {
-    this.subscribe("usersAll");
+    //this.subscribe("usersAll");
   });
   this.autorun(() => {
-    this.subscribe("studies");
+    //this.subscribe("studies");
   });
   this.autorun(() => {
-    this.subscribe("files.images.all");
+    //this.subscribe("files.images.all");
   });
   Session.set("previousRoute", Router.current().route.getName());
 });

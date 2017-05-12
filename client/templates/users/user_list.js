@@ -4,7 +4,7 @@ import { Studies } from "/lib/collections/studies.js";
 
 Template.userList.onCreated(function userListOnCreated() {
   this.autorun(() => {
-    this.subscribe("usersAll");
+    //this.subscribe("usersAll");
   });
   this.endOfUsers = new ReactiveVar(2);
   this.userItems = new ReactiveArray(["loadUser"]);
@@ -83,13 +83,13 @@ Template.userList.events({
 
 Template.loadUser.onCreated (function(){
   this.autorun(() => {
-    this.subscribe("files.images.all");
+    //this.subscribe("files.images.all");
   });
   this.autorun(() => {
-    this.subscribe("usersAll");
+    //this.subscribe("usersAll");
   });
   this.autorun(() => {
-    this.subscribe("studies");
+    //this.subscribe("studies");
   });
 });
 
