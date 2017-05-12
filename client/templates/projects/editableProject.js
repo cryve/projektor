@@ -46,7 +46,7 @@ Template.editableProject.onCreated(function() {
     this.subscribe("files.xlsFiles.all");
   });
   this.autorun(() => {
-    this.subscribe("usersAll");
+    //this.subscribe("usersAll");
   });
   this.autorun(() => {
     this.subscribe("courses");

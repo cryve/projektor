@@ -156,7 +156,7 @@ Template.member.onCreated(function() {
     this.subscribe("files.images.all");
   });
   this.autorun(() => {
-    this.subscribe("usersAll");
+    //this.subscribe("usersAll");
   });
 });
 
@@ -310,7 +310,7 @@ Template.supervisor.onCreated (function(){
     this.subscribe("files.images.all");
   });
   this.autorun(() => {
-    this.subscribe("usersAll");
+    //this.subscribe("usersAll");
   });
 });
 

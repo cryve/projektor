@@ -39,7 +39,7 @@ Template.currentCourse.onCreated (function courseOnCreated() {
     this.subscribe("projectsAll");
   });
   this.autorun(() => {
-    this.subscribe("usersAll");
+    //this.subscribe("usersAll");
   });
   this.autorun(() => {
     this.subscribe("drafts");
