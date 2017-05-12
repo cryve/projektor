@@ -33,12 +33,24 @@ Template.editableProject.onCreated(function() {
   "showMethod": "fadeIn",
   "hideMethod": "fadeOut"
   }
-  Meteor.subscribe("projectsAll");
-  Meteor.subscribe("drafts");
-  Meteor.subscribe("files.images.all");
-  Meteor.subscribe("files.xlsFiles.all");
-  Meteor.subscribe("usersAll");
-  Meteor.subscribe("courses");
+  this.autorun(() => {
+    this.subscribe("projectsAll");
+  });
+  this.autorun(() => {
+    this.subscribe("drafts");
+  });
+  this.autorun(() => {
+    this.subscribe("files.images.all");
+  });
+  this.autorun(() => {
+    this.subscribe("files.xlsFiles.all");
+  });
+  this.autorun(() => {
+    this.subscribe("usersAll");
+  });
+  this.autorun(() => {
+    this.subscribe("courses");
+  });
 });
 
 Template.editableProject.helpers({

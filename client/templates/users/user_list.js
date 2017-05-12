@@ -1,5 +1,11 @@
+import { Projects } from '../../../lib/collections/projects.js';
+import {Images} from "/lib/collections/images.js";
+import { Studies } from "/lib/collections/studies.js";
+
 Template.userList.onCreated(function userListOnCreated() {
-  Meteor.subscribe("usersAll");
+  this.autorun(() => {
+    this.subscribe("usersAll");
+  });
   this.endOfUsers = new ReactiveVar(2);
   this.userItems = new ReactiveArray(["loadUser"]);
 });
@@ -35,7 +41,7 @@ Template.userList.events({
     }
     else {
       console.log(number);
-      console.log(amountOfUsers.count());
+      console.log(amountOfUser.count());
       Template.instance().endOfUsers.set(false);
     }
   },
@@ -75,7 +81,32 @@ Template.userList.events({
   },
 });
 
+Template.loadUser.onCreated (function(){
+  this.autorun(() => {
+    this.subscribe("files.images.all");
+  });
+  this.autorun(() => {
+    this.subscribe("usersAll");
+  });
+  this.autorun(() => {
+    this.subscribe("studies");
+  });
+});
+
 Template.loadUser.helpers({
+  studyCourseName(studyCourseId, departmentId, facultyId) {
+    const studyCourse = Studies.findOne({ $and: [
+      { "studyCourseId": studyCourseId },
+      { "departmentId": departmentId },
+      { "facultyId": facultyId }
+    ]});
+    return studyCourse && studyCourse.studyCourseName;
+  },
+  getAvatarURL (userId, version){
+    var user = Meteor.users.findOne({_id: userId});
+    var image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
+    return (image && image.versions[version]) ? image.link(version) : "/img/"+version+".jpg";
+  },
   documents: function () {
     var skip = Template.instance().data * 50
     $("#loader").css({'display':'none'});

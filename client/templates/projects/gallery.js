@@ -63,12 +63,39 @@ Template.video.helpers({
   }
 });
 
+Template.titleImage.onCreated (function(){
+  this.setEmptyPreview = new ReactiveVar(false);
+  this.autorun(() => {
+    this.subscribe("files.images.all");
+  });
+});
+
+Template.titleImage.helpers ({
+  getImgURL(imgId, version){
+    if (imgId){
+      var image = Images.findOne(imgId);
+      return (image && image.versions[version]) ? image.link(version) : null;
+    }
+  },
+  getSetEmptyPreview(){
+    return Template.instance().setEmptyPreview.get();
+  },
+});
+
 Template.deleteImageButton.onCreated (function(){
   this.setEmptyPreview = new ReactiveVar(false);
-  Meteor.subscribe("files.images.all");
+  this.autorun(() => {
+    this.subscribe("files.images.all");
+  });
 });
 
 Template.deleteImageButton.helpers ({
+  getImgURL(imgId, version){
+    if (imgId){
+      var image = Images.findOne(imgId);
+      return (image && image.versions[version]) ? image.link(version) : null;
+    }
+  },
   getSetEmptyPreview(){
     return Template.instance().setEmptyPreview.get();
   },
@@ -208,12 +235,24 @@ Template.wholeGallery.onCreated(function() {
   this.editMode = new ReactiveVar(false);
   this.refreshPreview = new ReactiveVar(false);
   this.finishedMode = new ReactiveVar(false);
-  console.log()
-  Meteor.subscribe("projectsAll");
-  Meteor.subscribe("drafts");
+  this.autorun(() => {
+    this.subscribe("projectsAll");
+  });
+  this.autorun(() => {
+    this.subscribe("drafts");
+  });
+  this.autorun(() => {
+    this.subscribe("files.images.all");
+  });
 });
 
 Template.wholeGallery.helpers({
+  getImgURL(imgId, version){
+    if (imgId){
+      var image = Images.findOne(imgId);
+      return (image && image.versions[version]) ? image.link(version) : null;
+    }
+  },
   log (data) {
     console.log(data);
   },

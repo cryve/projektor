@@ -1,6 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Projects } from '/lib/collections/projects.js';
 import { ProjectsIndex } from '/lib/collections/projects.js';
+import {Images} from "/lib/collections/images.js";
 import './landing_page.html';
 
 
@@ -12,7 +13,12 @@ Template.landingPage.onCreated (function landingPageOnCreated() {
   this.setSort = new ReactiveVar("new");
   this.keyWord = new ReactiveArray([]);
   this.navItems = new ReactiveArray(["loadCards"]);
-  Meteor.subscribe("projectsAll");
+  this.autorun(() => {
+    this.subscribe("projectsAll");
+  });
+  this.autorun(() => {
+    this.subscribe("files.images.all");
+  });
   Session.set("previousRoute", Router.current().route.getName());
 });
 
@@ -228,7 +234,9 @@ Template.landingPage.events({
 });
 
 Template.loadCards.onCreated (function landingPageOnCreated() {
-  Meteor.subscribe("projectsAll");
+  this.autorun(() => {
+    this.subscribe("projectsAll");
+  });
 });
 Template.loadCards.helpers({
   documents: function () {

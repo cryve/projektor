@@ -4,8 +4,12 @@ import { setDraftIdInProfile } from "/lib/methods.js";
 import lodash from 'lodash';
 
 Template.navigationBar.onCreated(function navigationBarOnCreated() {
-  Meteor.subscribe("drafts");
-  Meteor.subscribe("usersAll");
+  this.autorun(() => {
+    this.subscribe("drafts");
+  });
+  this.autorun(() => {
+    this.subscribe("usersAll");
+  })
 });
 
 Template.navigationBar.helpers({

@@ -1,12 +1,13 @@
 import { Template } from 'meteor/templating';
 import { Projects } from '/lib/collections/projects.js';
-import truncate from "truncate.js";
-import trunk8 from "trunk8";
+import {Images} from "/lib/collections/images.js";
+// import truncate from "truncate.js";
+// import trunk8 from "trunk8";
 import './project_card.html';
 
 
 // Template.projectCard.onCreated(function projectCardOnCreated() {
-//   Meteor.subscribe("projectsAll");
+//   this.subscribe("projectsAll");
 // });
 
 /*Template.projectCard.onRendered(function() {
@@ -103,7 +104,15 @@ Template.projectCard.onCreated(function() {
   , "#FFE082", "#FFCC80", "#FFAB91", "#BCAAA4", "#EEEEEE", "#B0BEC5"]
   this.remainingMemberCount = new ReactiveVar(0);
   this.remainingJobsCount = new ReactiveVar(0);
-  Meteor.subscribe("projectsAll");
+  this.autorun(() => {
+    this.subscribe("projectsAll");
+  });
+  this.autorun(() => {
+    this.subscribe("files.images.all");
+  });
+  this.autorun(() => {
+    this.subscribe("usersAll");
+  });
 });
 
 Template.projectCard.onRendered(function() {
@@ -207,6 +216,17 @@ Template.projectCard.onRendered(function() {
 });
 
 Template.projectCard.helpers({
+  getAvatarURL (userId, version){
+    var user = Meteor.users.findOne({_id: userId});
+    var image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
+    return (image && image.versions[version]) ? image.link(version) : "/img/"+version+".jpg";
+  },
+  getImgURL(imgId, version){
+    if (imgId){
+      var image = Images.findOne(imgId);
+      return (image && image.versions[version]) ? image.link(version) : null;
+    }
+  },
    projects() {
     return Projects.find({}, { sort: { createdAt: -1 } });
    },

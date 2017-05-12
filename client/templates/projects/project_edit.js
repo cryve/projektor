@@ -1,6 +1,6 @@
 import { Template } from "meteor/templating";
 import lodash from 'lodash';
-
+import {Images} from "/lib/collections/images.js";
 import { Courses } from "/lib/collections/courses.js" ;
 import { ProjectFiles } from "/lib/collections/projectFiles.js" ;
 import { deleteEditableArrayItem, deleteEditableCourse } from "/lib/methods.js";
@@ -152,9 +152,20 @@ Template.notesBoxSupervisors.events({
 
 Template.member.onCreated(function() {
   this.editActive = new ReactiveVar(false);
+  this.autorun(() => {
+    this.subscribe("files.images.all");
+  });
+  this.autorun(() => {
+    this.subscribe("usersAll");
+  });
 });
 
 Template.member.helpers({
+  getAvatarURL (userId, version){
+    var user = Meteor.users.findOne({_id: userId});
+    var image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
+    return (image && image.versions[version]) ? image.link(version) : "/img/"+version+".jpg";
+  },
   editActive () {
     return Template.instance().editActive.get();
   },
@@ -269,6 +280,11 @@ Template.leaveGroupModal.events({
 });
 
 Template.supervisor.helpers({
+  getAvatarURL (userId, version){
+    var user = Meteor.users.findOne({_id: userId});
+    var image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
+    return (image && image.versions[version]) ? image.link(version) : "/img/"+version+".jpg";
+  },
   supervisorIdField () {
     return "supervisors." + this.slot + ".userId";
   },
@@ -287,6 +303,15 @@ Template.supervisor.helpers({
     }
     return false;
   },
+});
+
+Template.supervisor.onCreated (function(){
+  this.autorun(() => {
+    this.subscribe("files.images.all");
+  });
+  this.autorun(() => {
+    this.subscribe("usersAll");
+  });
 });
 
 Template.supervisor.events({
@@ -699,7 +724,9 @@ Template.addTeamCommItem.events({
 
 Template.projectFileUpload.onCreated(function () {
   this.currentUpload = new ReactiveVar(false);
-  Meteor.subscribe('files.projectFiles.all');
+  this.autorun(() => {
+    this.subscribe('files.projectFiles.all');
+  });
 });
 
 Template.projectFileUpload.helpers({

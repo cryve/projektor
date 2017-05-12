@@ -11,7 +11,9 @@ import './image_upload_crop.html';
 
 
 Template.uploadedFilesCrop.onCreated(function uploadedFilesCropOnCreated() {
-  Meteor.subscribe("files.images.all");
+  this.autorun(() => {
+    this.subscribe("files.images.all");
+  });
 })
 
 Template.uploadedFilesCrop.helpers({
@@ -166,7 +168,9 @@ Template.uploadFormCrop.events({
 });
 
 Template.fileCrop.onCreated(function fileCropOnCreated() {
-  Meteor.subscribe("files.images.all");
+  this.autorun(() => {
+    this.subscribe("files.images.all");
+  });
 });
 
 Template.fileCrop.helpers({

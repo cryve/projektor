@@ -29,11 +29,21 @@ Template.currentCourse.onCreated (function courseOnCreated() {
     "showMethod": "fadeIn",
     "hideMethod": "fadeOut"
   };
-  Meteor.subscribe('files.xlsFiles.all');
-  Meteor.subscribe("courses");
-  Meteor.subscribe("projectsAll");
-  Meteor.subscribe("usersAll");
-  Meteor.subscribe("drafts");
+  this.autorun(() => {
+    this.subscribe('files.xlsFiles.all');
+  });
+  this.autorun(() => {
+    this.subscribe("courses");
+  });
+  this.autorun(() => {
+    this.subscribe("projectsAll");
+  });
+  this.autorun(() => {
+    this.subscribe("usersAll");
+  });
+  this.autorun(() => {
+    this.subscribe("drafts");
+  });
   this.editActive = new ReactiveVar(false);
   this.createLink = new ReactiveVar(false);
   this.addSupervisor = new ReactiveVar(false);
@@ -283,7 +293,9 @@ Template.currentCourse.events({
 });
 
 Template.file.onCreated (function fileLinkOnCreated() {
-  Meteor.subscribe('files.xlsFiles.all');
+  this.autorun(() => {
+    this.subscribe('files.xlsFiles.all');
+  });
   this.createLink = new ReactiveVar(true);
 
 });
