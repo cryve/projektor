@@ -110,9 +110,10 @@ Template.projectCard.onCreated(function() {
   this.autorun(() => {
     this.subscribe("files.images.all");
   });
-  this.autorun(() => {
-    //this.subscribe("usersAll");
-  });
+  // this.autorun(() => {
+  //   const projectId = FlowRouter.getParam("projectId");
+  //   this.subscribe("singleProject", projectId);
+  // });
 });
 
 Template.projectCard.onRendered(function() {

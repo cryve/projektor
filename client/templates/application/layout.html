@@ -3,11 +3,11 @@
         <header>
           {{> navigationBar }}
         </header>
-      
+
         <main>
-          {{> yield}}
+          {{>Template.dynamic template=content}}
         </main>
- 
+
     </div>
     <footer>
       {{> footer}}

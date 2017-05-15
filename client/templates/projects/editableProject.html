@@ -1,4 +1,5 @@
 <template name="editableProject">
+  {{#with project}}
   {{#if $eq previousRoute "currentCourseLink"}}
     <ol class="breadcrumb">
       <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
@@ -162,6 +163,7 @@
 
           </div> <!-- /.col-md-4 -->
     </div><!-- /.row -->
+    {{/with}}
 </template>
 
 <template name="deleteProjectModal">

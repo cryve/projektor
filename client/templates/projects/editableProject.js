@@ -33,9 +33,9 @@ Template.editableProject.onCreated(function() {
   "showMethod": "fadeIn",
   "hideMethod": "fadeOut"
   }
-  this.autorun(() => {
-    this.subscribe("projectsAll");
-  });
+  // this.autorun(() => {
+  //   this.subscribe("projectsAll");
+  // });
   this.autorun(() => {
     this.subscribe("drafts");
   });
@@ -51,9 +51,18 @@ Template.editableProject.onCreated(function() {
   this.autorun(() => {
     this.subscribe("courses");
   });
+  this.autorun(() => {
+    const projectId = FlowRouter.getParam("projectId");
+    this.subscribe("singleProject", projectId);
+  });
+
 });
 
 Template.editableProject.helpers({
+  project() {
+    const projectId = FlowRouter.getParam("projectId");
+    return Projects.findOne(projectId) || Drafts.findOne(projectId) || {};
+  },
   enterProject(){
     var enterCheck = Courses.findOne(this.courseId);
     return enterCheck && enterCheck.selfEnter;

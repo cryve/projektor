@@ -49,7 +49,7 @@ Template.currentCourse.onCreated (function courseOnCreated() {
   this.addSupervisor = new ReactiveVar(false);
   this.selfEntering = new ReactiveVar(false);
   this.deadline = new ReactiveVar(false);
-  Session.set("previousRoute", Router.current().route.getName());
+  Session.set("previousRoute", FlowRouter.getRouteName());
 
 });
 

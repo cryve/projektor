@@ -19,7 +19,7 @@ Template.landingPage.onCreated (function landingPageOnCreated() {
   this.autorun(() => {
     this.subscribe("files.images.all");
   });
-  Session.set("previousRoute", Router.current().route.getName());
+  Session.set("previousRoute", FlowRouter.getRouteName());
 });
 
 Template.landingPage.onRendered(function landingPageOnRendered(){

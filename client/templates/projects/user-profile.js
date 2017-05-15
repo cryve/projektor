@@ -19,7 +19,7 @@ Template.userProfile.onCreated(function userProfileOnCreated() {
   this.autorun(() => {
     //this.subscribe("files.images.all");
   });
-  Session.set("previousRoute", Router.current().route.getName());
+  Session.set("previousRoute", FlowRouter.getRouteName());
 });
 
 Template.userProfile.helpers({

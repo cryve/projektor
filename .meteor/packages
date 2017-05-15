@@ -17,7 +17,7 @@ standard-minifier-js@2.0.0    # JS minifier run for production mode
 es5-shim@4.6.15                # ECMAScript 5 compatibility for older browsers.
 ecmascript@0.7.3              # Enable ECMAScript2015+ syntax in app code
 
-iron:router                   # router
+#iron:router                   # router
 ajduke:bootstrap-tagsinput    # Enable bootstrap-tagsinput for tag forms
 ostrio:files                  # File uploading
 momentjs:moment               # Time and date conversions
@@ -64,3 +64,6 @@ easysearch:elasticsearch
 
 fortawesome:fontawesome
 
+kadira:flow-router
+kadira:blaze-layout
+arillo:flow-router-helpers

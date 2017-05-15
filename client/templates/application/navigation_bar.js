@@ -44,7 +44,7 @@ Template.navigationBar.helpers({
 
 Template.navigationBar.events({
   "click .create-project-btn" (event) {
-    Session.set("previousRoute", Router.current().route.getName());
+    Session.set("previousRoute", FlowRouter.getRouteName());
     let currentDraftId
     // Go to a not finished draft if exists, else go to new draft
     if(Meteor.user() && Meteor.user().profile && Meteor.user().profile.drafts){

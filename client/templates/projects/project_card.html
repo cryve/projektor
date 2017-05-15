@@ -1,5 +1,3 @@
-
-
 <template name="projectCard">
   <div class="panel panel-default coverless-card" id="{{#unless checkIfCourse}}card{{else}}cardCourse{{/unless}}">
     <figure class="front" >
@@ -42,7 +40,7 @@
       {{/if}}
         {{#if $and ($not checkIfCourse) (itemsRemaining currentDoc.team.length 6 1)}}
           <li class="remaining-member">
-            <a class="text-info" href="{{pathFor 'projectDetails' _id=currentDoc._id title=(encodeUrlString currentDoc.title)}}">
+            <a class="text-info" href="{{pathFor 'projectDetails' projectId=currentDoc._id projectTitle=(encodeUrlString currentDoc.title)}}">
               <div class="text-center{{#unless checkIfCourse}} bg-info circle20-remaining-members {{/unless}}">
                 <span>
                   <em class="remaining-size">+{{itemsRemaining currentDoc.team.length 6 1}}</em>
@@ -53,7 +51,7 @@
         {{else}}
           {{#if $and checkIfCourse (itemsRemaining currentDoc.team.length 5 1)}}
             <li class="remaining-member">
-              <a class="text-info" href="{{pathFor 'projectDetails' _id=currentDoc._id title=(encodeUrlString currentDoc.title)}}">
+              <a class="text-info" href="{{pathFor 'projectDetails' projectId=currentDoc._id projectTitle=(encodeUrlString currentDoc.title)}}">
                 <div class="text-center{{#unless checkIfCourse}} bg-info circle20-remaining-members {{/unless}}">
                   <span>
                     <em class="remaining-size">+{{itemsRemaining currentDoc.team.length 5 1}}</em>
@@ -80,7 +78,7 @@
 
       </div>
       <div class="panel-footer panel-footerBack">
-        <a href="{{pathFor 'projectDetails' _id=currentDoc._id title=(encodeUrlString currentDoc.title)}}"> &gt;&gt; Zum Projekt &lt;&lt; </a>
+        <a href="{{pathFor 'projectDetails' projectId=currentDoc._id projectTitle=(encodeUrlString currentDoc.title)}}"> &gt;&gt; Zum Projekt &lt;&lt; </a>
       </div> <!-- /.panel-footer -->
     </figure>
     {{/unless}}
@@ -89,7 +87,7 @@
 
 <template name="projectCardTitle">
   <p class="{{#unless checkIfCourse}}title-ellipses{{else}}title-ellipses-course{{/unless}} line-clamp-2">
-     <a href="{{pathFor 'projectDetails' _id=_id title=(encodeUrlString title)}}" class="{{#if subtitle}}title-1row{{else}}title-2row{{/if}}">{{title}}</a>
+     <a href="{{pathFor '/projects/:projectId/:projectTitle' projectId=currentDoc._id projectTitle=(encodeUrlString currentDoc.title)}}" class="{{#if subtitle}}title-1row{{else}}title-2row{{/if}}">{{title}}</a>
   </p>
   {{#if $and ($not checkIfCourse) subtitle}}
      <small class="subtitle-ellipses line-clamp-2">{{subtitle}}</small>
