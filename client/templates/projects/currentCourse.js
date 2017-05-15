@@ -137,7 +137,7 @@ Template.currentCourse.helpers({
       console.log(courseId, course.owner)
       return true
     } else {
-      Router.go("loginPage");
+      FlowRouter.go("loginPage");
     }*/
     return true;
   },
@@ -251,7 +251,7 @@ Template.currentCourse.events({
       }, (err, res) => {
         if (err) {
           if(err.error == "drafts.insertNew.unauthorized") {
-            Router.go("loginPage");
+            FlowRouter.go("loginPage");
             alert("Bitte melde dich an, um ein neues Projekt zu erstellen.");
           } else {
             alert(err);
@@ -267,7 +267,7 @@ Template.currentCourse.events({
         }
       });
     }
-    Router.go("newProject", {_id: draftId});
+    FlowRouter.go("newProject", {_id: draftId});
   },
   "click #excel-button" (event){
      XlsFiles.remove({userId:this._id});
@@ -397,7 +397,7 @@ Template.leaveCourseModal.events({
       if (err) {
         alert(err);
       }
-      Router.go("courseLink", {_id: Meteor.userId()});
+      FlowRouter.go("courseLink", {_id: Meteor.userId()});
       Command: toastr["success"]("Kurs erfolgreich verlassen!");
       Modal.hide();
     });

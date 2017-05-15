@@ -19,6 +19,7 @@ Template.landingPage.onCreated (function landingPageOnCreated() {
   this.autorun(() => {
     this.subscribe("files.images.all");
   });
+  console.log(FlowRouter.current());
   Session.set("previousRoute", FlowRouter.getRouteName());
 });
 

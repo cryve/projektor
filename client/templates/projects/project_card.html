@@ -87,7 +87,7 @@
 
 <template name="projectCardTitle">
   <p class="{{#unless checkIfCourse}}title-ellipses{{else}}title-ellipses-course{{/unless}} line-clamp-2">
-     <a href="{{pathFor '/projects/:projectId/:projectTitle' projectId=currentDoc._id projectTitle=(encodeUrlString currentDoc.title)}}" class="{{#if subtitle}}title-1row{{else}}title-2row{{/if}}">{{title}}</a>
+     <a href="{{pathFor 'projectDetails' projectId=_id projectTitle=(encodeUrlString title)}}" class="{{#if subtitle}}title-1row{{else}}title-2row{{/if}}">{{title}}</a>
   </p>
   {{#if $and ($not checkIfCourse) subtitle}}
      <small class="subtitle-ellipses line-clamp-2">{{subtitle}}</small>

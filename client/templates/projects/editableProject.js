@@ -36,18 +36,18 @@ Template.editableProject.onCreated(function() {
   // this.autorun(() => {
   //   this.subscribe("projectsAll");
   // });
-  this.autorun(() => {
-    this.subscribe("drafts");
-  });
+  // this.autorun(() => {
+  //   this.subscribe("drafts");
+  // });
   this.autorun(() => {
     this.subscribe("files.images.all");
   });
   this.autorun(() => {
     this.subscribe("files.xlsFiles.all");
   });
-  this.autorun(() => {
-    //this.subscribe("usersAll");
-  });
+  // this.autorun(() => {
+  //   //this.subscribe("usersAll");
+  // });
   this.autorun(() => {
     this.subscribe("courses");
   });
@@ -55,11 +55,16 @@ Template.editableProject.onCreated(function() {
     const projectId = FlowRouter.getParam("projectId");
     this.subscribe("singleProject", projectId);
   });
-
+  this.autorun(() => {
+    const draftId = FlowRouter.getParam("draftId");
+    this.subscribe("singleDraft", draftId);
+  });
 });
 
 Template.editableProject.helpers({
   project() {
+    console.log(FlowRouter.current());
+    const draftId = FlowRouter.getParam("draftId");
     const projectId = FlowRouter.getParam("projectId");
     return Projects.findOne(projectId) || Drafts.findOne(projectId) || {};
   },
@@ -167,9 +172,9 @@ Template.editableProject.events({
     });
     var course = Courses.findOne(this.courseId);
     if(course && this.supervisors.map(function(supervisor) { return supervisor.userId; }).indexOf('Mitarbeiter') && (Session.get("previousRoute") == "currentCourseLink")){
-      Router.go("currentCourseLink", {_id: this.courseId, name: encodeURIComponent(course.courseName)});
+      FlowRouter.go("currentCourseLink", {_id: this.courseId, name: encodeURIComponent(course.courseName)});
     } else {
-      Router.go("projectDetails", {_id: newId, title: encodeURIComponent(this.title)});
+      FlowRouter.go("projectDetails", {_id: newId, title: encodeURIComponent(this.title)});
     }
 
     Session.set('result', "null");
@@ -187,9 +192,9 @@ Template.editableProject.events({
     });
     var course = Courses.findOne(this.courseId);
     if(course && this.supervisors && this.supervisors[0] && (Meteor.userId() == this.supervisors[0].userId) && (Meteor.userId() == course.owner)){
-      Router.go("currentCourseLink", {_id: this.courseId, name: encodeURIComponent(course.courseName)});
+      FlowRouter.go("currentCourseLink", {_id: this.courseId, name: encodeURIComponent(course.courseName)});
     } else {
-      Router.go("landingPage");
+      FlowRouter.go("landingPage");
       Session.set('result', "null");
     }
   },
@@ -225,7 +230,7 @@ Template.deleteProjectModal.events({
         if (err) {
           alert(err);
         } else {
-          Router.go("landingPage");
+          FlowRouter.go("landingPage");
           Session.set('result', "null");
           Modal.hide();
         }
@@ -265,7 +270,7 @@ Template.enterProjectModal.events({
         if (err) {
           Command: toastr["error"]("Falscher Einschreibeschlüssel!")
         } else {
-          //Router.go("landingPage");
+          //FlowRouter.go("landingPage");
           Session.set('result', "null");
           Command: toastr["success"]("Erfolgreich beigetreten!")
           Modal.hide();

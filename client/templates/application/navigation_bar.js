@@ -21,7 +21,10 @@ Template.navigationBar.helpers({
     if(Meteor.user() && Meteor.user().profile && Meteor.user().profile.drafts){
       lodash.forEach(Meteor.user().profile.drafts, function(value){
         if (value.draftId && !value.courseId){
-          check = Router.current().params._id === value.draftId;
+          console.log(FlowRouter.getParam("draftId"))
+          console.log(FlowRouter.current());
+          console.log(this)
+          check = FlowRouter.getParam("draftId");
           return false;
         }
       });
@@ -60,7 +63,7 @@ Template.navigationBar.events({
       currentDraftId = insertEmptyDraft.call((err, res) => {
         if (err) {
           if(err.error == "drafts.insertNew.unauthorized") {
-            Router.go("loginPage");
+            FlowRouter.go("loginPage");
             alert("Bitte melde dich an, um ein neues Projekt zu erstellen.");
           } else {
             alert(err);
@@ -78,7 +81,10 @@ Template.navigationBar.events({
       }
     }
     if(Meteor.user()){
-      Router.go("newProject", {_id: currentDraftId});
+      console.log(currentDraftId);
+
+      FlowRouter.go("newProject", {draftId: currentDraftId});
+      console.log(FlowRouter.current())
     }
   }
 });
