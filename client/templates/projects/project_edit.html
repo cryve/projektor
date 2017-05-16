@@ -29,7 +29,7 @@
 <template name="member">
   <li class="media">
     <div class="media-left">
-      <a href="{{pathFor 'userProfile' _id=this.userId}}">
+      <a href="{{pathFor 'userProfile' userId=this.userId uniqueName=(getEmailName this.userId) }}">
         <img class="media-object img-circle" src="{{getAvatarURL this.userId "avatar50"}}" alt="...">
       </a>
     </div>
@@ -61,7 +61,9 @@
           {{/autoForm}}
         {{else}}
           <h4 class="media-heading">
-            <a href="{{pathFor 'userProfile' _id=this.userId}}">{{getFullUsername this.userId}}</a>
+            <a href="{{pathFor 'userProfile' userId=this.userId uniqueName=(getEmailName this.userId)}}">
+              {{getFullUsername this.userId}}
+            </a>
             {{#if hasPermissions 'editInfos,manageMembers' currentDoc }}
               <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-member"></span></a>
             {{/if}}
@@ -333,13 +335,13 @@
 <template name="supervisor">
   <li class="media">
     <div class="media-left">
-      <a href="{{pathFor 'userProfile' _id=this.userId}}">
+      <a href="{{pathFor 'userProfile' userId=this.userId uniqueName=(getEmailName this.userId) }}">
         <img class="media-object img-circle" src="{{getAvatarURL this.userId "avatar50"}}" alt="Profilbild {{getFullUsername this.userId}}">
       </a>
     </div>
     <div class="media-body">
       <h4 class="media-heading">
-        <a href="{{pathFor 'userProfile' _id=this.userId}}">{{getFullUsername this.userId}}</a>
+        <a href="{{pathFor 'userProfile' userId=this.userId uniqueName=(getEmailName this.userId) }}">{{getFullUsername this.userId}}</a>
         {{#if $and ($neq this.userId currentUser._id) (hasPermissions 'manageMembers' currentDoc) }}
           <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-supervisor"></span></a>
         {{else}}

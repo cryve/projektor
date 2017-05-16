@@ -1,0 +1,74 @@
+<template name="userProfile">
+  {{#with user}}
+    <ol class="breadcrumb">
+      <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
+      <li><a href="{{pathFor 'users'}}">Mitglieder</a></li>
+      <li class="active">{{this.profile.fullname}}</li>
+    </ol>
+    {{#if $eq currentUser._id this._id}}
+      {{> uploadFormCrop type="avatar" currentDoc=this}}
+      <button id="delete-avatar-button" class="btn btn-primary navbar-btn navbar-right">
+        Avatar löschen
+      </button>
+    {{/if}}
+    <img src= {{getAvatarURL this._id "avatar50"}} />
+    <h1>{{this.profile.fullname}}<br><small>{{this.profile.title}}</small></h1>
+    {{#if this.profile.studyCourseId}}
+      <p>{{studyCourseName this.profile.studyCourseId this.profile.departmentId this.profile.facultyId}}</p>
+    {{/if}}
+    <p>{{departmentName this.profile.departmentId}}</p>
+    <p>Fakultät: {{facultyName this.profile.facultyId}}</p>
+    <br>
+
+    <div class="row">
+      <div class="col-sm-12">
+        {{> editAboutMe currentDoc=this currentCollection=getUserCollection }}
+       </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+         <p>{{> editSkills currentDoc=this currentCollection=getUserCollection }}</p>
+      </div> <!-- /.col Tags -->
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+          <h2 class="panel-title">Kontakt</h2>
+        </div>
+        <div class="panel-body">
+          <ul class="list-unstyled">
+            {{#each contact in this.profile.contacts}}
+              {{>contactItemUser medium=contact.medium approach=contact.approach currentDoc=this currentCollection=getUserCollection slot=@index}}
+            {{/each}}
+            {{> addContactUser currentDoc=this currentCollection=getUserCollection }}
+          </ul>
+        </div>
+      </div> <!-- /.panel Link -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+          <h2 class="panel-title">Links</h2>
+        </div>
+        <div class="panel-body">
+          <ul class="list-unstyled">
+            {{#each link in this.profile.links}}
+              {{>linkItem medium=link.medium approach=link.approach currentDoc=this currentCollection=getUserCollection slot=@index}}
+            {{/each}}
+            {{> addLink currentDoc=this currentCollection=getUserCollection }}
+          </ul>
+        </div>
+      </div> <!-- /.panel Link -->
+    <div class="project-cards">
+      <div class="row">
+        <div>Meine Projekte</div>
+        <ul>
+          {{#each project in userProjects}}
+            <div class="col-lg-3">
+              {{>projectCard currentDoc=project}}
+            </div>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+  {{/with}}
+</template>

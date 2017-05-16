@@ -17,6 +17,7 @@ Accounts.onCreateUser((options, user) =>{
   options.profile.lastname = "Mustermann";
   options.profile.firstname = "Max";
   options.profile.fullname = "Max Mustermann";
+  options.profile.email = "max.mustermann@haw-hamburg.de";
   options.profile.matricNo = 123456;
   options.profile.role = "Mitarbeiter";
   options.profile.title = "Akadem. Mitarbeiter/in";
@@ -73,6 +74,7 @@ LDAP.addFields = function(person) {
     facultyId: person.hhEduPersonPrimaryFaculty,
     matricNo: person.hhEduPersonStdMatrNoStrg,
     gender: getGenderString(person.hhEduPersonGender),
+    email: person.mail,
   };
   profile = lodash.omitBy(profile, lodash.isNil);
   return {
@@ -88,7 +90,7 @@ Meteor.startup(function() {
   });
   XlsFiles.remove({});
   Courses.remove({});
-  Studies.remove();
+  Studies.remove({});
 
   fs = require('fs');
   const model = [

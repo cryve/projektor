@@ -34,6 +34,11 @@ Template.registerHelper("getFullUsername", (userId) => {
   return user && user.profile.firstname + " " + user.profile.lastname;
 });
 
+Template.registerHelper("getEmailName", (userId) => {
+  const user = Meteor.users.findOne(userId);
+  return emailName = user && user.profile.email.split("@")[0];
+});
+
 Template.registerHelper("arrayToString", (array) => {
   return array && array.join(", ");
 });

@@ -3,9 +3,7 @@ import {Images} from "/lib/collections/images.js";
 import { Studies } from "/lib/collections/studies.js";
 
 Template.userList.onCreated(function userListOnCreated() {
-  this.autorun(() => {
-    //this.subscribe("usersAll");
-  });
+  this.subscribe("usersAll");
   this.endOfUsers = new ReactiveVar(2);
   this.userItems = new ReactiveArray(["loadUser"]);
 });

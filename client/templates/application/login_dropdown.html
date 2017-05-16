@@ -39,7 +39,7 @@
           </form>
         </div>
       {{else}}
-        <li><a href="{{pathFor 'userProfile' _id=currentUser._id}}">Mein Profil</a></li>
+        <li><a href="{{pathFor 'userProfile' userId=currentUser._id uniqueName=(getEmailName currentUser._id) }}">Mein Profil</a></li>
         <li role="separator" class="divider"></li>
         <li><a href="#" id="login-buttons-logout">Abmelden</a></li>
       {{/unless}}

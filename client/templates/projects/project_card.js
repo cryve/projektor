@@ -105,15 +105,9 @@ Template.projectCard.onCreated(function() {
   this.remainingMemberCount = new ReactiveVar(0);
   this.remainingJobsCount = new ReactiveVar(0);
   this.autorun(() => {
-    this.subscribe("projectsAll");
+    this.subscribe("singleProject", this._id);
+    this.subscribe("files.images.single", this.coverImg);
   });
-  this.autorun(() => {
-    this.subscribe("files.images.all");
-  });
-  // this.autorun(() => {
-  //   const projectId = FlowRouter.getParam("projectId");
-  //   this.subscribe("singleProject", projectId);
-  // });
 });
 
 Template.projectCard.onRendered(function() {

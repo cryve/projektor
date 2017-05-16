@@ -73,7 +73,7 @@
 <template name="userListItem">
   <tr>
     <td>
-      <a href="{{pathFor 'userProfile' _id=this.userId }}"><img src={{avatarURL}}></a>
+      <a href="{{pathFor 'userProfile' userId=this.userId uniqueName=(getEmailName this.userId) }}"><img src={{avatarURL}}></a>
     </td>
     <td>{{firstName}}</td>
     <td>{{lastName}}</td>

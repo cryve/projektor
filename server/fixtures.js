@@ -33,6 +33,7 @@ Factory.define('user', Meteor.users, {
     firstname: () => faker.name.firstName(),
     lastname: () => faker.name.lastName(),
     fullname: () => faker.name.findName(),
+    email: () => faker.internet.email(),
     matricNo: () => faker.random.number(),
     role: () => faker.random.arrayElement(sampleUserRoles),
     title: () => faker.random.arrayElement(sampleUserTitles),

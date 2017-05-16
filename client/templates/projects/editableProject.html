@@ -11,7 +11,7 @@
     {{#if $eq previousRoute "userProfile"}}
       <ol class="breadcrumb">
         <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
-        <li><a href="{{pathFor 'userProfile' _id=currentUser._id}}"> Profil</a></li>
+        <li><a href="{{pathFor 'userProfile' userId=currentUser._id uniqueName=(getEmailName currentUser._id) }}"> Profil</a></li>
         <li class="active">{{this.title}}</li>
       </ol>
     {{else}}

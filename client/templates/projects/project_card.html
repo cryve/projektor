@@ -19,7 +19,7 @@
         {{#each member in currentDoc.team}}
           {{#if $lt @index (itemsToShow currentDoc.team.length 6 1)}}
             <li>
-              <a href="{{pathFor 'userProfile' _id=member.userId }}">
+              <a href="{{pathFor 'userProfile' userId=member.userId uniqueName=(getEmailName member.userId) }}">
                 <img class="img-circle" rel="tooltip" title="{{getFullUsername member.userId}}" src={{getAvatarURL member.userId "avatar20"}}>
               </a>
             </li>
@@ -30,7 +30,7 @@
           {{#each member in currentDoc.team}}
             {{#if $lt @index (itemsToShow currentDoc.team.length 5 1)}}
               <li>
-                <a href="{{pathFor 'userProfile' _id=member.userId }}">
+                <a href="{{pathFor 'userProfile' userId=member.userId uniqueName=(getEmailName member.userId) }}">
                   <img class="img-circle" rel="tooltip" title="{{getFullUsername member.userId}}" src={{getAvatarURL member.userId "avatar20"}}>
                 </a>
               </li>
