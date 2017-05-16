@@ -105,8 +105,9 @@ Template.projectCard.onCreated(function() {
   this.remainingMemberCount = new ReactiveVar(0);
   this.remainingJobsCount = new ReactiveVar(0);
   this.autorun(() => {
-    this.subscribe("singleProject", this._id);
-    this.subscribe("files.images.single", this.coverImg);
+    this.subscribe("singleProject", Template.currentData().currentDoc._id);
+    console.log(Template.currentData());
+    this.subscribe("files.images.single", Template.currentData().currentDoc.coverImg);
   });
 });
 
@@ -216,13 +217,7 @@ Template.projectCard.helpers({
     var image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
     return (image && image.versions[version]) ? image.link(version) : "/img/"+version+".jpg";
   },
-  getImgURL(imgId, version){
-    if (imgId){
-      var image = Images.findOne(imgId);
-      return (image && image.versions[version]) ? image.link(version) : null;
-    }
-  },
-   projects() {
+  projects() {
     return Projects.find({}, { sort: { createdAt: -1 } });
    },
   itemsToShow(totalItems, maxItems, placeholderItems) {

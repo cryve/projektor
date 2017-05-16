@@ -1,9 +1,7 @@
 import {Template} from "meteor/templating" ;
 import {Projects} from "/lib/collections/projects.js" ;
-import {XlsFiles} from "/lib/collections/xlsFiles.js" ;
 import {Drafts} from "/lib/collections/drafts.js";
 import {Courses} from "/lib/collections/courses.js" ;
-import {Images} from "/lib/collections/images.js";
 import toastr from 'toastr';
 import lodash from 'lodash';
 import 'toastr/build/toastr.css';
@@ -33,31 +31,14 @@ Template.editableProject.onCreated(function() {
   "showMethod": "fadeIn",
   "hideMethod": "fadeOut"
   }
-  // this.autorun(() => {
-  //   this.subscribe("projectsAll");
-  // });
-  // this.autorun(() => {
-  //   this.subscribe("drafts");
-  // });
+  this.subscribe("usersAll");
+  this.subscribe("courses");
   this.autorun(() => {
-    this.subscribe("files.images.all");
-  });
-  this.autorun(() => {
-    this.subscribe("files.xlsFiles.all");
-  });
-  // this.autorun(() => {
-  //   //this.subscribe("usersAll");
-  // });
-  this.autorun(() => {
-    this.subscribe("courses");
-  });
-  this.autorun(() => {
-    const projectId = FlowRouter.getParam("projectId");
-    this.subscribe("singleProject", projectId);
-  });
-  this.autorun(() => {
-    const draftId = FlowRouter.getParam("draftId");
-    this.subscribe("singleDraft", draftId);
+    if(FlowRouter.getParam("projectId")) {
+      this.subscribe("singleProject", FlowRouter.getParam("projectId"));
+    } else if (FlowRouter.getParam("draftId")) {
+      this.subscribe("singleDraft", FlowRouter.getParam("draftId"));
+    }
   });
 });
 
@@ -66,7 +47,7 @@ Template.editableProject.helpers({
     console.log(FlowRouter.current());
     const draftId = FlowRouter.getParam("draftId");
     const projectId = FlowRouter.getParam("projectId");
-    return Projects.findOne(projectId) || Drafts.findOne(projectId) || {};
+    return Projects.findOne(projectId) || Drafts.findOne(draftId) || {};
   },
   enterProject(){
     var enterCheck = Courses.findOne(this.courseId);
@@ -159,7 +140,7 @@ Template.editableProject.events({
         if (err) {
           alert(err);
         } else {
-          Command: toastr["success"]("Projekt Erfolgreich erstellt!")
+          Command: toastr["success"]("Projekt erfolgreich erstellt!")
 
         }
     });
@@ -174,7 +155,7 @@ Template.editableProject.events({
     if(course && this.supervisors.map(function(supervisor) { return supervisor.userId; }).indexOf('Mitarbeiter') && (Session.get("previousRoute") == "currentCourseLink")){
       FlowRouter.go("currentCourseLink", {_id: this.courseId, name: encodeURIComponent(course.courseName)});
     } else {
-      FlowRouter.go("projectDetails", {_id: newId, title: encodeURIComponent(this.title)});
+      FlowRouter.go("projectDetails", {projectId: newId, projectTitle: encodeURIComponent(this.title)});
     }
 
     Session.set('result', "null");

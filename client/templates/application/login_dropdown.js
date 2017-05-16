@@ -7,9 +7,6 @@ Template.loginDropdown.onCreated (function(){
     this.subscribe("files.images.avatar", Meteor.userId());
     this.subscribe("singleUser", Meteor.userId());
   });
-  this.autorun(() => {
-    //this.subscribe("usersAll");
-  });
 });
 
 Template.loginDropdown.helpers(_.extend(LDAP.formHelpers, {

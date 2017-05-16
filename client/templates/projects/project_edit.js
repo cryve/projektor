@@ -152,9 +152,9 @@ Template.notesBoxSupervisors.events({
 
 Template.member.onCreated(function() {
   this.editActive = new ReactiveVar(false);
-  this.autorun(() => {
-    this.subscribe("files.images.all");
-  });
+  // this.autorun(() => {
+  //   this.subscribe("files.images.all");
+  // });
   this.autorun(() => {
     //this.subscribe("usersAll");
   });
@@ -306,9 +306,9 @@ Template.supervisor.helpers({
 });
 
 Template.supervisor.onCreated (function(){
-  this.autorun(() => {
-    this.subscribe("files.images.all");
-  });
+  // this.autorun(() => {
+  //   this.subscribe("files.images.all");
+  // });
   this.autorun(() => {
     //this.subscribe("usersAll");
   });

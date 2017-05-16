@@ -1,5 +1,3 @@
-import { Projects } from '/lib/collections/projects.js';
-import {Drafts} from "/lib/collections/drafts.js";
 import {Images} from "/lib/collections/images.js";
 import {Template} from "meteor/templating" ;
 import {deleteImg, setMedia, setCoverImg, setMediaId, setMediaType, removeCoverImg} from "/lib/methods.js";
@@ -65,18 +63,12 @@ Template.video.helpers({
 
 Template.titleImage.onCreated (function(){
   this.setEmptyPreview = new ReactiveVar(false);
-  this.autorun(() => {
-    this.subscribe("files.images.all");
-  });
+  // this.autorun(() => {
+  //   this.subscribe("files.images.all");
+  // });
 });
 
 Template.titleImage.helpers ({
-  getImgURL(imgId, version){
-    if (imgId){
-      var image = Images.findOne(imgId);
-      return (image && image.versions[version]) ? image.link(version) : null;
-    }
-  },
   getSetEmptyPreview(){
     return Template.instance().setEmptyPreview.get();
   },
@@ -84,18 +76,12 @@ Template.titleImage.helpers ({
 
 Template.deleteImageButton.onCreated (function(){
   this.setEmptyPreview = new ReactiveVar(false);
-  this.autorun(() => {
-    this.subscribe("files.images.all");
-  });
+  // this.autorun(() => {
+  //   this.subscribe("files.images.all");
+  // });
 });
 
 Template.deleteImageButton.helpers ({
-  getImgURL(imgId, version){
-    if (imgId){
-      var image = Images.findOne(imgId);
-      return (image && image.versions[version]) ? image.link(version) : null;
-    }
-  },
   getSetEmptyPreview(){
     return Template.instance().setEmptyPreview.get();
   },
@@ -235,27 +221,15 @@ Template.wholeGallery.onCreated(function() {
   this.editMode = new ReactiveVar(false);
   this.refreshPreview = new ReactiveVar(false);
   this.finishedMode = new ReactiveVar(false);
+  const self = this;
   this.autorun(() => {
-    this.subscribe("projectsAll");
-  });
-  this.autorun(() => {
-    this.subscribe("drafts");
-  });
-  this.autorun(() => {
-    this.subscribe("files.images.all");
+    console.log(self);
+    console.log(Template.currentData());
+    this.subscribe("files.images.gallery", Template.currentData().currentDoc.media);
   });
 });
 
 Template.wholeGallery.helpers({
-  getImgURL(imgId, version){
-    if (imgId){
-      var image = Images.findOne(imgId);
-      return (image && image.versions[version]) ? image.link(version) : null;
-    }
-  },
-  log (data) {
-    console.log(data);
-  },
   getVideoImage(id) {
     var currentArray = this.currentDoc.media;
     var url = id;
@@ -302,12 +276,6 @@ Template.wholeGallery.helpers({
   getMediaType() {
     var slot = Session.get('slot');
     return this.currentDoc.media[slot].type;
-  },
-  getProjectCollection() {
-    return Projects;
-  },
-  getDraftsCollection() {
-    return Drafts;
   },
   getEditMode(){
     return Template.instance().editMode.get();

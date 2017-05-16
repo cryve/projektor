@@ -43,13 +43,12 @@ Template.registerHelper("arrayToString", (array) => {
   return array && array.join(", ");
 });
 
-// Template.registerHelper("getImgURL", (imgId, version) => {
-//   if (imgId){
-//     ////this.subscribe("files.images.all");
-//     var image = Images.findOne(imgId);
-//     return (image && image.versions[version]) ? image.link(version) : null;
-//   }
-// });
+Template.registerHelper("getImgURL", (imgId, version) => {
+  if (imgId){
+    var image = Images.findOne(imgId);
+    return (image && image.versions[version]) ? image.link(version) : null;
+  }
+});
 
 Template.registerHelper('encodeUrlString', function(string) {
   return encodeURIComponent(string);
