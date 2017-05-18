@@ -31,18 +31,49 @@ Template.editableProject.onCreated(function() {
   "showMethod": "fadeIn",
   "hideMethod": "fadeOut"
   }
+  this.projectSubReady = new ReactiveVar();
   this.subscribe("usersAll");
   this.subscribe("courses");
   this.autorun(() => {
+    let projectSubHandle;
     if(FlowRouter.getParam("projectId")) {
-      this.subscribe("singleProject", FlowRouter.getParam("projectId"));
+      projectSubHandle = this.subscribe("singleProject", FlowRouter.getParam("projectId"));
     } else if (FlowRouter.getParam("draftId")) {
-      this.subscribe("singleDraft", FlowRouter.getParam("draftId"));
+      projectSubHandle = this.subscribe("singleDraft", FlowRouter.getParam("draftId"));
     }
+    this.projectSubReady.set(projectSubHandle.ready());
   });
 });
 
 Template.editableProject.helpers({
+  authInProgress() {
+    const projectSubReady = Template.instance().projectSubReady.get();
+    return Meteor.loggingIn() || !projectSubReady;
+  },
+  canShow() {
+    const user = Meteor.user();
+    if(!user) {
+      return false;
+    }
+    const draftId = FlowRouter.getParam("draftId");
+    const projectId = FlowRouter.getParam("projectId");
+    if(draftId) {
+      const draft = Drafts.findOne(draftId);
+      if(!draft) {
+        return false;
+      }
+      return lodash.find(user.profile.drafts, function(userDraft) {
+        return userDraft.draftId === draftId;
+      });
+    } else if (projectId) {
+      const project = Projects.findOne(projectId);
+      if(!project) {
+        return false;
+      }
+      return true;
+    }
+    return false;
+  },
   project() {
     console.log(FlowRouter.current());
     const draftId = FlowRouter.getParam("draftId");

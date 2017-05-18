@@ -1,169 +1,180 @@
 <template name="editableProject">
-  {{#with project}}
-  {{#if $eq previousRoute "currentCourseLink"}}
-    <ol class="breadcrumb">
-      <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
-      <li><a href="{{pathFor 'courseLink' _id=currentUser._id}}">Meine Kurse</a></li>
-      <li><a href="{{pathFor 'currentCourseLink' _id=getCourseId name=(encodeUrlString courseProjekt)}}">{{courseProjekt}}</a></li>
-      <li class="active">{{this.title}}</li>
-    </ol>
-  {{else}}
-    {{#if $eq previousRoute "userProfile"}}
-      <ol class="breadcrumb">
-        <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
-        <li><a href="{{pathFor 'userProfile' userId=currentUser._id uniqueName=(getEmailName currentUser._id) }}"> Profil</a></li>
-        <li class="active">{{this.title}}</li>
-      </ol>
+  {{#onlyIfLoggedIn}}
+    {{#if authInProgress}}
+      <p>Bitte warten...</p>
     {{else}}
-      {{#if this.isNewProject}}
-        <ol class="breadcrumb">
-          <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
-          <li class="active">Neues Projekt</li>
-        </ol>
-      {{else}}
-        <ol class="breadcrumb">
-          <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
-          <li class="active">{{this.title}}</li>
-        </ol>
+      {{#if canShow}}
+        {{#with project}}
+          {{#if $eq previousRoute "currentCourseLink"}}
+            <ol class="breadcrumb">
+              <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
+              <li><a href="{{pathFor 'courseLink' _id=currentUser._id}}">Meine Kurse</a></li>
+              <li><a href="{{pathFor 'currentCourseLink' _id=getCourseId name=(encodeUrlString courseProjekt)}}">{{courseProjekt}}</a></li>
+              <li class="active">{{this.title}}</li>
+            </ol>
+          {{else}}
+            {{#if $eq previousRoute "userProfile"}}
+              <ol class="breadcrumb">
+                <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
+                <li><a href="{{pathFor 'userProfile' userId=currentUser._id uniqueName=(getEmailName currentUser._id) }}"> Profil</a></li>
+                <li class="active">{{this.title}}</li>
+              </ol>
+            {{else}}
+              {{#if this.isNewProject}}
+                <ol class="breadcrumb">
+                  <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
+                  <li class="active">Neues Projekt</li>
+                </ol>
+              {{else}}
+                <ol class="breadcrumb">
+                  <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
+                  <li class="active">{{this.title}}</li>
+                </ol>
+              {{/if}}
+            {{/if}}
+          {{/if}}
+          <div class="row">
+            <div class="col-lg-12">
+              <h1 class="page-header">
+                {{> editTitle currentDoc=this currentCollection=getCollection }}
+              </h1>
+            </div>
+          </div> <!-- /.row -->
+          <div class="row">
+            <div class="col-md-8 col-lg-8">
+              <div class="panel panel-default">
+                {{> wholeGallery currentDoc=this currentCollection=getCollection }}
+                      <div class="panel-body">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          {{> editDescription currentDoc=this currentCollection=getCollection }}
+                        </div> <!-- /.col description -->
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12">
+                          {{> editTags currentDoc=this currentCollection=getCollection }}
+                        </div> <!-- /.col Tags -->
+                      </div> <!-- /.row Tags -->
+
+                      <!-- <div class="row">
+                        <div class="col-sm-12"> -->
+                            <!-- {{#each item in teamCommunication}}
+                              {{> editTeamCommItem medium=item.medium url=item.url isPrivate=item.isPrivate currentDoc=this currentCollection=getCollection slot=@index}}
+                            {{/each}}
+                            {{> addTeamComm currentDoc=this currentCollection=getCollection }} -->
+                          <!-- {{> editTeamCommunication currentDoc=this currentCollection=getCollection }}
+                        </div>
+                      </div> -->
+                      <br>
+                      {{#if hasPermissions 'deleteProject' this }}
+                        {{#if this.isNewProject}}
+                          <button id="btn-delete-draft" class="btn btn-default">Verwerfen</button>
+                          <button id="btn-publish-draft" class="btn btn-primary">Projekt erstellen</button>
+                        {{else}}
+                          <button id="btn-show-delete-project" class="btn btn-danger">Projekt löschen</button>
+                        {{/if}}
+                      {{/if}}
+                    </div> <!-- /.panel-body -->
+                  </div> <!-- /.panel -->
+                  {{> notesBoxSupervisors currentDoc=this currentCollection=getCollection}}
+            </div> <!-- /.col-md-8 -->
+
+            <div class="col-lg-4">
+              {{#if $and enterProject ($and memberCheck supervisorCheck)}}
+                <button class="btn btn-primary" id="btn-enter-project">Kursprojekt beitreten</button>
+              {{/if}}
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <span class="panel-title">Team</span>
+                    </div>
+                    <div class="panel-body">
+                      <ul class="media-list">
+                        {{#each teamMember in team}}
+                          {{> member currentDoc=this userId=teamMember.userId role=teamMember.role isEditor=teamMember.isEditor userList=(suggestedUsers exclude=this.team firstOption=teamMember.userId) slot=@index currentCollection=getCollection }}
+                        {{/each}}
+                        {{> addMember currentDoc=this userList=(suggestedUsers exclude=this.team) currentCollection=getCollection }}
+                      </ul>
+                    </div>
+                  </div> <!-- /.panel-default team  -->
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <span class="panel-title">Betreuer</span>
+                    </div>
+                    <div class="panel-body">
+                      <ul class="media-list">
+                        {{#each member in supervisors}}
+                          {{> supervisor currentDoc=this userId=member.userId role=member.role userList=(suggestedUsers exclude=this.supervisors role="Mitarbeiter" firstOption=member.userId) slot=@index currentCollection=getCollection }}
+                        {{/each}}
+                        {{> addSupervisor currentDoc=this userList=(suggestedUsers exclude=this.supervisors role="Mitarbeiter") currentCollection=getCollection }}
+                      </ul>
+                    </div>
+                  </div> <!-- /.panel-default supervisors  -->
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h2 class="panel-title">Gesuchte Fähigkeiten</h2>
+                    </div>
+                    <div class="panel-body">
+                      <ul>
+                        {{#each job in jobs}}
+                          {{>jobItem jobLabel=job.joblabel currentDoc=this currentCollection=getCollection slot=@index}}
+                        {{/each}}
+                      </ul>
+                      {{>addJob currentDoc=this currentCollection=getCollection}}
+                    </div>
+                  </div> <!-- /.panel Wanted Skills -->
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h2 class="panel-title">Kontakt</h2>
+                    </div>
+                    <div class="panel-body">
+                      <ul class="list-unstyled">
+                        {{#each contact in contacts}}
+                          {{>contactItem medium=contact.medium approach=contact.approach currentDoc=this currentCollection=getCollection slot=@index}}
+                        {{/each}}
+                        {{> addContact currentDoc=this currentCollection=getCollection }}
+                      </ul>
+                    </div>
+                  </div> <!-- /.panel Contact -->
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h2 class="panel-title">Details</h2>
+                    </div>
+                    <div class="panel-body">
+                      <dl class="dl">
+                        <dt>Kurs</dt>
+                        <dd>{{> addCourse currentDoc=this courseList=suggestedCourses currentCollection=getCollection }}</dd>
+                        <dt>Projektanlass</dt>
+                        <dd>{{>editOccasions currentDoc=this currentCollection=getCollection}}</dd>
+                        <dt>Projektbeginn</dt>
+                        <dd>{{>editBeginning currentDoc=this currentCollection=getCollection}}</dd>
+                        <dt>Deadline</dt>
+                        <dd>{{>editDeadline currentDoc=this currentCollection=getCollection}}</dd>
+
+                      </dl>
+                    </div>
+                  </div> <!-- /.panel Project Details -->
+                  {{#if $or (isUserInGroup team currentUser._id) (isUserInGroup supervisors currentUser._id)}}
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h2 class="panel-title">PDF-Abgabe</h2>
+                      </div>
+                      <div class="panel-body">
+                        <dl class="dl">
+                          {{> projectFileUpload currentDoc=this currentCollection=getCollection}}
+                        </dl>
+                      </div>
+                    </div> <!-- /.panel Project Details -->
+                  {{/if}}
+
+                </div> <!-- /.col-md-4 -->
+              </div><!-- /.row -->
+        {{/with}}
+        {{else}}
+          <h2>Dieses Projekt ist privat.</h2>
+          <p>Melde dich mit dem passenden HAW-Account an oder erstelle ein eigenes Projekt.</p>
       {{/if}}
     {{/if}}
-  {{/if}}
-    <div class="row">
-      <div class="col-lg-12">
-        <h1 class="page-header">
-          {{> editTitle currentDoc=this currentCollection=getCollection }}
-        </h1>
-      </div>
-    </div> <!-- /.row -->
-    <div class="row">
-      <div class="col-md-8 col-lg-8">
-        <div class="panel panel-default">
-          {{> wholeGallery currentDoc=this currentCollection=getCollection }}
-                <div class="panel-body">
-                <div class="row">
-                  <div class="col-sm-12">
-                    {{> editDescription currentDoc=this currentCollection=getCollection }}
-                  </div> <!-- /.col description -->
-                </div>
-                <div class="row">
-                  <div class="col-sm-12">
-                    {{> editTags currentDoc=this currentCollection=getCollection }}
-                  </div> <!-- /.col Tags -->
-                </div> <!-- /.row Tags -->
-
-                <!-- <div class="row">
-                  <div class="col-sm-12"> -->
-                      <!-- {{#each item in teamCommunication}}
-                        {{> editTeamCommItem medium=item.medium url=item.url isPrivate=item.isPrivate currentDoc=this currentCollection=getCollection slot=@index}}
-                      {{/each}}
-                      {{> addTeamComm currentDoc=this currentCollection=getCollection }} -->
-                    <!-- {{> editTeamCommunication currentDoc=this currentCollection=getCollection }}
-                  </div>
-                </div> -->
-                <br>
-                {{#if hasPermissions 'deleteProject' this }}
-                  {{#if this.isNewProject}}
-                    <button id="btn-delete-draft" class="btn btn-default">Verwerfen</button>
-                    <button id="btn-publish-draft" class="btn btn-primary">Projekt erstellen</button>
-                  {{else}}
-                    <button id="btn-show-delete-project" class="btn btn-danger">Projekt löschen</button>
-                  {{/if}}
-                {{/if}}
-              </div> <!-- /.panel-body -->
-            </div> <!-- /.panel -->
-            {{> notesBoxSupervisors currentDoc=this currentCollection=getCollection}}
-      </div> <!-- /.col-md-8 -->
-
-      <div class="col-lg-4">
-        {{#if $and enterProject ($and memberCheck supervisorCheck)}}
-          <button class="btn btn-primary" id="btn-enter-project">Kursprojekt beitreten</button>
-        {{/if}}
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <span class="panel-title">Team</span>
-              </div>
-              <div class="panel-body">
-                <ul class="media-list">
-                  {{#each teamMember in team}}
-                    {{> member currentDoc=this userId=teamMember.userId role=teamMember.role isEditor=teamMember.isEditor userList=(suggestedUsers exclude=this.team firstOption=teamMember.userId) slot=@index currentCollection=getCollection }}
-                  {{/each}}
-                  {{> addMember currentDoc=this userList=(suggestedUsers exclude=this.team) currentCollection=getCollection }}
-                </ul>
-              </div>
-            </div> <!-- /.panel-default team  -->
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <span class="panel-title">Betreuer</span>
-              </div>
-              <div class="panel-body">
-                <ul class="media-list">
-                  {{#each member in supervisors}}
-                    {{> supervisor currentDoc=this userId=member.userId role=member.role userList=(suggestedUsers exclude=this.supervisors role="Mitarbeiter" firstOption=member.userId) slot=@index currentCollection=getCollection }}
-                  {{/each}}
-                  {{> addSupervisor currentDoc=this userList=(suggestedUsers exclude=this.supervisors role="Mitarbeiter") currentCollection=getCollection }}
-                </ul>
-              </div>
-            </div> <!-- /.panel-default supervisors  -->
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h2 class="panel-title">Gesuchte Fähigkeiten</h2>
-              </div>
-              <div class="panel-body">
-                <ul>
-                  {{#each job in jobs}}
-                    {{>jobItem jobLabel=job.joblabel currentDoc=this currentCollection=getCollection slot=@index}}
-                  {{/each}}
-                </ul>
-                {{>addJob currentDoc=this currentCollection=getCollection}}
-              </div>
-            </div> <!-- /.panel Wanted Skills -->
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h2 class="panel-title">Kontakt</h2>
-              </div>
-              <div class="panel-body">
-                <ul class="list-unstyled">
-                  {{#each contact in contacts}}
-                    {{>contactItem medium=contact.medium approach=contact.approach currentDoc=this currentCollection=getCollection slot=@index}}
-                  {{/each}}
-                  {{> addContact currentDoc=this currentCollection=getCollection }}
-                </ul>
-              </div>
-            </div> <!-- /.panel Contact -->
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h2 class="panel-title">Details</h2>
-              </div>
-              <div class="panel-body">
-                <dl class="dl">
-                  <dt>Kurs</dt>
-                  <dd>{{> addCourse currentDoc=this courseList=suggestedCourses currentCollection=getCollection }}</dd>
-                  <dt>Projektanlass</dt>
-                  <dd>{{>editOccasions currentDoc=this currentCollection=getCollection}}</dd>
-                  <dt>Projektbeginn</dt>
-                  <dd>{{>editBeginning currentDoc=this currentCollection=getCollection}}</dd>
-                  <dt>Deadline</dt>
-                  <dd>{{>editDeadline currentDoc=this currentCollection=getCollection}}</dd>
-
-                </dl>
-              </div>
-            </div> <!-- /.panel Project Details -->
-            {{#if $or (isUserInGroup team currentUser._id) (isUserInGroup supervisors currentUser._id)}}
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h2 class="panel-title">PDF-Abgabe</h2>
-                </div>
-                <div class="panel-body">
-                  <dl class="dl">
-                    {{> projectFileUpload currentDoc=this currentCollection=getCollection}}
-                  </dl>
-                </div>
-              </div> <!-- /.panel Project Details -->
-            {{/if}}
-
-          </div> <!-- /.col-md-4 -->
-    </div><!-- /.row -->
-    {{/with}}
+  {{/onlyIfLoggedIn}}
 </template>
 
 <template name="deleteProjectModal">
