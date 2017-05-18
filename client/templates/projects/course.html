@@ -45,7 +45,7 @@
           <a href=""><span class="glyphicon glyphicon-minus text-danger  btn-delete-course"  data-id="{{course._id}}" id="idResult"></span></a>
         </span>
         <span class="survey-name">
-          <a href="{{pathFor 'currentCourseLink' _id=course._id name=(encodeUrlString course.courseName)}}">
+          <a href="{{pathFor 'course' courseId=course._id courseName=(encodeUrlString course.courseName)}}">
             {{course.courseName}}
           </a>
         </span>
@@ -73,7 +73,7 @@
 
       </li>
     <!---<li>
-      <a href="{{pathFor 'currentCourseLink' _id=course._id name=course.courseName}}">{{course.courseName}}
+      <a href="{{pathFor 'course' _id=course._id name=course.courseName}}">{{course.courseName}}
       {{course.courseSemester}}
       {{course.studyCourse}}</a>
         <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-course" data-id="{{course._id}}" id="idUpdate"></span></a>

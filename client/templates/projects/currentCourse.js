@@ -29,20 +29,11 @@ Template.currentCourse.onCreated (function courseOnCreated() {
     "showMethod": "fadeIn",
     "hideMethod": "fadeOut"
   };
+  this.subscribe('files.xlsFiles.all');
   this.autorun(() => {
-    this.subscribe('files.xlsFiles.all');
-  });
-  this.autorun(() => {
-    this.subscribe("courses");
-  });
-  this.autorun(() => {
-    this.subscribe("projectsAll");
-  });
-  this.autorun(() => {
-    //this.subscribe("usersAll");
-  });
-  this.autorun(() => {
-    this.subscribe("drafts");
+    this.subscribe("courses", FlowRouter.getParam("courseId"));
+    this.subscribe("courseProjects", FlowRouter.getParam("courseId"));
+    this.subscribe("singleUserCourseDraft", FlowRouter.getParam("courseId"));
   });
   this.editActive = new ReactiveVar(false);
   this.createLink = new ReactiveVar(false);
@@ -54,6 +45,9 @@ Template.currentCourse.onCreated (function courseOnCreated() {
 });
 
 Template.currentCourse.helpers({
+  course() {
+    return Courses.findOne(FlowRouter.getParam('courseId'));
+  },
   editActive () {
     return Template.instance().editActive.get();
   },
@@ -69,13 +63,8 @@ Template.currentCourse.helpers({
   setDeadline(){
     return Template.instance().deadline.get();
   },
-  projects(){
-    let ownersAsSupervisors = [];
-    lodash.forEach(this.owner, function(ownerId) {
-      const owner = Meteor.users.findOne(ownerId);
-      ownersAsSupervisors.push({userId: owner._id, role: owner.profile.title});
-    });
-    return Projects.find({courseId: this._id, supervisors: { $in: ownersAsSupervisors}}, { sort: { createdAt: -1 } });
+  courseProjects(){
+    return Projects.findFromPublication('courseProjects')
   },
   getCollection() {
     return Courses;
@@ -128,19 +117,6 @@ Template.currentCourse.helpers({
     }
   },
 
-  checkCourseAccess(){
-    Session.set("currentCourse", this._id);
-    /*const courseId = this._id;
-    var course = Courses.findOne({_id: this._id, owner: Meteor.userId()});
-    console.log(course);
-    if(course && (courseId == course._id)){
-      console.log(courseId, course.owner)
-      return true
-    } else {
-      FlowRouter.go("loginPage");
-    }*/
-    return true;
-  },
   checkIfDraft(){
     var check = false;
     const currentDoc = this;
@@ -153,19 +129,6 @@ Template.currentCourse.helpers({
       });
     }
     return check;
-  },
-  isDraftRendered() {
-    var check = false;
-    const currentDoc = this;
-    if(Meteor.user() && Meteor.user().profile && Meteor.user().profile.drafts){
-      lodash.forEach(Meteor.user().profile.drafts, function(value){
-        if (value.draftId && (value.courseId == currentDoc._id)){
-          check = Router.current().params._id === value.draftId;
-          return false;
-        }
-      });
-    }
-    return check
   },
 });
 
@@ -267,7 +230,7 @@ Template.currentCourse.events({
         }
       });
     }
-    FlowRouter.go("newProject", {_id: draftId});
+    FlowRouter.go("newProject", {draftId: draftId});
   },
   "click #excel-button" (event){
      XlsFiles.remove({userId:this._id});
@@ -397,7 +360,7 @@ Template.leaveCourseModal.events({
       if (err) {
         alert(err);
       }
-      FlowRouter.go("courseLink", {_id: Meteor.userId()});
+      FlowRouter.go("courses", {_id: Meteor.userId()});
       Command: toastr["success"]("Kurs erfolgreich verlassen!");
       Modal.hide();
     });

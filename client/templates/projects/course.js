@@ -26,12 +26,8 @@ Template.course.onCreated (function courseOnCreated() {
   "showMethod": "fadeIn",
   "hideMethod": "fadeOut"
   }
-  this.autorun(() => {
-    this.subscribe("courses");
-  });
-  this.autorun(() => {
-    this.subscribe("projectsAll");
-  });
+  this.subscribe("courses");
+  this.subscribe("projectsAll");
   this.editActive = new ReactiveVar(false);
   this.editCourse = new ReactiveVar(false);
 });

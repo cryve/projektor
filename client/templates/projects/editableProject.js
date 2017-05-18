@@ -183,8 +183,8 @@ Template.editableProject.events({
         }
     });
     var course = Courses.findOne(this.courseId);
-    if(course && this.supervisors.map(function(supervisor) { return supervisor.userId; }).indexOf('Mitarbeiter') && (Session.get("previousRoute") == "currentCourseLink")){
-      FlowRouter.go("currentCourseLink", {_id: this.courseId, name: encodeURIComponent(course.courseName)});
+    if(course && this.supervisors.map(function(supervisor) { return supervisor.userId; }).indexOf('Mitarbeiter') && (Session.get("previousRoute") == "course")){
+      FlowRouter.go("course", {courseId: this.courseId, courseName: encodeURIComponent(course.courseName)});
     } else {
       FlowRouter.go("projectDetails", {projectId: newId, projectTitle: encodeURIComponent(this.title)});
     }
@@ -204,7 +204,7 @@ Template.editableProject.events({
     });
     var course = Courses.findOne(this.courseId);
     if(course && this.supervisors && this.supervisors[0] && (Meteor.userId() == this.supervisors[0].userId) && (Meteor.userId() == course.owner)){
-      FlowRouter.go("currentCourseLink", {_id: this.courseId, name: encodeURIComponent(course.courseName)});
+      FlowRouter.go("course", {_id: this.courseId, name: encodeURIComponent(course.courseName)});
     } else {
       FlowRouter.go("landingPage");
       Session.set('result', "null");

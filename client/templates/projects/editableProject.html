@@ -5,11 +5,11 @@
     {{else}}
       {{#if canShow}}
         {{#with project}}
-          {{#if $eq previousRoute "currentCourseLink"}}
+          {{#if $eq previousRoute "course"}}
             <ol class="breadcrumb">
               <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
-              <li><a href="{{pathFor 'courseLink' _id=currentUser._id}}">Meine Kurse</a></li>
-              <li><a href="{{pathFor 'currentCourseLink' _id=getCourseId name=(encodeUrlString courseProjekt)}}">{{courseProjekt}}</a></li>
+              <li><a href="{{pathFor 'courses' _id=currentUser._id}}">Meine Kurse</a></li>
+              <li><a href="{{pathFor 'course' _id=getCourseId name=(encodeUrlString courseProjekt)}}">{{courseProjekt}}</a></li>
               <li class="active">{{this.title}}</li>
             </ol>
           {{else}}

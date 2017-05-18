@@ -3,8 +3,8 @@ import faker from 'faker';
 import { Projects } from '/lib/collections/projects.js';
 faker.locale = "de";
 /* Set amount of sample docs */
-const sampleCountUsers = 200;
-const sampleCountProjects = 48;
+const sampleCountUsers = 20;
+const sampleCountProjects = 12;
 
 /* Set field limits */
 const maxSizeTeam = 10;
