@@ -1,58 +1,60 @@
 <template name="userList">
-  <ol class="breadcrumb">
-    <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
-    <li class="active">Mitglieder</li>
-  </ol>
+  {{#onlyIfLoggedIn}}
+    <ol class="breadcrumb">
+      <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
+      <li class="active">Mitglieder</li>
+    </ol>
 
-  <!-- <div id="container">
-  	<ul class="tags">
-      <form class="navbar-form navbar-right">
-        <div class="form-group searchBoxFixed" style="display:inline">
-          <div class="input-group">
-            <input type="text" id="listExName" class="form-control" placeholder="Search">
+    <!-- <div id="container">
+    	<ul class="tags">
+        <form class="navbar-form navbar-right">
+          <div class="form-group searchBoxFixed" style="display:inline">
+            <div class="input-group">
+              <input type="text" id="listExName" class="form-control" placeholder="Search">
+            </div>
           </div>
-        </div>
-        <button type="submit" id="listExAdd" class="btn btn-primary">Suchen</button>
-      </form>
-      <div class="tagsRange">
-      {{#each tags }}
-        {{#if $eq this ""}}
+          <button type="submit" id="listExAdd" class="btn btn-primary">Suchen</button>
+        </form>
+        <div class="tagsRange">
+        {{#each tags }}
+          {{#if $eq this ""}}
 
-        {{else}}
-          <li class="addedTag">{{this}}<span class="tagRemove listExRemove">x</span></li>
-        {{/if}}
-      {{/each}}
-    </div>
-
-  	</ul>
-  </div> -->
-
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Profil</th>
-        <th>Vorname</th>
-        <th>Nachname</th>
-        <th>Studiengang</th>
-        <th>Interessen</th>
-        <th>Kontakt</th>
-        <th>Rolle</th>
-        <th>Projektsuchend</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each userItems}}
-        {{> UI.dynamic template=this data=@index}}
-      {{/each}}
-    </tbody>
-  </table>
-  {{#if endOfUsers}}
-    <div class="col-md-12">
-      <div class="col-xs-12 col-md-2 col-md-offset-5">
-         <a href="#" class="load-more btn btn-primary" id="viewMore">Mehr Anzeigen</a>
+          {{else}}
+            <li class="addedTag">{{this}}<span class="tagRemove listExRemove">x</span></li>
+          {{/if}}
+        {{/each}}
       </div>
-    </div>
-  {{/if}}
+
+    	</ul>
+    </div> -->
+
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Profil</th>
+          <th>Vorname</th>
+          <th>Nachname</th>
+          <th>Studiengang</th>
+          <th>Interessen</th>
+          <th>Kontakt</th>
+          <th>Rolle</th>
+          <th>Projektsuchend</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each userItems}}
+          {{> UI.dynamic template=this data=@index}}
+        {{/each}}
+      </tbody>
+    </table>
+    {{#if endOfUsers}}
+      <div class="col-md-12">
+        <div class="col-xs-12 col-md-2 col-md-offset-5">
+           <a href="#" class="load-more btn btn-primary" id="viewMore">Mehr Anzeigen</a>
+        </div>
+      </div>
+    {{/if}}
+  {{/onlyIfLoggedIn}}
 </template>
 
 <template name="loadUser">
