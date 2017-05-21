@@ -4,6 +4,7 @@
   "scripts": {
     "start": "meteor run",
     "lint": "eslint .",
+    "lintfix": "eslint --fix .",
     "pretest": "npm run lint --silent"
   },
   "eslintConfig": {
