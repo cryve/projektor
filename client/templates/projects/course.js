@@ -28,6 +28,7 @@ Template.course.onCreated (function courseOnCreated() {
   }
   this.subscribe("courses");
   this.subscribe("projectsAll");
+  this.subscribe("usersCourseAll");
   this.editActive = new ReactiveVar(false);
   this.editCourse = new ReactiveVar(false);
 });
