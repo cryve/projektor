@@ -30,6 +30,7 @@ Template.currentCourse.onCreated (function courseOnCreated() {
     "hideMethod": "fadeOut"
   };
   this.subscribe('files.xlsFiles.all');
+  this.subscribe("userSupervisor");
   this.autorun(() => {
     this.subscribe("courses", FlowRouter.getParam("courseId"));
     this.subscribe("courseProjects", FlowRouter.getParam("courseId"));
