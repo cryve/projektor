@@ -108,6 +108,7 @@ Template.projectCard.onCreated(function() {
     this.subscribe("singleProject", Template.currentData().currentDoc._id);
     console.log(Template.currentData());
     this.subscribe("files.images.single", Template.currentData().currentDoc.coverImg);
+    this.subscribe("usersTeam", Template.currentData().currentDoc.team);
   });
 });
 
