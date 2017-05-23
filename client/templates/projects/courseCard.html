@@ -1,0 +1,30 @@
+<template name="courseCard">
+  {{#with courseCard}}
+    <li class="survey-item">
+      <span class="survey-name">
+        {{log this}}
+        <a href="{{pathFor 'course' courseId=_id courseName=(encodeUrlString courseName)}}">
+          {{courseName}}
+        </a>
+      </span>
+      <div class="pull-right">
+        <span class="survey-progress">
+          <span class="survey-studyCourse grid-only">
+            {{studyCourse}}
+            <p class="test">
+              {{courseSemester}}
+            </p>
+          </span>
+          <span class="survey-progress-labels">
+            <span class="survey-progress-label">
+              Projekte: {{countCourseProjects _id owner}}
+            </span>
+            <span class="survey-progress-label">
+              Teilnehmer: {{countStudents _id owner}}
+            </span>
+          </span>
+        </span>
+      </div>
+    </li>
+  {{/with}}
+</template>

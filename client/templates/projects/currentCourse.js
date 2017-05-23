@@ -1,12 +1,12 @@
-import {excel} from "/lib/methods.js";
-import { Meteor } from 'meteor/meteor'
+import { excel } from "/lib/methods.js";
+import { Meteor } from 'meteor/meteor';
 import { XlsFiles } from '/lib/collections/xlsFiles.js';
 import { Courses } from '/lib/collections/courses.js';
 import { Projects } from '/lib/collections/projects.js';
 import { Drafts } from '/lib/collections/drafts.js';
-import {courseOwnerSchema} from '/lib/collections/schemas.js'
+import { courseOwnerSchema } from '/lib/collections/schemas.js'
 import { Template } from 'meteor/templating';
-import { insertEmptyCourseDraft, leaveCourse } from "/lib/methods.js";
+import { insertEmptyCourseDraft, leaveCourse, deleteCourse} from "/lib/methods.js";
 import { setDraftIdInProfile, createMassProjects, setSelfEnter, deleteAllProjects, addSupervisorToCourse} from "/lib/methods.js";
 import lodash from 'lodash';
 import toastr from 'toastr';
@@ -32,7 +32,7 @@ Template.currentCourse.onCreated (function courseOnCreated() {
   this.subscribe('files.xlsFiles.all');
   this.subscribe("userSupervisor");
   this.autorun(() => {
-    this.subscribe("courses", FlowRouter.getParam("courseId"));
+    this.subscribe("singleCourse", FlowRouter.getParam("courseId"));
     this.subscribe("courseProjects", FlowRouter.getParam("courseId"));
     this.subscribe("singleUserCourseDraft", FlowRouter.getParam("courseId"));
   });
@@ -137,21 +137,37 @@ Template.currentCourse.helpers({
 
 Template.currentCourse.events({
   "click #btn-delete-course-projects" (event) {
+    event.preventDefault();
     Modal.show("deleteAllCourseProjectsModal", {
       courseId: this._id,
     });
   },
+  "click #btn-edit-course" (event) {
+    event.preventDefault();
+    Modal.show("editCourse", {
+      courseId: this._id,
+    });
+  },
   "click #btn-leave-course" (event) {
+    event.preventDefault();
     Modal.show("leaveCourseModal", {
       courseId: this._id,
     });
   },
   "click .create-mass-course-projects-btn" (event) {
+    event.preventDefault();
     Modal.show("createMassProjectsModal", {
       courseId: this._id,
     });
   },
+  "click #btn-delete-course" (event) {
+    Modal.show("deleteCourseModal", {
+      docId: this._id,
+      docTitle: this.courseName,
+    });
+  },
   "click .btn-edit-deadline" (event) {
+    event.preventDefault();
     if(Template.instance().deadline.get()){
       Template.instance().deadline.set(false);
     } else {
@@ -159,13 +175,16 @@ Template.currentCourse.events({
     }
   },
   "click .btn-abort-editing" (event) {
+    event.preventDefault();
     Template.instance().editActive.set(false);
     Template.instance().deadline.set(false);
   },
   "click .btn-abort-adding" (event) {
+    event.preventDefault();
     Template.instance().addSupervisor.set(false);
   },
   "click .btn-add-supervisor" (event) {
+    event.preventDefault();
     if(Template.instance().addSupervisor.get()){
       Template.instance().addSupervisor.set(false);
     } else {
@@ -173,6 +192,7 @@ Template.currentCourse.events({
     }
   },
   "click .btn-add-selfEntering" (event) {
+    event.preventDefault();
     if(Template.instance().selfEntering.get()){
       Template.instance().selfEntering.set(false);
     } else {
@@ -196,6 +216,7 @@ Template.currentCourse.events({
     });
   },
   "click .create-course-project-btn" (event) {
+    event.preventDefault();
     Session.set("currentCourse", this._id);
     // Go to a not finished draft if exists, else go to new draft
     var lastDraft
@@ -236,6 +257,7 @@ Template.currentCourse.events({
     FlowRouter.go("newProject", {draftId: draftId});
   },
   "click #excel-button" (event){
+    event.preventDefault();
      XlsFiles.remove({userId:this._id});
      Meteor.call(
       'excel',{
@@ -369,3 +391,48 @@ Template.leaveCourseModal.events({
     });
   },
 });
+
+Template.deleteCourseModal.events({
+  "click #btn-delete"(event) {
+    deleteCourse.call({
+      courseId: this.docId,
+      }, (err, res) => {
+        if (err) {
+          alert(err);
+        } else {
+          Command: toastr["success"]("Kurs wurde erfolgreich gelöscht!")
+          Modal.hide();
+          FlowRouter.go("courses");
+        }
+    });
+  },
+});
+
+Template.editCourse.onCreated(function editModalOnCreated(){
+  toastr.options = {
+  "closeButton": false,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": false,
+  "positionClass": "toast-top-left",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+  }
+})
+
+Template.editCourse.helpers({
+  getCollection(){
+    return Courses;
+  },
+  currentDoc(){
+    return Courses.findOne(this.courseId);
+  }
+})

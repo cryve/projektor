@@ -7,7 +7,6 @@
     </ol>
     <div class="page-header">
       <h1>
-        {{log this}}
         {{courseName}} /
         {{courseSemester}} /
         {{studyCourse}}
@@ -28,7 +27,12 @@
         </div>
         <div class="form-group form-group-border">
           <div class="form-group">
-            <button class="btn btn-primary create-mass-course-projects-btn btn-block ">Massen-Erstellung</button>
+            <button class="btn btn-primary create-mass-course-projects-btn btn-block ">Massenerstellung</button>
+          </div>
+        </div>
+        <div class="form-group form-group-border">
+          <div class="form-group">
+            <button id="btn-edit-course" class="btn btn-primary btn-block">Kurs Daten bearbeiten</button>
           </div>
         </div>
         <div class="form-group form-group-border">
@@ -119,7 +123,12 @@
         </div>
         <div class="form-group form-group-border">
           <div class="form-group">
-            <button id="btn-leave-course" disabled={{isLastOwner}} class="btn btn-danger btn-block">Kurs Verlassen</button>
+            <button id="btn-leave-course" disabled={{isLastOwner}} class="btn btn-danger btn-block">Kurs verlassen</button>
+          </div>
+        </div>
+        <div class="form-group form-group-border">
+          <div class="form-group">
+            <button id="btn-delete-course" class="btn btn-danger btn-block">Kurs löschen</button>
           </div>
         </div>
       </div>
@@ -141,6 +150,29 @@
       {{> file}}
     {{/if}}
   {{/with}}
+</template>
+
+<template name="deleteCourseModal">
+  <div id="deleteCourseModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Kurs löschen</h4>
+        </div>
+        <div class="modal-body">
+          <p>Möchtest du den Kurs <strong>{{docTitle}}</strong> wirklich löschen?</p>
+          <div class="alert alert-warning" role="alert">
+            Wenn du diesen Kurs löschst, werden die Inhalte dieses Kurses verloren gehen, sowie alle Projekte ihre zugehörigkeit zu diesem Kurs!
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+          <button id="btn-delete" type="button" class="btn btn-danger">Kurs entgültig löschen</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal Delete Project -->
 </template>
 
 <template name="deleteAllCourseProjectsModal">
@@ -220,6 +252,40 @@
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal Delete Project -->
 </template>
+
+<template name="editCourse">
+  <div id="editCourseModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Kurs bearbeiten</h4>
+        </div>
+        <div class="modal-body">
+          <p>Möchtest du diesen Kurs bearbeiten?</p>
+          <div class="alert alert-warning" role="alert">
+            {{#autoForm id="updateCourse" type="method-update" singleMethodArgument=true meteormethod=(getMethodString getCollection._name "updateEditable") doc=currentDoc collection=getCollection }}
+            <div class="form-group">
+              Kursname:{{> afFieldInput name="courseName" type="text" placeholder="Kursname hinzufügen" }}
+              Semester:{{> afFieldInput name="courseSemester" type="text" placeholder="Semester hinzufügen" }}
+              Studiengang:{{> afFieldInput name="studyCourse" type="text" placeholder="Studiengang hinzufügen" }}
+              Einschreibeschlüssel:{{> afFieldInput name="courseKey" type="text" placeholder="Einschreibeschlüssel hinzufügen" }}
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+              <button type="submit" class="btn btn-primary btn-save-edit">Speichern</button>
+            </div>
+            {{/autoForm}}
+          </div>
+        </div>
+
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal Delete Project -->
+</template>
+
+
+
 
 <template name='file'>
   {{fileLink}}

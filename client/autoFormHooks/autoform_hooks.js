@@ -38,15 +38,6 @@ AutoForm.addHooks([
 });
 
 AutoForm.addHooks([
-  "updateCourse"
-], {
-  onSuccess: function(formType, result) {
-    this.template.parent().editCourse.set(false);
-    this.template.parent().editActive.set(false);
-  }
-});
-
-AutoForm.addHooks([
   "addCourseOwner",
   "addCourse",
   "addMember",
