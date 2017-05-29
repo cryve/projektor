@@ -75,6 +75,7 @@ Template.addCourse.events({
 
 Template.addMember.onCreated(function() {
   this.editActive = new ReactiveVar(false);
+  this.subscribe('users.list.all');
 });
 
 Template.addMember.helpers({
@@ -97,6 +98,7 @@ Template.addMember.events({
 
 Template.addSupervisor.onCreated(function() {
   this.editActive = new ReactiveVar(false);
+  this.subscribe('users.list.all');
 });
 
 Template.addSupervisor.helpers({
@@ -152,15 +154,17 @@ Template.notesBoxSupervisors.events({
 
 Template.member.onCreated(function() {
   this.editActive = new ReactiveVar(false);
-  // this.autorun(() => {
-  //   this.subscribe("files.images.all");
-  // });
   this.autorun(() => {
-    //this.subscribe("usersAll");
+    this.subscribe('users.profile.single', Template.currentData().userId);
+    this.subscribe('files.images.avatar', Template.currentData().userId);
   });
+  this.subscribe('users.list.all');
 });
 
 Template.member.helpers({
+  user() {
+    return Meteor.users.findOne(this.userId);
+  },
   getAvatarURL (userId, version){
     var user = Meteor.users.findOne({_id: userId});
     var image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
@@ -280,6 +284,9 @@ Template.leaveGroupModal.events({
 });
 
 Template.supervisor.helpers({
+  user() {
+    return Meteor.users.findOne(this.userId);
+  },
   getAvatarURL (userId, version){
     var user = Meteor.users.findOne({_id: userId});
     var image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
@@ -305,12 +312,10 @@ Template.supervisor.helpers({
   },
 });
 
-Template.supervisor.onCreated (function(){
-  // this.autorun(() => {
-  //   this.subscribe("files.images.all");
-  // });
+Template.supervisor.onCreated(function supervisorOnCreated() {
   this.autorun(() => {
-    //this.subscribe("usersAll");
+    this.subscribe('users.profile.single', Template.currentData().userId);
+    this.subscribe('files.images.avatar', Template.currentData().userId);
   });
 });
 

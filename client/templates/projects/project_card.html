@@ -1,88 +1,86 @@
 <template name="projectCard">
-  <div class="panel panel-default coverless-card" id="{{#unless checkIfCourse}}card{{else}}cardCourse{{/unless}}">
-    <figure class="front" >
-    {{#unless checkIfCourse}}
-      <div class="header-image" style="{{#if currentDoc.coverImg}} background-image:url({{getImgURL currentDoc.coverImg "cover400"}}) {{else}} background-color:{{randomColor}} {{/if}}"><i class="fa fa-ellipsis-v fa-2x panel-right fa-ellipsis-cursor" aria-hidden="true"></i></div>
-    {{/unless}}
-    <div class="panel-body {{#unless checkIfCourse}}coverless-card-body{{else}} coverless-card-bodyCourse{{/unless}}">
-      <div class="{{#unless checkIfCourse}}coverless-card-title{{else}}coverless-card-titleCourse{{/unless}}">
-        {{> projectCardTitle _id=currentDoc._id title=currentDoc.title checkIfCourse=checkIfCourse subtitle=currentDoc.subtitle subtitleLines=2 }}
-      </div>
-      <hr class="hr-top" style="{{#if checkIfCourse}}margin-top:20px{{/if}}">
-      <ul class="member-icons list-inline">
-      {{#unless currentDoc.team}}
-        <li>
-          <img class="img-circle img-circle-transparent" rel="tooltip" title="Keine Mitglieder" src={{getAvatarURL 0 "avatar20"}}>
-        </li>
+  {{#with projectCard}}
+    <div class="panel panel-default coverless-card" id="{{#unless checkIfCourse}}card{{else}}cardCourse{{/unless}}">
+      <figure class="front" >
+      {{#unless checkIfCourse}}
+        {{>projectCardCover imgId=coverImg}}
       {{/unless}}
-      {{#if $and currentDoc.team ($not checkIfCourse)}}
-        {{#each member in currentDoc.team}}
-          {{#if $lt @index (itemsToShow currentDoc.team.length 6 1)}}
-            <li>
-              <a href="{{pathFor 'userProfile' userId=member.userId uniqueName=(getEmailName member.userId) }}">
-                <img class="img-circle" rel="tooltip" title="{{getFullUsername member.userId}}" src={{getAvatarURL member.userId "avatar20"}}>
-              </a>
-            </li>
-          {{/if}}
-        {{/each}}
-      {{else}}
-        {{#if $and currentDoc.team checkIfCourse}}
-          {{#each member in currentDoc.team}}
-            {{#if $lt @index (itemsToShow currentDoc.team.length 5 1)}}
-              <li>
-                <a href="{{pathFor 'userProfile' userId=member.userId uniqueName=(getEmailName member.userId) }}">
-                  <img class="img-circle" rel="tooltip" title="{{getFullUsername member.userId}}" src={{getAvatarURL member.userId "avatar20"}}>
-                </a>
-              </li>
+      <div class="panel-body {{#unless checkIfCourse}}coverless-card-body{{else}} coverless-card-bodyCourse{{/unless}}">
+        <div class="{{#unless checkIfCourse}}coverless-card-title{{else}}coverless-card-titleCourse{{/unless}}">
+          {{> projectCardTitle _id=_id title=title checkIfCourse=checkIfCourse subtitle=subtitle subtitleLines=2 }}
+        </div>
+        <hr class="hr-top" style="{{#if checkIfCourse}}margin-top:20px{{/if}}">
+        <ul class="member-icons list-inline">
+        {{#unless team}}
+          <li>
+            <img class="img-circle img-circle-transparent" rel="tooltip" title="Keine Mitglieder" src={{getAvatarURL 0 "avatar20"}}>
+          </li>
+        {{/unless}}
+        {{#if $and team ($not checkIfCourse)}}
+          {{#each member in team}}
+            {{#if $lt @index (itemsToShow team.length 6 1)}}
+              {{>projectCardMemberItem userId=member.userId }}
             {{/if}}
           {{/each}}
-        {{/if}}
-      {{/if}}
-        {{#if $and ($not checkIfCourse) (itemsRemaining currentDoc.team.length 6 1)}}
-          <li class="remaining-member">
-            <a class="text-info" href="{{pathFor 'projectDetails' projectId=currentDoc._id projectTitle=(encodeUrlString currentDoc.title)}}">
-              <div class="text-center{{#unless checkIfCourse}} bg-info circle20-remaining-members {{/unless}}">
-                <span>
-                  <em class="remaining-size">+{{itemsRemaining currentDoc.team.length 6 1}}</em>
-                </span>
-              </div>
-            </a>
-          </li>
         {{else}}
-          {{#if $and checkIfCourse (itemsRemaining currentDoc.team.length 5 1)}}
+          {{#if $and team checkIfCourse}}
+            {{#each member in team}}
+              {{#if $lt @index (itemsToShow team.length 5 1)}}
+                {{>projectCardMemberItem userId=member.userId }}
+              {{/if}}
+            {{/each}}
+          {{/if}}
+        {{/if}}
+          {{#if $and ($not checkIfCourse) (itemsRemaining team.length 6 1)}}
             <li class="remaining-member">
-              <a class="text-info" href="{{pathFor 'projectDetails' projectId=currentDoc._id projectTitle=(encodeUrlString currentDoc.title)}}">
+              <a class="text-info" href="{{pathFor 'projectDetails' projectId=_id projectTitle=(encodeUrlString title)}}">
                 <div class="text-center{{#unless checkIfCourse}} bg-info circle20-remaining-members {{/unless}}">
                   <span>
-                    <em class="remaining-size">+{{itemsRemaining currentDoc.team.length 5 1}}</em>
+                    <em class="remaining-size">+{{itemsRemaining team.length 6 1}}</em>
                   </span>
                 </div>
               </a>
             </li>
+          {{else}}
+            {{#if $and checkIfCourse (itemsRemaining team.length 5 1)}}
+              <li class="remaining-member">
+                <a class="text-info" href="{{pathFor 'projectDetails' projectId=_id projectTitle=(encodeUrlString title)}}">
+                  <div class="text-center{{#unless checkIfCourse}} bg-info circle20-remaining-members {{/unless}}">
+                    <span>
+                      <em class="remaining-size">+{{itemsRemaining team.length 5 1}}</em>
+                    </span>
+                  </div>
+                </a>
+              </li>
+            {{/if}}
           {{/if}}
-        {{/if}}
-      </ul>
-      <hr class="hr-bottom">
-      {{>projectCardTags tags=currentDoc.tags}}
-    </div> <!-- /.panel-body -->
-    <div class="panel-footer">
-      {{>projectCardFooter beginning=currentDoc.beginning deadline=currentDoc.deadline}}
-    </div> <!-- /.panel-footer -->
-    </figure>
-    {{#unless checkIfCourse}}
-    <figure class="back">
-      <div class="panel-body {{#unless checkIfCourse}} coverless-card-body {{else}} coverless-card-bodyCourse {{/unless}}">
-        {{#unless checkIfCourse}}
-          {{>projectCardJobs jobs=currentDoc.jobs expandable=false}}
-        {{/unless}}
-
-      </div>
-      <div class="panel-footer panel-footerBack">
-        <a href="{{pathFor 'projectDetails' projectId=currentDoc._id projectTitle=(encodeUrlString currentDoc.title)}}"> &gt;&gt; Zum Projekt &lt;&lt; </a>
+        </ul>
+        <hr class="hr-bottom">
+        {{>projectCardTags tags=tags}}
+      </div> <!-- /.panel-body -->
+      <div class="panel-footer">
+        {{>projectCardFooter beginning=beginning deadline=deadline}}
       </div> <!-- /.panel-footer -->
-    </figure>
-    {{/unless}}
-  </div> <!-- /.panel project card -->
+      </figure>
+      {{#unless checkIfCourse}}
+      <figure class="back">
+        <div class="panel-body {{#unless checkIfCourse}} coverless-card-body {{else}} coverless-card-bodyCourse {{/unless}}">
+          {{#unless checkIfCourse}}
+            {{>projectCardJobs jobs=jobs expandable=false}}
+          {{/unless}}
+
+        </div>
+        <div class="panel-footer panel-footerBack">
+          <a href="{{pathFor 'projectDetails' projectId=_id projectTitle=(encodeUrlString title)}}"> &gt;&gt; Zum Projekt &lt;&lt; </a>
+        </div> <!-- /.panel-footer -->
+      </figure>
+      {{/unless}}
+    </div> <!-- /.panel project card -->
+  {{/with}}
+</template>
+
+<template name="projectCardCover">
+  <div class="header-image" style="{{#if imgId}} background-image:url({{getImgURL imgId "cover400"}}) {{else}} background-color:{{randomColor}} {{/if}}"><i class="fa fa-ellipsis-v fa-2x panel-right fa-ellipsis-cursor" aria-hidden="true"></i></div>
 </template>
 
 <template name="projectCardTitle">
@@ -92,6 +90,14 @@
   {{#if $and ($not checkIfCourse) subtitle}}
      <small class="subtitle-ellipses line-clamp-2">{{subtitle}}</small>
   {{/if}}
+</template>
+
+<template name="projectCardMemberItem">
+  <li>
+    <a href="{{pathFor 'userProfile' userId=this.userId uniqueName=(getEmailName this.userId) }}">
+      <img class="img-circle" rel="tooltip" title="{{user.profile.fullname}}" src={{getAvatarURL this.userId "avatar20"}}>
+    </a>
+  </li>
 </template>
 
 <template name="projectCardJobs">

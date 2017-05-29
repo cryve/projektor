@@ -5,7 +5,6 @@ import './login_dropdown.html';
 Template.loginDropdown.onCreated (function(){
   this.autorun(() => {
     this.subscribe("files.images.avatar", Meteor.userId());
-    this.subscribe("singleUser", Meteor.userId());
   });
 });
 

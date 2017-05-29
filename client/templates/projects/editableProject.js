@@ -9,7 +9,6 @@ import { publishDraft } from "/lib/methods.js";
 import { deleteDraft } from "/lib/methods.js";
 import { deleteProject } from "/lib/methods.js";
 import { enterProject } from "/lib/methods.js";
-
 import "./editableProject.html";
 
 
@@ -32,12 +31,11 @@ Template.editableProject.onCreated(function() {
   "hideMethod": "fadeOut"
   }
   this.projectSubReady = new ReactiveVar();
-  this.subscribe("usersAll");
   this.subscribe("courses");
   this.autorun(() => {
     let projectSubHandle;
     if(FlowRouter.getParam("projectId")) {
-      projectSubHandle = this.subscribe("singleProject", FlowRouter.getParam("projectId"));
+      projectSubHandle = this.subscribe('projects.details.single', FlowRouter.getParam("projectId"));
     } else if (FlowRouter.getParam("draftId")) {
       projectSubHandle = this.subscribe("singleDraft", FlowRouter.getParam("draftId"));
     }
@@ -127,27 +125,6 @@ Template.editableProject.helpers({
     } else {
       return Projects;
     }
-  },
-  suggestedUsers(settings) {
-    const users = Meteor.users.find(settings.hash.role ? { "profile.role" : settings.hash.role } : {});
-    let userList = [" "];
-    users.forEach(function (user){
-      if (user && user.profile){
-        userList.push({
-          value: user._id,
-          label: user.profile.firstname + " " + user.profile.lastname,
-        });
-      }
-    });
-    // remove users who are already in current group, but keep current user selection (firstOption)
-    if (settings.hash.exclude) {
-      settings.hash.exclude.forEach(function(user) {
-        if (user.userId !== settings.hash.firstOption) {
-          userList = userList.filter(item => item.value !== user.userId);
-        }
-      });
-    }
-    return userList;
   },
   suggestedCourses() {
     var courses = Courses.find({});

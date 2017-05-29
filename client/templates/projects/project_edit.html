@@ -8,7 +8,7 @@
         {{#if editActive}}
           {{#autoForm id="addMember" schema=memberSchema type="method" meteormethod=(getMethodString currentCollection._name "addMember") doc=currentDoc }}
             <div class="form-group">
-              {{> afFieldInput name="member.userId" type="select2" options=userList placeholder="Neues Mitglied auswählen" allowClear=true}}
+              {{> afFieldInput name="member.userId" type="select2" options=(suggestedUsers exclude=this.team) placeholder="Neues Mitglied auswählen" allowClear=true}}
               {{> afFieldInput name="member.role" type="text" placeholder="Aufgaben im Projekt"}}
               <p>{{> afFieldInput name="member.permissions.editInfos" type="boolean-checkbox"}}</p>
               <p>{{> afFieldInput name="member.permissions.manageMembers" type="boolean-checkbox"}}</p>
@@ -34,14 +34,15 @@
       </a>
     </div>
     <div class="media-body">
+        {{log this}}
         {{#if $and editActive (hasPermissions 'editInfos,manageMembers' currentDoc) }}
           {{#autoForm id="member" type="method-update" singleMethodArgument=true meteormethod=(getMethodString currentCollection._name "updateMember") doc=currentDoc collection=currentCollection setArrayItems=true}}
             <div class="form-group">
               <h4 class="media-heading">
               {{#if $neq this.userId currentUser._id }}
-                {{> afFieldInput name=teamUserIdField type="select2" options=userList placeholder="Neues Mitglied auswählen" value=this.userId }}
+                {{> afFieldInput name=teamUserIdField type="select2" options=(suggestedUsers exclude=currentDoc.team firstOption=this.userId) placeholder="Neues Mitglied auswählen" value=this.userId }}
               {{else}}
-                {{getFullUsername this.userId}}
+                {{user.profile.fullname}}
               {{/if}}
               </h4>
               <p>
@@ -62,7 +63,7 @@
         {{else}}
           <h4 class="media-heading">
             <a href="{{pathFor 'userProfile' userId=this.userId uniqueName=(getEmailName this.userId)}}">
-              {{getFullUsername this.userId}}
+              {{user.profile.fullname}}
             </a>
             {{#if hasPermissions 'editInfos,manageMembers' currentDoc }}
               <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-member"></span></a>
@@ -336,12 +337,12 @@
   <li class="media">
     <div class="media-left">
       <a href="{{pathFor 'userProfile' userId=this.userId uniqueName=(getEmailName this.userId) }}">
-        <img class="media-object img-circle" src="{{getAvatarURL this.userId "avatar50"}}" alt="Profilbild {{getFullUsername this.userId}}">
+        <img class="media-object img-circle" src="{{getAvatarURL this.userId "avatar50"}}" alt="Profilbild {{user.profile.fullname}}">
       </a>
     </div>
     <div class="media-body">
       <h4 class="media-heading">
-        <a href="{{pathFor 'userProfile' userId=this.userId uniqueName=(getEmailName this.userId) }}">{{getFullUsername this.userId}}</a>
+        <a href="{{pathFor 'userProfile' userId=this.userId uniqueName=(getEmailName this.userId) }}">{{user.profile.fullname}}</a>
         {{#if $and ($neq this.userId currentUser._id) (hasPermissions 'manageMembers' currentDoc) }}
           <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-supervisor"></span></a>
         {{else}}
@@ -365,7 +366,7 @@
         {{#if editActive}}
           {{#autoForm id="addSupervisor" schema=supervisorSchema type="method" meteormethod=(getMethodString currentCollection._name "addSupervisor") doc=currentDoc}}
             <div class="form-group">
-              {{> afFieldInput name="supervisor.userId" type="select2" options=userList placeholder="Neuen Betreuer auswählen" allowClear=true}}
+              {{> afFieldInput name="supervisor.userId" type="select2" options=(suggestedUsers exclude=currentDoc.supervisors role="Mitarbeiter") placeholder="Neuen Betreuer auswählen" allowClear=true}}
             </div>
             <div class="form-group">
               <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>

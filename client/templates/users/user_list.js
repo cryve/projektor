@@ -3,15 +3,11 @@ import {Images} from "/lib/collections/images.js";
 import { Studies } from "/lib/collections/studies.js";
 
 Template.userList.onCreated(function userListOnCreated() {
-  this.subscribe("usersAll");
   this.endOfUsers = new ReactiveVar(2);
   this.userItems = new ReactiveArray(["loadUser"]);
 });
 
 Template.userList.helpers({
-  usersAll() {
-    return Meteor.users.find({});
-  },
   userItems(){
     if (Template.instance().userItems.array()){
       return Template.instance().userItems.array();
@@ -79,16 +75,8 @@ Template.userList.events({
   },
 });
 
-Template.loadUser.onCreated (function(){
-  this.autorun(() => {
-    //this.subscribe("files.images.all");
-  });
-  this.autorun(() => {
-    //this.subscribe("usersAll");
-  });
-  this.autorun(() => {
-    //this.subscribe("studies");
-  });
+Template.loadUser.onCreated(function loadUserOnCreated(){
+  this.subscribe('users.list.all');
 });
 
 Template.loadUser.helpers({
@@ -110,5 +98,23 @@ Template.loadUser.helpers({
     $("#loader").css({'display':'none'});
     // $('.load-more--loading').removeClass('load-more--loading');
     return Meteor.users.find({}, {skip: skip, limit: 50,sort: { createdAt: -1 }})
+  },
+});
+
+Template.userListItem.onCreated(function userListItemOnCreated() {
+  this.autorun(() => {
+    this.subscribe('users.profile.single', Template.currentData().userId);
+    this.subscribe('files.images.avatar', Template.currentData().userId);
+  });
+});
+
+Template.userListItem.helpers({
+  user() {
+    return Meteor.users.findOne(this.userId);
+  },
+  avatarURL() {
+    const user = Meteor.users.findOne({ _id: this.userId });
+    const image = user && user.profile.avatar && Images.findOne(user.profile.avatar);
+    return (image && image.versions.avatar50) ? image.link('avatar50') : '/img/avatar50.jpg';
   },
 });

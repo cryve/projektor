@@ -92,22 +92,10 @@ Template.projectCard.events({
 });*/
 
 Template.projectCard.onCreated(function() {
-  // var tmplInst = this;
-  // tmplInst.autorun(function() {
-  //   console.log("autorun");
-  //   Tracker.afterFlush(function() {
-  //     tmplInst.$(".title-1row").trunk8();
-  //     console.log("trunk8");
-  //   });
-  // });
-  this.colorArray = ["#ef9a9a","#F48FB1", "#CE93D8", "#B39DDB", "#9FA8DA", "#90CAF9", "#81D4FA", "#80DEEA", "#80CBC4", "#A5D6A7", "#C5E1A5", "#E6EE9C", "#FFF59D"
-  , "#FFE082", "#FFCC80", "#FFAB91", "#BCAAA4", "#EEEEEE", "#B0BEC5"]
   this.remainingMemberCount = new ReactiveVar(0);
   this.remainingJobsCount = new ReactiveVar(0);
   this.autorun(() => {
-    this.subscribe("singleProject", Template.currentData().currentDoc._id);
-    this.subscribe("files.images.single", Template.currentData().currentDoc.coverImg);
-    this.subscribe("usersTeam", Template.currentData().currentDoc.team);
+    this.subscribe('projects.cards.single', Template.currentData().projectId);
   });
 });
 
@@ -212,14 +200,14 @@ Template.projectCard.onRendered(function() {
 });
 
 Template.projectCard.helpers({
+  projectCard() {
+    return Projects.findOne(this.projectId);
+  },
   getAvatarURL (userId, version){
     var user = Meteor.users.findOne({_id: userId});
     var image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
     return (image && image.versions[version]) ? image.link(version) : "/img/"+version+".jpg";
   },
-  projects() {
-    return Projects.find({}, { sort: { createdAt: -1 } });
-   },
   itemsToShow(totalItems, maxItems, placeholderItems) {
     return (totalItems <= maxItems) ? totalItems : maxItems-placeholderItems;
    },
@@ -227,11 +215,40 @@ Template.projectCard.helpers({
     if(totalItems > maxItems)
       return totalItems-(maxItems-placeholderItems);
   },
-  randomColor(){
-    const colorArray = Template.instance().colorArray;
+});
+
+Template.projectCardCover.onCreated(function projectCardCoverOnCreated() {
+  this.autorun(() => {
+    this.subscribe('files.images.single', Template.currentData().imgId);
+  });
+});
+
+Template.projectCardCover.helpers({
+  randomColor() {
+    const colorArray = [
+      '#ef9a9a',
+      '#F48FB1',
+      '#CE93D8',
+      '#B39DDB',
+      '#9FA8DA',
+      '#90CAF9',
+      '#81D4FA',
+      '#80DEEA',
+      '#80CBC4',
+      '#A5D6A7',
+      '#C5E1A5',
+      '#E6EE9C',
+      '#FFF59D',
+      '#FFE082',
+      '#FFCC80',
+      '#FFAB91',
+      '#BCAAA4',
+      '#EEEEEE',
+      '#B0BEC5',
+    ];
     const color = colorArray[Math.floor(Math.random() * colorArray.length)];
     return color;
-  }
+  },
 });
 
 // Template.projectCardJobs.onRendered(function() {
@@ -247,6 +264,24 @@ Template.projectCard.helpers({
 //     });
 //   });
 // });
+
+Template.projectCardMemberItem.onCreated(function projectCardMemberItemOnCreated() {
+  this.autorun(() => {
+    this.subscribe('users.list.single', Template.currentData().userId);
+    this.subscribe('files.images.avatar', Template.currentData().userId);
+  });
+});
+
+Template.projectCardMemberItem.helpers({
+  user() {
+    return Meteor.users.findOne(this.userId);
+  },
+  getAvatarURL (userId, version) {
+    const user = Meteor.users.findOne(userId);
+    const image = user && user.profile && Images.findOne(user.profile.avatar);
+    return (image && image.versions[version]) ? image.link(version) : `/img/${version}.jpg`;
+  },
+});
 
 Template.projectCardJobs.helpers({
    projects() {
