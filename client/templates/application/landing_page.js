@@ -13,7 +13,6 @@ Template.landingPage.onCreated (function landingPageOnCreated() {
   this.setSort = new ReactiveVar("new");
   this.keyWord = new ReactiveArray([]);
   this.navItems = new ReactiveArray(["loadCards"]);
-  console.log(FlowRouter.current());
   Session.set("previousRoute", FlowRouter.getRouteName());
 });
 

@@ -37,15 +37,21 @@ Template.currentCourse.onCreated (function courseOnCreated() {
     this.subscribe("singleUserCourseDraft", FlowRouter.getParam("courseId"));
   });
   this.editActive = new ReactiveVar(false);
-  this.createLink = new ReactiveVar(false);
+  TemplateVar.set('createLink', false);
+  //this.createLink = new ReactiveVar(false);
   this.addSupervisor = new ReactiveVar(false);
   this.selfEntering = new ReactiveVar(false);
   this.deadline = new ReactiveVar(false);
   Session.set("previousRoute", FlowRouter.getRouteName());
+  XlsFiles.remove({userId:FlowRouter.getParam("courseId")});
 
 });
 
 Template.currentCourse.helpers({
+  courseKey(){
+    var course = Courses.findOne(FlowRouter.getParam('courseId'));
+    return CryptoJS.AES.decrypt(course.courseKey, 'Passphrase').toString(CryptoJS.enc.Utf8);
+  },
   course() {
     return Courses.findOne(FlowRouter.getParam('courseId'));
   },
@@ -53,7 +59,8 @@ Template.currentCourse.helpers({
     return Template.instance().editActive.get();
   },
   createLink () {
-    return Template.instance().createLink.get();
+    return TemplateVar.get('createLink');
+    //return Template.instance().createLink.get();
   },
   selfEntering(){
     return Template.instance().selfEntering.get();
@@ -258,47 +265,31 @@ Template.currentCourse.events({
   },
   "click #excel-button" (event){
     event.preventDefault();
-     XlsFiles.remove({userId:this._id});
-     Meteor.call(
-      'excel',{
-        courseId: this._id,
-       },
-      // function(error, result){
-      //     if(error){
-      //         console.error(error);
-      //     } else {
-      //
-      //         console.info(typeof result);
-      //
-      //     }
-      // }
+    console.log(this._id);
+    XlsFiles.remove({userId:this._id});
+    Meteor.call(
+    'excel',{
+      courseId: this._id,
+      },
     );
-
-    Template.instance().createLink.set(true);
-    console.log(Template.instance().createLink.get());
+    TemplateVar.set('createLink', true);
   },
 
 });
 
 Template.file.onCreated (function fileLinkOnCreated() {
-  this.autorun(() => {
-    this.subscribe('files.xlsFiles.all');
-  });
-  this.createLink = new ReactiveVar(true);
+  this.subscribe('files.xlsFiles.all');
 
 });
 Template.file.helpers({
-  file: function () {
-    return XlsFiles.findOne({userId:this._id});
-  },
   fileLink:function(){
-    var file = XlsFiles.findOne({userId:this._id});
+    var file = XlsFiles.findOne({userId:this._id}, { sort: { createdAt: -1 } });
     if(file && file._id){
-      var link = file.link();
-      //var link = "https://projektor.mt.haw-hamburg.de/cdn/storage/XlsFiles/"+file._id+"/original/"+file._id+"?download=true"
-      //var link = "http://localhost:3000/cdn/storage/XlsFiles/"+file._id+"/original/"+file._id+"?download=true"
-      window.location = link;
-      Template.instance().createLink.set(false);
+      if(file._id != Session.get('test')){
+        window.location = file.link();
+        TemplateVar.setTo('.createLink', "createLink" ,  false);
+        Session.set('test', file._id);
+      }
     }
   }
 });

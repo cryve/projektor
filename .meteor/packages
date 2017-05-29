@@ -69,3 +69,5 @@ kadira:blaze-layout
 arillo:flow-router-helpers
 reywood:publish-composite
 percolate:find-from-publication
+altapp:aes
+frozeman:template-var

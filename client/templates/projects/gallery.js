@@ -223,8 +223,6 @@ Template.wholeGallery.onCreated(function() {
   this.finishedMode = new ReactiveVar(false);
   const self = this;
   this.autorun(() => {
-    console.log(self);
-    console.log(Template.currentData());
     this.subscribe("files.images.gallery", Template.currentData().currentDoc.media);
   });
 });

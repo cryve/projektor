@@ -23,7 +23,6 @@
   <ul class="surveys grid">
     {{#if checkIfCourse}}
       {{#each courses}}
-        {{log this._id}}
         {{> courseCard courseId=this._id}}
       {{/each}}
     {{/if}}

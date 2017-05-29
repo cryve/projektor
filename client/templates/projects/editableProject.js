@@ -75,7 +75,6 @@ Template.editableProject.helpers({
     return false;
   },
   project() {
-    console.log(FlowRouter.current());
     const draftId = FlowRouter.getParam("draftId");
     const projectId = FlowRouter.getParam("projectId");
     return Projects.findOne(projectId) || Drafts.findOne(draftId) || {};

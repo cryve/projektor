@@ -19,9 +19,6 @@ Template.navigationBar.helpers({
     if(Meteor.user() && Meteor.user().profile && Meteor.user().profile.drafts){
       lodash.forEach(Meteor.user().profile.drafts, function(value){
         if (value.draftId && !value.courseId){
-          console.log(FlowRouter.getParam("draftId"))
-          console.log(FlowRouter.current());
-          console.log(this)
           check = FlowRouter.getParam("draftId");
           return false;
         }

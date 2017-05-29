@@ -139,16 +139,18 @@
       <div class="row">
         {{#each project in courseProjects}}
           <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 containerFlipCourse">
-            {{>projectCard currentDoc=project checkIfCourse = this._id}}
+            {{>projectCard currentDoc=project checkIfCourse=project._id}}
           </div>
         {{/each}}
       </div>
     </div>
       </div>
     </div>
-    {{#if createLink}}
-      {{> file}}
-    {{/if}}
+    <div class="createLink">
+      {{#if createLink}}
+        {{> file}}
+      {{/if}}
+    </div>
   {{/with}}
 </template>
 
@@ -269,7 +271,7 @@
               Kursname:{{> afFieldInput name="courseName" type="text" placeholder="Kursname hinzufügen" }}
               Semester:{{> afFieldInput name="courseSemester" type="text" placeholder="Semester hinzufügen" }}
               Studiengang:{{> afFieldInput name="studyCourse" type="text" placeholder="Studiengang hinzufügen" }}
-              Einschreibeschlüssel:{{> afFieldInput name="courseKey" type="text" placeholder="Einschreibeschlüssel hinzufügen" }}
+              Einschreibeschlüssel:{{> afFieldInput name="courseKey" type="text" placeholder=courseKey }}
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
