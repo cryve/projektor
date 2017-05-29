@@ -19,22 +19,14 @@
         {{#if $and team ($not checkIfCourse)}}
           {{#each member in team}}
             {{#if $lt @index (itemsToShow team.length 6 1)}}
-              <li>
-                <a href="{{pathFor 'userProfile' userId=member.userId uniqueName=(getEmailName member.userId) }}">
-                  <img class="img-circle" rel="tooltip" title="{{member.profile.fullname}}" src={{getAvatarURL member.userId "avatar20"}}>
-                </a>
-              </li>
+              {{>projectCardMemberItem userId=member.userId }}
             {{/if}}
           {{/each}}
         {{else}}
           {{#if $and team checkIfCourse}}
             {{#each member in team}}
               {{#if $lt @index (itemsToShow team.length 5 1)}}
-                <li>
-                  <a href="{{pathFor 'userProfile' userId=member.userId uniqueName=(getEmailName member.userId) }}">
-                    <img class="img-circle" rel="tooltip" title="{{member.profile.fullname}}" src={{getAvatarURL member.userId "avatar20"}}>
-                  </a>
-                </li>
+                {{>projectCardMemberItem userId=member.userId }}
               {{/if}}
             {{/each}}
           {{/if}}
@@ -98,6 +90,14 @@
   {{#if $and ($not checkIfCourse) subtitle}}
      <small class="subtitle-ellipses line-clamp-2">{{subtitle}}</small>
   {{/if}}
+</template>
+
+<template name="projectCardMemberItem">
+  <li>
+    <a href="{{pathFor 'userProfile' userId=this.userId uniqueName=(getEmailName this.userId) }}">
+      <img class="img-circle" rel="tooltip" title="{{user.profile.fullname}}" src={{getAvatarURL this.userId "avatar20"}}>
+    </a>
+  </li>
 </template>
 
 <template name="projectCardJobs">

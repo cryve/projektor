@@ -96,7 +96,6 @@ Template.projectCard.onCreated(function() {
   this.remainingJobsCount = new ReactiveVar(0);
   this.autorun(() => {
     this.subscribe('projects.cards.single', Template.currentData().projectId);
-    this.subscribe("usersTeam", Template.currentData().currentDoc.team);
   });
 });
 
@@ -265,6 +264,24 @@ Template.projectCardCover.helpers({
 //     });
 //   });
 // });
+
+Template.projectCardMemberItem.onCreated(function projectCardMemberItemOnCreated() {
+  this.autorun(() => {
+    this.subscribe('users.list.single', Template.currentData().userId);
+    this.subscribe('files.images.avatar', Template.currentData().userId);
+  });
+});
+
+Template.projectCardMemberItem.helpers({
+  user() {
+    return Meteor.users.findOne(this.userId);
+  },
+  getAvatarURL (userId, version) {
+    const user = Meteor.users.findOne(userId);
+    const image = user && user.profile && Images.findOne(user.profile.avatar);
+    return (image && image.versions[version]) ? image.link(version) : `/img/${version}.jpg`;
+  },
+});
 
 Template.projectCardJobs.helpers({
    projects() {
