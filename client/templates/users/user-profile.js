@@ -22,9 +22,7 @@ Template.userProfile.helpers({
     return Meteor.users.findOne(FlowRouter.getParam("userId"));
   },
   facultyName(facultyId) {
-    console.log(facultyId);
     const studyCourse = Studies.findOne({ "facultyId": facultyId });
-    console.log(studyCourse);
     return studyCourse && studyCourse.facultyName;
   },
   departmentName(departmentId) {

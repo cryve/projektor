@@ -96,6 +96,7 @@ Template.projectCard.onCreated(function() {
   this.remainingJobsCount = new ReactiveVar(0);
   this.autorun(() => {
     this.subscribe('projects.cards.single', Template.currentData().projectId);
+    this.subscribe("usersTeam", Template.currentData().currentDoc.team);
   });
 });
 

@@ -30,6 +30,7 @@ Template.currentCourse.onCreated (function courseOnCreated() {
     "hideMethod": "fadeOut"
   };
   this.subscribe('files.xlsFiles.all');
+  this.subscribe("userSupervisor");
   this.autorun(() => {
     this.subscribe("courses", FlowRouter.getParam("courseId"));
     this.subscribe("courseProjects", FlowRouter.getParam("courseId"));
@@ -98,7 +99,9 @@ Template.currentCourse.helpers({
     let ownersAsSupervisors = [];
     lodash.forEach(this.owner, function(ownerId) {
       const owner = Meteor.users.findOne(ownerId);
-      ownersAsSupervisors.push({userId: owner._id, role: owner.profile.title});
+      if(owner){
+        ownersAsSupervisors.push({userId: owner._id, role: owner.profile.title});
+      }
     });
     const courseProjects = Projects.findOne({courseId:this._id, supervisors: { $in: ownersAsSupervisors } });
     if(courseProjects){
