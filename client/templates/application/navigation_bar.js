@@ -5,7 +5,6 @@ import lodash from 'lodash';
 
 Template.navigationBar.onCreated(function navigationBarOnCreated() {
   this.autorun(() => {
-    this.subscribe("singleUser", Meteor.userId());
     this.subscribe("singleUserDraft", Meteor.userId());
   })
 });

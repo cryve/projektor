@@ -38,7 +38,7 @@
           <th>Interessen</th>
           <th>Kontakt</th>
           <th>Rolle</th>
-          <th>Projektsuchend</th>
+          <!-- <th>Projektsuchend</th> -->
         </tr>
       </thead>
       <tbody>
@@ -59,40 +59,33 @@
 
 <template name="loadUser">
   {{#each user in documents}}
-    {{>userListItem
-      userId=user._id
-      avatarURL=(getAvatarURL user._id "avatar50")
-      firstName=user.profile.firstname
-      lastName=user.profile.lastname
-      studyCourse=(studyCourseName user.profile.studyCourseId user.profile.departmentId user.profile.facultyId)
-      interests=user.profile.skills
-      contacts=user.profile.contacts
-      role=user.profile.role
-    }}
+    {{> userListItem userId=user._id }}
   {{/each}}
 </template>
 
 <template name="userListItem">
-  <tr>
-    <td>
-      <a href="{{pathFor 'userProfile' userId=this.userId uniqueName=(getEmailName this.userId) }}"><img src={{avatarURL}}></a>
-    </td>
-    <td>{{firstName}}</td>
-    <td>{{lastName}}</td>
-    <td>{{studyCourse}}</td>
-    <td>
-      {{#each interest in interests}}
-        <span class="label label-default">{{interest}}</span>
-      {{/each}}
-    </td>
-    <td>
-      {{#each contact in contacts}}
-        <a href="{{contact.medium}}">
-          <span class="glyphicon glyphicon-envelope"></span>
-        </a>
-      {{/each}}
-    </td>
-    <td>{{role}}</td>
-    <td>&lt;ja/nein&gt;</td>
-  </tr>
+  {{#with user}}
+    <tr>
+      <td>
+        <a href="{{pathFor 'userProfile' userId=this._id uniqueName=(getEmailName this._id) }}"><img src={{avatarURL}}></a>
+      </td>
+      <td>{{profile.firstname}}</td>
+      <td>{{profile.lastname}}</td>
+      <td>{{profile.studyCourse}}</td>
+      <td>
+        {{#each skill in profile.skills}}
+          <span class="label label-default">{{skill}}</span>
+        {{/each}}
+      </td>
+      <td>
+        {{#each contact in profile.contacts}}
+          <a href="{{contact.medium}}">
+            <span class="glyphicon glyphicon-envelope"></span>
+          </a>
+        {{/each}}
+      </td>
+      <td>{{profile.role}}</td>
+      <!-- <td>&lt;ja/nein&gt;</td> -->
+    </tr>
+  {{/with}}
 </template>

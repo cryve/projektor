@@ -90,9 +90,9 @@
                     <div class="panel-body">
                       <ul class="media-list">
                         {{#each teamMember in team}}
-                          {{> member currentDoc=this userId=teamMember.userId role=teamMember.role isEditor=teamMember.isEditor userList=(suggestedUsers exclude=this.team firstOption=teamMember.userId) slot=@index currentCollection=getCollection }}
+                          {{> member currentDoc=this userId=teamMember.userId role=teamMember.role isEditor=teamMember.isEditor slot=@index currentCollection=getCollection }}
                         {{/each}}
-                        {{> addMember currentDoc=this userList=(suggestedUsers exclude=this.team) currentCollection=getCollection }}
+                        {{> addMember currentDoc=this currentCollection=getCollection }}
                       </ul>
                     </div>
                   </div> <!-- /.panel-default team  -->
@@ -103,9 +103,9 @@
                     <div class="panel-body">
                       <ul class="media-list">
                         {{#each member in supervisors}}
-                          {{> supervisor currentDoc=this userId=member.userId role=member.role userList=(suggestedUsers exclude=this.supervisors role="Mitarbeiter" firstOption=member.userId) slot=@index currentCollection=getCollection }}
+                          {{> supervisor currentDoc=this userId=member.userId role=member.role slot=@index currentCollection=getCollection }}
                         {{/each}}
-                        {{> addSupervisor currentDoc=this userList=(suggestedUsers exclude=this.supervisors role="Mitarbeiter") currentCollection=getCollection }}
+                        {{> addSupervisor currentDoc=this currentCollection=getCollection }}
                       </ul>
                     </div>
                   </div> <!-- /.panel-default supervisors  -->
@@ -170,7 +170,7 @@
               </div><!-- /.row -->
         {{/with}}
         {{else}}
-          <h2>Dieses Projekt ist privat.</h2>
+          <h2>Dieses Projekt ist privat oder nicht vorhanden.</h2>
           <p>Melde dich mit dem passenden HAW-Account an oder erstelle ein eigenes Projekt.</p>
       {{/if}}
     {{/if}}

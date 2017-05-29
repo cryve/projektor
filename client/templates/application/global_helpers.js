@@ -5,6 +5,7 @@
  - http://blazejs.org/api/templates.html#Template-registerHelper
 */
 
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Studies } from '/lib/collections/studies.js';
 import lodash from 'lodash';
@@ -36,7 +37,7 @@ Template.registerHelper("getFullUsername", (userId) => {
 
 Template.registerHelper("getEmailName", (userId) => {
   const user = Meteor.users.findOne(userId);
-  return emailName = user && user.profile.email.split("@")[0];
+  return user && user.profile.email && user.profile.email.split("@")[0];
 });
 
 Template.registerHelper("arrayToString", (array) => {
@@ -125,4 +126,26 @@ Template.registerHelper("hasPermissions", (permissionNames, doc) => {
     return !hasMissingPermission;
   }
   return false;
+});
+
+Template.registerHelper('suggestedUsers', (settings) => {
+  const users = Meteor.users.find(settings.hash.role ? { 'profile.role': settings.hash.role } : {});
+  let userList = [' '];
+  users.forEach(function (user) {
+    if (user && user.profile) {
+      userList.push({
+        value: user._id,
+        label: user.profile.fullname,
+      });
+    }
+  });
+  // remove users who are already in current group, but keep current user selection (firstOption)
+  if (settings.hash.exclude) {
+    settings.hash.exclude.forEach(function(user) {
+      if (user.userId !== settings.hash.firstOption) {
+        userList = userList.filter(item => item.value !== user.userId);
+      }
+    });
+  }
+  return userList;
 });

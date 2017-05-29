@@ -228,16 +228,15 @@ Template.landingPage.events({
 
 });
 
-Template.loadCards.onCreated (function landingPageOnCreated() {
-  this.autorun(() => {
-    this.subscribe("projectsAll");
-  });
+Template.loadCards.onCreated(function loadCardsOnCreated() {
+  this.subscribe('projects.all.list');
 });
+
 Template.loadCards.helpers({
   documents: function () {
     var skip = Template.instance().data * 12
     $("#loader").css({'display':'none'});
     // $('.load-more--loading').removeClass('load-more--loading');
-    return Projects.find({}, {skip: skip, limit: 12,sort: { createdAt: -1 }})
+    return Projects.find({}, { skip: skip, limit: 12,sort: { createdAt: -1 }})
   },
 });
