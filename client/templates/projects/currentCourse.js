@@ -32,7 +32,7 @@ Template.currentCourse.onCreated(function courseOnCreated() {
   this.subscribe('files.xlsFiles.all');
   this.subscribe('userSupervisor');
   this.autorun(() => {
-    this.subscribe('courses', FlowRouter.getParam('courseId'));
+    this.subscribe('singleCourse', FlowRouter.getParam('courseId'));
     this.subscribe('courseProjects', FlowRouter.getParam('courseId'));
     this.subscribe('singleUserCourseDraft', FlowRouter.getParam('courseId'));
   });
@@ -44,6 +44,7 @@ Template.currentCourse.onCreated(function courseOnCreated() {
   this.deadline = new ReactiveVar(false);
   XlsFiles.remove({userId:FlowRouter.getParam('courseId')});
   Session.set('previousRoute', FlowRouter.getRouteName());
+  Session.set('currentCourse', FlowRouter.getParam('courseId'));
 });
 
 Template.currentCourse.helpers({
@@ -243,7 +244,6 @@ Template.currentCourse.events({
   },
   'click .create-course-project-btn' (event) {
     event.preventDefault();
-    Session.set('currentCourse', this._id);
     // Go to a not finished draft if exists, else go to new draft
     let lastDraft;
     const currentDoc = this;
