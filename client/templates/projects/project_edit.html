@@ -8,7 +8,7 @@
         {{#if editActive}}
           {{#autoForm id="addMember" schema=memberSchema type="method" meteormethod=(getMethodString currentCollection._name "addMember") doc=currentDoc }}
             <div class="form-group">
-              {{> afFieldInput name="member.userId" type="select2" options=(suggestedUsers exclude=this.team) placeholder="Neues Mitglied auswählen" allowClear=true}}
+              {{> afFieldInput name="member.userId" type="select2" options=(suggestedUsers exclude=currentDoc.team) placeholder="Neues Mitglied auswählen" allowClear=true}}
               {{> afFieldInput name="member.role" type="text" placeholder="Aufgaben im Projekt"}}
               <p>{{> afFieldInput name="member.permissions.editInfos" type="boolean-checkbox"}}</p>
               <p>{{> afFieldInput name="member.permissions.manageMembers" type="boolean-checkbox"}}</p>
