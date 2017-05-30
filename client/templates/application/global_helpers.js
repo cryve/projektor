@@ -10,43 +10,37 @@ import { Template } from 'meteor/templating';
 import { Studies } from '/lib/collections/studies.js';
 import lodash from 'lodash';
 
-Template.registerHelper("readableDate", (date) => {
-  return moment(date).format("DD.MM.YYYY");
-});
+Template.registerHelper('readableDate', date => moment(date).format('DD.MM.YYYY'));
 
-Template.registerHelper("formDate", (date) => {
-  return moment(date).format("YYYY-MM-DD");
-});
+Template.registerHelper('formDate', date => moment(date).format('YYYY-MM-DD'));
 
-Template.registerHelper("releaseDate", (date) => {
-  moment.locale("de");
+Template.registerHelper('releaseDate', (date) => {
+  moment.locale('de');
   return momentReactive(date).fromNow();
 });
 
-Template.registerHelper("getUsername", (userId) => {
+Template.registerHelper('getUsername', (userId) => {
   // console.log(userId);
-  var user = Meteor.users.findOne({_id: userId});
+  const user = Meteor.users.findOne({ _id: userId });
   // console.log(user.emails[0].address);
   return user && user.emails[0].address;
 });
 
-Template.registerHelper("getFullUsername", (userId) => {
-  var user = Meteor.users.findOne({_id: userId});
-  return user && user.profile.firstname + " " + user.profile.lastname;
+Template.registerHelper('getFullUsername', (userId) => {
+  const user = Meteor.users.findOne({ _id: userId });
+  return user && `${user.profile.firstname} ${user.profile.lastname}`;
 });
 
-Template.registerHelper("getEmailName", (userId) => {
+Template.registerHelper('getEmailName', (userId) => {
   const user = Meteor.users.findOne(userId);
-  return user && user.profile.email && user.profile.email.split("@")[0];
+  return user && user.profile.email && user.profile.email.split('@')[0];
 });
 
-Template.registerHelper("arrayToString", (array) => {
-  return array && array.join(", ");
-});
+Template.registerHelper('arrayToString', array => array && array.join(', '));
 
-Template.registerHelper("getImgURL", (imgId, version) => {
-  if (imgId){
-    var image = Images.findOne(imgId);
+Template.registerHelper('getImgURL', (imgId, version) => {
+  if (imgId) {
+    const image = Images.findOne(imgId);
     return (image && image.versions[version]) ? image.link(version) : null;
   }
 });
@@ -63,20 +57,18 @@ Template.registerHelper('encodeUrlString', function(string) {
 //   return (image && image.versions[version]) ? image.link(version) : "/img/"+version+".jpg";
 // });
 
-/*Template.registerHelper("getAvatarCardURL", (userId, version) => {
+/* Template.registerHelper("getAvatarCardURL", (userId, version) => {
   var user = Meteor.users.findOne({_id: userId});
   var image = user.profile.avatar && Images.findOne(user.profile.avatar);
   return (image && image.versions[version]) ? image.link(version) : "/img/defaultCardMini.jpg";
 
 });*/
 
-Template.registerHelper("log", (data) => {
+Template.registerHelper('log', (data) => {
   console.log(data);
 });
 
-Template.registerHelper("getMethodString", (collectionName, methodName) => {
-  return collectionName + "." + methodName;
-});
+Template.registerHelper('getMethodString', (collectionName, methodName) => `${collectionName}.${methodName}`);
 
 // Template.registerHelper("studyCourseName", (studyCourseId, departmentId, facultyId) => {
 //   //this.subscribe("studies");
@@ -102,10 +94,10 @@ Template.registerHelper("getMethodString", (collectionName, methodName) => {
 //   return studyCourse && studyCourse.facultyName;
 // });
 
-Template.registerHelper("isUserInGroup", (group, userId) => {
+Template.registerHelper('isUserInGroup', (group, userId) => {
   let foundUser = false;
   lodash.forEach(group, function(value) {
-    if(lodash.includes(value, userId)) {
+    if (lodash.includes(value, userId)) {
       foundUser = true;
       return false; // breaks the loop
     }
@@ -113,15 +105,15 @@ Template.registerHelper("isUserInGroup", (group, userId) => {
   return foundUser;
 });
 
-Template.registerHelper("hasPermissions", (permissionNames, doc) => {
-  if(doc && doc.permissions) {
+Template.registerHelper('hasPermissions', (permissionNames, doc) => {
+  if (doc && doc.permissions) {
     permissionNames = permissionNames.split(',');
     let hasMissingPermission = false;
     lodash.forEach(permissionNames, function(permissionName) {
-      if(!lodash.includes(doc.permissions[permissionName], Meteor.userId())) {
+      if (!lodash.includes(doc.permissions[permissionName], Meteor.userId())) {
         hasMissingPermission = true;
         return false;
-      };
+      }
     });
     return !hasMissingPermission;
   }

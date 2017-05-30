@@ -1,7 +1,7 @@
-import { Random } from 'meteor/random'
+import { Random } from 'meteor/random';
 import faker from 'faker';
 import { Projects } from '/lib/collections/projects.js';
-faker.locale = "de";
+faker.locale = 'de';
 /* Set amount of sample docs */
 const sampleCountUsers = 20;
 const sampleCountProjects = 12;
@@ -20,10 +20,10 @@ const maxSizeProfileContacts = 5;
 Meteor.users.remove({});
 Projects.remove({});
 /* Create possible values */
-const sampleUserRoles = ["Student", "Mitarbeiter"];
-const sampleUserTitles = ["Student", "Professur", "Lehrkraft", "Akadem. Mitarbeiter/in", "Vertretungsprofessur"];
-const sampleUserGenders = ["female", "male"];
-const sampleOccasions = ["Projekt C", "Projekt B", "Projekt A", "Hobby", "Praxis"];
+const sampleUserRoles = ['Student', 'Mitarbeiter'];
+const sampleUserTitles = ['Student', 'Professur', 'Lehrkraft', 'Akadem. Mitarbeiter/in', 'Vertretungsprofessur'];
+const sampleUserGenders = ['female', 'male'];
+const sampleOccasions = ['Projekt C', 'Projekt B', 'Projekt A', 'Hobby', 'Praxis'];
 
 /* Create sample users */
 Factory.define('user', Meteor.users, {
@@ -51,9 +51,9 @@ Factory.define('user', Meteor.users, {
   },
 });
 
-const sampleUsers = _.times(sampleCountUsers, i => Factory.create("user"));
+const sampleUsers = _.times(sampleCountUsers, i => Factory.create('user'));
 /* Create sample projects */
-Factory.define("project", Projects, {
+Factory.define('project', Projects, {
   title: () => faker.commerce.productName(),
   subtitle: () => faker.company.catchPhrase(),
   description: () => faker.lorem.sentences(),
@@ -100,4 +100,4 @@ Factory.define("project", Projects, {
   // media: () => [{type: "image", id: Images.findOne()._id}],
   // coverImg: () => Images.findOne()._id,
 });
-_.times(sampleCountProjects, i => Factory.create("project"));
+_.times(sampleCountProjects, i => Factory.create('project'));

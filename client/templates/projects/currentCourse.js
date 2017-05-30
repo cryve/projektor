@@ -1,48 +1,47 @@
-import {excel} from "/lib/methods.js";
-import { Meteor } from 'meteor/meteor'
+import { excel } from '/lib/methods.js';
+import { Meteor } from 'meteor/meteor';
 import { XlsFiles } from '/lib/collections/xlsFiles.js';
 import { Courses } from '/lib/collections/courses.js';
 import { Projects } from '/lib/collections/projects.js';
 import { Drafts } from '/lib/collections/drafts.js';
-import {courseOwnerSchema} from '/lib/collections/schemas.js'
+import { courseOwnerSchema } from '/lib/collections/schemas.js';
 import { Template } from 'meteor/templating';
-import { insertEmptyCourseDraft, leaveCourse } from "/lib/methods.js";
-import { setDraftIdInProfile, createMassProjects, setSelfEnter, deleteAllProjects, addSupervisorToCourse} from "/lib/methods.js";
+import { insertEmptyCourseDraft, leaveCourse } from '/lib/methods.js';
+import { setDraftIdInProfile, createMassProjects, setSelfEnter, deleteAllProjects, addSupervisorToCourse } from '/lib/methods.js';
 import lodash from 'lodash';
 import toastr from 'toastr';
 
-Template.currentCourse.onCreated (function courseOnCreated() {
+Template.currentCourse.onCreated(function courseOnCreated() {
   toastr.options = {
-    "closeButton": false,
-    "debug": false,
-    "newestOnTop": false,
-    "progressBar": false,
-    "positionClass": "toast-top-left",
-    "preventDuplicates": false,
-    "onclick": null,
-    "showDuration": "300",
-    "hideDuration": "1000",
-    "timeOut": "5000",
-    "extendedTimeOut": "1000",
-    "showEasing": "swing",
-    "hideEasing": "linear",
-    "showMethod": "fadeIn",
-    "hideMethod": "fadeOut"
+    closeButton: false,
+    debug: false,
+    newestOnTop: false,
+    progressBar: false,
+    positionClass: 'toast-top-left',
+    preventDuplicates: false,
+    onclick: null,
+    showDuration: '300',
+    hideDuration: '1000',
+    timeOut: '5000',
+    extendedTimeOut: '1000',
+    showEasing: 'swing',
+    hideEasing: 'linear',
+    showMethod: 'fadeIn',
+    hideMethod: 'fadeOut',
   };
   this.subscribe('files.xlsFiles.all');
-  this.subscribe("userSupervisor");
+  this.subscribe('userSupervisor');
   this.autorun(() => {
-    this.subscribe("courses", FlowRouter.getParam("courseId"));
-    this.subscribe("courseProjects", FlowRouter.getParam("courseId"));
-    this.subscribe("singleUserCourseDraft", FlowRouter.getParam("courseId"));
+    this.subscribe('courses', FlowRouter.getParam('courseId'));
+    this.subscribe('courseProjects', FlowRouter.getParam('courseId'));
+    this.subscribe('singleUserCourseDraft', FlowRouter.getParam('courseId'));
   });
   this.editActive = new ReactiveVar(false);
   this.createLink = new ReactiveVar(false);
   this.addSupervisor = new ReactiveVar(false);
   this.selfEntering = new ReactiveVar(false);
   this.deadline = new ReactiveVar(false);
-  Session.set("previousRoute", FlowRouter.getRouteName());
-
+  Session.set('previousRoute', FlowRouter.getRouteName());
 });
 
 Template.currentCourse.helpers({
@@ -55,32 +54,32 @@ Template.currentCourse.helpers({
   createLink () {
     return Template.instance().createLink.get();
   },
-  selfEntering(){
+  selfEntering() {
     return Template.instance().selfEntering.get();
   },
   addSupervisor () {
     return Template.instance().addSupervisor.get();
   },
-  setDeadline(){
+  setDeadline() {
     return Template.instance().deadline.get();
   },
-  courseProjects(){
-    return Projects.findFromPublication('courseProjects')
+  courseProjects() {
+    return Projects.findFromPublication('courseProjects');
   },
   getCollection() {
     return Courses;
   },
-  courseOwnerSchema(){
+  courseOwnerSchema() {
     return courseOwnerSchema;
   },
   suggestedUsers(settings) {
-    const users = Meteor.users.find(settings.hash.role ? { "profile.role" : settings.hash.role } : {});
-    let userList = [" "];
-    users.forEach(function (user){
-      if (user && user.profile){
+    const users = Meteor.users.find(settings.hash.role ? { 'profile.role': settings.hash.role } : {});
+    let userList = [' '];
+    users.forEach(function (user) {
+      if (user && user.profile) {
         userList.push({
           value: user._id,
-          label: user.profile.firstname + " " + user.profile.lastname,
+          label: `${user.profile.firstname} ${user.profile.lastname}`,
         });
       }
     });
@@ -95,38 +94,36 @@ Template.currentCourse.helpers({
     return userList;
   },
 
-  isCourseProject(){
-    let ownersAsSupervisors = [];
+  isCourseProject() {
+    const ownersAsSupervisors = [];
     lodash.forEach(this.owner, function(ownerId) {
       const owner = Meteor.users.findOne(ownerId);
-      if(owner){
-        ownersAsSupervisors.push({userId: owner._id, role: owner.profile.title});
+      if (owner) {
+        ownersAsSupervisors.push({ userId: owner._id, role: owner.profile.title });
       }
     });
-    const courseProjects = Projects.findOne({courseId:this._id, supervisors: { $in: ownersAsSupervisors } });
-    if(courseProjects){
+    const courseProjects = Projects.findOne({ courseId: this._id, supervisors: { $in: ownersAsSupervisors } });
+    if (courseProjects) {
       return false;
-    } else {
-      return true;
     }
+    return true;
   },
 
-  isLastOwner(){
+  isLastOwner() {
     const course = Courses.findOne(this._id);
-    if(course && course.owner && course.owner.length > 1){
+    if (course && course.owner && course.owner.length > 1) {
       return false;
-    } else {
-      return true;
     }
+    return true;
   },
 
-  checkIfDraft(){
-    var check = false;
+  checkIfDraft() {
+    let check = false;
     const currentDoc = this;
-    if(Meteor.user() && Meteor.user().profile && Meteor.user().profile.drafts){
-      lodash.forEach(Meteor.user().profile.drafts, function(value){
-        if (value.draftId && (value.courseId == currentDoc._id)){
-          check = true
+    if (Meteor.user() && Meteor.user().profile && Meteor.user().profile.drafts) {
+      lodash.forEach(Meteor.user().profile.drafts, function(value) {
+        if (value.draftId && (value.courseId == currentDoc._id)) {
+          check = true;
           return false;
         }
       });
@@ -136,79 +133,79 @@ Template.currentCourse.helpers({
 });
 
 Template.currentCourse.events({
-  "click #btn-delete-course-projects" (event) {
-    Modal.show("deleteAllCourseProjectsModal", {
+  'click #btn-delete-course-projects' (event) {
+    Modal.show('deleteAllCourseProjectsModal', {
       courseId: this._id,
     });
   },
-  "click #btn-leave-course" (event) {
-    Modal.show("leaveCourseModal", {
+  'click #btn-leave-course' (event) {
+    Modal.show('leaveCourseModal', {
       courseId: this._id,
     });
   },
-  "click .create-mass-course-projects-btn" (event) {
-    Modal.show("createMassProjectsModal", {
+  'click .create-mass-course-projects-btn' (event) {
+    Modal.show('createMassProjectsModal', {
       courseId: this._id,
     });
   },
-  "click .btn-edit-deadline" (event) {
-    if(Template.instance().deadline.get()){
+  'click .btn-edit-deadline' (event) {
+    if (Template.instance().deadline.get()) {
       Template.instance().deadline.set(false);
     } else {
       Template.instance().deadline.set(true);
     }
   },
-  "click .btn-abort-editing" (event) {
+  'click .btn-abort-editing' (event) {
     Template.instance().editActive.set(false);
     Template.instance().deadline.set(false);
   },
-  "click .btn-abort-adding" (event) {
+  'click .btn-abort-adding' (event) {
     Template.instance().addSupervisor.set(false);
   },
-  "click .btn-add-supervisor" (event) {
-    if(Template.instance().addSupervisor.get()){
+  'click .btn-add-supervisor' (event) {
+    if (Template.instance().addSupervisor.get()) {
       Template.instance().addSupervisor.set(false);
     } else {
       Template.instance().addSupervisor.set(true);
     }
   },
-  "click .btn-add-selfEntering" (event) {
-    if(Template.instance().selfEntering.get()){
+  'click .btn-add-selfEntering' (event) {
+    if (Template.instance().selfEntering.get()) {
       Template.instance().selfEntering.set(false);
     } else {
       Template.instance().selfEntering.set(true);
     }
   },
-  "click .btn-toggle"(event){
+  'click .btn-toggle'(event) {
     event.stopPropagation();
     setSelfEnter.call({
       buttonEvent: this.selfEnter,
-      courseId: this._id
+      courseId: this._id,
     }, (err, res) => {
       if (err) {
         alert(err);
       }
-      if(this.selfEnter){
-        Command: toastr["success"]("Selbsteinschreibung wurde deaktiviert!");
+      if (this.selfEnter) {
+        toastr.success('Selbsteinschreibung wurde deaktiviert!');
       } else {
-        Command: toastr["success"]("Selbsteinschreibung wurde aktiviert!");
+        toastr.success('Selbsteinschreibung wurde aktiviert!');
       }
     });
   },
-  "click .create-course-project-btn" (event) {
-    Session.set("currentCourse", this._id);
+  'click .create-course-project-btn' (event) {
+    Session.set('currentCourse', this._id);
     // Go to a not finished draft if exists, else go to new draft
-    var lastDraft
+    let lastDraft;
     const currentDoc = this;
-    if(Meteor.user() && Meteor.user().profile && Meteor.user().profile.drafts){
-      lodash.forEach(Meteor.user().profile.drafts, function(value){
-        if (value.draftId && (value.courseId == currentDoc._id)){
+    if (Meteor.user() && Meteor.user().profile && Meteor.user().profile.drafts) {
+      lodash.forEach(Meteor.user().profile.drafts, function(value) {
+        if (value.draftId && (value.courseId == currentDoc._id)) {
           lastDraft = Drafts.findOne(value.draftId);
         }
       });
     }
     let draftId;
-    Session.set('result', "null");
+    Session.set('result', 'null');
     if (lastDraft && lastDraft._id) {
       draftId = lastDraft._id;
     } else {
@@ -216,9 +213,9 @@ Template.currentCourse.events({
         courseId: this._id,
       }, (err, res) => {
         if (err) {
-          if(err.error == "drafts.insertNew.unauthorized") {
-            FlowRouter.go("loginPage");
-            alert("Bitte melde dich an, um ein neues Projekt zu erstellen.");
+          if (err.error == 'drafts.insertNew.unauthorized') {
+            FlowRouter.go('loginPage');
+            alert('Bitte melde dich an, um ein neues Projekt zu erstellen.');
           } else {
             alert(err);
           }
@@ -226,21 +223,21 @@ Template.currentCourse.events({
       });
       setDraftIdInProfile.call({
         userId: Meteor.userId(),
-        draftId: draftId,
-        courseId: this._id}, (err, res) => {
+        draftId,
+        courseId: this._id }, (err, res) => {
         if (err) {
           alert(err);
         }
       });
     }
-    FlowRouter.go("newProject", {draftId: draftId});
+    FlowRouter.go('newProject', { draftId });
   },
-  "click #excel-button" (event){
-     XlsFiles.remove({userId:this._id});
-     Meteor.call(
-      'excel',{
+  'click #excel-button' (event) {
+    XlsFiles.remove({ userId: this._id });
+    Meteor.call(
+      'excel', {
         courseId: this._id,
-       },
+      },
       // function(error, result){
       //     if(error){
       //         console.error(error);
@@ -258,104 +255,103 @@ Template.currentCourse.events({
 
 });
 
-Template.file.onCreated (function fileLinkOnCreated() {
+Template.file.onCreated(function fileLinkOnCreated() {
   this.autorun(() => {
     this.subscribe('files.xlsFiles.all');
   });
   this.createLink = new ReactiveVar(true);
-
 });
 Template.file.helpers({
-  file: function () {
-    return XlsFiles.findOne({userId:this._id});
+  file () {
+    return XlsFiles.findOne({ userId: this._id });
   },
-  fileLink:function(){
-    var file = XlsFiles.findOne({userId:this._id});
-    if(file && file._id){
-      var link = file.link();
-      //var link = "https://projektor.mt.haw-hamburg.de/cdn/storage/XlsFiles/"+file._id+"/original/"+file._id+"?download=true"
-      //var link = "http://localhost:3000/cdn/storage/XlsFiles/"+file._id+"/original/"+file._id+"?download=true"
+  fileLink() {
+    const file = XlsFiles.findOne({ userId: this._id });
+    if (file && file._id) {
+      const link = file.link();
+      // var link = "https://projektor.mt.haw-hamburg.de/cdn/storage/XlsFiles/"+file._id+"/original/"+file._id+"?download=true"
+      // var link = "http://localhost:3000/cdn/storage/XlsFiles/"+file._id+"/original/"+file._id+"?download=true"
       window.location = link;
       Template.instance().createLink.set(false);
     }
-  }
+  },
 });
 
-Template.deleteAllCourseProjectsModal.onCreated(function deleteModalOnCreated(){
+Template.deleteAllCourseProjectsModal.onCreated(function deleteModalOnCreated() {
   toastr.options = {
-  "closeButton": false,
-  "debug": false,
-  "newestOnTop": false,
-  "progressBar": false,
-  "positionClass": "toast-top-left",
-  "preventDuplicates": false,
-  "onclick": null,
-  "showDuration": "300",
-  "hideDuration": "1000",
-  "timeOut": "5000",
-  "extendedTimeOut": "1000",
-  "showEasing": "swing",
-  "hideEasing": "linear",
-  "showMethod": "fadeIn",
-  "hideMethod": "fadeOut"
-  }
-})
+    closeButton: false,
+    debug: false,
+    newestOnTop: false,
+    progressBar: false,
+    positionClass: 'toast-top-left',
+    preventDuplicates: false,
+    onclick: null,
+    showDuration: '300',
+    hideDuration: '1000',
+    timeOut: '5000',
+    extendedTimeOut: '1000',
+    showEasing: 'swing',
+    hideEasing: 'linear',
+    showMethod: 'fadeIn',
+    hideMethod: 'fadeOut',
+  };
+});
 
 Template.deleteAllCourseProjectsModal.events({
-  "click #btn-delete"(event) {
+  'click #btn-delete'(event) {
     deleteAllProjects.call({
       courseId: this.courseId,
-      }, (err, res) => {
-        if (err) {
-          alert(err);
-        } else {
-          Command: toastr["success"]("Alle Projekte wurden erfolgreich gelöscht!");
-          Modal.hide();
-        }
+    }, (err, res) => {
+      if (err) {
+        alert(err);
+      } else {
+        toastr.success('Alle Projekte wurden erfolgreich gelöscht!');
+        Modal.hide();
+      }
     });
   },
 });
 
 
-Template.createMassProjectsModal.onCreated(function deleteModalOnCreated(){
+Template.createMassProjectsModal.onCreated(function deleteModalOnCreated() {
   toastr.options = {
-  "closeButton": false,
-  "debug": false,
-  "newestOnTop": false,
-  "progressBar": false,
-  "positionClass": "toast-top-left",
-  "preventDuplicates": false,
-  "onclick": null,
-  "showDuration": "300",
-  "hideDuration": "1000",
-  "timeOut": "5000",
-  "extendedTimeOut": "1000",
-  "showEasing": "swing",
-  "hideEasing": "linear",
-  "showMethod": "fadeIn",
-  "hideMethod": "fadeOut"
-  }
-})
+    closeButton: false,
+    debug: false,
+    newestOnTop: false,
+    progressBar: false,
+    positionClass: 'toast-top-left',
+    preventDuplicates: false,
+    onclick: null,
+    showDuration: '300',
+    hideDuration: '1000',
+    timeOut: '5000',
+    extendedTimeOut: '1000',
+    showEasing: 'swing',
+    hideEasing: 'linear',
+    showMethod: 'fadeIn',
+    hideMethod: 'fadeOut',
+  };
+});
 
 
 Template.createMassProjectsModal.events({
-  "click #create-mass-course-projects-btn"(event) {
+  'click #create-mass-course-projects-btn'(event) {
     createMassProjects.call({
       courseId: this.courseId,
-      text: document.getElementById("myTextarea").value,
-      }, (err, res) => {
-        if (err) {
-          alert(err);
-        } else {
-          Command: toastr["success"]("Alle Projekte wurden erfolgreich erstellt!");
-          Modal.hide();
-        }
+      text: document.getElementById('myTextarea').value,
+    }, (err, res) => {
+      if (err) {
+        alert(err);
+      } else {
+        toastr.success('Alle Projekte wurden erfolgreich erstellt!');
+        Modal.hide();
+      }
     });
   },
 });
 
 Template.leaveCourseModal.events({
-  "click #btn-leave-course-modal"(event){
+  'click #btn-leave-course-modal'(event) {
     console.log(this.selfEnter);
     leaveCourse.call({
       courseId: this.courseId,
@@ -363,8 +359,8 @@ Template.leaveCourseModal.events({
       if (err) {
         alert(err);
       }
-      FlowRouter.go("courses", {_id: Meteor.userId()});
-      Command: toastr["success"]("Kurs erfolgreich verlassen!");
+      FlowRouter.go('courses', { _id: Meteor.userId() });
+      toastr.success('Kurs erfolgreich verlassen!');
       Modal.hide();
     });
   },

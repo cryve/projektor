@@ -1,4 +1,4 @@
-import { Template } from 'meteor/templating'
+import { Template } from 'meteor/templating';
 import './login_page.html';
 
 Template.loginPage.helpers(_.extend(LDAP.formHelpers, {
@@ -8,7 +8,7 @@ Template.loginPage.helpers(_.extend(LDAP.formHelpers, {
 }));
 
 Template.loginPage.events({
-  "submit form"(event) {
+  'submit form'(event) {
     event.preventDefault();
   },
 });
