@@ -48,6 +48,23 @@ Template.currentCourse.onCreated (function courseOnCreated() {
 });
 
 Template.currentCourse.helpers({
+  canShow() {
+    const user = Meteor.user();
+    if(!user) {
+      return false;
+    }
+    const courseId = FlowRouter.getParam("courseId");
+    if(courseId) {
+      const course = Courses.findOne(courseId);
+      if(!course) {
+        return false;
+      }
+      return true;
+      // return lodash.find(user.profile.drafts, function(userDraft) {
+      //   return userDraft.draftId === draftId;
+    };
+    return false;
+  },
   courseKey(){
     var course = Courses.findOne(FlowRouter.getParam('courseId'));
     return CryptoJS.AES.decrypt(course.courseKey, 'Passphrase').toString(CryptoJS.enc.Utf8);
