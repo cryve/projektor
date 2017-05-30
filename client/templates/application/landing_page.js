@@ -1,58 +1,53 @@
 import { Template } from 'meteor/templating';
 import { Projects } from '/lib/collections/projects.js';
 import { ProjectsIndex } from '/lib/collections/projects.js';
-import {Images} from "/lib/collections/images.js";
+import { Images } from '/lib/collections/images.js';
 import './landing_page.html';
 
 
-
-Template.landingPage.onCreated (function landingPageOnCreated() {
+Template.landingPage.onCreated(function landingPageOnCreated() {
   this.skipValue = 0;
   this.setSearch = new ReactiveVar(true);
   this.endOfProjects = new ReactiveVar(2);
-  this.setSort = new ReactiveVar("new");
+  this.setSort = new ReactiveVar('new');
   this.keyWord = new ReactiveArray([]);
-  this.navItems = new ReactiveArray(["loadCards"]);
-  Session.set("previousRoute", FlowRouter.getRouteName());
+  this.navItems = new ReactiveArray(['loadCards']);
+  Session.set('previousRoute', FlowRouter.getRouteName());
 });
 
-Template.landingPage.onRendered(function landingPageOnRendered(){
+Template.landingPage.onRendered(function landingPageOnRendered() {
   const keyWord = this.keyWord;
-  Tracker.autorun(function(){
+  Tracker.autorun(function() {
     keyWord.depend();
     ProjectsIndex.getComponentMethods().search(keyWord.join([separator = ' ']));
   });
-
 });
 
 Template.landingPage.helpers({
-  isReady: function () {
+  isReady () {
     return Template.instance().pagination.ready();
   },
-  templatePagination: function () {
+  templatePagination () {
     return Template.instance().pagination;
   },
-  documents: function () {
+  documents () {
     return Template.instance().pagination.getPage();
   },
-	clickEvent: function() {
-		return function(e, templateInstance, clickedPage) {
-			e.preventDefault();
-		};
-	},
+  clickEvent() {
+    return function(e, templateInstance, clickedPage) {
+      e.preventDefault();
+    };
+  },
   projects() {
     return Projects.find({}, { sort: { createdAt: -1 } });
   },
-  projectsIndex: () => {
-    return ProjectsIndex;
-  },
+  projectsIndex: () => ProjectsIndex,
   originalDoc(searchDoc) {
     searchDoc._id = searchDoc.__originalId;
     delete searchDoc.__originalId;
     return searchDoc;
-
   },
-  /*projects2() {
+  /* projects2() {
     const body = Projects.search({
       "query": {
           "match" : {
@@ -65,7 +60,7 @@ Template.landingPage.helpers({
 
     return body;
   },*/
-    /*searchFilter() {
+    /* searchFilter() {
     var getSort = Template.instance().setSort.get();
     var search ;
     var count = 0;
@@ -146,8 +141,7 @@ Template.landingPage.helpers({
   },*/
 
 
-
-  /*searchFilterNew(){
+  /* searchFilterNew(){
     Template.instance().setSearch.set(true);
   },
   isSearch(){
@@ -156,73 +150,68 @@ Template.landingPage.helpers({
   isSort(){
     return Template.instance().setSort.get();
   },*/
-  tags: function() {
+  tags() {
     return Template.instance().keyWord.array();
   },
-  navItems(){
-    if (Template.instance().navItems.array()){
+  navItems() {
+    if (Template.instance().navItems.array()) {
       return Template.instance().navItems.array();
     }
   },
-  endOfDocuments: function () {
+  endOfDocuments () {
     return Template.instance().endOfProjects.get();
   },
 });
 
 Template.landingPage.events({
 
-  "click #viewMore"(event){
-    var amountOfProjects = Projects.find({});
+  'click #viewMore'(event) {
+    const amountOfProjects = Projects.find({});
     const value = Template.instance().endOfProjects.get();
-    var number = value * 12;
-    $("#loader").css({'display':'block'});
-    //$(event.currentTarget).addClass('load-more--loading');
+    const number = value * 12;
+    $('#loader').css({ display: 'block' });
+    // $(event.currentTarget).addClass('load-more--loading');
     event.preventDefault();
-    Template.instance().navItems.push("loadCards");
-    if (number < amountOfProjects.count()){
+    Template.instance().navItems.push('loadCards');
+    if (number < amountOfProjects.count()) {
       const newValue = value + 1;
       Template.instance().endOfProjects.set(newValue);
-    }
-    else {
+    } else {
       Template.instance().endOfProjects.set(false);
     }
   },
-  'click #change': function (event, templateInstance) {
-        templateInstance.pagination.currentPage(Math.round(Math.random() * 10));
-    },
-
-  'submit .new-tag' (event){
-    event.preventDefault();
-    Template.instance().keyWord.push($('#listExName').val());
-    Template.instance().setSearch.set(false);
-    return $('#listExName').val('');
-
+  'click #change' (event, templateInstance) {
+    templateInstance.pagination.currentPage(Math.round(Math.random() * 10));
   },
-  'click #listExAdd' (event){
+
+  'submit .new-tag' (event) {
     event.preventDefault();
     Template.instance().keyWord.push($('#listExName').val());
     Template.instance().setSearch.set(false);
     return $('#listExName').val('');
-
+  },
+  'click #listExAdd' (event) {
+    event.preventDefault();
+    Template.instance().keyWord.push($('#listExName').val());
+    Template.instance().setSearch.set(false);
+    return $('#listExName').val('');
   },
   'click .listExRemove' (event) {
     Template.instance().setSearch.set(false);
     return Template.instance().keyWord.remove(this.toString());
-
   },
   'click .listRemove' (event) {
     Template.instance().setSearch.set(false);
     return Template.instance().keyWord.clear();
-
   },
-  'change #sortStatus' (event, template){
-    var selectedSort = template.$("#sortStatus").val();
+  'change #sortStatus' (event, template) {
+    const selectedSort = template.$('#sortStatus').val();
     console.log(selectedSort);
     Template.instance().setSort.set(selectedSort);
   },
   'change .sorting': (event) => {
     ProjectsIndex.getComponentMethods()
-      .addProps('sortBy', $(event.target).val())
+      .addProps('sortBy', $(event.target).val());
   },
 
 });
@@ -232,10 +221,10 @@ Template.loadCards.onCreated(function loadCardsOnCreated() {
 });
 
 Template.loadCards.helpers({
-  documents: function () {
-    var skip = Template.instance().data * 12
-    $("#loader").css({'display':'none'});
+  documents () {
+    const skip = Template.instance().data * 12;
+    $('#loader').css({ display: 'none' });
     // $('.load-more--loading').removeClass('load-more--loading');
-    return Projects.find({}, { skip: skip, limit: 12,sort: { createdAt: -1 }})
+    return Projects.find({}, { skip, limit: 12, sort: { createdAt: -1 } });
   },
 });

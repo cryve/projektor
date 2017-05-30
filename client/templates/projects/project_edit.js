@@ -1,22 +1,22 @@
-import { Template } from "meteor/templating";
+import { Template } from 'meteor/templating';
 import lodash from 'lodash';
-import {Images} from "/lib/collections/images.js";
-import { Courses } from "/lib/collections/courses.js" ;
-import { ProjectFiles } from "/lib/collections/projectFiles.js" ;
-import { deleteEditableArrayItem, deleteEditableCourse } from "/lib/methods.js";
-import { memberSchema } from "/lib/collections/schemas.js";
-import { jobSchema } from "/lib/collections/schemas.js";
-import { contactSchema } from "/lib/collections/schemas.js";
-import { teamCommSchema } from "/lib/collections/schemas.js";
-import { supervisorSchema } from "/lib/collections/schemas.js";
-import { addCourseSchema } from "/lib/collections/schemas.js";
+import { Images } from '/lib/collections/images.js';
+import { Courses } from '/lib/collections/courses.js';
+import { ProjectFiles } from '/lib/collections/projectFiles.js';
+import { deleteEditableArrayItem, deleteEditableCourse } from '/lib/methods.js';
+import { memberSchema } from '/lib/collections/schemas.js';
+import { jobSchema } from '/lib/collections/schemas.js';
+import { contactSchema } from '/lib/collections/schemas.js';
+import { teamCommSchema } from '/lib/collections/schemas.js';
+import { supervisorSchema } from '/lib/collections/schemas.js';
+import { addCourseSchema } from '/lib/collections/schemas.js';
 
-import "./project_edit.html";
+import './project_edit.html';
 
 const isUserInGroup = (group, userId) => {
   let foundUser = false;
   lodash.forEach(group, function(value) {
-    if(lodash.includes(value, userId)) {
+    if (lodash.includes(value, userId)) {
       foundUser = true;
       return false; // breaks the loop
     }
@@ -28,12 +28,12 @@ const isUserAdminMember = (team, userId) => {
   member = lodash.find(team, function(member) {
     return member.userId == userId;
   });
-  if(member && member.permissions.editInfos && member.permissions.manageMembers
+  if (member && member.permissions.editInfos && member.permissions.manageMembers
     && member.permissions.manageCourses && member.permissions.deleteProject) {
     return true;
   }
   return false;
-}
+};
 
 Template.addCourse.onCreated(function() {
   this.editActive = new ReactiveVar(false);
@@ -46,29 +46,31 @@ Template.addCourse.helpers({
   addCourseSchema () {
     return addCourseSchema;
   },
-  courseName(courseId){
-    var course = Courses.findOne(courseId)
-    if(course){
-      return course.courseName + " " + course.courseSemester + " " + course.studyCourse;
+  courseName(courseId) {
+    const course = Courses.findOne(courseId);
+    if (course) {
+      return `${course.courseName} ${course.courseSemester} ${course.studyCourse}`;
     }
-  }
+  },
 });
 
 Template.addCourse.events({
-  "click .btn-abort-course" (event) {
+  'click .btn-abort-course' (event) {
     Template.instance().editActive.set(false);
   },
-  "click .btn-edit-course" (event) {
+  'click .btn-edit-course' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(true);
   },
-  "click .btn-delete-course" (event) {
+  'click .btn-delete-course' (event) {
+    event.preventDefault();
     deleteEditableCourse.call({
       collectionName: this.currentCollection._name,
       docId: this.currentDoc._id,
-    },(err, res) => {
-        if (err) {
-          alert(err);
-        }
+    }, (err, res) => {
+      if (err) {
+        alert(err);
+      }
     });
   },
 });
@@ -88,10 +90,10 @@ Template.addMember.helpers({
 });
 
 Template.addMember.events({
-  "click #btn-add-member" (event) {
+  'click #btn-add-member' (event) {
     Template.instance().editActive.set(true);
   },
-  "click .btn-abort-adding" (event) {
+  'click .btn-abort-adding' (event) {
     Template.instance().editActive.set(false);
   },
 });
@@ -111,10 +113,10 @@ Template.addSupervisor.helpers({
 });
 
 Template.addSupervisor.events({
-  "click #btn-add-supervisor" (event) {
+  'click #btn-add-supervisor' (event) {
     Template.instance().editActive.set(true);
   },
-  "click .btn-abort-adding" (event) {
+  'click .btn-abort-adding' (event) {
     Template.instance().editActive.set(false);
   },
 });
@@ -124,11 +126,11 @@ Template.notesBoxSupervisors.onCreated(function() {
 });
 
 Template.notesBoxSupervisors.helpers({
-  supervisorNotes(currentDoc){
-    if(currentDoc && currentDoc.supervisors){
-      var check = false
-      lodash.forEach(currentDoc.supervisors, function(supervisor){
-        if (supervisor.userId == Meteor.userId()){
+  supervisorNotes(currentDoc) {
+    if (currentDoc && currentDoc.supervisors) {
+      let check = false;
+      lodash.forEach(currentDoc.supervisors, function(supervisor) {
+        if (supervisor.userId == Meteor.userId()) {
           check = true;
           return false;
         }
@@ -136,18 +138,19 @@ Template.notesBoxSupervisors.helpers({
       return check;
     }
   },
-  editActive(){
+  editActive() {
     return Template.instance().editActive.get();
-  }
+  },
 });
 
 Template.notesBoxSupervisors.events({
-  "click .btn-edit-description" (event) {
-    console.log(Template.instance().editActive.get())
+  'click .btn-edit-description' (event) {
+    event.preventDefault();
+    console.log(Template.instance().editActive.get());
     Template.instance().editActive.set(true);
-    console.log(Template.instance().editActive.get())
+    console.log(Template.instance().editActive.get());
   },
-  "click .btn-abort-editing" (event) {
+  'click .btn-abort-editing' (event) {
     Template.instance().editActive.set(false);
   },
 });
@@ -165,36 +168,36 @@ Template.member.helpers({
   user() {
     return Meteor.users.findOne(this.userId);
   },
-  getAvatarURL (userId, version){
-    var user = Meteor.users.findOne({_id: userId});
-    var image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
-    return (image && image.versions[version]) ? image.link(version) : "/img/"+version+".jpg";
+  getAvatarURL (userId, version) {
+    const user = Meteor.users.findOne({ _id: userId });
+    const image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
+    return (image && image.versions[version]) ? image.link(version) : `/img/${version}.jpg`;
   },
   editActive () {
     return Template.instance().editActive.get();
   },
   teamUserIdField () {
-    return "team." + this.slot + ".userId";
+    return `team.${this.slot}.userId`;
   },
   teamUserRoleField () {
-    return "team." + this.slot + ".role";
+    return `team.${this.slot}.role`;
   },
   teamUserCanEditInfosField () {
-    return "team." + this.slot + ".permissions.editInfos";
+    return `team.${this.slot}.permissions.editInfos`;
   },
   teamUserCanManageMembersField () {
-    return "team." + this.slot + ".permissions.manageMembers";
+    return `team.${this.slot}.permissions.manageMembers`;
   },
   teamUserCanManageCoursesField () {
-    return "team." + this.slot + ".permissions.manageCourses";
+    return `team.${this.slot}.permissions.manageCourses`;
   },
   teamUserCanDeleteProjectField () {
-    return "team." + this.slot + ".permissions.deleteProject";
+    return `team.${this.slot}.permissions.deleteProject`;
   },
   showLeaveButton() {
-    if(this.userId == Meteor.userId()) {
-      if(this.currentDoc.isNewProject) {
-        if(isUserInGroup(this.currentDoc.supervisors, Meteor.userId())) {
+    if (this.userId == Meteor.userId()) {
+      if (this.currentDoc.isNewProject) {
+        if (isUserInGroup(this.currentDoc.supervisors, Meteor.userId())) {
           return true;
         }
         return false;
@@ -206,30 +209,33 @@ Template.member.helpers({
 });
 
 Template.member.events({
-  "click .btn-delete-member" (event) {
+  'click .btn-delete-member' (event) {
+    event.preventDefault();
     deleteEditableArrayItem.call({
       collectionName: this.currentCollection._name,
       docId: this.currentDoc._id,
-      arrayField: "team",
+      arrayField: 'team',
       item: { userId: this.userId, role: this.role },
-    },(err, res) => {
-        if (err) {
-          alert(err);
-        }
+    }, (err, res) => {
+      if (err) {
+        alert(err);
+      }
     });
   },
-  "click .btn-edit-member" (event) {
+  'click .btn-edit-member' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(true);
   },
-  "click .btn-abort-editing" (event) {
+  'click .btn-abort-editing' (event) {
     Template.instance().editActive.set(false);
   },
-  "click .show-leave-modal"(event) {
-    Modal.show("leaveGroupModal", {
+  'click .show-leave-modal'(event) {
+    event.preventDefault();
+    Modal.show('leaveGroupModal', {
       collectionName: this.currentCollection._name,
       docId: this.currentDoc._id,
       docTitle: this.currentDoc.title,
-      group: "team",
+      group: 'team',
       userId: this.userId,
       userRole: this.role,
     });
@@ -238,12 +244,12 @@ Template.member.events({
 
 Template.leaveGroupModal.helpers({
   groupName() {
-    if(this.group == "team") {
-      return "Team";
-    } else if (this.group == "supervisors") {
-      return "Betreuer";
+    if (this.group == 'team') {
+      return 'Team';
+    } else if (this.group == 'supervisors') {
+      return 'Betreuer';
     }
-    return "Unbekannt";
+    return 'Unbekannt';
   },
   isLastEditor() {
     const project = Mongo.Collection.get(this.collectionName).findOne(this.docId);
@@ -251,14 +257,14 @@ Template.leaveGroupModal.helpers({
       return member.permissions.editInfos && member.permissions.manageMembers
         && member.permissions.manageCourses && member.permissions.deleteProject;
     });
-    if(this.group == "team") {
-      if(isUserAdminMember(project.team, this.userId) && adminMembers.length === 1
+    if (this.group == 'team') {
+      if (isUserAdminMember(project.team, this.userId) && adminMembers.length === 1
       && (!project.supervisors || project.supervisors.length === 0)) {
-          return true;
+        return true;
       }
     }
-    if (this.group == "supervisors") {
-      if(project.supervisors.length === 1 && adminMembers.length === 0) {
+    if (this.group == 'supervisors') {
+      if (project.supervisors.length === 1 && adminMembers.length === 0) {
         return true;
       }
     }
@@ -267,17 +273,17 @@ Template.leaveGroupModal.helpers({
 });
 
 Template.leaveGroupModal.events({
-  "click #leave"(event) {
+  'click #leave'(event) {
     event.preventDefault();
     deleteEditableArrayItem.call({
       collectionName: this.collectionName,
       docId: this.docId,
       arrayField: this.group,
       item: { userId: this.userId, role: this.userRole },
-    },(err, res) => {
-        if (err) {
-          alert(err);
-        }
+    }, (err, res) => {
+      if (err) {
+        alert(err);
+      }
     });
     Modal.hide();
   },
@@ -287,21 +293,21 @@ Template.supervisor.helpers({
   user() {
     return Meteor.users.findOne(this.userId);
   },
-  getAvatarURL (userId, version){
-    var user = Meteor.users.findOne({_id: userId});
-    var image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
-    return (image && image.versions[version]) ? image.link(version) : "/img/"+version+".jpg";
+  getAvatarURL (userId, version) {
+    const user = Meteor.users.findOne({ _id: userId });
+    const image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
+    return (image && image.versions[version]) ? image.link(version) : `/img/${version}.jpg`;
   },
   supervisorIdField () {
-    return "supervisors." + this.slot + ".userId";
+    return `supervisors.${this.slot}.userId`;
   },
   supervisorRoleField () {
-    return "team." + this.slot + ".role";
+    return `team.${this.slot}.role`;
   },
   showLeaveButton() {
-    if(this.userId == Meteor.userId()) {
-      if(this.currentDoc.isNewProject) {
-        if(isUserAdminMember(this.currentDoc.team, Meteor.userId())) {
+    if (this.userId == Meteor.userId()) {
+      if (this.currentDoc.isNewProject) {
+        if (isUserAdminMember(this.currentDoc.team, Meteor.userId())) {
           return true;
         }
         return false;
@@ -320,24 +326,26 @@ Template.supervisor.onCreated(function supervisorOnCreated() {
 });
 
 Template.supervisor.events({
-  "click .btn-delete-supervisor"(event) {
+  'click .btn-delete-supervisor'(event) {
+    event.preventDefault();
     deleteEditableArrayItem.call({
       collectionName: this.currentCollection._name,
       docId: this.currentDoc._id,
-      arrayField: "supervisors",
+      arrayField: 'supervisors',
       item: { userId: this.userId, role: this.role },
-    },(err, res) => {
-        if (err) {
-          alert(err);
-        }
+    }, (err, res) => {
+      if (err) {
+        alert(err);
+      }
     });
   },
-  "click .show-leave-modal"(event) {
-    Modal.show("leaveGroupModal", {
+  'click .show-leave-modal'(event) {
+    event.preventDefault();
+    Modal.show('leaveGroupModal', {
       collectionName: this.currentCollection._name,
       docId: this.currentDoc._id,
       docTitle: this.currentDoc.title,
-      group: "supervisors",
+      group: 'supervisors',
       userId: this.userId,
       userRole: this.role,
     });
@@ -353,43 +361,45 @@ Template.contactItem.helpers({
     return Template.instance().editActive.get();
   },
   contactMediumField () {
-    return "contacts." + this.slot + ".medium";
+    return `contacts.${this.slot}.medium`;
   },
   contactApproachField() {
-    return "contacts." + this.slot + ".approach";
+    return `contacts.${this.slot}.approach`;
   },
   mediumOptions() {
     return [
-      {value: "E-Mail" ,label: "E-Mail"},
-      {value: "Skype" ,label: "Skype"},
-      {value: "Telefon" ,label: "Telefon"},
-      {value: "Whatsapp" ,label: "Whatsapp"},
-      {value: "SMS" ,label: "SMS"},
-      {value: "Facebook" ,label: "Facebook"},
-      {value: "Google+" ,label: "Google+"},
-      {value: "Treffpunkt" ,label: "Treffpunkt"},
-      {value: "Sonstiges" ,label: "Sonstiges"},
+      { value: 'E-Mail', label: 'E-Mail' },
+      { value: 'Skype', label: 'Skype' },
+      { value: 'Telefon', label: 'Telefon' },
+      { value: 'Whatsapp', label: 'Whatsapp' },
+      { value: 'SMS', label: 'SMS' },
+      { value: 'Facebook', label: 'Facebook' },
+      { value: 'Google+', label: 'Google+' },
+      { value: 'Treffpunkt', label: 'Treffpunkt' },
+      { value: 'Sonstiges', label: 'Sonstiges' },
     ];
   },
 });
 
 Template.contactItem.events({
-  "click .btn-delete-contact" (event) {
+  'click .btn-delete-contact' (event) {
+    event.preventDefault();
     deleteEditableArrayItem.call({
       collectionName: this.currentCollection._name,
       docId: this.currentDoc._id,
-      arrayField: "contacts",
+      arrayField: 'contacts',
       item: { medium: this.medium, approach: this.approach },
-    },(err, res) => {
-        if (err) {
-          alert(err);
-        }
+    }, (err, res) => {
+      if (err) {
+        alert(err);
+      }
     });
   },
-  "click .btn-edit-contact" (event) {
+  'click .btn-edit-contact' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(true);
   },
-  "click .btn-abort-editing" (event) {
+  'click .btn-abort-editing' (event) {
     Template.instance().editActive.set(false);
   },
 });
@@ -408,23 +418,23 @@ Template.addContact.helpers({
   mediumOptions() {
     return [
       {},
-      {value: "E-Mail" ,label: "E-Mail"},
-      {value: "Skype" ,label: "Skype"},
-      {value: "Telefon" ,label: "Telefon"},
-      {value: "Whatsapp" ,label: "Whatsapp"},
-      {value: "SMS" ,label: "SMS"},
-      {value: "Facebook" ,label: "Facebook"},
-      {value: "Google+" ,label: "Google+"},
-      {value: "Treffpunkt" ,label: "Treffpunkt"},
+      { value: 'E-Mail', label: 'E-Mail' },
+      { value: 'Skype', label: 'Skype' },
+      { value: 'Telefon', label: 'Telefon' },
+      { value: 'Whatsapp', label: 'Whatsapp' },
+      { value: 'SMS', label: 'SMS' },
+      { value: 'Facebook', label: 'Facebook' },
+      { value: 'Google+', label: 'Google+' },
+      { value: 'Treffpunkt', label: 'Treffpunkt' },
     ];
   },
 });
 
 Template.addContact.events({
-  "click #btn-add-contact" (event) {
+  'click #btn-add-contact' (event) {
     Template.instance().editActive.set(true);
   },
-  "click .btn-abort-adding" (event) {
+  'click .btn-abort-adding' (event) {
     Template.instance().editActive.set(false);
   },
 });
@@ -440,10 +450,11 @@ Template.editTitle.helpers({
 });
 
 Template.editTitle.events({
-  "click .btn-edit-title" (event) {
+  'click .btn-edit-title' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(true);
   },
-  "click .btn-abort-editing" (event) {
+  'click .btn-abort-editing' (event) {
     Template.instance().editActive.set(false);
   },
 });
@@ -459,10 +470,11 @@ Template.editDescription.helpers({
 });
 
 Template.editDescription.events({
-  "click .btn-edit-description" (event) {
+  'click .btn-edit-description' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(true);
   },
-  "click .btn-abort-editing" (event) {
+  'click .btn-abort-editing' (event) {
     Template.instance().editActive.set(false);
   },
 });
@@ -478,10 +490,11 @@ Template.editTags.helpers({
 });
 
 Template.editTags.events({
-  "click .btn-edit-tags" (event) {
+  'click .btn-edit-tags' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(true);
   },
-  "click .btn-abort-editing" (event) {
+  'click .btn-abort-editing' (event) {
     Template.instance().editActive.set(false);
   },
 });
@@ -496,14 +509,14 @@ Template.addJob.helpers({
   },
   jobSchema () {
     return jobSchema;
-  }
+  },
 });
 
 Template.addJob.events({
-  "click #btn-add-job" (event) {
+  'click #btn-add-job' (event) {
     Template.instance().editActive.set(true);
   },
-  "click .btn-abort-adding" (event) {
+  'click .btn-abort-adding' (event) {
     Template.instance().editActive.set(false);
   },
 });
@@ -517,27 +530,30 @@ Template.jobItem.helpers({
     return Template.instance().editActive.get();
   },
   jobLabelField () {
-    return "jobs." + this.slot + ".joblabel";
+    return `jobs.${this.slot}.joblabel`;
   },
 });
 
 Template.jobItem.events({
-  "click .btn-delete-job" (event) {
+  'click .btn-delete-job' (event) {
+    event.preventDefault();
     deleteEditableArrayItem.call({
       collectionName: this.currentCollection._name,
       docId: this.currentDoc._id,
-      arrayField: "jobs",
+      arrayField: 'jobs',
       item: { joblabel: this.jobLabel },
-    },(err, res) => {
-        if (err) {
-          alert(err);
-        }
+    }, (err, res) => {
+      if (err) {
+        alert(err);
+      }
     });
   },
-  "click .btn-edit-job" (event) {
+  'click .btn-edit-job' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(true);
   },
-  "click .btn-abort-editing" (event) {
+  'click .btn-abort-editing' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(false);
   },
 });
@@ -553,10 +569,11 @@ Template.editOccasions.helpers({
 });
 
 Template.editOccasions.events({
-  "click .btn-edit-occasions" (event) {
+  'click .btn-edit-occasions' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(true);
   },
-  "click .btn-abort-editing" (event) {
+  'click .btn-abort-editing' (event) {
     Template.instance().editActive.set(false);
   },
 });
@@ -570,18 +587,19 @@ Template.editDeadline.helpers({
     return Template.instance().editActive.get();
   },
   requiredPermissions() {
-    if(this.currentDoc && this.currentDoc.courseId) {
-      return "editInfos,manageCourses";
+    if (this.currentDoc && this.currentDoc.courseId) {
+      return 'editInfos,manageCourses';
     }
-    return "editInfos";
-  }
+    return 'editInfos';
+  },
 });
 
 Template.editDeadline.events({
-  "click .btn-edit-deadline" (event) {
+  'click .btn-edit-deadline' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(true);
   },
-  "click .btn-abort-editing" (event) {
+  'click .btn-abort-editing' (event) {
     Template.instance().editActive.set(false);
   },
 });
@@ -597,10 +615,11 @@ Template.editBeginning.helpers({
 });
 
 Template.editBeginning.events({
-  "click .btn-edit-beginning" (event) {
+  'click .btn-edit-beginning' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(true);
   },
-  "click .btn-abort-editing" (event) {
+  'click .btn-abort-editing' (event) {
     Template.instance().editActive.set(false);
   },
 });
@@ -625,43 +644,44 @@ Template.editTeamCommunication.helpers({
 });
 
 Template.editTeamCommunication.events({
-  "click .btn-edit-teamcomm" (event) {
+  'click .btn-edit-teamcomm' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(true);
   },
-  "click .btn-abort-editing" (event) {
+  'click .btn-abort-editing' (event) {
     Template.instance().editActive.set(false);
   },
 });
 
 Template.editTeamCommItem.helpers({
   teamCommMediumField() {
-    return "teamCommunication." + this.slot + ".medium";
+    return `teamCommunication.${this.slot}.medium`;
   },
   teamCommUrlField() {
-    return "teamCommunication." + this.slot + ".url";
+    return `teamCommunication.${this.slot}.url`;
   },
   teamCommIsPrivateField() {
-    return "teamCommunication." + this.slot + ".isPrivate";
+    return `teamCommunication.${this.slot}.isPrivate`;
   },
   mediumOptions() {
     return [
       {},
-      {value: "Rundmails" ,label: "Rundmails"},
-      {value: "Skype" ,label: "Skype"},
-      {value: "Telefon" ,label: "Telefon"},
-      {value: "Whatsapp" ,label: "Whatsapp"},
-      {value: "SMS" ,label: "SMS"},
-      {value: "Facebook" ,label: "Facebook"},
-      {value: "Google+" ,label: "Google+"},
-      {value: "Meeting" ,label: "Meeting"},
-      {value: "Github" ,label: "Github"},
-      {value: "BitBucket" ,label: "BitBucket"},
-      {value: "Slack" ,label: "Slack"},
-      {value: "GitLab" ,label: "GitLab"},
-      {value: "Dropbox" ,label: "Dropbox"},
-      {value: "GoogleDrive" ,label: "GoogleDrive"},
-      {value: "Trello" ,label: "Trello"},
-      {value: "Hangouts" ,label: "Hangouts"},
+      { value: 'Rundmails', label: 'Rundmails' },
+      { value: 'Skype', label: 'Skype' },
+      { value: 'Telefon', label: 'Telefon' },
+      { value: 'Whatsapp', label: 'Whatsapp' },
+      { value: 'SMS', label: 'SMS' },
+      { value: 'Facebook', label: 'Facebook' },
+      { value: 'Google+', label: 'Google+' },
+      { value: 'Meeting', label: 'Meeting' },
+      { value: 'Github', label: 'Github' },
+      { value: 'BitBucket', label: 'BitBucket' },
+      { value: 'Slack', label: 'Slack' },
+      { value: 'GitLab', label: 'GitLab' },
+      { value: 'Dropbox', label: 'Dropbox' },
+      { value: 'GoogleDrive', label: 'GoogleDrive' },
+      { value: 'Trello', label: 'Trello' },
+      { value: 'Hangouts', label: 'Hangouts' },
     ];
   },
   createUserOption(term, data) {
@@ -670,16 +690,16 @@ Template.editTeamCommItem.helpers({
 });
 
 Template.editTeamCommItem.events({
-  "click .btn-delete-teamcomm" (event) {
+  'click .btn-delete-teamcomm' (event) {
     deleteEditableArrayItem.call({
       collectionName: this.currentCollection._name,
       docId: this.currentDoc._id,
-      arrayField: "teamCommunication",
+      arrayField: 'teamCommunication',
       item: { medium: this.medium, url: this.url, isPrivate: this.isPrivate },
-    },(err, res) => {
-        if (err) {
-          alert(err);
-        }
+    }, (err, res) => {
+      if (err) {
+        alert(err);
+      }
     });
   },
 });
@@ -698,31 +718,31 @@ Template.addTeamCommItem.helpers({
   mediumOptions() {
     return [
       {},
-      {value: "Rundmails" ,label: "Rundmails"},
-      {value: "Skype" ,label: "Skype"},
-      {value: "Telefon" ,label: "Telefon"},
-      {value: "Whatsapp" ,label: "Whatsapp"},
-      {value: "SMS" ,label: "SMS"},
-      {value: "Facebook" ,label: "Facebook"},
-      {value: "Google+" ,label: "Google+"},
-      {value: "Meeting" ,label: "Meeting"},
-      {value: "Github" ,label: "Github"},
-      {value: "BitBucket" ,label: "BitBucket"},
-      {value: "Slack" ,label: "Slack"},
-      {value: "GitLab" ,label: "GitLab"},
-      {value: "Dropbox" ,label: "Dropbox"},
-      {value: "GoogleDrive" ,label: "GoogleDrive"},
-      {value: "Trello" ,label: "Trello"},
-      {value: "Hangouts" ,label: "Hangouts"},
+      { value: 'Rundmails', label: 'Rundmails' },
+      { value: 'Skype', label: 'Skype' },
+      { value: 'Telefon', label: 'Telefon' },
+      { value: 'Whatsapp', label: 'Whatsapp' },
+      { value: 'SMS', label: 'SMS' },
+      { value: 'Facebook', label: 'Facebook' },
+      { value: 'Google+', label: 'Google+' },
+      { value: 'Meeting', label: 'Meeting' },
+      { value: 'Github', label: 'Github' },
+      { value: 'BitBucket', label: 'BitBucket' },
+      { value: 'Slack', label: 'Slack' },
+      { value: 'GitLab', label: 'GitLab' },
+      { value: 'Dropbox', label: 'Dropbox' },
+      { value: 'GoogleDrive', label: 'GoogleDrive' },
+      { value: 'Trello', label: 'Trello' },
+      { value: 'Hangouts', label: 'Hangouts' },
     ];
   },
 });
 
 Template.addTeamCommItem.events({
-  "click .btn-add-teamcomm" (event) {
+  'click .btn-add-teamcomm' (event) {
     Template.instance().editActive.set(true);
   },
-  "click .btn-abort-adding" (event) {
+  'click .btn-abort-adding' (event) {
     Template.instance().editActive.set(false);
   },
 });
@@ -744,30 +764,30 @@ Template.projectFileUpload.onCreated(function () {
 });
 
 Template.projectFileUpload.helpers({
-  currentUpload: function () {
+  currentUpload () {
     return Template.instance().currentUpload.get();
   },
-  file: function () {
-    const pdfId = this.currentDoc && this.currentDoc.pdfs && this.currentDoc.pdfs[this.currentDoc.pdfs.length-1]
-    var file = ProjectFiles.findOne(pdfId)
+  file () {
+    const pdfId = this.currentDoc && this.currentDoc.pdfs && this.currentDoc.pdfs[this.currentDoc.pdfs.length - 1];
+    const file = ProjectFiles.findOne(pdfId);
     return ProjectFiles.findOne(pdfId);
-  }
+  },
 });
 
 Template.projectFileUpload.events({
-  'change #fileInput': function (e, template) {
+  'change #fileInput' (e, template) {
     if (e.currentTarget.files && e.currentTarget.files[0]) {
       // We upload only one file, in case
       // multiple files were selected
-      var collection = template.data.currentCollection._name;
-      var projectId = template.data.currentDoc._id;
-      var upload = ProjectFiles.insert({
+      const collection = template.data.currentCollection._name;
+      const projectId = template.data.currentDoc._id;
+      const upload = ProjectFiles.insert({
         file: e.currentTarget.files[0],
         streams: 'dynamic',
         chunkSize: 'dynamic',
         meta: {
-          collection: collection,
-          projectId: projectId,
+          collection,
+          projectId,
           createdAt: new Date(),
         },
       }, false);
@@ -780,8 +800,8 @@ Template.projectFileUpload.events({
         if (error) {
           // alert('Error during upload: ' + error);
         } else {
-          $("#uploadAlert").hide();
-          $("#uploadSuccess").show();
+          $('#uploadAlert').hide();
+          $('#uploadSuccess').show();
           // alert('File "' + fileObj.name + '" successfully uploaded');
         }
         template.currentUpload.set(false);
@@ -789,5 +809,5 @@ Template.projectFileUpload.events({
 
       upload.start();
     }
-  }
+  },
 });

@@ -1,4 +1,4 @@
-import { Meteor } from 'meteor/meteor'
+import { Meteor } from 'meteor/meteor';
 import { Courses } from '/lib/collections/courses.js';
 import { Projects } from '/lib/collections/projects.js';
 import { Template } from 'meteor/templating';
@@ -6,14 +6,13 @@ import lodash from 'lodash';
 import toastr from 'toastr';
 import './course.html';
 
-
 Template.course.onCreated (function courseOnCreated() {
   this.subscribe("userCourses");
   this.editActive = new ReactiveVar(false);
 });
 
 Template.course.helpers({
-  getCollection(){
+  getCollection() {
     return Courses;
   },
   currentDoc(){
@@ -36,7 +35,7 @@ Template.course.events({
   "click .btn-create-course" (event) {
     Template.instance().editActive.set(true);
   },
-  "click .btn-abort-editing" (event) {
+  'click .btn-abort-editing' (event) {
     Template.instance().editActive.set(false);
   },
 });

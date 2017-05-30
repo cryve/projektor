@@ -1,15 +1,15 @@
 import { Projects } from '../../../lib/collections/projects.js';
-import {Images} from "/lib/collections/images.js";
-import { Studies } from "/lib/collections/studies.js";
+import { Images } from '/lib/collections/images.js';
+import { Studies } from '/lib/collections/studies.js';
 
 Template.userList.onCreated(function userListOnCreated() {
   this.endOfUsers = new ReactiveVar(2);
-  this.userItems = new ReactiveArray(["loadUser"]);
+  this.userItems = new ReactiveArray(['loadUser']);
 });
 
 Template.userList.helpers({
-  userItems(){
-    if (Template.instance().userItems.array()){
+  userItems() {
+    if (Template.instance().userItems.array()) {
       return Template.instance().userItems.array();
     }
   },
@@ -19,85 +19,80 @@ Template.userList.helpers({
 });
 
 Template.userList.events({
-  "click #viewMore"(event){
-    var amountOfUser =  Meteor.users.find({});
+  'click #viewMore'(event) {
+    const amountOfUser = Meteor.users.find({});
     const value = Template.instance().endOfUsers.get();
-    var number = value * 50;
-    $("#loader").css({'display':'block'});
-    //$(event.currentTarget).addClass('load-more--loading');
+    const number = value * 50;
+    $('#loader').css({ display: 'block' });
+    // $(event.currentTarget).addClass('load-more--loading');
     event.preventDefault();
-    Template.instance().userItems.push("loadUser");
-    if (number < amountOfUser.count()){
+    Template.instance().userItems.push('loadUser');
+    if (number < amountOfUser.count()) {
       console.log(number);
       console.log(amountOfUser.count());
       const newValue = value + 1;
       Template.instance().endOfUsers.set(newValue);
-    }
-    else {
+    } else {
       console.log(number);
       console.log(amountOfUser.count());
       Template.instance().endOfUsers.set(false);
     }
   },
 
-  'submit .new-tag' (event){
+  'submit .new-tag' (event) {
     event.preventDefault();
     Template.instance().keyWord.push($('#listExName').val());
     Template.instance().setSearch.set(false);
     return $('#listExName').val('');
-
   },
-  'click #listExAdd' (event){
+  'click #listExAdd' (event) {
     event.preventDefault();
     Template.instance().keyWord.push($('#listExName').val());
     Template.instance().setSearch.set(false);
     return $('#listExName').val('');
-
   },
   'click .listExRemove' (event) {
     Template.instance().setSearch.set(false);
     return Template.instance().keyWord.remove(this.toString());
-
   },
   'click .listRemove' (event) {
     Template.instance().setSearch.set(false);
     return Template.instance().keyWord.clear();
-
   },
-  'change #sortStatus' (event, template){
-    var selectedSort = template.$("#sortStatus").val();
+  'change #sortStatus' (event, template) {
+    const selectedSort = template.$('#sortStatus').val();
     console.log(selectedSort);
     Template.instance().setSort.set(selectedSort);
   },
   'change .sorting': (event) => {
     ProjectsIndex.getComponentMethods()
-      .addProps('sortBy', $(event.target).val())
+      .addProps('sortBy', $(event.target).val());
   },
 });
 
-Template.loadUser.onCreated(function loadUserOnCreated(){
+Template.loadUser.onCreated(function loadUserOnCreated() {
   this.subscribe('users.list.all');
 });
 
 Template.loadUser.helpers({
   studyCourseName(studyCourseId, departmentId, facultyId) {
     const studyCourse = Studies.findOne({ $and: [
-      { "studyCourseId": studyCourseId },
-      { "departmentId": departmentId },
-      { "facultyId": facultyId }
-    ]});
+      { studyCourseId },
+      { departmentId },
+      { facultyId },
+    ] });
     return studyCourse && studyCourse.studyCourseName;
   },
-  getAvatarURL (userId, version){
-    var user = Meteor.users.findOne({_id: userId});
-    var image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
-    return (image && image.versions[version]) ? image.link(version) : "/img/"+version+".jpg";
+  getAvatarURL (userId, version) {
+    const user = Meteor.users.findOne({ _id: userId });
+    const image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
+    return (image && image.versions[version]) ? image.link(version) : `/img/${version}.jpg`;
   },
-  documents: function () {
-    var skip = Template.instance().data * 50
-    $("#loader").css({'display':'none'});
+  documents () {
+    const skip = Template.instance().data * 50;
+    $('#loader').css({ display: 'none' });
     // $('.load-more--loading').removeClass('load-more--loading');
-    return Meteor.users.find({}, {skip: skip, limit: 50,sort: { createdAt: -1 }})
+    return Meteor.users.find({}, { skip, limit: 50, sort: { createdAt: -1 } });
   },
 });
 

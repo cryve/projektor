@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import { Projects } from '/lib/collections/projects.js';
-import {Images} from "/lib/collections/images.js";
+import { Images } from '/lib/collections/images.js';
 // import truncate from "truncate.js";
 // import trunk8 from "trunk8";
 import './project_card.html';
@@ -10,7 +10,7 @@ import './project_card.html';
 //   this.subscribe("projectsAll");
 // });
 
-/*Template.projectCard.onRendered(function() {
+/* Template.projectCard.onRendered(function() {
   // this.autorun(function(){
   //   data = Blaze.getData();
   //   $('img[rel="tooltip"]').tooltip();
@@ -47,13 +47,12 @@ import './project_card.html';
 // });
 
 Template.projectCard.events({
-  "click .front": function(event, template){
-      $('.flipped').removeClass("flipped");
-    $(event.currentTarget).parent().addClass("flipped");
-
+  'click .front'(event, template) {
+    $('.flipped').removeClass('flipped');
+    $(event.currentTarget).parent().addClass('flipped');
   },
-  "click .back": function(event, template){
-    $(event.currentTarget).parent().removeClass("flipped");
+  'click .back'(event, template) {
+    $(event.currentTarget).parent().removeClass('flipped');
   },
 });
 // Template.projectCard.events({
@@ -66,7 +65,7 @@ Template.projectCard.events({
 //     $(event.currentTarget).parent().removeClass("flipped");
 //   },
 // });
-/*Template.projectCardCoverless.onRendered(function() {
+/* Template.projectCardCoverless.onRendered(function() {
   this.autorun(function(){
     data = Blaze.getData();
     $('img[rel="tooltip"]').tooltip();
@@ -87,7 +86,7 @@ Template.projectCard.events({
 //    }
 //  });
 
-/*Template.projectCardCoverless.onRendered(function() {
+/* Template.projectCardCoverless.onRendered(function() {
   $('[data-toggle="tooltip"]').tooltip();
 });*/
 
@@ -210,17 +209,16 @@ Template.projectCard.helpers({
       return Projects.findOne(this.projectId);
     }
   },
-  getAvatarURL (userId, version){
-    var user = Meteor.users.findOne({_id: userId});
-    var image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
-    return (image && image.versions[version]) ? image.link(version) : "/img/"+version+".jpg";
+  getAvatarURL (userId, version) {
+    const user = Meteor.users.findOne({ _id: userId });
+    const image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
+    return (image && image.versions[version]) ? image.link(version) : `/img/${version}.jpg`;
   },
   itemsToShow(totalItems, maxItems, placeholderItems) {
-    return (totalItems <= maxItems) ? totalItems : maxItems-placeholderItems;
-   },
+    return (totalItems <= maxItems) ? totalItems : maxItems - placeholderItems;
+  },
   itemsRemaining(totalItems, maxItems, placeholderItems) {
-    if(totalItems > maxItems)
-      return totalItems-(maxItems-placeholderItems);
+    if (totalItems > maxItems) { return totalItems - (maxItems - placeholderItems); }
   },
 });
 
@@ -291,16 +289,15 @@ Template.projectCardMemberItem.helpers({
 });
 
 Template.projectCardJobs.helpers({
-   projects() {
+  projects() {
     return Projects.find({}, { sort: { createdAt: -1 } });
-   },
+  },
   itemsToShow(totalItems, maxItems, placeholderItems) {
-    return (totalItems <= maxItems) ? totalItems : maxItems-placeholderItems;
-   },
+    return (totalItems <= maxItems) ? totalItems : maxItems - placeholderItems;
+  },
   itemsRemaining(totalItems, maxItems, placeholderItems) {
-    if(totalItems > maxItems)
-      return totalItems-(maxItems-placeholderItems);
-  }
+    if (totalItems > maxItems) { return totalItems - (maxItems - placeholderItems); }
+  },
 });
 
 // Template.projectCardTitle.onRendered(function() {
