@@ -138,8 +138,9 @@
         <div class="project-cards">
       <div class="row">
         {{#each project in courseProjects}}
+        {{log project}}
           <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 containerFlipCourse">
-            {{>projectCard currentDoc=project checkIfCourse=project._id}}
+            {{>projectCard currentDoc=project checkIfCourse=project._id projectId=project._id}}
           </div>
         {{/each}}
       </div>

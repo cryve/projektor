@@ -201,7 +201,14 @@ Template.projectCard.onRendered(function() {
 
 Template.projectCard.helpers({
   projectCard() {
-    return Projects.findOne(this.projectId);
+    if (this.checkIfCourse){
+      var project = Projects.findOne(this.projectId);
+      project.checkIfCourse = this.checkIfCourse;
+      return project
+    }
+    else{
+      return Projects.findOne(this.projectId);
+    }
   },
   getAvatarURL (userId, version){
     var user = Meteor.users.findOne({_id: userId});

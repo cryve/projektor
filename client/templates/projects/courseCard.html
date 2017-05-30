@@ -2,7 +2,6 @@
   {{#with courseCard}}
     <li class="survey-item">
       <span class="survey-name">
-        {{log this}}
         <a href="{{pathFor 'course' courseId=_id courseName=(encodeUrlString courseName)}}">
           {{courseName}}
         </a>

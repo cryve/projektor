@@ -6,7 +6,7 @@ Template.courseCard.onCreated (function courseOnCreated() {
     this.subscribe("courseProjects", Template.currentData().courseId);
     this.subscribe("courseCard", Template.currentData().courseId);
   });
-  this.subscribe("usersAll");
+  this.subscribe("usersCourseAll");
   this.editActive = new ReactiveVar(false);
   this.editCourse = new ReactiveVar(false);
 });

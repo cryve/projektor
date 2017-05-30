@@ -34,7 +34,6 @@
       </a>
     </div>
     <div class="media-body">
-        {{log this}}
         {{#if $and editActive (hasPermissions 'editInfos,manageMembers' currentDoc) }}
           {{#autoForm id="member" type="method-update" singleMethodArgument=true meteormethod=(getMethodString currentCollection._name "updateMember") doc=currentDoc collection=currentCollection setArrayItems=true}}
             <div class="form-group">
