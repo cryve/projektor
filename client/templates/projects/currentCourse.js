@@ -88,7 +88,14 @@ Template.currentCourse.helpers({
     return Template.instance().deadline.get();
   },
   courseProjects() {
-    return Projects.findFromPublication('courseProjects');
+    const course = Courses.findOne(FlowRouter.getParam('courseId'));
+    const ownersAsSupervisors = [];
+    course && lodash.forEach(course.owner, function(ownerId) {
+      const owner = Meteor.users.findOne(ownerId);
+      ownersAsSupervisors.push({ userId: owner._id, role: owner.profile.title });
+    });
+    return Projects.find({courseId:course._id, supervisors: { $in: ownersAsSupervisors },
+    }, { sort: { createdAt: -1 } }, { fields: Projects.memberFields });
   },
   getCollection() {
     return Courses;
