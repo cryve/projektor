@@ -59,9 +59,11 @@ Template.addCourse.events({
     Template.instance().editActive.set(false);
   },
   'click .btn-edit-course' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(true);
   },
   'click .btn-delete-course' (event) {
+    event.preventDefault();
     deleteEditableCourse.call({
       collectionName: this.currentCollection._name,
       docId: this.currentDoc._id,
@@ -143,6 +145,7 @@ Template.notesBoxSupervisors.helpers({
 
 Template.notesBoxSupervisors.events({
   'click .btn-edit-description' (event) {
+    event.preventDefault();
     console.log(Template.instance().editActive.get());
     Template.instance().editActive.set(true);
     console.log(Template.instance().editActive.get());
@@ -207,6 +210,7 @@ Template.member.helpers({
 
 Template.member.events({
   'click .btn-delete-member' (event) {
+    event.preventDefault();
     deleteEditableArrayItem.call({
       collectionName: this.currentCollection._name,
       docId: this.currentDoc._id,
@@ -219,12 +223,14 @@ Template.member.events({
     });
   },
   'click .btn-edit-member' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(true);
   },
   'click .btn-abort-editing' (event) {
     Template.instance().editActive.set(false);
   },
   'click .show-leave-modal'(event) {
+    event.preventDefault();
     Modal.show('leaveGroupModal', {
       collectionName: this.currentCollection._name,
       docId: this.currentDoc._id,
@@ -321,6 +327,7 @@ Template.supervisor.onCreated(function supervisorOnCreated() {
 
 Template.supervisor.events({
   'click .btn-delete-supervisor'(event) {
+    event.preventDefault();
     deleteEditableArrayItem.call({
       collectionName: this.currentCollection._name,
       docId: this.currentDoc._id,
@@ -333,6 +340,7 @@ Template.supervisor.events({
     });
   },
   'click .show-leave-modal'(event) {
+    event.preventDefault();
     Modal.show('leaveGroupModal', {
       collectionName: this.currentCollection._name,
       docId: this.currentDoc._id,
@@ -375,6 +383,7 @@ Template.contactItem.helpers({
 
 Template.contactItem.events({
   'click .btn-delete-contact' (event) {
+    event.preventDefault();
     deleteEditableArrayItem.call({
       collectionName: this.currentCollection._name,
       docId: this.currentDoc._id,
@@ -387,6 +396,7 @@ Template.contactItem.events({
     });
   },
   'click .btn-edit-contact' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(true);
   },
   'click .btn-abort-editing' (event) {
@@ -441,6 +451,7 @@ Template.editTitle.helpers({
 
 Template.editTitle.events({
   'click .btn-edit-title' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(true);
   },
   'click .btn-abort-editing' (event) {
@@ -460,6 +471,7 @@ Template.editDescription.helpers({
 
 Template.editDescription.events({
   'click .btn-edit-description' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(true);
   },
   'click .btn-abort-editing' (event) {
@@ -479,6 +491,7 @@ Template.editTags.helpers({
 
 Template.editTags.events({
   'click .btn-edit-tags' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(true);
   },
   'click .btn-abort-editing' (event) {
@@ -523,6 +536,7 @@ Template.jobItem.helpers({
 
 Template.jobItem.events({
   'click .btn-delete-job' (event) {
+    event.preventDefault();
     deleteEditableArrayItem.call({
       collectionName: this.currentCollection._name,
       docId: this.currentDoc._id,
@@ -535,9 +549,11 @@ Template.jobItem.events({
     });
   },
   'click .btn-edit-job' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(true);
   },
   'click .btn-abort-editing' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(false);
   },
 });
@@ -554,6 +570,7 @@ Template.editOccasions.helpers({
 
 Template.editOccasions.events({
   'click .btn-edit-occasions' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(true);
   },
   'click .btn-abort-editing' (event) {
@@ -579,6 +596,7 @@ Template.editDeadline.helpers({
 
 Template.editDeadline.events({
   'click .btn-edit-deadline' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(true);
   },
   'click .btn-abort-editing' (event) {
@@ -598,6 +616,7 @@ Template.editBeginning.helpers({
 
 Template.editBeginning.events({
   'click .btn-edit-beginning' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(true);
   },
   'click .btn-abort-editing' (event) {
@@ -626,6 +645,7 @@ Template.editTeamCommunication.helpers({
 
 Template.editTeamCommunication.events({
   'click .btn-edit-teamcomm' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(true);
   },
   'click .btn-abort-editing' (event) {

@@ -18,6 +18,7 @@ Template.editAboutMe.helpers({
 
 Template.editAboutMe.events({
   'click .btn-edit-description' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(true);
   },
   'click .btn-abort-editing' (event) {
@@ -37,6 +38,7 @@ Template.editSkills.helpers({
 
 Template.editSkills.events({
   'click .btn-edit-tags' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(true);
   },
   'click .btn-abort-editing' (event) {
@@ -75,6 +77,7 @@ Template.contactItemUser.helpers({
 
 Template.contactItemUser.events({
   'click .btn-delete-contact' (event) {
+    event.preventDefault();
     deleteEditableArrayItem.call({
       collectionName: this.currentCollection._name,
       docId: this.currentDoc._id,
@@ -87,6 +90,7 @@ Template.contactItemUser.events({
     });
   },
   'click .btn-edit-contact' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(true);
   },
   'click .btn-abort-editing' (event) {
@@ -160,6 +164,7 @@ Template.linkItem.helpers({
 
 Template.linkItem.events({
   'click .btn-delete-link' (event) {
+    event.preventDefault();
     deleteEditableArrayItem.call({
       collectionName: this.currentCollection._name,
       docId: this.currentDoc._id,
@@ -172,6 +177,7 @@ Template.linkItem.events({
     });
   },
   'click .btn-edit-contact' (event) {
+    event.preventDefault();
     Template.instance().editActive.set(true);
   },
   'click .btn-abort-editing' (event) {

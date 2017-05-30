@@ -149,6 +149,7 @@ Template.currentCourse.events({
     });
   },
   'click .btn-edit-deadline' (event) {
+    event.preventDefault();
     if (Template.instance().deadline.get()) {
       Template.instance().deadline.set(false);
     } else {
@@ -163,6 +164,7 @@ Template.currentCourse.events({
     Template.instance().addSupervisor.set(false);
   },
   'click .btn-add-supervisor' (event) {
+    event.preventDefault();
     if (Template.instance().addSupervisor.get()) {
       Template.instance().addSupervisor.set(false);
     } else {
@@ -170,6 +172,7 @@ Template.currentCourse.events({
     }
   },
   'click .btn-add-selfEntering' (event) {
+    event.preventDefault();
     if (Template.instance().selfEntering.get()) {
       Template.instance().selfEntering.set(false);
     } else {

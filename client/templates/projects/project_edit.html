@@ -69,10 +69,10 @@
               <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-member"></span></a>
             {{/if}}
             {{#if $and ($neq this.userId currentUser._id) (hasPermissions 'editInfos,manageMembers' currentDoc) }}
-              <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-member"></span></a>
+              <a href="#"><span class="glyphicon glyphicon-minus text-danger btn-delete-member"></span></a>
             {{else}}
               {{#if showLeaveButton }}
-                <a href=""><span class="glyphicon glyphicon-minus text-danger show-leave-modal"></span></a>
+                <a href="#"><span class="glyphicon glyphicon-minus text-danger show-leave-modal"></span></a>
               {{/if}}
             {{/if}}
           </h4>
@@ -125,7 +125,7 @@
       {{medium}}: {{approach}}
       {{#if hasPermissions 'editInfos' currentDoc }}
         <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-contact"></span></a>
-        <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-contact"></span></a>
+        <a href="#"><span class="glyphicon glyphicon-minus text-danger btn-delete-contact"></span></a>
       {{/if}}
     {{/if}}
   </li>
@@ -256,7 +256,7 @@
         {{jobLabel}}
         {{#if hasPermissions 'editInfos' currentDoc}}
           <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-job"></span></a>
-          <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-job"></span></a>
+          <a href="#"><span class="glyphicon glyphicon-minus text-danger btn-delete-job"></span></a>
         {{/if}}
       </li>
     {{/if}}
@@ -344,10 +344,10 @@
       <h4 class="media-heading">
         <a href="{{pathFor 'userProfile' userId=this.userId uniqueName=(getEmailName this.userId) }}">{{user.profile.fullname}}</a>
         {{#if $and ($neq this.userId currentUser._id) (hasPermissions 'manageMembers' currentDoc) }}
-          <a href=""><span class="glyphicon glyphicon-minus text-danger btn-delete-supervisor"></span></a>
+          <a href="#"><span class="glyphicon glyphicon-minus text-danger btn-delete-supervisor"></span></a>
         {{else}}
           {{#if showLeaveButton }}
-            <a href=""><span class="glyphicon glyphicon-minus text-danger show-leave-modal"></span></a>
+            <a href="#"><span class="glyphicon glyphicon-minus text-danger show-leave-modal"></span></a>
           {{/if}}
         {{/if}}
       </h4>

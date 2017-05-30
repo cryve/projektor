@@ -95,6 +95,7 @@ Template.course.events({
     Template.instance().editCourse.set(false);
   },
   'click .btn-delete-course' (event) {
+    event.preventDefault();
     const result = event.currentTarget;
     const courseId = result.dataset.id;
     const course = Courses.findOne(courseId);
@@ -104,6 +105,7 @@ Template.course.events({
     });
   },
   'click .btn-edit-course' (event) {
+    event.preventDefault();
     const result = event.currentTarget;
     const courseId = result.dataset.id;
     Template.instance().editActive.set(false);
