@@ -177,8 +177,9 @@ Template.editableProject.events({
       }
     });
     const course = Courses.findOne(this.courseId);
+    console.log(this.courseId);
     if (course && this.supervisors && this.supervisors[0] && (Meteor.userId() == this.supervisors[0].userId) && (Meteor.userId() == course.owner)) {
-      FlowRouter.go('course', { _id: this.courseId, name: encodeURIComponent(course.courseName) });
+      FlowRouter.go('course', { courseId: this.courseId, courseName: encodeURIComponent(course.courseName) });
     } else {
       FlowRouter.go('landingPage');
       Session.set('result', 'null');

@@ -393,7 +393,7 @@ Template.leaveCourseModal.events({
       if (err) {
         alert(err);
       }
-      FlowRouter.go('courses', { _id: Meteor.userId() });
+      FlowRouter.go('courses');
       toastr.success('Kurs erfolgreich verlassen!');
       Modal.hide();
     });
