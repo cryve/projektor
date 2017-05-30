@@ -173,7 +173,7 @@ Template.editableProject.events({
       if (err) {
         alert(err);
       } else {
-        alert('Dein Entwurf wurde gelöscht!');
+        toastr.success('Entwurf erfolgreich gelöscht!');
       }
     });
     const course = Courses.findOne(this.courseId);
