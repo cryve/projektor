@@ -67,7 +67,8 @@ Template.currentCourse.helpers({
   },
   courseKey(){
     var course = Courses.findOne(FlowRouter.getParam('courseId'));
-    return CryptoJS.AES.decrypt(course.courseKey, 'Passphrase').toString(CryptoJS.enc.Utf8);
+    //return CryptoJS.AES.decrypt(course.courseKey, 'Passphrase').toString(CryptoJS.enc.Utf8);
+    return course.courseKey;
   },
   course() {
     return Courses.findOne(FlowRouter.getParam('courseId'));

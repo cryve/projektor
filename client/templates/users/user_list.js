@@ -71,7 +71,7 @@ Template.userList.events({
 });
 
 Template.loadUser.onCreated(function loadUserOnCreated() {
-  this.subscribe('users.list.all');
+  this.subscribe('user.profile.all');
 });
 
 Template.loadUser.helpers({
@@ -98,7 +98,7 @@ Template.loadUser.helpers({
 
 Template.userListItem.onCreated(function userListItemOnCreated() {
   this.autorun(() => {
-    this.subscribe('users.profile.single', Template.currentData().userId);
+    //this.subscribe('users.profile.single', Template.currentData().userId);
     this.subscribe('files.images.avatar', Template.currentData().userId);
   });
 });
