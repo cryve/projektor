@@ -41,7 +41,6 @@ AutoForm.addHooks([
   'updateCourse',
 ], {
   onSuccess(formType, result) {
-    this.template.parent().editCourse.set(false);
     this.template.parent().editActive.set(false);
   },
 });

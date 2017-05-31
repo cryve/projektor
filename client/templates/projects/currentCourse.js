@@ -65,11 +65,6 @@ Template.currentCourse.helpers({
     };
     return false;
   },
-  courseKey(){
-    var course = Courses.findOne(FlowRouter.getParam('courseId'));
-    //return CryptoJS.AES.decrypt(course.courseKey, 'Passphrase').toString(CryptoJS.enc.Utf8);
-    return course.courseKey;
-  },
   course() {
     return Courses.findOne(FlowRouter.getParam('courseId'));
   },
@@ -419,23 +414,30 @@ Template.deleteCourseModal.events({
 
 Template.editCourse.onCreated(function editModalOnCreated(){
   toastr.options = {
-  "closeButton": false,
-  "debug": false,
-  "newestOnTop": false,
-  "progressBar": false,
-  "positionClass": "toast-top-left",
-  "preventDuplicates": false,
-  "onclick": null,
-  "showDuration": "300",
-  "hideDuration": "1000",
-  "timeOut": "5000",
-  "extendedTimeOut": "1000",
-  "showEasing": "swing",
-  "hideEasing": "linear",
-  "showMethod": "fadeIn",
-  "hideMethod": "fadeOut"
-  }
-})
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-top-left",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  };
+  this.editActive = new ReactiveVar(true);
+  this.autorun(() => {
+    if(!Template.instance().editActive.get()){
+      toastr.success('Kursdaten wurden erfolgreich Aktualisiert!');
+      Modal.hide();
+    }
+  });
+});
 
 Template.editCourse.helpers({
   getCollection(){
@@ -443,5 +445,5 @@ Template.editCourse.helpers({
   },
   currentDoc(){
     return Courses.findOne(this.courseId);
-  }
-})
+  },
+});
