@@ -229,7 +229,9 @@
     {{/autoForm}}
     {{ else }}
       {{#if currentDoc.tags}}
-        {{currentDoc.tags}}
+        {{#each tag in currentDoc.tags}}
+          <span class="label label-default">{{tag}}</span>
+        {{/each}}
       {{else}}
         {{#if hasPermissions 'editInfos' currentDoc }}
           <span class="text-primary"><em>Tags hinzufügen</em></span>
