@@ -65,7 +65,7 @@
           <ul>
             {{#each project in userProjects}}
               <div class="col-lg-3">
-                {{>projectCard currentDoc=project}}
+                {{>projectCard projectId=project._id}}
               </div>
             {{/each}}
           </ul>
