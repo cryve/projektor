@@ -146,9 +146,7 @@ Template.notesBoxSupervisors.helpers({
 Template.notesBoxSupervisors.events({
   'click .btn-edit-description' (event) {
     event.preventDefault();
-    console.log(Template.instance().editActive.get());
     Template.instance().editActive.set(true);
-    console.log(Template.instance().editActive.get());
   },
   'click .btn-abort-editing' (event) {
     Template.instance().editActive.set(false);
@@ -753,14 +751,11 @@ Template.addTeamCommItem.events({
 
 Template.projectFileUpload.onCreated(function () {
   this.currentUpload = new ReactiveVar(false);
-  console.log(this.data.currentDoc);
   if (this && this.data.currentDoc && this.data.currentDoc.isNewProject && this.data.currentDoc.pdfs && this.data.currentDoc._id){
-    console.log("test1");
     this.autorun(() => {
       this.subscribe('files.draftFiles.single', this.data.currentDoc._id);
     });
   } else if(this && this.data.currentDoc && this.data.currentDoc._id && this.data.currentDoc.pdfs && !this.data.currentDoc.isNewProject) {
-    console.log("test2");
     this.autorun(() => {
       this.subscribe('files.projectFiles.single', this.data.currentDoc._id);
     });

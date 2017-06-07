@@ -228,15 +228,15 @@
     </div>
     {{/autoForm}}
     {{ else }}
-      {{#if currentDoc.tags}}
-        {{currentDoc.tags}}
-      {{else}}
-        {{#if hasPermissions 'editInfos' currentDoc }}
-          <span class="text-primary"><em>Tags hinzufügen</em></span>
-        {{/if}}
+      {{#if hasPermissions 'editInfos' currentDoc }}
+        <a href="#"><span class="text-primary btn-edit-tags"><em>Tags hinzufügen</em></span><span class="glyphicon glyphicon-pencil text-primary btn-edit-tags"></span></a>
       {{/if}}
-      {{#if hasPermissions 'editInfos' currentDoc}}
-        <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-tags"></span></a>
+      {{#if currentDoc.tags}}
+        <span class="ellipsis-tags line-clamp-2">
+          {{#each tag in currentDoc.tags}}
+            <span class="label label-default" id="tags-color">{{tag}}</span>
+          {{/each}}
+        </span>
       {{/if}}
     {{/if}}
 </template>
@@ -323,11 +323,8 @@
       {{arrayToString currentDoc.occasions}}
     {{else}}
       {{#if hasPermissions 'editInfos' currentDoc }}
-        <span class="text-primary"><em>Kurs, Projektschein oder sonstige Motivation</em></span>
+        <a href="#"><span class="text-primary btn-edit-occasions"><em>Kurs, Projektschein oder sonstige Motivation</em></span><span class="glyphicon glyphicon-pencil text-primary btn-edit-occasions"></span></a>
       {{/if}}
-    {{/if}}
-    {{#if hasPermissions 'editInfos' currentDoc }}
-      <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-occasions"></span></a>
     {{/if}}
   {{/if}}
 </template>
@@ -419,11 +416,8 @@
       {{readableDate currentDoc.beginning}}
     {{else}}
       {{#if hasPermissions 'editInfos' currentDoc }}
-        <span class="text-primary"><em>Wann fängt das Projekt an?</em></span>
+        <a href="#"><span class="text-primary btn-edit-beginning"><em>Wann fängt das Projekt an?</em></span> <span class="glyphicon glyphicon-pencil text-primary btn-edit-beginning"></span></a>
       {{/if}}
-    {{/if}}
-    {{#if hasPermissions 'editInfos' currentDoc }}
-      <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-beginning"></span></a>
     {{/if}}
   {{/if}}
 </template>

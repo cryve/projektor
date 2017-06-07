@@ -13,6 +13,7 @@ Template.userProfile.onCreated(function userProfileOnCreated() {
     if(userId){
       this.subscribe('users.profile.single', userId);
       this.subscribe('userProjects', userId);
+      this.subscribe('supervisorProjects', userId);
       this.subscribe('singleStudyInfo', userId);
       this.subscribe('files.images.avatar', userId);
     }
@@ -46,6 +47,9 @@ Template.userProfile.helpers({
   },
   userProjects() {
     return Projects.find({ team: { $elemMatch: { userId: this._id } } }, { sort: { createdAt: -1 } });
+  },
+  supervisorProjects() {
+    return Projects.find({ supervisors: { $elemMatch: { userId: this._id } } }, { sort: { createdAt: -1 } });
   },
   getUserCollection() {
     return Meteor.users;

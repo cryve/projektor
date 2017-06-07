@@ -47,28 +47,47 @@
           </div>
         </div> <!-- /.panel Link -->
       <div class="panel panel-default">
-          <div class="panel-heading">
-            <h2 class="panel-title">Links</h2>
-          </div>
-          <div class="panel-body">
-            <ul class="list-unstyled">
-              {{#each link in this.profile.links}}
-                {{>linkItem medium=link.medium approach=link.approach currentDoc=this currentCollection=getUserCollection slot=@index}}
-              {{/each}}
-              {{> addLink currentDoc=this currentCollection=getUserCollection }}
-            </ul>
-          </div>
-        </div> <!-- /.panel Link -->
+        <div class="panel-heading">
+          <h2 class="panel-title">Links</h2>
+        </div>
+        <div class="panel-body">
+          <ul class="list-unstyled">
+            {{#each link in this.profile.links}}
+              {{>linkItem medium=link.medium approach=link.approach currentDoc=this currentCollection=getUserCollection slot=@index}}
+            {{/each}}
+            {{> addLink currentDoc=this currentCollection=getUserCollection }}
+          </ul>
+        </div>
+      </div> <!-- /.panel Link -->
       <div class="project-cards">
         <div class="row">
-          <div>Meine Projekte</div>
-          <ul>
-            {{#each project in userProjects}}
-              <div class="col-lg-3">
-                {{>projectCard projectId=project._id}}
-              </div>
-            {{/each}}
-          </ul>
+          <div class="col-sm-12">
+            <h2 class="panel-title">Meine Projekte</h2>
+            <br>
+            <ul>
+              {{#each project in userProjects}}
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 containerFlip">
+                  {{>projectCard projectId=project._id}}
+                </div>
+              {{/each}}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-cards">
+        <div class="row">
+          <div class="col-sm-12">
+            <h2 class="panel-title">Meine betreuten Projekte</h2>
+            <br>
+            <ul>
+              {{#each project in supervisorProjects}}
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 containerFlip">
+                  {{>projectCard projectId=project._id}}
+                </div>
+              {{/each}}
+            </ul>
+          </div>
         </div>
       </div>
     {{/with}}
