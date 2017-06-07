@@ -75,19 +75,6 @@ Template.loadUser.onCreated(function loadUserOnCreated() {
 });
 
 Template.loadUser.helpers({
-  studyCourseName(studyCourseId, departmentId, facultyId) {
-    const studyCourse = Studies.findOne({ $and: [
-      { studyCourseId },
-      { departmentId },
-      { facultyId },
-    ] });
-    return studyCourse && studyCourse.studyCourseName;
-  },
-  getAvatarURL (userId, version) {
-    const user = Meteor.users.findOne({ _id: userId });
-    const image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
-    return (image && image.versions[version]) ? image.link(version) : `/img/${version}.jpg`;
-  },
   documents () {
     const skip = Template.instance().data * 50;
     $('#loader').css({ display: 'none' });
@@ -99,11 +86,22 @@ Template.loadUser.helpers({
 Template.userListItem.onCreated(function userListItemOnCreated() {
   this.autorun(() => {
     //this.subscribe('users.profile.single', Template.currentData().userId);
-    this.subscribe('files.images.avatar', Template.currentData().userId);
+    if (Template.currentData().userId){
+      this.subscribe('files.images.avatar', Template.currentData().userId);
+      this.subscribe('singleStudyInfo', Template.currentData().userId);
+    }
   });
 });
 
 Template.userListItem.helpers({
+  studyCourseName(studyCourseId, departmentId, facultyId) {
+    const studyCourse = Studies.findOne({ $and: [
+      { studyCourseId },
+      { departmentId },
+      { facultyId },
+    ] });
+    return studyCourse && studyCourse.studyCourseName;
+  },
   user() {
     return Meteor.users.findOne(this.userId);
   },

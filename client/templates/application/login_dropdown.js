@@ -4,7 +4,9 @@ import './login_dropdown.html';
 
 Template.loginDropdown.onCreated(function() {
   this.autorun(() => {
-    this.subscribe('files.images.avatar', Meteor.userId());
+    if(Meteor.userId()){
+      this.subscribe('files.images.avatar', Meteor.userId());
+    }
   });
 });
 

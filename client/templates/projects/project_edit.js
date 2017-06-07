@@ -158,8 +158,10 @@ Template.notesBoxSupervisors.events({
 Template.member.onCreated(function() {
   this.editActive = new ReactiveVar(false);
   this.autorun(() => {
-    this.subscribe('users.profile.single', Template.currentData().userId);
-    this.subscribe('files.images.avatar', Template.currentData().userId);
+    if(Template.currentData().userId){
+      this.subscribe('users.profile.single', Template.currentData().userId);
+      this.subscribe('files.images.avatar', Template.currentData().userId);
+    }
   });
   this.subscribe('users.list.all');
 });
@@ -320,8 +322,10 @@ Template.supervisor.helpers({
 
 Template.supervisor.onCreated(function supervisorOnCreated() {
   this.autorun(() => {
-    this.subscribe('users.profile.single', Template.currentData().userId);
-    this.subscribe('files.images.avatar', Template.currentData().userId);
+    if (Template.currentData().userId){
+      this.subscribe('users.profile.single', Template.currentData().userId);
+      this.subscribe('files.images.avatar', Template.currentData().userId);
+    }
   });
 });
 

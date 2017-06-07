@@ -224,7 +224,9 @@ Template.projectCard.helpers({
 
 Template.projectCardCover.onCreated(function projectCardCoverOnCreated() {
   this.autorun(() => {
-    this.subscribe('files.images.single', Template.currentData().imgId);
+    if(Template.currentData().imgId){
+      this.subscribe('files.images.single', Template.currentData().imgId);
+    }
   });
 });
 
@@ -272,8 +274,10 @@ Template.projectCardCover.helpers({
 
 Template.projectCardMemberItem.onCreated(function projectCardMemberItemOnCreated() {
   this.autorun(() => {
-    this.subscribe('users.list.single', Template.currentData().userId);
-    this.subscribe('files.images.avatar', Template.currentData().userId);
+    if(Template.currentData().userId){
+      this.subscribe('users.list.single', Template.currentData().userId);
+      this.subscribe('files.images.avatar', Template.currentData().userId);
+    }
   });
 });
 

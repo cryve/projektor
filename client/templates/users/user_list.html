@@ -71,7 +71,7 @@
       </td>
       <td>{{profile.firstname}}</td>
       <td>{{profile.lastname}}</td>
-      <td>{{profile.studyCourse}}</td>
+      <td>{{studyCourseName profile.studyCourseId profile.departmentId profile.facultyId}}</td>
       <td>
         {{#each skill in profile.skills}}
           <span class="label label-default">{{skill}}</span>

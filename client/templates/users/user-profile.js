@@ -10,10 +10,12 @@ Template.userProfile.onCreated(function userProfileOnCreated() {
   Session.set('previousRoute', FlowRouter.getRouteName());
   this.autorun(() => {
     const userId = FlowRouter.getParam('userId');
-    this.subscribe('users.profile.single', userId);
-    this.subscribe('userProjects', userId);
-    this.subscribe('singleStudyInfo', userId);
-    this.subscribe('files.images.avatar', userId);
+    if(userId){
+      this.subscribe('users.profile.single', userId);
+      this.subscribe('userProjects', userId);
+      this.subscribe('singleStudyInfo', userId);
+      this.subscribe('files.images.avatar', userId);
+    }
   });
 });
 
