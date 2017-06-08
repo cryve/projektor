@@ -146,7 +146,7 @@
 <template name="loadCards">
   {{#each documents}}
     <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 containerFlip">
-      {{>projectCard projectId=this._id}}
+      {{>projectCard projectId=this._id showLoading=true}}
     </div>
   {{/each}}
 </template>

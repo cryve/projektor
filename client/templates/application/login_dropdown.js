@@ -1,16 +1,19 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Images } from '/lib/collections/images.js';
 import './login_dropdown.html';
 
 Template.loginDropdown.onCreated(function() {
   this.autorun(() => {
-    this.subscribe('files.images.avatar', Meteor.userId());
+    if (Meteor.userId()) {
+      this.subscribe('files.images.avatar', Meteor.userId());
+    }
   });
 });
 
 Template.loginDropdown.helpers(_.extend(LDAP.formHelpers, {
   loggingIn() {
-	   return Meteor.loggingIn();
+    return Meteor.loggingIn();
   },
   getAvatarURL (userId, version) {
     const user = Meteor.users.findOne({ _id: userId });
