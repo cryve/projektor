@@ -33,7 +33,11 @@ Template.registerHelper('getFullUsername', (userId) => {
 
 Template.registerHelper('getEmailName', (userId) => {
   const user = Meteor.users.findOne(userId);
-  return user && user.profile.email && user.profile.email.split('@')[0];
+  if (user && user.profile.email){
+    return user.profile.email.split('@')[0];
+  } else {
+    return user && user.profile.firstname + "." + user.profile.lastname;
+  }
 });
 
 Template.registerHelper('arrayToString', array => array && array.join(', '));
@@ -127,11 +131,11 @@ Template.registerHelper('suggestedUsers', (settings) => {
     if (user && user.profile) {
       userList.push({
         value: user._id,
-        label: user.profile.fullname,
+        label: user.profile.fullname + " (" + user.username + ")",
       });
     }
   });
-  // remove users who are already in current group, but keep current user selection (firstOption)
+  console.log(userList);
   if (settings.hash.exclude) {
     settings.hash.exclude.forEach(function(user) {
       if (user.userId !== settings.hash.firstOption) {

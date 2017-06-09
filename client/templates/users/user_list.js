@@ -106,7 +106,7 @@ Template.userListItem.helpers({
     return Meteor.users.findOne(this.userId);
   },
   avatarURL() {
-    const user = Meteor.users.findOne({ _id: this.userId });
+    const user = Meteor.users.findOne(this._id);
     const image = user && user.profile.avatar && Images.findOne(user.profile.avatar);
     return (image && image.versions.avatar50) ? image.link('avatar50') : '/img/avatar50.jpg';
   },

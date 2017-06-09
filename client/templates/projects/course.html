@@ -21,6 +21,15 @@
       </div>
       {{/autoForm}}
     {{/if}}
+    {{#autoForm id="addCourseToCourse" schema=addCourseToCourseSchema type="method" meteormethod=(getMethodString getCollection._name "addCourse") doc=currentDoc }}
+      <div class="form-group">
+        {{> afFieldInput name="courseId" type="select2" options=suggestedCourses placeholder="Kurs auswählen" allowClear=true}}
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
+        <button type="reset" class="btn btn-default btn-abort-course"><span class="glyphicon glyphicon-remove"></span></button>
+      </div>
+    {{/autoForm}}
     <ul class="surveys grid">
       {{#if checkIfCourse}}
         {{#each courses}}

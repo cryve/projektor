@@ -36,7 +36,9 @@
     {{/autoForm}}
     {{ else }}
       {{#if currentDoc.profile.skills}}
-        {{currentDoc.profile.skills}}
+        {{#each tag in currentDoc.profile.skills}}
+          <span class="label label-default">{{tag}}</span>
+        {{/each}}
       {{else}}
         {{#if $eq currentUser._id currentDoc._id}}
           <span class="text-primary"><em>Tags hinzufügen</em></span>

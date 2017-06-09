@@ -553,3 +553,18 @@ hr{
 	height     : calc(1.2em * 1.2);
 	background : linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 75%);
 }
+
+.placeholder-text, .placeholder-image {
+  color: transparent;
+  background-color: #e1e1e1;
+}
+
+.project-card-loader {
+  z-index: 1040;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.project-card-loading-circle {
+  top:45% !important;
+  left:44% !important;
+}

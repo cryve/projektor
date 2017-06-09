@@ -1,82 +1,135 @@
 <template name="projectCard">
-  {{#with projectCard}}
-    <div class="panel panel-default coverless-card" id="{{#unless checkIfCourse}}card{{else}}cardCourse{{/unless}}">
-      <figure class="front" >
-      {{#unless checkIfCourse}}
-        {{>projectCardCover imgId=coverImg}}
-      {{/unless}}
-      <div class="panel-body {{#unless checkIfCourse}}coverless-card-body{{else}} coverless-card-bodyCourse{{/unless}}">
-        <div class="{{#unless checkIfCourse}}coverless-card-title{{else}}coverless-card-titleCourse{{/unless}}">
-          {{> projectCardTitle _id=_id title=title checkIfCourse=checkIfCourse subtitle=subtitle subtitleLines=2 }}
-        </div>
-        <hr class="hr-top" style="{{#if checkIfCourse}}margin-top:20px{{/if}}">
-        <ul class="member-icons list-inline">
-        {{#unless team}}
-          <li>
-            <img class="img-circle img-circle-transparent" rel="tooltip" title="Keine Mitglieder" src={{getAvatarURL 0 "avatar20"}}>
-          </li>
+  {{#if Template.subscriptionsReady}}
+    {{#with projectCard}}
+      <div class="panel panel-default coverless-card" id="{{#unless checkIfCourse}}card{{else}}cardCourse{{/unless}}">
+        <figure class="front" >
+        {{#unless checkIfCourse}}
+          {{>projectCardCover imgId=coverImg}}
         {{/unless}}
-        {{#if $and team ($not checkIfCourse)}}
-          {{#each member in team}}
-            {{#if $lt @index (itemsToShow team.length 6 1)}}
-              {{>projectCardMemberItem userId=member.userId }}
-            {{/if}}
-          {{/each}}
-        {{else}}
-          {{#if $and team checkIfCourse}}
+        <div class="panel-body {{#unless checkIfCourse}}coverless-card-body{{else}} coverless-card-bodyCourse{{/unless}}">
+          <div class="{{#unless checkIfCourse}}coverless-card-title{{else}}coverless-card-titleCourse{{/unless}}">
+            {{> projectCardTitle _id=_id title=title checkIfCourse=checkIfCourse subtitle=subtitle subtitleLines=2 }}
+          </div>
+          <hr class="hr-top" style="{{#if checkIfCourse}}margin-top:20px{{/if}}">
+          <ul class="member-icons list-inline">
+          {{#unless team}}
+            <li>
+              <img class="img-circle img-circle-transparent" rel="tooltip" title="Keine Mitglieder" src={{getAvatarURL 0 "avatar20"}}>
+            </li>
+          {{/unless}}
+          {{#if $and team ($not checkIfCourse)}}
             {{#each member in team}}
-              {{#if $lt @index (itemsToShow team.length 5 1)}}
+              {{#if $lt @index (itemsToShow team.length 6 1)}}
                 {{>projectCardMemberItem userId=member.userId }}
               {{/if}}
             {{/each}}
-          {{/if}}
-        {{/if}}
-          {{#if $and ($not checkIfCourse) (itemsRemaining team.length 6 1)}}
-            <li class="remaining-member">
-              <a class="text-info" href="{{pathFor 'projectDetails' projectId=_id projectTitle=(encodeUrlString title)}}">
-                <div class="text-center{{#unless checkIfCourse}} bg-info circle20-remaining-members {{/unless}}">
-                  <span>
-                    <em class="remaining-size">+{{itemsRemaining team.length 6 1}}</em>
-                  </span>
-                </div>
-              </a>
-            </li>
           {{else}}
-            {{#if $and checkIfCourse (itemsRemaining team.length 5 1)}}
+            {{#if $and team checkIfCourse}}
+              {{#each member in team}}
+                {{#if $lt @index (itemsToShow team.length 5 1)}}
+                  {{>projectCardMemberItem userId=member.userId }}
+                {{/if}}
+              {{/each}}
+            {{/if}}
+          {{/if}}
+            {{#if $and ($not checkIfCourse) (itemsRemaining team.length 6 1)}}
               <li class="remaining-member">
                 <a class="text-info" href="{{pathFor 'projectDetails' projectId=_id projectTitle=(encodeUrlString title)}}">
                   <div class="text-center{{#unless checkIfCourse}} bg-info circle20-remaining-members {{/unless}}">
                     <span>
-                      <em class="remaining-size">+{{itemsRemaining team.length 5 1}}</em>
+                      <em class="remaining-size">+{{itemsRemaining team.length 6 1}}</em>
                     </span>
                   </div>
                 </a>
               </li>
+            {{else}}
+              {{#if $and checkIfCourse (itemsRemaining team.length 5 1)}}
+                <li class="remaining-member">
+                  <a class="text-info" href="{{pathFor 'projectDetails' projectId=_id projectTitle=(encodeUrlString title)}}">
+                    <div class="text-center{{#unless checkIfCourse}} bg-info circle20-remaining-members {{/unless}}">
+                      <span>
+                        <em class="remaining-size">+{{itemsRemaining team.length 5 1}}</em>
+                      </span>
+                    </div>
+                  </a>
+                </li>
+              {{/if}}
             {{/if}}
-          {{/if}}
-        </ul>
-        <hr class="hr-bottom">
-        {{>projectCardTags tags=tags}}
-      </div> <!-- /.panel-body -->
-      <div class="panel-footer">
-        {{>projectCardFooter beginning=beginning deadline=deadline}}
-      </div> <!-- /.panel-footer -->
-      </figure>
-      {{#unless checkIfCourse}}
-      <figure class="back">
-        <div class="panel-body {{#unless checkIfCourse}} coverless-card-body {{else}} coverless-card-bodyCourse {{/unless}}">
-          {{#unless checkIfCourse}}
-            {{>projectCardJobs jobs=jobs expandable=false}}
-          {{/unless}}
-
-        </div>
-        <div class="panel-footer panel-footerBack">
-          <a href="{{pathFor 'projectDetails' projectId=_id projectTitle=(encodeUrlString title)}}"> &gt;&gt; Zum Projekt &lt;&lt; </a>
+          </ul>
+          <hr class="hr-bottom">
+          {{>projectCardTags tags=tags}}
+        </div> <!-- /.panel-body -->
+        <div class="panel-footer">
+          {{>projectCardFooter beginning=beginning deadline=deadline}}
         </div> <!-- /.panel-footer -->
-      </figure>
-      {{/unless}}
-    </div> <!-- /.panel project card -->
-  {{/with}}
+        </figure>
+        {{#unless checkIfCourse}}
+        <figure class="back">
+          <div class="panel-body {{#unless checkIfCourse}} coverless-card-body {{else}} coverless-card-bodyCourse {{/unless}}">
+            {{#unless checkIfCourse}}
+              {{>projectCardJobs jobs=jobs expandable=false}}
+            {{/unless}}
+
+          </div>
+          <div class="panel-footer panel-footerBack">
+            <a href="{{pathFor 'projectDetails' projectId=_id projectTitle=(encodeUrlString title)}}"> &gt;&gt; Zum Projekt &lt;&lt; </a>
+          </div> <!-- /.panel-footer -->
+        </figure>
+        {{/unless}}
+      </div> <!-- /.panel project card -->
+    {{/with}}
+  {{else}}
+    {{#if showLoading}}
+      {{>projectCardLoading}}
+    {{/if}}
+  {{/if}}
+</template>
+
+<template name="projectCardLoading">
+  <div id="card" class="project-card-loader">
+    <a href="#" class="load-more--loading project-card-loading-circle"></a>
+  </div>
+  <div class="panel panel-default coverless-card" id="card">
+    <figure class="front" >
+      <div class="header-image placeholder-image"><i class="fa fa-ellipsis-v fa-2x panel-right fa-ellipsis-cursor" aria-hidden="true"></i></div>
+    <div class="panel-body coverless-card-body">
+      <div class="coverless-card-title">
+        <p class="title-ellipses line-clamp-2">
+          <a href="#"><span class="placeholder-text">Zeige Platzhalter Projekt-Titel</span></a>
+        </p>
+        <small class="subtitle-ellipses line-clamp-2"><span class="placeholder-text">Zeige Platzhalter während Untertitel lädt</span></small>
+      </div>
+      <hr class="hr-top">
+      <ul class="member-icons list-inline">
+        <li>
+          <img class="img-circle img-circle-transparent" src="/img/avatar20.jpg">
+        </li>
+        <li>
+          <img class="img-circle img-circle-transparent" src="/img/avatar20.jpg">
+        </li>
+        <li>
+          <img class="img-circle img-circle-transparent" src="/img/avatar20.jpg">
+        </li>
+        <li>
+          <img class="img-circle img-circle-transparent" src="/img/avatar20.jpg">
+        </li>
+      </ul>
+      <hr class="hr-bottom">
+      <span class="ellipsis-tags line-clamp-2">
+        <span class="label label-default placeholder-text">Lade...</span>
+        <span class="label label-default placeholder-text">Lade Tags...</span>
+        <span class="label label-default placeholder-text">Lädt</span>
+        <span class="label label-default placeholder-text">Lädt gerade</span>
+        <span class="label label-default placeholder-text">Platzhalter</span>
+      </span>
+    </div> <!-- /.panel-body -->
+    <div class="panel-footer">
+      <ul class="list-inline text-center">
+        <li class="text-muted placeholder-text"><small>00.00.0000 - 00.00.0000</small></li>
+      </ul>
+    </div> <!-- /.panel-footer -->
+    </figure>
+  </div> <!-- /.panel project card -->
 </template>
 
 <template name="projectCardCover">

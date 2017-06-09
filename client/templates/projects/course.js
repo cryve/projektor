@@ -5,21 +5,37 @@ import { Template } from 'meteor/templating';
 import lodash from 'lodash';
 import toastr from 'toastr';
 import './course.html';
+import { addCourseToCourseSchema } from '/lib/collections/schemas.js';
 
 Template.course.onCreated (function courseOnCreated() {
-  this.subscribe("userCourses");
+  this.subscribe('courses');
   this.editActive = new ReactiveVar(false);
 });
 
 Template.course.helpers({
+  addCourseToCourseSchema () {
+    return addCourseToCourseSchema;
+  },
+  suggestedCourses() {
+    const courses = Courses.find({});
+    const courseList = [' '];
+    courses.forEach(function (course) {
+      courseList.push({
+        value: course._id,
+        label: `${course.courseName} ${course.courseSemester} ${course.studyCourse}`,
+      });
+    });
+    console.log(courseList)
+    return courseList;
+  },
   getCollection() {
     return Courses;
   },
   currentDoc(){
-    return Courses.findOne(this.courseId);
+    return Courses.find({});
   },
   courses(){
-    return Courses.findFromPublication('userCourses');
+    return Courses.find({owner: Meteor.userId()});
   },
   checkIfCourse(){
     if (Courses.findOne({owner: Meteor.userId()})){

@@ -75,10 +75,7 @@ Template.navigationBar.events({
       }
     }
     if (Meteor.user()) {
-      console.log(currentDraftId);
-
       FlowRouter.go('newProject', { draftId: currentDraftId });
-      console.log(FlowRouter.current());
     }
   },
 });

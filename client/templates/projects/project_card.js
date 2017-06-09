@@ -223,11 +223,11 @@ Template.projectCard.helpers({
 });
 
 Template.projectCardCover.onCreated(function projectCardCoverOnCreated() {
-  this.autorun(() => {
-    if(Template.currentData().imgId){
+  if (Template.currentData().imgId) {
+    this.autorun(() => {
       this.subscribe('files.images.single', Template.currentData().imgId);
-    }
-  });
+    });
+  }
 });
 
 Template.projectCardCover.helpers({

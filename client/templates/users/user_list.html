@@ -58,9 +58,19 @@
 </template>
 
 <template name="loadUser">
-  {{#each user in documents}}
-    {{> userListItem userId=user._id }}
-  {{/each}}
+  {{#if Template.subscriptionsReady}}
+    {{#each user in documents}}
+      {{> userListItem userId=user._id }}
+    {{/each}}
+  {{else}}
+    {{>userListLoading}}
+  {{/if}}
+</template>
+
+<template name="userListLoading">
+  <div class="loader">
+    <a href="#" class="load-more--loading"></a>
+  </div>
 </template>
 
 <template name="userListItem">
