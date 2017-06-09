@@ -10,17 +10,17 @@
         <form class="navbar-form navbar-right">
           <div class="form-group searchBoxFixed" style="display:inline">
             <div class="input-group">
-              <input type="text" id="listExName" class="form-control" placeholder="Search">
+              <input type="text" id="input-search-term" class="form-control" placeholder="Search">
             </div>
           </div>
-          <button type="submit" id="listExAdd" class="btn btn-primary">Suchen</button>
+          <button type="submit" id="btn-search" class="btn btn-primary">Suchen</button>
         </form>
         <div class="tagsRange">
         {{#each tags }}
           {{#if $eq this ""}}
 
           {{else}}
-            <li class="addedTag">{{this}}<span class="tagRemove listExRemove">x</span></li>
+            <li class="addedTag">{{this}}<span class="tagRemove btn-remove-search-term">x</span></li>
           {{/if}}
         {{/each}}
       </div>

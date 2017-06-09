@@ -9,11 +9,11 @@
       <form class="navbar-form navbar-right">
         <div class="form-group searchBoxFixed" style="display:inline">
           <div class="input-group">
-            <input type="text" id="listExName" class="form-control" placeholder="Search">
+            <input type="text" id="input-search-term" class="form-control" placeholder="Search">
           </div>
         </div>
-        <button type="submit" id="listExAdd" class="btn btn-primary">Suchen</button>
-        <button class="btn btn-primary listRemove" type="button" title="Delete tags">
+        <button type="submit" id="btn-search" class="btn btn-primary">Suchen</button>
+        <button class="btn btn-primary btn-remove-search-terms" type="button" title="Delete tags">
           Filter Löschen <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
         </button>
       </form>
@@ -21,27 +21,12 @@
         {{#each tags }}
           {{#if $eq this ""}}
           {{else}}
-            <li class="addedTag">{{this}}<span class="tagRemove listExRemove">x</span></li>
+            <li class="addedTag">{{this}}<span class="tagRemove btn-remove-search-term">x</span></li>
           {{/if}}
         {{/each}}
       </div>
   	</ul>
   </div>
-    <!-- <ul class="tags unstyled">
-      {{#each tags }}
-        {{#if $eq this ""}}
-
-        {{else}}
-          <li>
-            <a class="btn listExRemove" title="Remove this tag">
-              {{this}} <span>x</span>
-            </a>
-          </li>
-        {{/if}}
-      {{/each}}
-
-
-    </ul> -->
   <!-- {{> EasySearch.Input index=projectsIndex }}
   <div class="project-cards">
     <div class="row">
@@ -101,8 +86,8 @@
       </div>
     </div>
   {{/EasySearch.IfInputEmpty}} -->
-    {{#each navItems}}
-      {{> UI.dynamic template=this data=@index}}
+    {{#each cardsArea in cardsAreas}}
+      {{> UI.dynamic template=cardsArea data=@index}}
     {{/each}}
     {{#if endOfDocuments}}
       <div class="col-md-12">
@@ -143,7 +128,7 @@
   </div> -->
 </template>
 
-<template name="loadCards">
+<template name="cardArea">
   {{#each documents}}
     <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 containerFlip">
       {{>projectCard projectId=this._id showLoading=true}}

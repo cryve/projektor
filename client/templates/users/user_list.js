@@ -41,23 +41,23 @@ Template.userList.events({
 
   'submit .new-tag' (event) {
     event.preventDefault();
-    Template.instance().keyWord.push($('#listExName').val());
+    Template.instance().searchTerms.push($('#input-search-term').val());
     Template.instance().setSearch.set(false);
-    return $('#listExName').val('');
+    return $('#input-search-term').val('');
   },
-  'click #listExAdd' (event) {
+  'click #btn-search' (event) {
     event.preventDefault();
-    Template.instance().keyWord.push($('#listExName').val());
+    Template.instance().searchTerms.push($('#input-search-term').val());
     Template.instance().setSearch.set(false);
-    return $('#listExName').val('');
+    return $('#input-search-term').val('');
   },
-  'click .listExRemove' (event) {
+  'click .btn-remove-search-term' (event) {
     Template.instance().setSearch.set(false);
-    return Template.instance().keyWord.remove(this.toString());
+    return Template.instance().searchTerms.remove(this.toString());
   },
-  'click .listRemove' (event) {
+  'click .btn-remove-search-terms' (event) {
     Template.instance().setSearch.set(false);
-    return Template.instance().keyWord.clear();
+    return Template.instance().searchTerms.clear();
   },
   'change #sortStatus' (event, template) {
     const selectedSort = template.$('#sortStatus').val();
