@@ -27,40 +27,18 @@
       </div>
   	</ul>
   </div>
-  <!-- {{> EasySearch.Input index=projectsIndex }}
-  <div class="project-cards">
-    <div class="row">
-      {{#if isReady}}
-      {{log documents}}
-        {{#each documents}}
-          <div class="col-lg-3">
-            {{#if this.coverImg}}
-              {{>projectCard currentDoc=this}}
-            {{else}}
-              {{>projectCardCoverless currentDoc=this}}
-            {{/if}}
-          </div>
-        {{/each}}
-        {{> defaultBootstrapPaginator pagination=templatePagination limit=8 containerClass="text-center" onClick=clickEvent}}
-      {{else}}
-          Loading...
-      {{/if}}
-    </div>
-  </div>
+
   {{#EasySearch.IfInputEmpty index=projectsIndex}}
-    <div class="project-cards">
-      <div class="row">
-        {{#each project in projects}}
-          <div class="col-lg-3">
-            {{#if project.coverImg}}
-              {{>projectCard currentDoc=project}}
-            {{else}}
-              {{>projectCardCoverless currentDoc=project}}
-            {{/if}}
-          </div>
-        {{/each}}
+    {{#each cardsArea in cardsAreas}}
+      {{> UI.dynamic template=cardsArea data=@index}}
+    {{/each}}
+    {{#if endOfDocuments}}
+      <div class="col-md-12">
+        <div class="col-xs-12 col-md-2 col-md-offset-5">
+           <a href="#" class="load-more btn btn-primary" id="viewMore">Mehr Anzeigen</a>
+        </div>
       </div>
-    </div>
+    {{/if}}
   {{else}}
     {{#EasySearch.IfNoResults index=projectsIndex}}
       <h3>Leider keine Projekte gefunden :( </h3>
@@ -70,32 +48,15 @@
       Suchen.....
     {{/EasySearch.IfSearching}}
 
-    <div class="project-cards">
-      <div class="container">
-        <div class="row">
-        {{#EasySearch.Each index=projectsIndex }}
-          <div class="col-lg-4 col-md-3 col-sm-2 col-xs-1">
-            {{#if coverImg}}
-              {{>projectCard currentDoc=(originalDoc this)}}
-            {{else}}
-              {{>projectCardCoverless currentDoc=(originalDoc this)}}
-            {{/if}}
-          </div>
-        {{/EasySearch.Each}}
-        </div>
+    {{#EasySearch.Each index=projectsIndex }}
+      {{log this._id}}
+      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 containerFlip">
+        {{>projectCard projectId=(originalId this) showLoading=true}}
       </div>
-    </div>
-  {{/EasySearch.IfInputEmpty}} -->
-    {{#each cardsArea in cardsAreas}}
-      {{> UI.dynamic template=cardsArea data=@index}}
-    {{/each}}
-    {{#if endOfDocuments}}
-      <div class="col-md-12">
-        <div class="col-xs-12 col-md-2 col-md-offset-5">
-    	     <a href="#" class="load-more btn btn-primary" id="viewMore">Mehr Anzeigen</a>
-        </div>
-      </div>
-    {{/if}}
+    {{/EasySearch.Each}}
+
+  {{/EasySearch.IfInputEmpty}}
+
   <!--<select class="sorting">
     <option value="relevance">Relevance</option>
     <option value="newest">Newest</option>

@@ -44,6 +44,9 @@ Template.landingPage.helpers({
     delete searchDoc.__originalId;
     return searchDoc;
   },
+  originalId(searchDoc) {
+    return searchDoc.__originalId;
+  },
   tags() {
     return Template.instance().searchTerms.array();
   },
