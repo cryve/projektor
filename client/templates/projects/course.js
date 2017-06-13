@@ -17,7 +17,7 @@ Template.course.helpers({
     return addCourseToCourseSchema;
   },
   suggestedCourses() {
-    const courses = Courses.find({});
+    const courses = Courses.find();
     const courseList = [' '];
     courses.forEach(function (course) {
       courseList.push({
@@ -25,7 +25,6 @@ Template.course.helpers({
         label: `${course.courseName} ${course.courseSemester} ${course.studyCourse}`,
       });
     });
-    console.log(courseList)
     return courseList;
   },
   getCollection() {
