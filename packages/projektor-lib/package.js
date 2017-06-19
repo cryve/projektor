@@ -61,6 +61,7 @@ Package.onUse(function(api) {
     'reywood:publish-composite@1.5.2',  // Publish a set of related documents from multiple collections with a reactive join
     'rzymek:moment-locale-de@2.14.1',  // Moment.js de locale. Companion package for rzymek:moment
     'shell-server@0.2.3',  // Server-side component of the `meteor shell` command.
+    'tmeasday:check-npm-versions@0.3.1',
     'twbs:bootstrap@3.3.6',  // The most popular front-end framework for developing responsive, mobile first projects on the web.
     'vazco:universe-selectize@0.1.22',  // Universe select input standalone - with the appearance as selectize. It is for use without autoform.
     'verron:jquery-dotdotdot@1.7.4',  // A jQuery plugin for advanced cross-browser ellipsis on multiple line content
