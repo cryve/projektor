@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import lodash from 'lodash';
-import { Images } from '/lib/collections/images.js';
+import { Images } from 'meteor/projektor:files';
 import { Courses } from '/lib/collections/courses.js';
 import { ProjectFiles } from '/lib/collections/projectFiles.js';
 import { deleteEditableArrayItem, deleteEditableCourse } from '/lib/methods.js';

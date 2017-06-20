@@ -7,7 +7,8 @@ import { Drafts } from '/lib/collections/drafts.js';
 import { courseOwnerSchema } from '/lib/collections/schemas.js';
 import { Template } from 'meteor/templating';
 import { insertEmptyCourseDraft, leaveCourse } from '/lib/methods.js';
-import { setDraftIdInProfile, createMassProjects, setSelfEnter, deleteAllProjects, addSupervisorToCourse } from '/lib/methods.js';
+import { createMassProjects, setSelfEnter, deleteAllProjects, addSupervisorToCourse } from '/lib/methods.js';
+import { setDraftIdInProfile } from 'meteor/projektor:users';
 import lodash from 'lodash';
 import toastr from 'toastr';
 

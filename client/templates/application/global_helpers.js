@@ -7,6 +7,7 @@
 
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { Images } from 'meteor/projektor:files';
 import { Studies } from '/lib/collections/studies.js';
 import lodash from 'lodash';
 

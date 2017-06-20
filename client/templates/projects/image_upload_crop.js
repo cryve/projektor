@@ -1,14 +1,12 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { Images } from '/lib/collections/images.js';
-import { Projects } from '/lib/collections/projects.js';
-import { Drafts } from '/lib/collections/drafts.js';
+import { Images, imageRemove } from 'meteor/projektor:files';
+import { userAvatar } from 'meteor/projektor:users';
 import toastr from 'toastr';
 
-import { imageRemove, galleryUpdate, coverImageUpdate, userAvatar } from '/lib/methods.js';
+import { galleryUpdate } from '/lib/methods.js';
 
 import './image_upload_crop.html';
-
 
 Template.uploadedFilesCrop.onCreated(function uploadedFilesCropOnCreated() {
   this.autorun(() => {

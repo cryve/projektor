@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { Images } from '/lib/collections/images.js';
+import { Images } from 'meteor/projektor:files';
 import './login_dropdown.html';
 
 Template.loginDropdown.onCreated(function() {

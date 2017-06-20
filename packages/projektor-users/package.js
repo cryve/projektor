@@ -13,9 +13,7 @@ Package.onUse(function(api) {
 
   api.use(packages);
 
-  api.mainModule('lib/deps.js', ['client', 'server']);
-
-  // Npm.depends({
-  //   'simpl-schema': '0.2.3'
-  // });
+  // api.mainModule('lib/deps.js', ['client', 'server']);
+  // api.mainModule('lib/users.js', ['client', 'server']);
+  api.mainModule('lib/methods.js', ['client', 'server']);
 });

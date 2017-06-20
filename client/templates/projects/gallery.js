@@ -1,4 +1,4 @@
-import { Images } from '/lib/collections/images.js';
+import { Images } from 'meteor/projektor:files';
 import { Template } from 'meteor/templating';
 import { deleteImg, setMedia, setCoverImg, setMediaId, setMediaType, removeCoverImg } from '/lib/methods.js';
 

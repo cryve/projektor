@@ -1,5 +1,5 @@
 import { Projects } from '../../../lib/collections/projects.js';
-import { Images } from '/lib/collections/images.js';
+import { Images } from 'meteor/projektor:files';
 import { Studies } from '/lib/collections/studies.js';
 
 Template.userList.onCreated(function userListOnCreated() {

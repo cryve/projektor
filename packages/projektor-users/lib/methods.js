@@ -1,4 +1,5 @@
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
+import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 
 export const addContactToProfile = new ValidatedMethod({
@@ -15,7 +16,7 @@ export const addContactToProfile = new ValidatedMethod({
   run({ docId, contact }) {
     console.log(docId, contact);
     const user = Meteor.users.findOne(docId);
-    if (!(user._id == this.userId)) {
+    if (!(user._id === this.userId)) {
       throw new Meteor.Error('users.addContact.unauthorized',
       'You cannot edit profile that is not yours');
     }
@@ -43,7 +44,7 @@ export const addLinkToProfile = new ValidatedMethod({
   run({ docId, link }) {
     console.log(docId, link);
     const user = Meteor.users.findOne(docId);
-    if (!(user._id == this.userId)) {
+    if (!(user._id === this.userId)) {
       throw new Meteor.Error('users.addLink.unauthorized',
       'You cannot edit profile that is not yours');
     }
@@ -73,7 +74,7 @@ export const setDraftIdInProfile = new ValidatedMethod({
     },
   }).validator(),
   run({ userId, draftId, courseId }) {
-    if (userId != this.userId) {
+    if (userId !== this.userId) {
       throw new Meteor.Error('users.addDraftId.unauthorized',
       'You cannot add draft to profile that is not yours');
     }
@@ -91,7 +92,7 @@ export const updateEditableInUsers = new ValidatedMethod({
     },
   }).validator(),
   run({ modifier, _id }) {
-    if (_id != this.userId) {
+    if (_id !== this.userId) {
       throw new Meteor.Error('users.updateEditable.unauthorized',
       'You cannot edit a profile that is not yours');
     }
@@ -108,7 +109,7 @@ export const userAvatar = new ValidatedMethod({
     imageId: String,
   }).validator(),
   run({ userId, imageId }) {
-    if (userId != Meteor.userId()) {
+    if (userId !== Meteor.userId()) {
       throw new Meteor.Error('userAvatar.unauthorized',
       'Its not your profile');
     }

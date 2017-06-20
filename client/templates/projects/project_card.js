@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import { Projects } from '/lib/collections/projects.js';
-import { Images } from '/lib/collections/images.js';
+import { Images } from 'meteor/projektor:files';
 // import truncate from "truncate.js";
 // import trunk8 from "trunk8";
 import './project_card.html';
