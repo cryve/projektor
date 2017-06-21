@@ -2,7 +2,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import SimpleSchema from 'simpl-schema';
 import { Images } from './images.js';
 
-export const imageRemove = new ValidatedMethod({
+Images.imageRemove = new ValidatedMethod({
   name: 'imageRemove',
   validate: new SimpleSchema({
     imageId: String,

@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { Images, imageRemove } from 'meteor/projektor:files';
+import { Images } from 'meteor/projektor:files';
 import Users from 'meteor/projektor:users';
 import toastr from 'toastr';
 
@@ -79,7 +79,7 @@ Template.uploadFormCrop.events({
             toastr.success(`${fileObj.name} wurde erfolgreich in Slot ${currentSlot} hochgeladen!`);
             if (currentCover == currentArray[currentSlot].id) {
               if (currentCover) {
-                imageRemove.call({
+                Images.imageRemove.call({
                   imageId: currentArray[currentSlot].id,
                 }, (err, res) => {
                   if (err) {
@@ -108,7 +108,7 @@ Template.uploadFormCrop.events({
                 collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': fileObj._id }} );*/
             } else {
               if (currentArray[currentSlot].id) {
-                imageRemove.call({
+                Images.imageRemove.call({
                   imageId: currentArray[currentSlot].id,
                 }, (err, res) => {
                   if (err) {

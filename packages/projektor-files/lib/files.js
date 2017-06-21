@@ -13,4 +13,3 @@ checkNpmVersions({
 }, 'projektor:users');
 
 export const Images = require('./images.js').Images;
-export const imageRemove = require('./methods.js').imageRemove;
