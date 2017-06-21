@@ -13,7 +13,5 @@ Package.onUse(function(api) {
 
   api.use(packages);
 
-  // api.mainModule('lib/deps.js', ['client', 'server']);
-  // api.mainModule('lib/users.js', ['client', 'server']);
-  api.mainModule('lib/methods.js', ['client', 'server']);
+  api.mainModule('lib/main.js', ['client', 'server']);
 });

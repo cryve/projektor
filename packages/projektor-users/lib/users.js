@@ -177,3 +177,5 @@ Meteor.users.deny({
   update() { return true; },
   remove() { return true; },
 });
+
+export default Meteor.users;

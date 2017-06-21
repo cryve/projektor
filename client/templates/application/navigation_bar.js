@@ -1,6 +1,6 @@
 import { Drafts } from '/lib/collections/drafts.js';
 import { insertEmptyDraft } from '/lib/methods.js';
-import { setDraftIdInProfile } from 'meteor/projektor:users';
+import Users from 'meteor/projektor:users';
 import lodash from 'lodash';
 
 Template.navigationBar.onCreated(function navigationBarOnCreated() {
@@ -68,7 +68,7 @@ Template.navigationBar.events({
         }
       });
       if (Meteor.user()) {
-        setDraftIdInProfile.call({
+        Users.setDraftIdInProfile.call({
           userId: Meteor.userId(),
           draftId: currentDraftId }, (err, res) => {
           if (err) {

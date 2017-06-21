@@ -1,8 +1,9 @@
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
+import Users from './users';
 
-export const addContactToProfile = new ValidatedMethod({
+Users.addContactToProfile = new ValidatedMethod({
   name: 'users.addContact',
   validate: new SimpleSchema({
     docId: {
@@ -38,7 +39,7 @@ const linkSchema = new SimpleSchema({
   'link.approach': String,
 }, { tracker: Tracker });
 
-export const addLinkToProfile = new ValidatedMethod({
+Users.addLinkToProfile = new ValidatedMethod({
   name: 'users.addLink',
   validate: linkSchema.validator(),
   run({ docId, link }) {
@@ -56,7 +57,7 @@ export const addLinkToProfile = new ValidatedMethod({
   },
 });
 
-export const setDraftIdInProfile = new ValidatedMethod({
+Users.setDraftIdInProfile = new ValidatedMethod({
   name: 'users.addDraftId',
   validate: new SimpleSchema({
     userId: {
@@ -82,7 +83,7 @@ export const setDraftIdInProfile = new ValidatedMethod({
   },
 });
 
-export const updateEditableInUsers = new ValidatedMethod({
+Users.updateEditableInUsers = new ValidatedMethod({
   name: 'users.updateEditable',
   validate: new SimpleSchema({
     _id: String,
@@ -102,7 +103,7 @@ export const updateEditableInUsers = new ValidatedMethod({
   },
 });
 
-export const userAvatar = new ValidatedMethod({
+Users.userAvatar = new ValidatedMethod({
   name: 'userAvatar',
   validate: new SimpleSchema({
     userId: String,
