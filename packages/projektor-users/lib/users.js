@@ -1,9 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 
-const Schema = {};
+const Users = Meteor.users;
 
-Schema.UserProfile = new SimpleSchema({
+const userProfileSchema = new SimpleSchema({
   firstname: String,
   lastname: String,
   fullname: String,
@@ -72,7 +72,7 @@ Schema.UserProfile = new SimpleSchema({
 });
 
 
-Schema.User = new SimpleSchema({
+Users.schema = new SimpleSchema({
   username: {
     type: String,
         // For accounts-password, either emails or username is required, but not both. It is OK to make this
@@ -84,7 +84,7 @@ Schema.User = new SimpleSchema({
     type: Date,
   },
   profile: {
-    type: Schema.UserProfile,
+    type: userProfileSchema,
     optional: true,
   },
   services: {
@@ -93,14 +93,15 @@ Schema.User = new SimpleSchema({
     blackbox: true,
   },
 });
-Meteor.users.attachSchema(Schema.User);
+
+Users.attachSchema(Users.schema);
 
 if (Meteor.isServer) {
   Meteor.publish('users.list.all', function usersListAllPublication() {
     if (!this.userId) {
       return this.ready();
     }
-    return Meteor.users.find({}, {
+    return Users.find({}, {
       fields: {
         _id: 1,
         createdAt: 1,
@@ -111,7 +112,7 @@ if (Meteor.isServer) {
     });
   });
   Meteor.publish('users.list.single', function usersListSinglePublication() {
-    return Meteor.users.find({}, {
+    return Users.find({}, {
       fields: {
         _id: 1,
         'profile.fullname': 1,
@@ -121,10 +122,10 @@ if (Meteor.isServer) {
     });
   });
   Meteor.publish('usersAll', function usersAllPublication() {
-    return Meteor.users.find({});
+    return Users.find({});
   });
   Meteor.publish('usersCourseAll', function usersAllPublication() {
-    return Meteor.users.find({}, {
+    return Users.find({}, {
       fields: {
         _id: 1,
         'profile.role': 1,
@@ -141,7 +142,7 @@ if (Meteor.isServer) {
         regEx: SimpleSchema.RegEx.Id,
       },
     }).validate({ userId });
-    return Meteor.users.find(userId, {
+    return Users.find(userId, {
       fields: {
         _id: 1,
         'profile.email': 1,
@@ -162,20 +163,20 @@ if (Meteor.isServer) {
     });
   });
   Meteor.publish('userSupervisor', function userSupervisorPublication() {
-    return Meteor.users.find({ 'profile.role': 'Mitarbeiter' });
+    return Users.find({ 'profile.role': 'Mitarbeiter' });
   });
   Meteor.publish('usersTeam', function usersTeamPublication(team) {
     const teamIds = team.map(function(user) {
       return user.userId;
     });
-    return Meteor.users.find({ _id: { $in: teamIds } });
+    return Users.find({ _id: { $in: teamIds } });
   });
 }
 
-Meteor.users.deny({
+Users.deny({
   insert() { return true; },
   update() { return true; },
   remove() { return true; },
 });
 
-export default Meteor.users;
+export default Users;
