@@ -8,7 +8,7 @@ import { courseOwnerSchema } from '/lib/collections/schemas.js';
 import { Template } from 'meteor/templating';
 import { insertEmptyCourseDraft, leaveCourse } from '/lib/methods.js';
 import { createMassProjects, setSelfEnter, deleteAllProjects, addSupervisorToCourse } from '/lib/methods.js';
-import { setDraftIdInProfile } from 'meteor/projektor:users';
+import Users from 'meteor/projektor:users';
 import lodash from 'lodash';
 import toastr from 'toastr';
 
@@ -74,7 +74,7 @@ Template.currentCourse.helpers({
     return courseOwnerSchema;
   },
   suggestedUsers(settings) {
-    const users = Meteor.users.find(settings.hash.role ? { 'profile.role': settings.hash.role } : {});
+    const users = Users.find(settings.hash.role ? { 'profile.role': settings.hash.role } : {});
     let userList = [' '];
     users.forEach(function (user) {
       if (user && user.profile) {
@@ -98,7 +98,7 @@ Template.currentCourse.helpers({
   isCourseProject() {
     const ownersAsSupervisors = [];
     lodash.forEach(this.owner, function(ownerId) {
-      const owner = Meteor.users.findOne(ownerId);
+      const owner = Users.findOne(ownerId);
       if (owner) {
         ownersAsSupervisors.push({ userId: owner._id, role: owner.profile.title });
       }
@@ -225,7 +225,7 @@ Template.currentCourse.events({
           }
         }
       });
-      setDraftIdInProfile.call({
+      Users.setDraftIdInProfile.call({
         userId: Meteor.userId(),
         draftId,
         courseId: this._id }, (err, res) => {

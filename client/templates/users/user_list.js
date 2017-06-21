@@ -1,6 +1,7 @@
 import { Projects } from '../../../lib/collections/projects.js';
 import { Images } from 'meteor/projektor:files';
 import { Studies } from '/lib/collections/studies.js';
+import Users from 'meteor/projektor:users';
 
 Template.userList.onCreated(function userListOnCreated() {
   this.endOfUsers = new ReactiveVar(2);
@@ -20,7 +21,7 @@ Template.userList.helpers({
 
 Template.userList.events({
   'click #viewMore'(event) {
-    const amountOfUser = Meteor.users.find({});
+    const amountOfUser = Users.find({});
     const value = Template.instance().endOfUsers.get();
     const number = value * 50;
     $('#loader').css({ display: 'block' });
@@ -84,7 +85,7 @@ Template.loadUser.helpers({
     return studyCourse && studyCourse.studyCourseName;
   },
   getAvatarURL (userId, version) {
-    const user = Meteor.users.findOne({ _id: userId });
+    const user = Users.findOne({ _id: userId });
     const image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
     return (image && image.versions[version]) ? image.link(version) : `/img/${version}.jpg`;
   },
@@ -92,7 +93,7 @@ Template.loadUser.helpers({
     const skip = Template.instance().data * 50;
     $('#loader').css({ display: 'none' });
     // $('.load-more--loading').removeClass('load-more--loading');
-    return Meteor.users.find({}, { skip, limit: 50, sort: { createdAt: -1 } });
+    return Users.find({}, { skip, limit: 50, sort: { createdAt: -1 } });
   },
 });
 
@@ -105,10 +106,10 @@ Template.userListItem.onCreated(function userListItemOnCreated() {
 
 Template.userListItem.helpers({
   user() {
-    return Meteor.users.findOne(this.userId);
+    return Users.findOne(this.userId);
   },
   avatarURL() {
-    const user = Meteor.users.findOne({ _id: this.userId });
+    const user = Users.findOne({ _id: this.userId });
     const image = user && user.profile.avatar && Images.findOne(user.profile.avatar);
     return (image && image.versions.avatar50) ? image.link('avatar50') : '/img/avatar50.jpg';
   },

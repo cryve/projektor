@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Courses } from '/lib/collections/courses.js';
 import { Projects } from '/lib/collections/projects.js';
+import Users from 'meteor/projektor:users';
 import { Template } from 'meteor/templating';
 import lodash from 'lodash';
 import { deleteCourse } from '/lib/methods.js';
@@ -57,7 +58,7 @@ Template.course.helpers({
     courseProjects.forEach(function(project) {
       if (project.team) {
         lodash.forEach(project.team, function(value) {
-          const user = Meteor.users.findOne(value.userId);
+          const user = Users.findOne(value.userId);
           if ((!lodash.includes(students, user._id)) && (user.profile.role == 'Student')) {
             students.push(user._id);
           }

@@ -10,6 +10,7 @@ import { contactSchema } from '/lib/collections/schemas.js';
 import { teamCommSchema } from '/lib/collections/schemas.js';
 import { supervisorSchema } from '/lib/collections/schemas.js';
 import { addCourseSchema } from '/lib/collections/schemas.js';
+import Users from 'meteor/projektor:users';
 
 import './project_edit.html';
 
@@ -166,10 +167,10 @@ Template.member.onCreated(function() {
 
 Template.member.helpers({
   user() {
-    return Meteor.users.findOne(this.userId);
+    return Users.findOne(this.userId);
   },
   getAvatarURL (userId, version) {
-    const user = Meteor.users.findOne({ _id: userId });
+    const user = Users.findOne({ _id: userId });
     const image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
     return (image && image.versions[version]) ? image.link(version) : `/img/${version}.jpg`;
   },
@@ -291,10 +292,10 @@ Template.leaveGroupModal.events({
 
 Template.supervisor.helpers({
   user() {
-    return Meteor.users.findOne(this.userId);
+    return Users.findOne(this.userId);
   },
   getAvatarURL (userId, version) {
-    const user = Meteor.users.findOne({ _id: userId });
+    const user = Users.findOne({ _id: userId });
     const image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
     return (image && image.versions[version]) ? image.link(version) : `/img/${version}.jpg`;
   },

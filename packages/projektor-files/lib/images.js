@@ -4,6 +4,7 @@ import { check } from 'meteor/check';
 import { publishComposite } from 'meteor/reywood:publish-composite';
 import lodash from 'lodash';
 import SimpleSchema from 'simpl-schema';
+import Users from 'meteor/projektor:users';
 
 const isImageMime = (mimeType) => mimeType.indexOf('image') === 0;
 
@@ -328,7 +329,7 @@ if (Meteor.isServer) {
     }).validate({ userId });
     return {
       find() {
-        return Meteor.users.find(userId, { fields: { 'profile.avatar': 1 } });
+        return Users.find(userId, { fields: { 'profile.avatar': 1 } });
       },
       children: [{
         find(user) {

@@ -5,6 +5,7 @@ import { Studies } from '/lib/collections/studies.js';
 import { avatarRemove } from '/lib/methods.js';
 import './user-profile.html';
 import '../projects/project_card.js';
+import Users from 'meteor/projektor:users';
 
 Template.userProfile.onCreated(function userProfileOnCreated() {
   Session.set('previousRoute', FlowRouter.getRouteName());
@@ -19,7 +20,7 @@ Template.userProfile.onCreated(function userProfileOnCreated() {
 
 Template.userProfile.helpers({
   user() {
-    return Meteor.users.findOne(FlowRouter.getParam('userId'));
+    return Users.findOne(FlowRouter.getParam('userId'));
   },
   facultyName(facultyId) {
     const studyCourse = Studies.findOne({ facultyId });
@@ -38,7 +39,7 @@ Template.userProfile.helpers({
     return studyCourse && studyCourse.studyCourseName;
   },
   getAvatarURL (userId, version) {
-    const user = Meteor.users.findOne({ _id: userId });
+    const user = Users.findOne({ _id: userId });
     const image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
     return (image && image.versions[version]) ? image.link(version) : `/img/${version}.jpg`;
   },
@@ -46,7 +47,7 @@ Template.userProfile.helpers({
     return Projects.find({ team: { $elemMatch: { userId: this._id } } }, { sort: { createdAt: -1 } });
   },
   getUserCollection() {
-    return Meteor.users;
+    return Users;
   },
 });
 

@@ -1,6 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Projects } from '/lib/collections/projects.js';
 import { Images } from 'meteor/projektor:files';
+import Users from 'meteor/projektor:users';
 // import truncate from "truncate.js";
 // import trunk8 from "trunk8";
 import './project_card.html';
@@ -203,7 +204,7 @@ Template.projectCard.helpers({
     return Projects.findOne(this.projectId);
   },
   getAvatarURL (userId, version) {
-    const user = Meteor.users.findOne({ _id: userId });
+    const user = Users.findOne({ _id: userId });
     const image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
     return (image && image.versions[version]) ? image.link(version) : `/img/${version}.jpg`;
   },
@@ -272,10 +273,10 @@ Template.projectCardMemberItem.onCreated(function projectCardMemberItemOnCreated
 
 Template.projectCardMemberItem.helpers({
   user() {
-    return Meteor.users.findOne(this.userId);
+    return Users.findOne(this.userId);
   },
   getAvatarURL (userId, version) {
-    const user = Meteor.users.findOne(userId);
+    const user = Users.findOne(userId);
     const image = user && user.profile && Images.findOne(user.profile.avatar);
     return (image && image.versions[version]) ? image.link(version) : `/img/${version}.jpg`;
   },

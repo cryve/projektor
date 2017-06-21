@@ -9,6 +9,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Images } from 'meteor/projektor:files';
 import { Studies } from '/lib/collections/studies.js';
+import Users from 'meteor/projektor:users';
 import lodash from 'lodash';
 
 Template.registerHelper('readableDate', date => moment(date).format('DD.MM.YYYY'));
@@ -22,18 +23,18 @@ Template.registerHelper('releaseDate', (date) => {
 
 Template.registerHelper('getUsername', (userId) => {
   // console.log(userId);
-  const user = Meteor.users.findOne({ _id: userId });
+  const user = Users.findOne({ _id: userId });
   // console.log(user.emails[0].address);
   return user && user.emails[0].address;
 });
 
 Template.registerHelper('getFullUsername', (userId) => {
-  const user = Meteor.users.findOne({ _id: userId });
+  const user = Users.findOne({ _id: userId });
   return user && `${user.profile.firstname} ${user.profile.lastname}`;
 });
 
 Template.registerHelper('getEmailName', (userId) => {
-  const user = Meteor.users.findOne(userId);
+  const user = Users.findOne(userId);
   return user && user.profile.email && user.profile.email.split('@')[0];
 });
 
@@ -53,13 +54,13 @@ Template.registerHelper('encodeUrlString', function(string) {
 // Template.registerHelper("getAvatarURL", (userId, version) => {
 //   //this.subscribe("files.images.all");
 //   //this.subscribe("usersAll");
-//   var user = Meteor.users.findOne({_id: userId});
+//   var user = Users.findOne({_id: userId});
 //   var image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
 //   return (image && image.versions[version]) ? image.link(version) : "/img/"+version+".jpg";
 // });
 
 /* Template.registerHelper("getAvatarCardURL", (userId, version) => {
-  var user = Meteor.users.findOne({_id: userId});
+  var user = Users.findOne({_id: userId});
   var image = user.profile.avatar && Images.findOne(user.profile.avatar);
   return (image && image.versions[version]) ? image.link(version) : "/img/defaultCardMini.jpg";
 
@@ -122,7 +123,7 @@ Template.registerHelper('hasPermissions', (permissionNames, doc) => {
 });
 
 Template.registerHelper('suggestedUsers', (settings) => {
-  const users = Meteor.users.find(settings.hash.role ? { 'profile.role': settings.hash.role } : {});
+  const users = Users.find(settings.hash.role ? { 'profile.role': settings.hash.role } : {});
   let userList = [' '];
   users.forEach(function (user) {
     if (user && user.profile) {

@@ -1,6 +1,8 @@
 import { Random } from 'meteor/random';
 import faker from 'faker';
 import { Projects } from '/lib/collections/projects.js';
+import Users from 'meteor/projektor:users';
+
 faker.locale = 'de';
 /* Set amount of sample docs */
 const sampleCountUsers = 20;
@@ -17,7 +19,7 @@ const maxSizeSupervisors = 5;
 const maxSizeProfileContacts = 5;
 
 /* Clear databases */
-Meteor.users.remove({});
+Users.remove({});
 Projects.remove({});
 /* Create possible values */
 const sampleUserRoles = ['Student', 'Mitarbeiter'];
@@ -26,7 +28,7 @@ const sampleUserGenders = ['female', 'male'];
 const sampleOccasions = ['Projekt C', 'Projekt B', 'Projekt A', 'Hobby', 'Praxis'];
 
 /* Create sample users */
-Factory.define('user', Meteor.users, {
+Factory.define('user', Users, {
   createdAt: () => faker.date.past(),
   username: () => Random.hexString(6),
   profile: {

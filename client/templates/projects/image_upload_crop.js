@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Images, imageRemove } from 'meteor/projektor:files';
-import { userAvatar } from 'meteor/projektor:users';
+import Users from 'meteor/projektor:users';
 import toastr from 'toastr';
 
 import { galleryUpdate } from '/lib/methods.js';
@@ -141,7 +141,7 @@ Template.uploadFormCrop.events({
           } else {
             alert(`File "${fileObj.name}" successfully uploaded`);
             console.log(`Storing image with URL ${fileObj._id}`);
-            userAvatar.call({
+            Users.userAvatar.call({
               userId: Meteor.userId(),
               imageId: fileObj._id,
             }, (err, res) => {
