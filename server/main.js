@@ -7,7 +7,7 @@ import { Courses } from '/lib/collections/courses.js';
 import mongoxlsx from 'mongo-xlsx';
 import lodash from 'lodash';
 import toastr from 'toastr';
-import '../lib/collections/projects.js';
+import 'meteor/projektor:projects';
 import { Studies } from '/lib/collections/studies.js';
 import { Accounts } from 'meteor/accounts-base';
 import { AccountsServer } from 'meteor/accounts-base';

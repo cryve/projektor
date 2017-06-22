@@ -1,6 +1,6 @@
 import { Random } from 'meteor/random';
 import faker from 'faker';
-import { Projects } from '/lib/collections/projects.js';
+import { Projects } from 'meteor/projektor:projects';
 import Users from 'meteor/projektor:users';
 
 faker.locale = 'de';

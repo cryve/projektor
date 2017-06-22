@@ -3,10 +3,8 @@ import { Mongo } from 'meteor/mongo';
 import { Index } from 'meteor/easy:search';
 import { ElasticSearchEngine } from 'meteor/easysearch:elasticsearch';
 import SimpleSchema from 'simpl-schema';
-import lodash from 'lodash';
-import { Courses } from '/lib/collections/courses.js';
 import { projectSchema } from './schemas.js';
-import Users from 'meteor/projektor:users';
+
 
 export const Projects = new Mongo.Collection('projects');
 
@@ -99,18 +97,6 @@ if (Meteor.isServer) {
     return Projects.find({ team: { $elemMatch: { userId } } }, {
       fields: Projects.memberFields,
     });
-  });
-  FindFromPublication.publish('courseProjects', function courseProjectsPublication(courseId) {
-    const course = Courses.findOne(courseId);
-    const ownersAsSupervisors = [];
-    course && lodash.forEach(course.owner, function(ownerId) {
-      const owner = Users.findOne(ownerId);
-      ownersAsSupervisors.push({ userId: owner._id, role: owner.profile.title });
-    });
-    return Projects.find({
-      courseId,
-      supervisors: { $in: ownersAsSupervisors },
-    }, { sort: { createdAt: -1 } }, { fields: Projects.memberFields });
   });
 }
 
@@ -248,8 +234,6 @@ Projects.attachSchema(new SimpleSchema({
     optional: true,
   },
 }).extend(projectSchema));
-
-// Projects.plugin(mongoosastic);
 
 Projects.deny({
   insert() { return true; },

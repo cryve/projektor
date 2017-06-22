@@ -1,6 +1,6 @@
 import lodash from 'lodash';
 
-import { Projects } from '/lib/collections/projects.js';
+import { Projects } from 'meteor/projektor:projects';
 import { Drafts } from '/lib/collections/drafts.js';
 import { Courses } from '/lib/collections/courses.js';
 import { updateEditPermissions } from '/lib/methods.js';

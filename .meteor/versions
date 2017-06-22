@@ -106,6 +106,7 @@ percolate:find-from-publication@0.1.0
 projektor:core@0.0.1
 projektor:files@0.0.1
 projektor:lib@0.0.1
+projektor:projects@0.0.1
 projektor:users@0.0.1
 promise@0.8.8
 raix:eventemitter@0.1.3

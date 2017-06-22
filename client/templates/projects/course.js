@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Courses } from '/lib/collections/courses.js';
-import { Projects } from '/lib/collections/projects.js';
+import { Projects } from 'meteor/projektor:projects';
 import Users from 'meteor/projektor:users';
 import { Template } from 'meteor/templating';
 import lodash from 'lodash';

@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { Projects } from '/lib/collections/projects.js';
+import { Projects } from 'meteor/projektor:projects';
 import { Drafts } from '/lib/collections/drafts.js';
 import { Courses } from '/lib/collections/courses.js';
 import toastr from 'toastr';
@@ -7,7 +7,6 @@ import lodash from 'lodash';
 import 'toastr/build/toastr.css';
 import { publishDraft } from '/lib/methods.js';
 import { deleteDraft } from '/lib/methods.js';
-import { deleteProject } from '/lib/methods.js';
 import { enterProject } from '/lib/methods.js';
 import './editableProject.html';
 
@@ -211,7 +210,7 @@ Template.editableProject.events({
 });
 Template.deleteProjectModal.events({
   'click #btn-delete'(event) {
-    deleteProject.call({
+    Projects.deleteProject.call({
       projectId: this.docId,
     }, (err, res) => {
       if (err) {

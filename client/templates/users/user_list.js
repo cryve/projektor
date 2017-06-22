@@ -1,4 +1,3 @@
-import { Projects } from '../../../lib/collections/projects.js';
 import { Images } from 'meteor/projektor:files';
 import { Studies } from '/lib/collections/studies.js';
 import Users from 'meteor/projektor:users';

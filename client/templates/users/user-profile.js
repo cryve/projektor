@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import { Images } from 'meteor/projektor:files';
-import { Projects } from '../../../lib/collections/projects.js';
+import { Projects } from 'meteor/projektor:projects';
 import { Studies } from '/lib/collections/studies.js';
 import { avatarRemove } from '/lib/methods.js';
 import './user-profile.html';

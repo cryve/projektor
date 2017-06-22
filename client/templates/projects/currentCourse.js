@@ -2,7 +2,7 @@ import { excel } from '/lib/methods.js';
 import { Meteor } from 'meteor/meteor';
 import { XlsFiles } from '/lib/collections/xlsFiles.js';
 import { Courses } from '/lib/collections/courses.js';
-import { Projects } from '/lib/collections/projects.js';
+import { Projects } from 'meteor/projektor:projects';
 import { Drafts } from '/lib/collections/drafts.js';
 import { courseOwnerSchema } from '/lib/collections/schemas.js';
 import { Template } from 'meteor/templating';

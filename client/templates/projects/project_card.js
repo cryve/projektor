@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { Projects } from '/lib/collections/projects.js';
+import { Projects } from 'meteor/projektor:projects';
 import { Images } from 'meteor/projektor:files';
 import Users from 'meteor/projektor:users';
 // import truncate from "truncate.js";
