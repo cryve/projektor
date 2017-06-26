@@ -1,10 +1,5 @@
 import lodash from 'lodash';
 
-import { Projects } from 'meteor/projektor:projects';
-import { Drafts } from 'meteor/projektor:projects';
-import { Courses } from '/lib/collections/courses.js';
-import { updateEditPermissions } from '/lib/methods.js';
-
 AutoForm.addHooks([
   'editTitle',
   'addCourse',

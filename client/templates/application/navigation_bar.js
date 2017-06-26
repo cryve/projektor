@@ -56,8 +56,6 @@ Template.navigationBar.events({
 
     Session.set('result', 'null');
     if (!currentDraftId) {
-      console.log(Drafts);
-      console.log(Projects);
       currentDraftId = Drafts.insertEmptyDraft.call((err, res) => {
         if (err) {
           if (err.error === 'drafts.insertNew.unauthorized') {
