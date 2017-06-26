@@ -1,6 +1,6 @@
 Package.describe({
   name: 'projektor:projects',
-  summary: 'Projektor projects',
+  summary: 'Projektor projects and project drafts',
   version: '0.0.1',
 });
 

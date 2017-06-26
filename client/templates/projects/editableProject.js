@@ -1,11 +1,10 @@
 import { Template } from 'meteor/templating';
 import { Projects } from 'meteor/projektor:projects';
-import { Drafts } from '/lib/collections/drafts.js';
+import { Drafts } from 'meteor/projektor:projects';
 import { Courses } from '/lib/collections/courses.js';
 import toastr from 'toastr';
 import lodash from 'lodash';
 import 'toastr/build/toastr.css';
-import { publishDraft } from '/lib/methods.js';
 import { deleteDraft } from '/lib/methods.js';
 import { enterProject } from '/lib/methods.js';
 import './editableProject.html';
@@ -140,7 +139,7 @@ Template.editableProject.helpers({
 
 Template.editableProject.events({
   'click #btn-publish-draft' (event) {
-    const newId = publishDraft.call({
+    const newId = Projects.publishDraft.call({
       draftId: this._id,
     }, (err, res) => {
       if (err) {

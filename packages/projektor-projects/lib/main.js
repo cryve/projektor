@@ -1,3 +1,5 @@
-import { Projects, ProjectsIndex } from './collection.js';
+import { Projects } from './collection.js';
+import { Drafts } from './collections/drafts.js';
+import './methods.js';
 
-export { Projects, ProjectsIndex };
+export { Projects, ProjectsIndex, Drafts };

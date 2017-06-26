@@ -1,12 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { check } from 'meteor/check';
-import { Match } from 'meteor/check';
 import Users from 'meteor/projektor:users';
 import SimpleSchema from 'simpl-schema';
 import lodash from 'lodash';
 
-import { projectSchema } from './schemas.js';
+import { projectSchema } from '../schemas.js';
 
 export const Drafts = new Mongo.Collection('drafts');
 
@@ -37,7 +35,7 @@ if (Meteor.isServer) {
       children: [{
         find(user) {
           const userDraftId = user && lodash.find(user.profile.drafts, function(draft) {
-            return draft.courseId == courseId;
+            return draft.courseId === courseId;
           });
           return userDraftId && Drafts.find(userDraftId.draftId);
         },

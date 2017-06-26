@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { XlsFiles } from '/lib/collections/xlsFiles.js';
 import { Courses } from '/lib/collections/courses.js';
 import { Projects } from 'meteor/projektor:projects';
-import { Drafts } from '/lib/collections/drafts.js';
+import { Drafts } from 'meteor/projektor:projects';
 import { courseOwnerSchema } from '/lib/collections/schemas.js';
 import { Template } from 'meteor/templating';
 import { insertEmptyCourseDraft, leaveCourse } from '/lib/methods.js';

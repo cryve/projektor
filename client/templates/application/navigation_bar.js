@@ -1,5 +1,4 @@
-import { Drafts } from '/lib/collections/drafts.js';
-import { insertEmptyDraft } from '/lib/methods.js';
+import { Drafts, Projects } from 'meteor/projektor:projects';
 import Users from 'meteor/projektor:users';
 import lodash from 'lodash';
 
@@ -57,9 +56,11 @@ Template.navigationBar.events({
 
     Session.set('result', 'null');
     if (!currentDraftId) {
-      currentDraftId = insertEmptyDraft.call((err, res) => {
+      console.log(Drafts);
+      console.log(Projects);
+      currentDraftId = Drafts.insertEmptyDraft.call((err, res) => {
         if (err) {
-          if (err.error == 'drafts.insertNew.unauthorized') {
+          if (err.error === 'drafts.insertNew.unauthorized') {
             FlowRouter.go('loginPage');
             alert('Bitte melde dich an, um ein neues Projekt zu erstellen.');
           } else {
@@ -67,6 +68,7 @@ Template.navigationBar.events({
           }
         }
       });
+
       if (Meteor.user()) {
         Users.setDraftIdInProfile.call({
           userId: Meteor.userId(),

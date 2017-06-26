@@ -3,6 +3,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import SimpleSchema from 'simpl-schema';
 import lodash from 'lodash';
 import { Projects } from './collection.js';
+import { Drafts } from './collections/drafts.js';
 import {
   memberSchema,
   jobSchema,
@@ -10,6 +11,27 @@ import {
   contactSchema,
   teamCommSchema,
 } from './schemas.js';
+
+Projects.publishDraft = new ValidatedMethod({
+  name: 'projects.publishDraft',
+  validate: new SimpleSchema({
+    draftId: {
+      type: String,
+      regEx: SimpleSchema.RegEx.Id,
+    },
+  }).validator(),
+  run({ draftId }) {
+    const draft = Drafts.findOne(draftId);
+    if (!lodash.includes(draft.permissions.editInfos, this.userId)
+    || !lodash.includes(draft.permissions.manageMembers, this.userId)
+    || !lodash.includes(draft.permissions.manageCourses, this.userId)
+    || !lodash.includes(draft.permissions.deleteProject, this.userId)) {
+      throw new Meteor.Error('projects.publishDraft.unauthorized',
+        'Cannot publish draft that is not yours');
+    }
+    return Projects.insert(draft);
+  },
+});
 
 Projects.deleteProject = new ValidatedMethod({
   name: 'projects.deleteProjects',
@@ -23,6 +45,27 @@ Projects.deleteProject = new ValidatedMethod({
       'Cannot delete project that is not yours');
     }
     Projects.remove(projectId);
+  },
+});
+
+Drafts.addMemberToDraft = new ValidatedMethod({
+  name: 'drafts.addMember',
+  validate: memberSchema.validator(),
+  run({ docId, member }) {
+    const draft = Drafts.findOne(docId);
+    if (!lodash.includes(draft.permissions.manageMembers, this.userId)
+      || !lodash.includes(draft.permissions.editInfos, this.userId)) {
+      throw new Meteor.Error('drafts.addMember.unauthorized',
+      'You are not allowed to add a member to this draft');
+    }
+    Drafts.update(docId, { $push: { team: member } });
+    lodash.forEach(member.permissions, function(hasPermission, permissionName) {
+      if (hasPermission) {
+        const addObj = {};
+        addObj[`permissions.${permissionName}`] = member.userId;
+        Drafts.update(docId, { $addToSet: addObj });
+      }
+    });
   },
 });
 
@@ -47,7 +90,32 @@ Projects.addMemberToProject = new ValidatedMethod({
   },
 });
 
-Projektor.updateEditableInfoInProject = new ValidatedMethod({
+Drafts.updateEditableInfoInDraft = new ValidatedMethod({
+  name: 'drafts.updateEditableInfo',
+  validate: new SimpleSchema({
+    _id: String,
+    modifier: {
+      type: Object,
+      blackbox: true,
+    },
+  }).validator(),
+  run({ modifier, _id }) {
+    const draft = Drafts.findOne(_id);
+    if (!lodash.includes(draft.permissions.editInfos, this.userId)) {
+      throw new Meteor.Error('drafts.updateEditableInfo.unauthorized',
+      'You are not allowed to edit this info field of the draft');
+    }
+    if (draft.courseId && modifier.$set.deadline) {
+      if (!lodash.includes(draft.permissions.manageCourses, this.userId)) {
+        throw new Meteor.Error('drafts.updateEditableInfo.unauthorized',
+        'You are not allowed to edit course infos in this draft');
+      }
+    }
+    Drafts.update({ _id }, modifier);
+  },
+});
+
+Projects.updateEditableInfoInProject = new ValidatedMethod({
   name: 'projects.updateEditableInfo',
   validate: new SimpleSchema({
     _id: String,
@@ -97,7 +165,58 @@ Projects.addSupervisorToProject = new ValidatedMethod({
   },
 });
 
-Projektor.addJobToProject = new ValidatedMethod({
+Drafts.addJobToDraft = new ValidatedMethod({
+  name: 'drafts.addJob',
+  validate: jobSchema.validator(),
+  run({ docId, job }) {
+    const draft = Drafts.findOne(docId);
+    if (!lodash.includes(draft.permissions.editInfos, this.userId)) {
+      throw new Meteor.Error('drafts.addJob.unauthorized',
+      'You are not allowed to add jobs to this draft');
+    }
+    if (_.findWhere(draft.jobs, job)) {
+      throw new Meteor.Error('drafts.addJob.alreadyExists',
+      'You cannot add the same job twice');
+    }
+    Drafts.update(docId, { $push: { jobs: job } });
+  },
+});
+
+Drafts.addContactToDraft = new ValidatedMethod({
+  name: 'drafts.addContact',
+  validate: contactSchema.validator(),
+  run({ docId, contact }) {
+    const draft = Drafts.findOne(docId);
+    if (!lodash.includes(draft.permissions.editInfos, this.userId)) {
+      throw new Meteor.Error('drafts.addContact.unauthorized',
+      'You are not allowed to add contacts to this draft');
+    }
+    if (_.findWhere(draft.contacts, contact)) {
+      throw new Meteor.Error('drafts.addContact.alreadyExists',
+      'You cannot add the same contact twice');
+    }
+    Drafts.update(docId, { $push: { contacts: contact } });
+  },
+});
+
+Drafts.addTeamCommToDraft = new ValidatedMethod({
+  name: 'drafts.addTeamComm',
+  validate: teamCommSchema.validator(),
+  run({ docId, teamComm }) {
+    const draft = Drafts.findOne(docId);
+    if (!lodash.includes(draft.permissions.editInfos, this.userId)) {
+      throw new Meteor.Error('drafts.addTeamComm.unauthorized',
+      'You cannot edit draft that is not yours');
+    }
+    if (_.findWhere(draft.teamCommunication, teamComm)) {
+      throw new Meteor.Error('drafts.addTeamComm.alreadyExists',
+      'You cannot add the same team communication option twice');
+    }
+    Drafts.update(docId, { $push: { teamCommunication: teamComm } });
+  },
+});
+
+Projects.addJobToProject = new ValidatedMethod({
   name: 'projects.addJob',
   validate: jobSchema.validator(),
   run({ docId, job }) {
@@ -114,7 +233,7 @@ Projektor.addJobToProject = new ValidatedMethod({
   },
 });
 
-Projektor.addContactToProject = new ValidatedMethod({
+Projects.addContactToProject = new ValidatedMethod({
   name: 'projects.addContact',
   validate: contactSchema.validator(),
   run({ docId, contact }) {
@@ -131,7 +250,7 @@ Projektor.addContactToProject = new ValidatedMethod({
   },
 });
 
-Projektor.addTeamCommToProject = new ValidatedMethod({
+Projects.addTeamCommToProject = new ValidatedMethod({
   name: 'projects.addTeamComm',
   validate: teamCommSchema.validator(),
   run({ docId, teamComm }) {
@@ -148,7 +267,36 @@ Projektor.addTeamCommToProject = new ValidatedMethod({
   },
 });
 
-Projektor.updateEditableSupervisorNotesInProject = new ValidatedMethod({
+Drafts.updateEditableSupervisorNotesInDraft = new ValidatedMethod({
+  name: 'drafts.updateEditableSupervisorNotes',
+  validate: new SimpleSchema({
+    _id: String,
+    modifier: {
+      type: Object,
+      blackbox: true,
+    },
+  }).validator(),
+  run({ modifier, _id }) {
+    const draft = Drafts.findOne(_id);
+    const isUserInGroup = (group, userId) => {
+      let foundUser = false;
+      lodash.forEach(group, function(value) {
+        if (lodash.includes(value, userId)) {
+          foundUser = true;
+          return false; // breaks the loop
+        }
+      });
+      return foundUser;
+    };
+    if (!isUserInGroup(draft.supervisors, this.userId)) {
+      throw new Meteor.Error('drafts.updateEditableInfo.unauthorized',
+      'You are not allowed to edit this supervisor notes in this draft');
+    }
+    Drafts.update({ _id }, modifier);
+  },
+});
+
+Projects.updateEditableSupervisorNotesInProject = new ValidatedMethod({
   name: 'projects.updateEditableSupervisorNotes',
   validate: new SimpleSchema({
     _id: String,
@@ -177,7 +325,7 @@ Projektor.updateEditableSupervisorNotesInProject = new ValidatedMethod({
   },
 });
 
-Projektor.projektUpdateVideoLink = new ValidatedMethod({
+Projects.projektUpdateVideoLink = new ValidatedMethod({
   name: 'projects.updateVideoLink',
   validate: new SimpleSchema({
     _id: String,
@@ -195,5 +343,20 @@ Projektor.projektUpdateVideoLink = new ValidatedMethod({
     return Projects.update({
       _id,
     }, modifier);
+  },
+});
+
+Drafts.insertEmptyDraft = new ValidatedMethod({
+  name: 'drafts.insertEmptyDraft',
+  validate: new SimpleSchema({}).validator(),
+  run() {
+    if (!this.userId) {
+      throw new Meteor.Error('drafts.insertNew.unauthorized',
+        'Cannot insert new draft because you are not logged in');
+    }
+    if (Meteor.user().profile.role == 'Mitarbeiter') {
+      return Drafts.insert({ supervisors: [{ userId: this.userId, role: Meteor.user().profile.title }] });
+    }
+    return Drafts.insert({});
   },
 });
