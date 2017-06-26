@@ -1,4 +1,5 @@
-import { Drafts, Projects } from 'meteor/projektor:projects';
+import { Meteor } from 'meteor/meteor';
+import { FilesCollection } from 'meteor/ostrio:files';
 
 export const ProjectFiles = new FilesCollection({
   collectionName: 'ProjectFiles',

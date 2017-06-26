@@ -2,7 +2,7 @@ import { Template } from 'meteor/templating';
 import lodash from 'lodash';
 import { Images } from 'meteor/projektor:files';
 import { Courses } from 'meteor/projektor:courses';
-import { ProjectFiles } from '/lib/collections/projectFiles.js';
+import { ProjectFiles } from 'meteor/projektor:files';
 import { deleteEditableArrayItem, deleteEditableCourse } from '/lib/methods.js';
 import { memberSchema } from '/lib/collections/schemas.js';
 import { jobSchema } from '/lib/collections/schemas.js';
