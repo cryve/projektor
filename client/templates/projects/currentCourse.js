@@ -1,7 +1,7 @@
 import { excel } from '/lib/methods.js';
 import { Meteor } from 'meteor/meteor';
-import { XlsFiles } from '/lib/collections/xlsFiles.js';
-import { Courses } from '/lib/collections/courses.js';
+import { XlsFiles } from 'meteor/projektor:courses';
+import { Courses } from 'meteor/projektor:courses';
 import { Projects } from 'meteor/projektor:projects';
 import { Drafts } from 'meteor/projektor:projects';
 import { courseOwnerSchema } from '/lib/collections/schemas.js';

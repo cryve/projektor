@@ -1,5 +1,5 @@
 import { FindFromPublication } from 'meteor/percolate:find-from-publication';
-import { Courses } from '/lib/collections/courses.js';
+import { Courses } from 'meteor/projektor:courses';
 import Users from 'meteor/projektor:users';
 import Projects from 'meteor/projektor:projects';
 import lodash from 'lodash';

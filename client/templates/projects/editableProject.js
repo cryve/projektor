@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Projects } from 'meteor/projektor:projects';
 import { Drafts } from 'meteor/projektor:projects';
-import { Courses } from '/lib/collections/courses.js';
+import { Courses } from 'meteor/projektor:courses';
 import toastr from 'toastr';
 import lodash from 'lodash';
 import 'toastr/build/toastr.css';

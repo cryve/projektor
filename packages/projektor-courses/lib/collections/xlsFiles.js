@@ -1,6 +1,4 @@
 import { FilesCollection } from 'meteor/ostrio:files';
-import { Drafts, Projects } from 'meteor/projektor:projects';
-import { check } from 'meteor/check';
 
 export const XlsFiles = new Meteor.Files({
   debug: false,

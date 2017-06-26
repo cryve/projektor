@@ -1,13 +1,11 @@
 import { Meteor } from 'meteor/meteor';
-import { Courses } from '/lib/collections/courses.js';
+import { Courses } from 'meteor/projektor:courses';
 import { Projects } from 'meteor/projektor:projects';
 import Users from 'meteor/projektor:users';
 import { Template } from 'meteor/templating';
 import lodash from 'lodash';
-import { deleteCourse } from '/lib/methods.js';
 import toastr from 'toastr';
 import './course.html';
-
 
 Template.course.onCreated(function courseOnCreated() {
   toastr.options = {
@@ -116,7 +114,7 @@ Template.course.events({
 
 Template.deleteCourseModal.events({
   'click #btn-delete'(event) {
-    deleteCourse.call({
+    Courses.deleteCourse.call({
       courseId: this.docId,
     }, (err, res) => {
       if (err) {

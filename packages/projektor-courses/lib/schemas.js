@@ -1,18 +1,6 @@
-import { Meteor } from 'meteor/meteor';
-import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
-export const Courses = new Mongo.Collection('courses');
 
-if (Meteor.isServer) {
-  Meteor.publish('courses', function coursePublication() {
-    return Courses.find();
-  });
-  Meteor.publish('singleCourse', function singleCoursePublication(courseId) {
-    return Courses.find(courseId);
-  });
-}
-
-Courses.attachSchema(new SimpleSchema({
+export const coursesCollectionSchema = new SimpleSchema({
   courseSemester: {
     type: String,
   },
@@ -52,10 +40,24 @@ Courses.attachSchema(new SimpleSchema({
     type: Date,
     optional: true,
   },
-}));
-
-Courses.deny({
-  insert() { return true; },
-  update() { return true; },
-  remove() { return true; },
 });
+
+
+export const courseSchema = new SimpleSchema({
+  courseSemester: {
+    type: String,
+  },
+  courseName: {
+    type: String,
+  },
+  studyCourse: {
+    type: String,
+  },
+  courseKey: {
+    type: String,
+  },
+  deadline: {
+    type: Date,
+    optional: true,
+  },
+}, { tracker: Tracker });
