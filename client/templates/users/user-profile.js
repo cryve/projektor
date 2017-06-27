@@ -1,7 +1,6 @@
 import { Template } from 'meteor/templating';
 import { Images } from 'meteor/projektor:files';
 import { Projects } from 'meteor/projektor:projects';
-import { Studies } from '/lib/collections/studies.js';
 import { avatarRemove } from '/lib/methods.js';
 import './user-profile.html';
 import '../projects/project_card.js';
@@ -21,22 +20,6 @@ Template.userProfile.onCreated(function userProfileOnCreated() {
 Template.userProfile.helpers({
   user() {
     return Users.findOne(FlowRouter.getParam('userId'));
-  },
-  facultyName(facultyId) {
-    const studyCourse = Studies.findOne({ facultyId });
-    return studyCourse && studyCourse.facultyName;
-  },
-  departmentName(departmentId) {
-    const studyCourse = Studies.findOne({ departmentId });
-    return studyCourse && studyCourse.departmentName;
-  },
-  studyCourseName(studyCourseId, departmentId, facultyId) {
-    const studyCourse = Studies.findOne({ $and: [
-      { studyCourseId },
-      { departmentId },
-      { facultyId },
-    ] });
-    return studyCourse && studyCourse.studyCourseName;
   },
   getAvatarURL (userId, version) {
     const user = Users.findOne({ _id: userId });

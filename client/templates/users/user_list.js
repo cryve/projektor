@@ -1,5 +1,4 @@
 import { Images } from 'meteor/projektor:files';
-import { Studies } from '/lib/collections/studies.js';
 import Users from 'meteor/projektor:users';
 
 Template.userList.onCreated(function userListOnCreated() {
@@ -75,14 +74,6 @@ Template.loadUser.onCreated(function loadUserOnCreated() {
 });
 
 Template.loadUser.helpers({
-  studyCourseName(studyCourseId, departmentId, facultyId) {
-    const studyCourse = Studies.findOne({ $and: [
-      { studyCourseId },
-      { departmentId },
-      { facultyId },
-    ] });
-    return studyCourse && studyCourse.studyCourseName;
-  },
   getAvatarURL (userId, version) {
     const user = Users.findOne({ _id: userId });
     const image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));

@@ -1,8 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import Users from 'meteor/projektor:users';
-import SimpleSchema from 'simpl-schema';
-
 import { studiesSchema } from './schemas.js';
 
 export const Studies = new Mongo.Collection('studies');

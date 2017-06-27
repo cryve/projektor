@@ -1,16 +1,8 @@
 import { Meteor } from 'meteor/meteor';
-import { Mongo } from 'meteor/mongo';
-import { check } from 'meteor/check';
-import { Match } from 'meteor/check';
-import { XlsFiles } from 'meteor/projektor:courses';
-import { Courses } from 'meteor/projektor:courses';
-import mongoxlsx from 'mongo-xlsx';
+import { Courses, XlsFiles } from 'meteor/projektor:courses';
 import lodash from 'lodash';
-import toastr from 'toastr';
 import 'meteor/projektor:projects';
-import { Studies } from '/lib/collections/studies.js';
 import { Accounts } from 'meteor/accounts-base';
-import { AccountsServer } from 'meteor/accounts-base';
 
 Accounts.onCreateUser((options, user) => {
   options.profile = {};
@@ -90,24 +82,4 @@ Meteor.startup(function() {
   });
   XlsFiles.remove({});
   Courses.remove({});
-  Studies.remove({});
-
-  fs = require('fs');
-  const model = [
-    { displayName: 'Studiengangsnummer', access: 'studyCourseId', type: 'number' },
-    { displayName: 'Studiengangsname', access: 'studyCourseName', type: 'string' },
-    { displayName: 'Abschlussnummer', access: 'degreeId', type: 'number' },
-    { displayName: 'Abschlussname', access: 'degreeName', type: 'string' },
-    { displayName: 'Prüfungsordnung', access: 'examRegulationsId', type: 'number' },
-    { displayName: 'Departmentnummer', access: 'departmentId', type: 'number' },
-    { displayName: 'Departmentname', access: 'departmentName', type: 'string' },
-    { displayName: 'Fakultätsnummer', access: 'facultyId', type: 'number' },
-    { displayName: 'Fakultätsname', access: 'facultyName', type: 'string' },
-  ];
-  const xlsxFile = Assets.absoluteFilePath('studycourse_lookup.xlsx');
-  mongoxlsx.xlsx2MongoData(xlsxFile, model, Meteor.bindEnvironment((err, data) => {
-    _.each(data, function(studyCourse) {
-      Studies.insert(studyCourse);
-    });
-  }));
 });

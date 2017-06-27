@@ -8,7 +8,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Images } from 'meteor/projektor:files';
-import { Studies } from '/lib/collections/studies.js';
 import Users from 'meteor/projektor:users';
 import lodash from 'lodash';
 
@@ -71,30 +70,6 @@ Template.registerHelper('log', (data) => {
 });
 
 Template.registerHelper('getMethodString', (collectionName, methodName) => `${collectionName}.${methodName}`);
-
-// Template.registerHelper("studyCourseName", (studyCourseId, departmentId, facultyId) => {
-//   //this.subscribe("studies");
-//   const studyCourse = Studies.findOne({ $and: [
-//     { "studyCourseId": studyCourseId },
-//     { "departmentId": departmentId },
-//     { "facultyId": facultyId }
-//   ]});
-//   return studyCourse && studyCourse.studyCourseName;
-// });
-
-// Template.registerHelper("departmentName", (departmentId) => {
-//   //this.subscribe("studies");
-//   const studyCourse = Studies.findOne({ "departmentId": departmentId });
-//   return studyCourse && studyCourse.departmentName;
-// });
-
-// Template.registerHelper("facultyName", (facultyId) => {
-//   //this.subscribe("studies");
-//   console.log(facultyId);
-//   const studyCourse = Studies.findOne({ "facultyId": facultyId });
-//   console.log(studyCourse);
-//   return studyCourse && studyCourse.facultyName;
-// });
 
 Template.registerHelper('isUserInGroup', (group, userId) => {
   let foundUser = false;
