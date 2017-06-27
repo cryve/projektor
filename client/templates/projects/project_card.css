@@ -568,3 +568,8 @@ hr{
   top:45% !important;
   left:44% !important;
 }
+
+.input-group-addon-assess{
+  min-width:200px;
+  text-align:left;
+}

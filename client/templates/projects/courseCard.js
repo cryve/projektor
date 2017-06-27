@@ -2,10 +2,13 @@ import { Courses } from '/lib/collections/courses.js';
 import { Projects } from '/lib/collections/projects.js';
 import lodash from 'lodash';
 Template.courseCard.onCreated (function courseOnCreated() {
-  this.autorun(() => {
-    this.subscribe("courseProjects", Template.currentData().courseId);
-    this.subscribe("courseCard", Template.currentData().courseId);
-  });
+  if (Template.currentData().courseId){
+    this.autorun(() => {
+      this.subscribe("courseProjects", Template.currentData().courseId);
+      this.subscribe("courseCard", Template.currentData().courseId);
+    });
+  }
+  
   this.subscribe("usersCourseAll");
   this.editActive = new ReactiveVar(false);
   this.editCourse = new ReactiveVar(false);

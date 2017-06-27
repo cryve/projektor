@@ -16,9 +16,7 @@
           {{else}}
             <button class="btn btn-success navbar-btn create-project-btn">Neues Projekt erstellen</button>
           {{/if}}
-          {{#if $eq currentUser.profile.role "Mitarbeiter"}}
             <a href="{{pathFor 'courses'}}"><button class="btn btn-primary navbar-btn">Meine Kurse</button></a>
-          {{/if}}
           {{#if currentUser}}
             <a href="{{pathFor 'users'}}"><button class="btn btn-primary navbar-btn">Mitglieder</button></a>
           {{/if}}

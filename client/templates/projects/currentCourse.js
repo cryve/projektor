@@ -97,6 +97,12 @@ Template.currentCourse.helpers({
   getCollection() {
     return Courses;
   },
+  checkUser() {
+    const course = Courses.findOne(FlowRouter.getParam('courseId'));
+    if(lodash.includes(course.owner, Meteor.userId())){
+      return true;
+    }
+  },
   courseOwnerSchema() {
     return courseOwnerSchema;
   },
@@ -170,6 +176,12 @@ Template.currentCourse.events({
   'click #btn-edit-course' (event) {
     event.preventDefault();
     Modal.show('editCourse', {
+      courseId: this._id,
+    });
+  },
+  'click #btn-assess-project' (event) {
+    event.preventDefault();
+    Modal.show('assessProjectModal', {
       courseId: this._id,
     });
   },

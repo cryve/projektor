@@ -27,16 +27,18 @@
                 {{/if}}
               </div>
             </div>
-            <div class="form-group form-group-border">
-              <div class="form-group">
-                <button class="btn btn-success create-mass-course-projects-btn btn-block ">Massenerstellung</button>
+            {{#if checkUser}}
+              <div class="form-group form-group-border">
+                <div class="form-group">
+                  <button class="btn btn-success create-mass-course-projects-btn btn-block ">Massenerstellung</button>
+                </div>
               </div>
-            </div>
-            <div class="form-group form-group-border">
-              <div class="form-group">
-                <button id="btn-edit-course" class="btn btn-primary btn-block">Kurs Daten bearbeiten</button>
+              <div class="form-group form-group-border">
+                <div class="form-group">
+                  <button id="btn-edit-course" class="btn btn-primary btn-block">Kurs Daten bearbeiten</button>
+                </div>
               </div>
-            </div>
+            {{/if}}
             <div class="form-group form-group-border">
               <h4>Kurs-Dozenten:</h4>
               <ul>
@@ -45,62 +47,68 @@
                   <div class="form-group"><a href="{{pathFor 'userProfile' userId=ownerId uniqueName=(getEmailName ownerId) }}">{{getFullUsername ownerId}}</a></div>
                 </li>
                 {{/each}}
-                <li>
-                  <div class="form-group">
-                    <a href="#" class="btn-add-supervisor">
-                      <p class="form-control-static"> Kollegen hinzufügen:<span class="caret"></span>
-                      </p>
-                    </a>
-                  </div>
-                  {{#if addSupervisor}}
-                    {{#autoForm id="addCourseOwner" schema=courseOwnerSchema type="method" meteormethod="addSupervisorToCourse" doc=this}}
-                      <div class="form-group">
-                        {{> afFieldInput name="userId" type="select2" options=(suggestedUsers exclude=this.owner role="Mitarbeiter") placeholder="Neuen Betreuer auswählen" allowClear=true}}
-                      </div>
-                      <div class="form-group">
-                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
-                        <button type="reset" class="btn btn-default btn-abort-adding"><span class="glyphicon glyphicon-remove"></span></button>
-                      </div>
-                    {{/autoForm}}
-                  {{/if}}
-                </li>
+                {{#if checkUser}}
+                  <li>
+                    <div class="form-group">
+                      <a href="#" class="btn-add-supervisor">
+                        <p class="form-control-static"> Kollegen hinzufügen:<span class="caret"></span>
+                        </p>
+                      </a>
+                    </div>
+                    {{#if addSupervisor}}
+                      {{#autoForm id="addCourseOwner" schema=courseOwnerSchema type="method" meteormethod="addSupervisorToCourse" doc=this}}
+                        <div class="form-group">
+                          {{> afFieldInput name="userId" type="select2" options=(suggestedUsers exclude=this.owner role="Mitarbeiter") placeholder="Neuen Betreuer auswählen" allowClear=true}}
+                        </div>
+                        <div class="form-group">
+                          <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
+                          <button type="reset" class="btn btn-default btn-abort-adding"><span class="glyphicon glyphicon-remove"></span></button>
+                        </div>
+                      {{/autoForm}}
+                    {{/if}}
+                  </li>
+                {{/if}}
               </ul>
             </div>
-            <div class="form-group form-group-border">
-              <a href="#" class="btn-add-selfEntering"><p class="form-control-static">Selbsteinschreibung:<span class="caret"></span></p></a>
-              {{#if selfEntering}}
-                <div class="btn-group">
-                  {{#if selfEnter}}
-                    <div class="wrap">
-                      <input type="checkbox" class="btn-toggle" id="s4" checked="" />
-                      <label class="slider-v2" for="s4"></label>
-                    </div>
-                  {{else}}
-                    <div class="wrap">
-                      <input type="checkbox" class="btn-toggle" id="s3" />
-                      <label class="slider-v2" for="s3"></label>
-                    </div>
-                  {{/if}}
-                </div>
-              {{/if}}
-              {{#if selfEnter}}
-                <p class="text-success"><h5>Aktiviert</h5></p>
-              {{else}}
-                <p class="text-danger"><h5>Deaktiviert</h5></p>
-              {{/if}}
-            </div>
+            {{#if checkUser}}
+              <div class="form-group form-group-border">
+                <a href="#" class="btn-add-selfEntering"><p class="form-control-static">Selbsteinschreibung:<span class="caret"></span></p></a>
+                {{#if selfEntering}}
+                  <div class="btn-group">
+                    {{#if selfEnter}}
+                      <div class="wrap">
+                        <input type="checkbox" class="btn-toggle" id="s4" checked="" />
+                        <label class="slider-v2" for="s4"></label>
+                      </div>
+                    {{else}}
+                      <div class="wrap">
+                        <input type="checkbox" class="btn-toggle" id="s3" />
+                        <label class="slider-v2" for="s3"></label>
+                      </div>
+                    {{/if}}
+                  </div>
+                {{/if}}
+                {{#if selfEnter}}
+                  <p class="text-success"><h5>Aktiviert</h5></p>
+                {{else}}
+                  <p class="text-danger"><h5>Deaktiviert</h5></p>
+                {{/if}}
+              </div>
+            {{/if}}
             <div class="form-group form-group-border">
             {{#if setDeadline }}
-              <a href="#" class="btn-edit-deadline"><p class="form-control-static">Deadline setzen:<span class="caret"></span></p></a>
-              {{#autoForm id="editDeadlineCourse" type="method-update" singleMethodArgument=true meteormethod="setCourseDeadline" doc=this collection=getCollection }}
-                <div class="form-group">
-                  {{> afFieldInput name="deadline" type="bootstrap-datepicker" placeholder="Deadline" }}
-                </div>
-                <div class="form-group">
-                  <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
-                  <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
-                </div>
-              {{/autoForm}}
+              {{#if checkUser}}
+                <a href="#" class="btn-edit-deadline"><p class="form-control-static">Deadline setzen:<span class="caret"></span></p></a>
+                {{#autoForm id="editDeadlineCourse" type="method-update" singleMethodArgument=true meteormethod="setCourseDeadline" doc=this collection=getCollection }}
+                  <div class="form-group">
+                    {{> afFieldInput name="deadline" type="bootstrap-datepicker" placeholder="Deadline" }}
+                  </div>
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
+                    <button type="reset" class="btn btn-default btn-abort-editing"><span class="glyphicon glyphicon-remove"></span></button>
+                  </div>
+                {{/autoForm}}
+              {{/if}}
             {{ else }}
               {{#if this.deadline}}
                 <div class="form-group">
@@ -109,30 +117,36 @@
                   <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-deadline"></span></a>
                 </div>
               {{else}}
-                <a href="#" class="btn-edit-deadline"><p class="form-control-static">Deadline setzen:<span class="caret"></span></p></a>
+                {{#if checkUser}}
+                  <a href="#" class="btn-edit-deadline"><p class="form-control-static">Deadline setzen:<span class="caret"></span></p></a>
+                {{/if}}
               {{/if}}
             {{/if}}
             </div>
-            <div class="form-group form-group-border">
-              <div class="form-group">
-                <button id="excel-button" disabled={{isCourseProject}} class="btn btn-primary btn-block">Teilnehmer Export</button>
+            {{#if checkUser}}
+              <div class="form-group form-group-border">
+                <div class="form-group">
+                  <button id="excel-button" disabled={{isCourseProject}} class="btn btn-primary btn-block">Teilnehmer Export</button>
+                </div>
               </div>
-            </div>
-            <div class="form-group form-group-border">
-              <div class="form-group">
-                <button id="btn-delete-course-projects" disabled={{isCourseProject}} class="btn btn-danger btn-block">Alle Projekte Löschen</button>
+              <div class="form-group form-group-border">
+                <div class="form-group">
+                  <button id="btn-delete-course-projects" disabled={{isCourseProject}} class="btn btn-danger btn-block">Alle Projekte Löschen</button>
+                </div>
               </div>
-            </div>
+            {{/if}}
             <div class="form-group form-group-border">
               <div class="form-group">
                 <button id="btn-leave-course" disabled={{isLastOwner}} class="btn btn-danger btn-block">Kurs verlassen</button>
               </div>
             </div>
-            <div class="form-group form-group-border">
-              <div class="form-group">
-                <button id="btn-delete-course" class="btn btn-danger btn-block">Kurs löschen</button>
+            {{#if checkUser}}
+              <div class="form-group form-group-border">
+                <div class="form-group">
+                  <button id="btn-delete-course" class="btn btn-danger btn-block">Kurs löschen</button>
+                </div>
               </div>
-            </div>
+            {{/if}}
           </div>
         </div>
           </div>

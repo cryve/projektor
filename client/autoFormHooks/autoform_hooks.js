@@ -30,6 +30,14 @@ AutoForm.addHooks([
 });
 
 AutoForm.addHooks([
+  'addCourseToCourse',
+], {
+  onSuccess(formType, result) {
+    this.template.parent().addCourse.set(false);
+  },
+});
+
+AutoForm.addHooks([
   'editDeadlineCourse',
 ], {
   onSuccess(formType, result) {
@@ -55,6 +63,8 @@ AutoForm.addHooks([
   'addTeamCommItem',
   'addContactUser',
   'addLink',
+  'saveGrading',
+  'saveGrading',
 ], {
   before: {
     method(doc) {

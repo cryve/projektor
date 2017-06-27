@@ -30,6 +30,10 @@ Template.registerHelper('getFullUsername', (userId) => {
   const user = Meteor.users.findOne({ _id: userId });
   return user && `${user.profile.firstname} ${user.profile.lastname}`;
 });
+Template.registerHelper('getMatr', (userId) => {
+  const user = Meteor.users.findOne({ _id: userId });
+  return  `${user.profile.matricNo}`;
+});
 
 Template.registerHelper('getEmailName', (userId) => {
   const user = Meteor.users.findOne(userId);

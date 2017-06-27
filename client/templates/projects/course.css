@@ -9,6 +9,13 @@
   box-sizing: border-box;
 }
 
+.select2-container{
+  width:100% !important;
+
+}
+.courseList{
+  width: 500px;
+}
 
 
 .toggler {

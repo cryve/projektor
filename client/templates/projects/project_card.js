@@ -1,6 +1,12 @@
 import { Template } from 'meteor/templating';
 import { Projects } from '/lib/collections/projects.js';
 import { Images } from '/lib/collections/images.js';
+import lodash from 'lodash';
+import { gradingSchema } from '/lib/collections/schemas.js';
+import { projectSchema } from '/lib/collections/schemas.js';
+import { saveGrading } from '/lib/methods.js';
+import toastr from 'toastr';
+
 // import truncate from "truncate.js";
 // import trunk8 from "trunk8";
 import './project_card.html';
@@ -53,6 +59,14 @@ Template.projectCard.events({
   },
   'click .back'(event, template) {
     $(event.currentTarget).parent().removeClass('flipped');
+  },
+  'click #btn-assess-project' (event) {
+    event.preventDefault();
+    Modal.show('assessProjectModal', {
+      projectId: this._id,
+      title: this.title,
+      courseId: this.courseId,
+    });
   },
 });
 // Template.projectCard.events({
@@ -301,6 +315,113 @@ Template.projectCardJobs.helpers({
   },
   itemsRemaining(totalItems, maxItems, placeholderItems) {
     if (totalItems > maxItems) { return totalItems - (maxItems - placeholderItems); }
+  },
+});
+
+Template.projectCardMemberItem.onCreated(function projectCardMemberItemOnCreated() {
+  this.autorun(() => {
+    if(Template.currentData().userId){
+      this.subscribe('users.list.single', Template.currentData().userId);
+      this.subscribe('files.images.avatar', Template.currentData().userId);
+    }
+  });
+});
+
+Template.assessProjectModal.onCreated(function assessProjectModalOnCreated() {
+  AutoForm.debug()
+  this.gradingsRegex = /^[1-4]([,.](0|3|7))?$|^5([,.]0)?$|^0[,.]7$/
+  toastr.options = {
+    closeButton: false,
+    debug: false,
+    newestOnTop: false,
+    progressBar: false,
+    positionClass: 'toast-top-left',
+    preventDuplicates: false,
+    onclick: null,
+    showDuration: '300',
+    hideDuration: '1000',
+    timeOut: '5000',
+    extendedTimeOut: '1000',
+    showEasing: 'swing',
+    hideEasing: 'linear',
+    showMethod: 'fadeIn',
+    hideMethod: 'fadeOut',
+  };
+  this.autorun(() => {
+    const currentThis = this;
+    if(Template.currentData().projectId){
+      var project = Projects.findOne(Template.currentData().projectId)
+      lodash.each(project.team, function(user){
+        currentThis.subscribe('users.list.single', user.userId);
+      })
+    }
+  });
+});
+
+Template.assessProjectModal.helpers({
+  projectTeam() {
+    var project = Projects.findOne(this.projectId);
+    if (project && project.team){
+      return project.team
+    }
+  },
+  isStudent(userId){
+    var user = Meteor.users.findOne({_id: userId})
+    if(user && user.profile.role == "Student"){
+      return true;
+    }
+
+  },
+  gradingSchema(){
+    return gradingSchema;
+  },
+  currentDoc(){
+    return Projects.findOne(this.projectId);
+  },
+  getCollection(){
+    return Projects.find({});
+  },
+  gradingIndexName(index){
+    console.log(index);
+    return `member.${0}.grading`;
+  },
+  inputId(userId){
+    return userId.toString();
+  }
+});
+
+Template.assessProjectModal.events({
+  'click #btn-assess-save' (event, template) {
+    event.preventDefault();
+    var project = Projects.findOne(this.projectId);
+    const projectId = this.projectId;
+    if (project && project.team){
+      lodash.forEach(project.team, function(member){
+        var user = Meteor.users.findOne({_id: member.userId})
+        if(document.getElementById(user._id.toString())){
+        var html=document.getElementById(user._id.toString());
+        var html2=document.getElementById(user._id.toString()).parentElement;
+          if(user && user.profile.role == "Student"){
+            if (!Template.instance().gradingsRegex.test(document.getElementById(user._id.toString()).value)){
+              html2.setAttribute("class", "input-group has-error");
+              html.setAttribute("value", "Ungültige Eingabe");
+            } else {
+              console.log(document.getElementById(user._id.toString()).value);
+              saveGrading.call({
+                value: document.getElementById(user._id.toString()).value,
+                userId: user._id,
+                projectId: projectId,
+              }, (err, res) => {
+                if (err) {
+                  alert(err);
+                }
+                html2.setAttribute("class", "input-group has-success");
+              });
+            }
+          }
+        }
+      });
+    }
   },
 });
 
