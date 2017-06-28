@@ -4,7 +4,7 @@ import { Images } from 'meteor/projektor:files';
 import Users from 'meteor/projektor:users';
 import toastr from 'toastr';
 
-import { galleryUpdate } from '/lib/methods.js';
+import { updateGalleryItem } from '/lib/methods.js';
 
 import './image_upload_crop.html';
 
@@ -88,12 +88,12 @@ Template.uploadFormCrop.events({
                   }
                 });
               }
-              galleryUpdate.call({
+              updateGalleryItem.call({
                 projectId: template.data.projectId,
-                collection: collection._name,
-                index: parseInt(currentSlot),
-                type: 'image',
-                id: fileObj._id,
+                collectionName: collection._name,
+                itemIndex: parseInt(currentSlot),
+                newItemType: 'image',
+                imageId: fileObj._id,
               }, (err, res) => {
                 if (err) {
                   alert(err);
@@ -118,12 +118,12 @@ Template.uploadFormCrop.events({
                   }
                 });
               }
-              galleryUpdate.call({
+              updateGalleryItem.call({
                 projectId: template.data.projectId,
-                collection: collection._name,
-                index: parseInt(currentSlot),
-                type: 'image',
-                id: fileObj._id,
+                collectionName: collection._name,
+                itemIndex: parseInt(currentSlot),
+                newItemType: 'image',
+                imageId: fileObj._id,
               }, (err, res) => {
                 if (err) {
                   alert(err);

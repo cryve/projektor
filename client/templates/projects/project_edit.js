@@ -3,7 +3,7 @@ import lodash from 'lodash';
 import { Images } from 'meteor/projektor:files';
 import { Courses } from 'meteor/projektor:courses';
 import { ProjectFiles } from 'meteor/projektor:files';
-import { deleteEditableArrayItem, deleteEditableCourse } from '/lib/methods.js';
+import { deleteEditableArrayItem, removeCourseFromProject } from '/lib/methods.js';
 import { memberSchema } from '/lib/collections/schemas.js';
 import { jobSchema } from '/lib/collections/schemas.js';
 import { contactSchema } from '/lib/collections/schemas.js';
@@ -65,9 +65,9 @@ Template.addCourse.events({
   },
   'click .btn-delete-course' (event) {
     event.preventDefault();
-    deleteEditableCourse.call({
+    removeCourseFromProject.call({
       collectionName: this.currentCollection._name,
-      docId: this.currentDoc._id,
+      projectId: this.currentDoc._id,
     }, (err, res) => {
       if (err) {
         alert(err);

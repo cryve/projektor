@@ -1,4 +1,3 @@
-import { excel } from '/lib/methods.js';
 import { Meteor } from 'meteor/meteor';
 import { XlsFiles } from 'meteor/projektor:courses';
 import { Courses } from 'meteor/projektor:courses';
@@ -6,8 +5,8 @@ import { Projects } from 'meteor/projektor:projects';
 import { Drafts } from 'meteor/projektor:projects';
 import { courseOwnerSchema } from '/lib/collections/schemas.js';
 import { Template } from 'meteor/templating';
-import { insertEmptyCourseDraft, leaveCourse } from '/lib/methods.js';
-import { createMassProjects, setSelfEnter, deleteAllProjects, addSupervisorToCourse } from '/lib/methods.js';
+import { insertNewCourseProjectDraft, leaveCourse } from '/lib/methods.js';
+import { insertMultipleNewCourseProjects, setSelfEnter, deleteAllProjectsInCourse, addCourseOwner } from '/lib/methods.js';
 import Users from 'meteor/projektor:users';
 import lodash from 'lodash';
 import toastr from 'toastr';
@@ -183,7 +182,7 @@ Template.currentCourse.events({
   'click .btn-toggle'(event) {
     event.stopPropagation();
     setSelfEnter.call({
-      buttonEvent: this.selfEnter,
+      selfEnterAllowed: this.selfEnter,
       courseId: this._id,
     }, (err, res) => {
       if (err) {
@@ -213,7 +212,7 @@ Template.currentCourse.events({
     if (lastDraft && lastDraft._id) {
       draftId = lastDraft._id;
     } else {
-      draftId = insertEmptyCourseDraft.call({
+      draftId = insertNewCourseProjectDraft.call({
         courseId: this._id,
       }, (err, res) => {
         if (err) {
@@ -239,7 +238,7 @@ Template.currentCourse.events({
   'click #excel-button' (event) {
     XlsFiles.remove({ userId: this._id });
     Meteor.call(
-      'excel', {
+      'insertCourseSpreadsheet', {
         courseId: this._id,
       },
       // function(error, result){
@@ -303,7 +302,7 @@ Template.deleteAllCourseProjectsModal.onCreated(function deleteModalOnCreated() 
 
 Template.deleteAllCourseProjectsModal.events({
   'click #btn-delete'(event) {
-    deleteAllProjects.call({
+    deleteAllProjectsInCourse.call({
       courseId: this.courseId,
     }, (err, res) => {
       if (err) {
@@ -340,9 +339,11 @@ Template.createMassProjectsModal.onCreated(function deleteModalOnCreated() {
 
 Template.createMassProjectsModal.events({
   'click #create-mass-course-projects-btn'(event) {
-    createMassProjects.call({
+    const titlesInput = document.getElementById('myTextarea').value;
+    const titles = titlesInput.split('\n');
+    insertMultipleNewCourseProjects.call({
       courseId: this.courseId,
-      text: document.getElementById('myTextarea').value,
+      courseProjectTitles: titles,
     }, (err, res) => {
       if (err) {
         alert(err);

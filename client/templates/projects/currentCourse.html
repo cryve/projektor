@@ -47,7 +47,7 @@
                 </a>
               </div>
               {{#if addSupervisor}}
-                {{#autoForm id="addCourseOwner" schema=courseOwnerSchema type="method" meteormethod="addSupervisorToCourse" doc=this}}
+                {{#autoForm id="addCourseOwner" schema=courseOwnerSchema type="method" meteormethod="courses.addCourseOwner" doc=this}}
                   <div class="form-group">
                     {{> afFieldInput name="userId" type="select2" options=(suggestedUsers exclude=this.owner role="Mitarbeiter") placeholder="Neuen Betreuer auswählen" allowClear=true}}
                   </div>
@@ -86,7 +86,7 @@
         <div class="form-group form-group-border">
         {{#if setDeadline }}
           <a href="#" class="btn-edit-deadline"><p class="form-control-static">Deadline setzen:<span class="caret"></span></p></a>
-          {{#autoForm id="editDeadlineCourse" type="method-update" singleMethodArgument=true meteormethod="setCourseDeadline" doc=this collection=getCollection }}
+          {{#autoForm id="editDeadlineCourse" type="method-update" singleMethodArgument=true meteormethod="courses.setCourseProjectsDeadline" doc=this collection=getCollection }}
             <div class="form-group">
               {{> afFieldInput name="deadline" type="bootstrap-datepicker" placeholder="Deadline" }}
             </div>

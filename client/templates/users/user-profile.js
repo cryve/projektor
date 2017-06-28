@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Images } from 'meteor/projektor:files';
 import { Projects } from 'meteor/projektor:projects';
-import { avatarRemove } from '/lib/methods.js';
+import { deleteAvatarFromUser } from '/lib/methods.js';
 import './user-profile.html';
 import '../projects/project_card.js';
 import Users from 'meteor/projektor:users';
@@ -37,7 +37,7 @@ Template.userProfile.helpers({
 Template.userProfile.events({
   'click #delete-avatar-button' (event, template) {
   // Images.remove({_id: currentArray[currentSlot].id});
-    avatarRemove.call({
+    deleteAvatarFromUser.call({
       userId: Meteor.userId(),
     }, (err, res) => {
       if (err) {

@@ -1,6 +1,6 @@
 import { Images } from 'meteor/projektor:files';
 import { Template } from 'meteor/templating';
-import { deleteImg, setMedia, setCoverImg, setMediaId, setMediaType, removeCoverImg } from '/lib/methods.js';
+import { deleteImageFromProject, initGallery, setCoverImg, setGalleryItemImageId, setGalleryItemType, removeCoverImg } from '/lib/methods.js';
 
 import './gallery.html';
 Template.setVideoLink.onCreated(function() {
@@ -23,35 +23,6 @@ Template.setVideoLink.events({
   'click .btn-abort-adding' (event) {
     Template.instance().editActive.set(false);
   },
-
-  // "click .btn-set-type" (event, template) {
-  //   var currentSlot = template.data.slot;
-  //   var collection = template.data.collection;
-  //   // collection.update( { _id: template.data.projectId }, { $set: { 'media': currentArray }} );
-  //   if(collection._name == "projects") {
-  //     setMediaType.call({
-  //       collection: true,
-  //       type: "URL",
-  //       projectId: template.data.projectId,
-  //       index: parseInt(currentSlot)
-  //     }, (err, res) => {
-  //       if (err) {
-  //         alert(err);
-  //       }
-  //     });
-  //   } else if (collection._name == "drafts") {
-  //     setMediaType.call({
-  //       collection: false,
-  //       type: "URL",
-  //       projectId: template.data.projectId,
-  //       index: parseInt(currentSlot)
-  //     }, (err, res) => {
-  //       if (err) {
-  //         alert(err);
-  //       }
-  //     });
-  //   }
-  // },
 });
 
 Template.video.helpers({
@@ -63,9 +34,6 @@ Template.video.helpers({
 
 Template.titleImage.onCreated(function() {
   this.setEmptyPreview = new ReactiveVar(false);
-  // this.autorun(() => {
-  //   this.subscribe("files.images.all");
-  // });
 });
 
 Template.titleImage.helpers({
@@ -76,9 +44,6 @@ Template.titleImage.helpers({
 
 Template.deleteImageButton.onCreated(function() {
   this.setEmptyPreview = new ReactiveVar(false);
-  // this.autorun(() => {
-  //   this.subscribe("files.images.all");
-  // });
 });
 
 Template.deleteImageButton.helpers({
@@ -97,7 +62,7 @@ Template.deleteImageButton.events({
     if (currentArray && currentArray[currentSlot].id
        && (currentArray[currentSlot].type == 'image')) {
     // Images.remove({_id: currentArray[currentSlot].id});
-      deleteImg.call({
+      deleteImageFromProject.call({
         imageId: currentArray[currentSlot].id,
         projectId,
       }, (err, res) => {
@@ -119,10 +84,10 @@ Template.deleteImageButton.events({
     //  collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': newCoverImage }} );
       if (newCoverImage) {
         setCoverImg.call({
-          collection: collection._name,
+          collectionName: collection._name,
           projectId: template.data.projectId,
-          index: parseInt(currentSlot),
-          coverImageId: newCoverImage,
+          galleryItemIndex: parseInt(currentSlot),
+          imageId: newCoverImage,
         }, (err, res) => {
           if (err) {
             alert(err);
@@ -130,7 +95,7 @@ Template.deleteImageButton.events({
         });
       } else {
         removeCoverImg.call({
-          collection: collection._name,
+          collectionName: collection._name,
           projectId: template.data.projectId,
         }, (err, res) => {
           if (err) {
@@ -138,25 +103,22 @@ Template.deleteImageButton.events({
           }
         });
       }
-   // currentArray[currentSlot].id = null;
-   // currentArray[currentSlot].type = null;
-  //  collection.update( { _id: template.data.projectId }, { $set: { 'media': currentArray }} );
     }
-    setMediaType.call({
-      collection: collection._name,
-      type: 'null',
+    setGalleryItemType.call({
+      collectionName: collection._name,
+      itemType: 'null',
       projectId: template.data.projectId,
-      index: parseInt(currentSlot),
+      itemIndex: parseInt(currentSlot),
     }, (err, res) => {
       if (err) {
         alert(err);
       }
     });
-    setMediaId.call({
-      collection: collection._name,
-      id: 'null',
+    setGalleryItemImageId.call({
+      collectionName: collection._name,
+      imageId: 'null',
       projectId: template.data.projectId,
-      index: parseInt(currentSlot),
+      itemIndex: parseInt(currentSlot),
     }, (err, res) => {
       if (err) {
         alert(err);
@@ -183,12 +145,11 @@ Template.setTitleImageButton.events({
     const currentArray = template.data.media;
     const currentSlot = template.data.slot;
     const collection = template.data.collection;
-  //  collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': currentArray[currentSlot].id }} );
     setCoverImg.call({
-      collection: collection._name,
+      collectionName: collection._name,
       projectId: template.data.projectId,
-      index: parseInt(currentSlot),
-      coverImageId: 'empty',
+      galleryItemIndex: parseInt(currentSlot),
+      imageId: 'empty',
     }, (err, res) => {
       if (err) {
         alert(err);
@@ -238,40 +199,6 @@ Template.wholeGallery.helpers({
     const newUrl = `http://img.youtube.com/vi/${newUrlId}/0.jpg`;
     return newUrl;
   },
-  // urlId() {
-  //   var slot = Session.get('slot');
-  //   //var currentArray = this.currentDoc.media;
-  //   var url = this.currentDoc.media[slot].id;
-  //   var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
-  //   var match = url.match(regExp);
-  //   var newUrlId = (match&&match[7].length==11)? match[7] : false;
-  //   var newUrl = "https://www.youtube.com/embed/"+newUrlId;
-  //
-  //   // this.currentCollection.update({_id: this.currentDoc.id}, {$set: {'media': currentArray}});
-  //   if(this.currentCollection._name == "projects") {
-  //   setMediaId.call({
-  //     id: newUrl,
-  //     collection: true,
-  //     projectId: this.currentDoc._id,
-  //     index: parseInt(slot)
-  //   }, (err, res) => {
-  //     if (err) {
-  //       alert(err);
-  //     }
-  //   });
-  // } else if (this.currentCollection._name == "drafts") {
-  //   setMediaId.call({
-  //     id: newUrl,
-  //     collection: false,
-  //     projectId: this.currentDoc._id,
-  //     index: parseInt(slot)
-  //   }, (err, res) => {
-  //     if (err) {
-  //       alert(err);
-  //     }
-  //   });
-  // }
-  // },
   getMediaType() {
     const slot = Session.get('slot');
     return this.currentDoc.media[slot].type;
@@ -315,7 +242,7 @@ Template.wholeGallery.events({
       Session.set('slot', 0);
       // this.currentCollection.update(this.currentDoc._id, {$set: {media: mediaEmpty}});
       // this.currentCollection.update(this.currentDoc._id, {$set: {coverImg: null}});
-      setMedia.call({
+      initGallery.call({
         collection: this.currentCollection._name,
         projectId: this.currentDoc._id,
       }, (err, res) => {

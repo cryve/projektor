@@ -6,7 +6,7 @@ import toastr from 'toastr';
 import lodash from 'lodash';
 import 'toastr/build/toastr.css';
 import { deleteDraft } from '/lib/methods.js';
-import { enterProject } from '/lib/methods.js';
+import { joinCourseProject } from '/lib/methods.js';
 import './editableProject.html';
 
 
@@ -248,7 +248,7 @@ Template.enterProjectModal.events({
   'click #btn-enter'(event) {
     console.log(this);
     console.log(document.getElementById('modalInputKey').value);
-    enterProject.call({
+    joinCourseProject.call({
       projectId: this.docId,
       input: document.getElementById('modalInputKey').value,
     }, (err, res) => {
