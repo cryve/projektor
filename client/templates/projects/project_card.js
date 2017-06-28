@@ -381,10 +381,6 @@ Template.assessProjectModal.helpers({
   getCollection(){
     return Projects.find({});
   },
-  gradingIndexName(index){
-    console.log(index);
-    return `member.${0}.grading`;
-  },
   inputId(userId){
     return userId.toString();
   }
@@ -399,14 +395,13 @@ Template.assessProjectModal.events({
       lodash.forEach(project.team, function(member){
         var user = Meteor.users.findOne({_id: member.userId})
         if(document.getElementById(user._id.toString())){
-        var html=document.getElementById(user._id.toString());
+        // var html=document.getElementById(user._id.toString());
         var html2=document.getElementById(user._id.toString()).parentElement;
           if(user && user.profile.role == "Student"){
             if (!Template.instance().gradingsRegex.test(document.getElementById(user._id.toString()).value)){
               html2.setAttribute("class", "input-group has-error");
-              html.setAttribute("value", "Ungültige Eingabe");
+              // html.setAttribute("value", "Ungültige Eingabe");
             } else {
-              console.log(document.getElementById(user._id.toString()).value);
               saveGrading.call({
                 value: document.getElementById(user._id.toString()).value,
                 userId: user._id,

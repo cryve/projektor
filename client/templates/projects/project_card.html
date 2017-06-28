@@ -107,16 +107,12 @@
                 {{#if isStudent member.userId}}
                     <div class="input-group">
                       <span class="input-group-addon input-group-addon-assess" id="basic-addon1">{{getFullUsername member.userId}}</span>
-                      <span class="input-group-addon" id="basic-addon1">{{getMatr member.userId}}</span>
+                      <span class="input-group-addon" id="basic-addon1">Matr.: {{getMatr member.userId}}</span>
                         <input type="text" class="form-control" id="{{inputId member.userId}}" placeholder="Bewertung" aria-describedby="basic-addon1" value={{member.grading}}>
                     </div>
                     <br>
                 {{/if}}
               {{/each}}
-              <div class="form-group">
-                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
-                <button type="reset" class="btn btn-default btn-abort-adding"><span class="glyphicon glyphicon-remove"></span></button>
-              </div>
           </div>
         </div>
         <div class="modal-footer">

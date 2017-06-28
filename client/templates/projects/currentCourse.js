@@ -296,6 +296,18 @@ Template.currentCourse.events({
     Meteor.call(
     'excel',{
       courseId: this._id,
+      excel: "memberlist",
+      },
+    );
+    TemplateVar.set('createLink', true);
+  },
+  'click #helios-button' (event){
+    event.preventDefault();
+    XlsFiles.remove({userId:this._id});
+    Meteor.call(
+    'excel',{
+      courseId: this._id,
+      excel: "helios",
       },
     );
     TemplateVar.set('createLink', true);
