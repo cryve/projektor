@@ -49,21 +49,22 @@ Template.currentCourse.onCreated(function courseOnCreated() {
 
 Template.currentCourse.helpers({
   canShow() {
-    const user = Meteor.user();
-    if(!user) {
+    if (!Meteor.user()) {
       return false;
     }
-    const courseId = FlowRouter.getParam("courseId");
-    if(courseId) {
-      const course = Courses.findOne(courseId);
-      if(!course) {
-        return false;
-      }
-      return true;
-      // return lodash.find(user.profile.drafts, function(userDraft) {
-      //   return userDraft.draftId === draftId;
-    };
-    return false;
+
+    const courseId = FlowRouter.getParam('courseId');
+    const course = Courses.findOne(courseId);
+
+    if(!course) {
+      return false;
+    }
+    const courseOwnersAndMembers = lodash.concat(course.owner, course.member);
+    if (!lodash.includes(courseOwnersAndMembers, Meteor.userId())) {
+      return false;
+    }
+
+    return true;
   },
   course() {
     return Courses.findOne(FlowRouter.getParam('courseId'));
