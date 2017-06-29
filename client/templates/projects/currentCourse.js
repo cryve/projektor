@@ -5,7 +5,7 @@ import { Projects } from 'meteor/projektor:projects';
 import { Drafts } from 'meteor/projektor:projects';
 import { courseOwnerSchema } from '/lib/collections/schemas.js';
 import { Template } from 'meteor/templating';
-import { insertNewCourseProjectDraft, leaveCourse } from '/lib/methods.js';
+import { insertNewCourseProjectDraft, leaveCourse, createAndInsertCourseSpreadsheet } from '/lib/methods.js';
 import { insertMultipleNewCourseProjects, setSelfEnter, deleteAllProjectsInCourse, addCourseOwner } from '/lib/methods.js';
 import Users from 'meteor/projektor:users';
 import lodash from 'lodash';
@@ -237,23 +237,14 @@ Template.currentCourse.events({
   },
   'click #excel-button' (event) {
     XlsFiles.remove({ userId: this._id });
-    Meteor.call(
-      'insertCourseSpreadsheet', {
-        courseId: this._id,
-      },
-      // function(error, result){
-      //     if(error){
-      //         console.error(error);
-      //     } else {
-      //
-      //         console.info(typeof result);
-      //
-      //     }
-      // }
-    );
-
+    createAndInsertCourseSpreadsheet.call({
+      courseId: this._id,
+    }, (err, res) => {
+      if (err) {
+        alert(err);
+      }
+    });
     Template.instance().createLink.set(true);
-    console.log(Template.instance().createLink.get());
   },
 
 });
