@@ -124,13 +124,12 @@ export const ProjectsIndex = new Index({
         throw new Meteor.Error('Invalid sort by prop passed')
       }
     },*/
-    client: { host: 'http://dev.projektor.mt.haw-hamburg.de:9200', log: 'trace' },
+    // client: { host: 'http://dev.projektor.mt.haw-hamburg.de:9200', log: 'trace' },
     query: (searchObject) => {
       if (searchObject.title) {
         const finalQuery = { bool: { must: [] } };
         let words = searchObject.title,
           wordArray = words.split(' ');
-        console.log(wordArray);
         _.each(wordArray, function(word) {
           const queryInput = {
             bool: {
@@ -200,12 +199,9 @@ export const ProjectsIndex = new Index({
       body._source = ['_id'];
       delete body.fields;
       delete body.sort;
-      console.log('SearchBody', body);
       return body;
     },
     getElasticSearchDoc: (doc, fields) => {
-      console.log('getDoc', doc);
-      console.log('getFields', fields);
       return doc;
     },
   }),
