@@ -12,6 +12,40 @@ import {
   teamCommSchema,
 } from './schemas.js';
 
+Projects.insertNewDraft = new ValidatedMethod({
+  name: 'projects.insertNewDraft',
+  validate: null,
+  run() {
+    if (!this.userId) {
+      throw new Meteor.Error('projects.insertNewDraft.notLoggedIn',
+        'Cannot insert new project draft because you are not logged in');
+    }
+
+    const projectDraft = {
+      title: 'Unbenanntes Projekt',
+      isDraft: true,
+      permissions: {
+        editInfos: [this.userId],
+        manageMembers: [this.userId],
+        manageCourses: [this.userId],
+        deleteProject: [this.userId],
+      },
+      team: [{
+        userId: this.userId,
+        role: 'Projektleitung',
+        permissions: {
+          editInfos: true,
+          manageMembers: true,
+          manageCourses: true,
+          deleteProject: true,
+        },
+      }],
+    };
+    const projectId = Projects.insert(projectDraft);
+    return projectId;
+  },
+});
+
 Projects.publishDraft = new ValidatedMethod({
   name: 'projects.publishDraft',
   validate: new SimpleSchema({
@@ -343,20 +377,5 @@ Projects.projektsetGalleryItemVideoUrl = new ValidatedMethod({
     return Projects.update({
       _id,
     }, modifier);
-  },
-});
-
-Drafts.insertEmptyDraft = new ValidatedMethod({
-  name: 'drafts.insertEmptyDraft',
-  validate: new SimpleSchema({}).validator(),
-  run() {
-    if (!this.userId) {
-      throw new Meteor.Error('drafts.insertNew.unauthorized',
-        'Cannot insert new draft because you are not logged in');
-    }
-    if (Meteor.user().profile.role == 'Mitarbeiter') {
-      return Drafts.insert({ supervisors: [{ userId: this.userId, role: Meteor.user().profile.title }] });
-    }
-    return Drafts.insert({});
   },
 });

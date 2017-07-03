@@ -1,4 +1,4 @@
-import { Drafts, Projects } from 'meteor/projektor:projects';
+import { Projects } from 'meteor/projektor:projects';
 import Users from 'meteor/projektor:users';
 import lodash from 'lodash';
 
@@ -56,7 +56,7 @@ Template.navigationBar.events({
 
     Session.set('result', 'null');
     if (!currentDraftId) {
-      currentDraftId = Drafts.insertEmptyDraft.call((err, res) => {
+      currentDraftId = Projects.insertEmptyDraft.call((err, res) => {
         if (err) {
           if (err.error === 'drafts.insertNew.unauthorized') {
             FlowRouter.go('loginPage');

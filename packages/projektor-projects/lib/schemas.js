@@ -2,6 +2,7 @@ import { Tracker } from 'meteor/tracker'
 import SimpleSchema from 'simpl-schema';
 
 export const projectSchema = new SimpleSchema({
+  isDraft: Boolean,
   permissions: Object,
   'permissions.editInfos': Array,
   'permissions.editInfos.$': {
