@@ -62,7 +62,7 @@
         <div class="panel-footer">
           {{>projectCardFooter beginning=beginning deadline=deadline}}
         </div> <!-- /.panel-footer -->
-        {{#if checkIfCourse}}
+        {{#if $and checkIfCourse checkUser}}
           <div class="text-center">
             <button id="btn-assess-project" class="btn btn-primary" style="border:none; border-bottom-left-radius: 10px;
               border-bottom-right-radius: 10px;" data-value="{{_id}}">Projekt bewerten</button>

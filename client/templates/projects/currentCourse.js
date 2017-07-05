@@ -89,7 +89,9 @@ Template.currentCourse.helpers({
     const ownersAsSupervisors = [];
     course && lodash.forEach(course.owner, function(ownerId) {
       const owner = Meteor.users.findOne(ownerId);
-      ownersAsSupervisors.push({ userId: owner._id, role: owner.profile.title });
+      if(owner){
+        ownersAsSupervisors.push({ userId: owner._id, role: owner.profile.title });
+      }
     });
     return Projects.find({courseId:course._id, supervisors: { $in: ownersAsSupervisors },
     }, { sort: { createdAt: -1 } }, { fields: Projects.memberFields });
@@ -411,7 +413,7 @@ Template.leaveCourseModal.events({
       courseId: this.courseId,
     }, (err, res) => {
       if (err) {
-        alert(err);
+        toastr.error('Es ist leider ein Fehler aufgetreten!');
       }
       FlowRouter.go('courses');
       toastr.success('Kurs erfolgreich verlassen!');

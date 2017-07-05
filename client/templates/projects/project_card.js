@@ -6,6 +6,7 @@ import { gradingSchema } from '/lib/collections/schemas.js';
 import { projectSchema } from '/lib/collections/schemas.js';
 import { saveGrading } from '/lib/methods.js';
 import toastr from 'toastr';
+import {Courses} from '/lib/collections/courses.js';
 
 // import truncate from "truncate.js";
 // import trunk8 from "trunk8";
@@ -221,6 +222,12 @@ Template.projectCard.helpers({
     }
     else{
       return Projects.findOne(this.projectId);
+    }
+  },
+  checkUser() {
+    const course = Courses.findOne(this.courseId);
+    if(course && lodash.includes(course.owner, Meteor.userId())){
+      return true;
     }
   },
   getAvatarURL (userId, version) {

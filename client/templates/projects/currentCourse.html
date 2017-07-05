@@ -114,7 +114,9 @@
                 <div class="form-group">
                   <p class="form-control-static">Deadline:</p>
                   {{readableDate this.deadline}}
-                  <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-deadline"></span></a>
+                  {{#if checkUser}}
+                    <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-deadline"></span></a>
+                  {{/if}}
                 </div>
               {{else}}
                 {{#if checkUser}}
@@ -140,7 +142,11 @@
             {{/if}}
             <div class="form-group form-group-border">
               <div class="form-group">
-                <button id="btn-leave-course" disabled={{isLastOwner}} class="btn btn-danger btn-block">Kurs verlassen</button>
+                {{#if checkUser}}
+                  <button id="btn-leave-course" disabled={{isLastOwner}} class="btn btn-danger btn-block">Kurs verlassen</button>
+                {{else}}
+                  <button id="btn-leave-course" class="btn btn-danger btn-block">Kurs verlassen</button>
+                {{/if}}
               </div>
             </div>
             {{#if checkUser}}

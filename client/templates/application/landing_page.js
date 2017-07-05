@@ -27,9 +27,6 @@ Template.landingPage.helpers({
   templatePagination () {
     return Template.instance().pagination;
   },
-  documents () {
-    return Template.instance().pagination.getPage();
-  },
   clickEvent() {
     return function(e, templateInstance, clickedPage) {
       e.preventDefault();
@@ -112,6 +109,7 @@ Template.cardArea.helpers({
     const skip = Template.instance().data * 12;
     $('#loader').css({ display: 'none' });
     // $('.load-more--loading').removeClass('load-more--loading');
-    return Projects.find({}, { skip, limit: 12, sort: { createdAt: -1 } });
+    //console.log(Projects.find({ courseId: { $exists: false} }).count());
+    return Projects.find({} , { skip, limit: 12, sort: { createdAt: -1 } });
   },
 });
