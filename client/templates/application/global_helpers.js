@@ -139,7 +139,6 @@ Template.registerHelper('suggestedUsers', (settings) => {
       });
     }
   });
-  console.log(userList);
   if (settings.hash.exclude) {
     settings.hash.exclude.forEach(function(user) {
       if (user.userId !== settings.hash.firstOption) {

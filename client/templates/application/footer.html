@@ -92,15 +92,12 @@ addWheelListener( window, function( event ) {
   if (clean == 10) {
     if (event.deltaY < 0) {
         $('.footer').fadeIn();
-        console.info("fadeIn");
 
     } else {
       if (event.deltaY > 0) {
-        console.info("fadeOut");
         $('.footer').fadeOut();
         if (((window.innerHeight + window.scrollY) >= document.body.offsetHeight+60) && (lastPos == (window.innerHeight + window.scrollY))) {
             $('#viewMore').click();
-          console.log("Mouse Bottom Event");
           clean = -20;
           return;
         }

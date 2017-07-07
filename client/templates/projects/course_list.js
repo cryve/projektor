@@ -1,13 +1,14 @@
 import { Projects } from '../../../lib/collections/projects.js';
 import { Images } from '/lib/collections/images.js';
 import { Studies } from '/lib/collections/studies.js';
+import { Courses } from '/lib/collections/courses.js';
 
-Template.userList.onCreated(function userListOnCreated() {
+Template.courseList.onCreated(function userListOnCreated() {
   this.endOfUsers = new ReactiveVar(2);
-  this.userItems = new ReactiveArray(['loadUser']);
+  this.userItems = new ReactiveArray(['loadCourseUser']);
 });
 
-Template.userList.helpers({
+Template.courseList.helpers({
   userItems() {
     if (Template.instance().userItems.array()) {
       return Template.instance().userItems.array();
@@ -18,7 +19,7 @@ Template.userList.helpers({
   },
 });
 
-Template.userList.events({
+Template.courseList.events({
   'click #viewMore'(event) {
     const amountOfUser = Meteor.users.find({});
     const value = Template.instance().endOfUsers.get();
@@ -26,7 +27,7 @@ Template.userList.events({
     $('#loader').css({ display: 'block' });
     // $(event.currentTarget).addClass('load-more--loading');
     event.preventDefault();
-    Template.instance().userItems.push('loadUser');
+    Template.instance().userItems.push('loadCourseUser');
     if (number < amountOfUser.count()) {
       const newValue = value + 1;
       Template.instance().endOfUsers.set(newValue);
@@ -65,11 +66,11 @@ Template.userList.events({
   },
 });
 
-Template.loadUser.onCreated(function loadUserOnCreated() {
-  this.subscribe('user.profile.all');
+Template.loadCourseUser.onCreated(function loadCourseUserOnCreated() {
+  this.subscribe('user.profile.course', FlowRouter.getParam('courseId'));
 });
 
-Template.loadUser.helpers({
+Template.loadCourseUser.helpers({
   documents () {
     const skip = Template.instance().data * 50;
     $('#loader').css({ display: 'none' });
@@ -78,7 +79,7 @@ Template.loadUser.helpers({
   },
 });
 
-Template.userListItem.onCreated(function userListItemOnCreated() {
+Template.userCourseListItem.onCreated(function userCourseListItemOnCreated() {
   this.autorun(() => {
     //this.subscribe('users.profile.single', Template.currentData().userId);
     if (Template.currentData().userId){
@@ -88,7 +89,7 @@ Template.userListItem.onCreated(function userListItemOnCreated() {
   });
 });
 
-Template.userListItem.helpers({
+Template.userCourseListItem.helpers({
   studyCourseName(studyCourseId, departmentId, facultyId) {
     const studyCourse = Studies.findOne({ $and: [
       { studyCourseId },

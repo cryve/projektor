@@ -1,0 +1,78 @@
+<template name="courseList">
+  {{#onlyIfLoggedIn}}
+    <ol class="breadcrumb">
+      <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
+      <li class="active">Mitglieder</li>
+    </ol>
+
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Profil</th>
+          <th>Vorname</th>
+          <th>Nachname</th>
+          <th>Studiengang</th>
+          <th>Projekte</th>
+          <th>Kontakt</th>
+          <th>Rolle</th>
+          <!-- <th>Projektsuchend</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        {{#each userItems}}
+          {{> UI.dynamic template=this data=@index}}
+        {{/each}}
+      </tbody>
+    </table>
+    {{#if endOfUsers}}
+      <div class="col-md-12">
+        <div class="col-xs-12 col-md-2 col-md-offset-5">
+           <a href="#" class="load-more btn btn-primary" id="viewMore">Mehr Anzeigen</a>
+        </div>
+      </div>
+    {{/if}}
+  {{/onlyIfLoggedIn}}
+</template>
+
+<template name="loadCourseUser">
+  {{#if Template.subscriptionsReady}}
+    {{#each user in documents}}
+      {{> userCourseListItem userId=user._id }}
+    {{/each}}
+  {{else}}
+    {{>userCourseListLoading}}
+  {{/if}}
+</template>
+
+<template name="userCourseListLoading">
+  <div class="loader">
+    <a href="#" class="load-more--loading"></a>
+  </div>
+</template>
+
+<template name="userCourseListItem">
+  {{#with user}}
+    <tr>
+      <td>
+        <a href="{{pathFor 'userProfile' userId=this._id uniqueName=(getEmailName this._id) }}"><img src={{avatarURL}}></a>
+      </td>
+      <td>{{profile.firstname}}</td>
+      <td>{{profile.lastname}}</td>
+      <td>{{studyCourseName profile.studyCourseId profile.departmentId profile.facultyId}}</td>
+      <td>
+        {{#each skill in profile.skills}}
+          <span class="label label-default">{{skill}}</span>
+        {{/each}}
+      </td>
+      <td>
+        {{#each contact in profile.contacts}}
+          <a href="{{contact.medium}}">
+            <span class="glyphicon glyphicon-envelope"></span>
+          </a>
+        {{/each}}
+      </td>
+      <td>{{profile.role}}</td>
+      <!-- <td>&lt;ja/nein&gt;</td> -->
+    </tr>
+  {{/with}}
+</template>

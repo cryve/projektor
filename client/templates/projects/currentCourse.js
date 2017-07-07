@@ -412,7 +412,6 @@ Template.createMassProjectsModal.events({
 
 Template.leaveCourseModal.events({
   'click #btn-leave-course-modal'(event) {
-    console.log(this.selfEnter);
     leaveCourse.call({
       courseId: this.courseId,
     }, (err, res) => {

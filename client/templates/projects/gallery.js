@@ -335,7 +335,6 @@ Template.wholeGallery.events({
     const target = event.target;
     const result = event.currentTarget.dataset.value;
     const slot = event.currentTarget.dataset.slot;
-    console.log(`${result} ${slot}`);
     Template.instance().refreshPreview.set(true);
     Session.set('result', result);
     Session.set('slot', slot);

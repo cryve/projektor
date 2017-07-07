@@ -142,7 +142,6 @@ Template.uploadFormCrop.events({
             Session.set('result', fileObj._id);
           } else {
             alert(`File "${fileObj.name}" successfully uploaded`);
-            console.log(`Storing image with URL ${fileObj._id}`);
             userAvatar.call({
               userId: Meteor.userId(),
               imageId: fileObj._id,

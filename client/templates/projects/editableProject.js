@@ -177,7 +177,6 @@ Template.editableProject.events({
       }
     });
     const course = Courses.findOne(this.courseId);
-    console.log(this.courseId);
     if (course && this.supervisors && this.supervisors[0] && (Meteor.userId() == this.supervisors[0].userId) && (Meteor.userId() == course.owner)) {
       FlowRouter.go('course', { courseId: this.courseId, courseName: encodeURIComponent(course.courseName) });
     } else {
@@ -248,8 +247,6 @@ Template.enterProjectModal.onCreated(function() {
 Template.enterProjectModal.events({
 
   'click #btn-enter'(event) {
-    console.log(this);
-    console.log(document.getElementById('modalInputKey').value);
     enterProject.call({
       projectId: this.docId,
       input: document.getElementById('modalInputKey').value,
