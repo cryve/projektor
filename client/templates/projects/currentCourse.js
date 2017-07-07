@@ -194,6 +194,9 @@ Template.currentCourse.events({
       courseId: this._id,
     });
   },
+  'click #btn-show-course-members'(event){
+    FlowRouter.go('courseMembers', { courseId: this._id, courseName: this.courseName });
+  },
   'click .create-mass-course-projects-btn' (event) {
     event.preventDefault();
     Modal.show('createMassProjectsModal', {

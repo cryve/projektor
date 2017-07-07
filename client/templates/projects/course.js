@@ -16,13 +16,10 @@ Template.course.onCreated (function courseOnCreated() {
 
 Template.course.helpers({
   courses(){
-    console.log("keks");
     return Courses.find({$or:[{owner: Meteor.userId()},{member: Meteor.userId()}]});
   },
   checkIfCourse(){
-    console.log("kuchen");
     if (Courses.findOne({$or:[{owner: Meteor.userId()},{member: Meteor.userId()}]})){
-      console.log("Muffin");
       return true;
     }
   },
