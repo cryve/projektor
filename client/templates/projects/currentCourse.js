@@ -295,6 +295,32 @@ Template.currentCourse.events({
   },
 });
 
+Template.userGrading.onCreated(function userGradingOnCreated(){
+  this.autorun(() => {
+    this.subscribe('projects.user.grading', FlowRouter.getParam('courseId'));
+  });
+})
+
+Template.userGrading.helpers({
+  userGrade(){
+    console.log(FlowRouter.getParam('courseId'));
+    const projects = Projects.find({ courseId: FlowRouter.getParam('courseId'), team: { $elemMatch: { userId: Meteor.userId() } } })
+    var grading = "-";
+    if(projects){
+      projects.forEach(function(project) {
+        lodash.forEach(project.team, function(member){
+          if (member.userId == Meteor.userId()){
+            grading = member.grading;
+            return false;
+          }
+        });
+
+      });
+    }
+    return grading;
+  },
+})
+
 
 
 Template.deleteAllCourseProjectsModal.onCreated(function deleteModalOnCreated() {

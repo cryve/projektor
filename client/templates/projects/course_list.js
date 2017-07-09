@@ -51,6 +51,18 @@ Template.courseList.helpers({
     return TemplateVar.get('createLink');
     //return Template.instance().createLink.get();
   },
+  courseId () {
+    const course = Courses.findOne(FlowRouter.getParam('courseId'));
+    return course._id;
+  },
+  courseName() {
+    const course = Courses.findOne(FlowRouter.getParam('courseId'));
+    return course.courseName;
+  },
+  courseSemester() {
+    const course = Courses.findOne(FlowRouter.getParam('courseId'));
+    return course.courseSemester;
+  },
 });
 
 Template.courseList.events({

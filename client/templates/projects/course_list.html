@@ -1,10 +1,12 @@
 <template name="courseList">
   {{#onlyIfLoggedIn}}
     {{#if canShow}}
-      <ol class="breadcrumb">
-        <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
-        <li class="active">Mitglieder</li>
-      </ol>
+    <ol class="breadcrumb">
+      <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
+      <li><a href="{{pathFor 'courses' _id=currentUser._id}}">Meine Kurse</a></li>
+      <li><a href="{{pathFor 'course' courseId=courseId courseName=(encodeUrlString courseName)}}">{{courseName}} {{courseSemester}}</a></li>
+      <li class="active">Mitglieder</li>
+    </ol>
       {{#if checkUser}}
         <div class="form-group pull-right">
           <button id="excel-button" type="button" disabled={{isCourseProject}} class="btn btn-primary"><span class="glyphicon glyphicon-export"></span> Teilnehmer Export</button>

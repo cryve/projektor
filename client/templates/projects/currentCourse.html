@@ -6,7 +6,7 @@
       {{#if canShow}}
         {{#with course}}
           <ol class="breadcrumb">
-            <li><a href="{{pathFor 'landingPage'}}">Home</a></li>
+            <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
             <li><a href="{{pathFor 'courses' _id=currentUser._id}}">Meine Kurse</a></li>
             <li class="active">{{courseName}} {{courseSemester}}</li>
           </ol>
@@ -21,6 +21,9 @@
             <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2">
               <div class="sidebar sidebar-left sidebar-animate sidebar-show-lg">
             <div class="nav navbar-stacked">
+              {{#unless checkUser}}
+                {{> userGrading}}
+              {{/unless}}
               <div class="form-group form-group-border">
                 <div class="form-group">
                   {{#if checkIfDraft }}
@@ -178,6 +181,17 @@
       {{/if}}
     {{/if}}
   {{/onlyIfLoggedIn}}
+</template>
+
+<template name="userGrading">
+  <li class="card">
+    <div class="card__flipper">
+      <div class="card__front">
+        <p class="card__name"><span>Deine</span><br>Bewertung</p>
+        <p class="card__num">{{userGrade}}</p>
+      </div>
+    </div>
+  </li>
 </template>
 
 <template name="deleteCourseModal">
