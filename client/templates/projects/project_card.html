@@ -62,12 +62,6 @@
         <div class="panel-footer">
           {{>projectCardFooter beginning=beginning deadline=deadline}}
         </div> <!-- /.panel-footer -->
-        {{#if $and checkIfCourse checkUser}}
-          <div class="text-center">
-            <button id="btn-assess-project" class="btn btn-primary" style="border:none; border-bottom-left-radius: 10px;
-              border-bottom-right-radius: 10px;" data-value="{{_id}}">Projekt bewerten</button>
-          </div>
-        {{/if}}
         </figure>
         {{#unless checkIfCourse}}
         <figure class="back">
@@ -89,39 +83,6 @@
       {{>projectCardLoading}}
     {{/if}}
   {{/if}}
-</template>
-
-<template name="assessProjectModal">
-  <div id="assessProjectModal" class="modal fade" tabindex="-1" role="dialog">
-    {{projects}}
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Projekt Bewerten!</h4>
-        </div>
-        <div class="modal-body">
-          <p>Deine Bewertung für das Projekt: "<strong>{{title}}</strong>"</p>
-          <div class="alert alert-warning" role="alert">
-              {{#each member in projectTeam}}
-                {{#if isStudent member.userId}}
-                    <div class="input-group">
-                      <span class="input-group-addon input-group-addon-assess" id="basic-addon1">{{getFullUsername member.userId}}</span>
-                      <span class="input-group-addon" id="basic-addon1">Matr.: {{getMatr member.userId}}</span>
-                        <input type="text" class="form-control" id="{{inputId member.userId}}" placeholder="Bewertung" aria-describedby="basic-addon1" value={{member.grading}}>
-                    </div>
-                    <br>
-                {{/if}}
-              {{/each}}
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
-          <button id="btn-assess-save" type="button" class="btn btn-primary">Speichern</button>
-        </div><!-- -->
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal Delete Project -->
 </template>
 
 <template name="projectCardLoading">

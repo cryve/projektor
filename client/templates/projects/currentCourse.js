@@ -1,6 +1,4 @@
-import { excel } from '/lib/methods.js';
 import { Meteor } from 'meteor/meteor';
-import { XlsFiles } from '/lib/collections/xlsFiles.js';
 import { Courses } from '/lib/collections/courses.js';
 import { Projects } from '/lib/collections/projects.js';
 import { Drafts } from '/lib/collections/drafts.js';
@@ -29,25 +27,28 @@ Template.currentCourse.onCreated(function courseOnCreated() {
     showMethod: 'fadeIn',
     hideMethod: 'fadeOut',
   };
-  this.subscribe('files.xlsFiles.all');
+  this.projectSubReady = new ReactiveVar();
   this.subscribe('userSupervisor');
   this.autorun(() => {
-    this.subscribe('singleCourse', FlowRouter.getParam('courseId'));
+    let projectSubHandle;
+    projectSubHandle = this.subscribe('singleCourse', FlowRouter.getParam('courseId'));
     this.subscribe('courseProjects', FlowRouter.getParam('courseId'));
     this.subscribe('singleUserCourseDraft', FlowRouter.getParam('courseId'));
+    this.projectSubReady.set(projectSubHandle.ready());
   });
   this.editActive = new ReactiveVar(false);
-  TemplateVar.set('createLink', false);
-  //this.createLink = new ReactiveVar(false);
   this.addSupervisor = new ReactiveVar(false);
   this.selfEntering = new ReactiveVar(false);
   this.deadline = new ReactiveVar(false);
-  XlsFiles.remove({userId:FlowRouter.getParam('courseId')});
   Session.set('previousRoute', FlowRouter.getRouteName());
   Session.set('currentCourse', FlowRouter.getParam('courseId'));
 });
 
 Template.currentCourse.helpers({
+  authInProgress() {
+    const projectSubReady = Template.instance().projectSubReady.get();
+    return Meteor.loggingIn() || !projectSubReady;
+  },
   canShow() {
     if (!Meteor.user()) {
       return false;
@@ -71,10 +72,6 @@ Template.currentCourse.helpers({
   },
   editActive () {
     return Template.instance().editActive.get();
-  },
-  createLink () {
-    return TemplateVar.get('createLink');
-    //return Template.instance().createLink.get();
   },
   selfEntering() {
     return Template.instance().selfEntering.get();
@@ -296,46 +293,9 @@ Template.currentCourse.events({
     }
     FlowRouter.go('newProject', { draftId });
   },
-  'click #excel-button' (event){
-    event.preventDefault();
-    XlsFiles.remove({userId:this._id});
-    Meteor.call(
-    'excel',{
-      courseId: this._id,
-      excel: "memberlist",
-      },
-    );
-    TemplateVar.set('createLink', true);
-  },
-  'click #helios-button' (event){
-    event.preventDefault();
-    XlsFiles.remove({userId:this._id});
-    Meteor.call(
-    'excel',{
-      courseId: this._id,
-      excel: "helios",
-      },
-    );
-    TemplateVar.set('createLink', true);
-  },
-
 });
 
-Template.file.onCreated (function fileLinkOnCreated() {
-  this.subscribe('files.xlsFiles.all');
-});
-Template.file.helpers({
-  fileLink:function(){
-    var file = XlsFiles.findOne({userId:this._id}, { sort: { createdAt: -1 } });
-    if(file && file._id){
-      if(file._id != Session.get('fileId')){
-        window.location = file.link();
-        TemplateVar.setTo('.createLink', 'createLink' ,  false);
-        Session.set('fileId', file._id);
-      }
-    }
-  },
-});
+
 
 Template.deleteAllCourseProjectsModal.onCreated(function deleteModalOnCreated() {
   toastr.options = {

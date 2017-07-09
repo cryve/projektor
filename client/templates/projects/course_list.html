@@ -1,35 +1,50 @@
 <template name="courseList">
   {{#onlyIfLoggedIn}}
-    <ol class="breadcrumb">
-      <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
-      <li class="active">Mitglieder</li>
-    </ol>
-
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th>Profil</th>
-          <th>Vorname</th>
-          <th>Nachname</th>
-          <th>Studiengang</th>
-          <th>Projekte</th>
-          <th>Kontakt</th>
-          <th>Rolle</th>
-          <!-- <th>Projektsuchend</th> -->
-        </tr>
-      </thead>
-      <tbody>
-        {{#each userItems}}
-          {{> UI.dynamic template=this data=@index}}
-        {{/each}}
-      </tbody>
-    </table>
-    {{#if endOfUsers}}
-      <div class="col-md-12">
-        <div class="col-xs-12 col-md-2 col-md-offset-5">
-           <a href="#" class="load-more btn btn-primary" id="viewMore">Mehr Anzeigen</a>
+    {{#if canShow}}
+      <ol class="breadcrumb">
+        <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
+        <li class="active">Mitglieder</li>
+      </ol>
+      {{#if checkUser}}
+        <div class="form-group pull-right">
+          <button id="excel-button" type="button" disabled={{isCourseProject}} class="btn btn-primary"><span class="glyphicon glyphicon-export"></span> Teilnehmer Export</button>
+          <button id="helios-button" type="button" disabled={{isCourseProject}} class="btn btn-primary"><span class="glyphicon glyphicon-export"></span> Heliosliste Export</button>
+          <button id="btn-assess-save" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-saved"></span> Speichern</button>
         </div>
-      </div>
+      {{/if}}
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Profil</th>
+            <th>Vorname</th>
+            <th>Nachname</th>
+            {{#if checkUser}}
+              <th>Matr.-Nr.</th>
+            {{/if}}
+            <th>Studiengang</th>
+            <th>Projekte</th>
+            {{#if checkUser}}
+              <th>Bewertung</th>
+            {{/if}}
+            <th>Rolle</th>
+            <!-- <th>Projektsuchend</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          {{#each userItems}}
+            {{> UI.dynamic template=this data=@index}}
+          {{/each}}
+        </tbody>
+      </table>
+      {{#if checkUser}}
+        <div class="createLink">
+          {{#if createLink}}
+            {{> file}}
+          {{/if}}
+        </div>
+      {{/if}}
+    {{else}}
+      <h2>Du bist kein Mitglied dieses Kurses!</h2>
     {{/if}}
   {{/onlyIfLoggedIn}}
 </template>
@@ -58,19 +73,24 @@
       </td>
       <td>{{profile.firstname}}</td>
       <td>{{profile.lastname}}</td>
+      {{#if checkUser}}
+        <td>{{profile.matricNo}}</td>
+      {{/if}}
       <td>{{studyCourseName profile.studyCourseId profile.departmentId profile.facultyId}}</td>
       <td>
-        {{#each skill in profile.skills}}
-          <span class="label label-default">{{skill}}</span>
+        {{#each project in userCourseProjects}}
+          <span class="label label-default">{{project.title}}</span>
         {{/each}}
       </td>
-      <td>
-        {{#each contact in profile.contacts}}
-          <a href="{{contact.medium}}">
-            <span class="glyphicon glyphicon-envelope"></span>
-          </a>
-        {{/each}}
-      </td>
+      {{#if checkUser}}
+        <td>
+          {{#if $eq profile.role "Student"}}
+            <div class="input-group">
+              <input type="text" class="form-control" id="{{inputId _id}}" placeholder="Bewertung" aria-describedby="basic-addon1" value="{{gradingValue _id}}">
+            </div>
+          {{/if}}
+        </td>
+      {{/if}}
       <td>{{profile.role}}</td>
       <!-- <td>&lt;ja/nein&gt;</td> -->
     </tr>
