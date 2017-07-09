@@ -110,6 +110,6 @@ Template.cardArea.helpers({
     $('#loader').css({ display: 'none' });
     // $('.load-more--loading').removeClass('load-more--loading');
     //console.log(Projects.find({ courseId: { $exists: false} }).count());
-    return Projects.find({} , { skip, limit: 12, sort: { createdAt: -1 } });
+    return Projects.find({ courseId: { $exists: false} }, { skip, limit: 12, sort: { createdAt: -1 } });
   },
 });

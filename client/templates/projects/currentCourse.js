@@ -321,8 +321,6 @@ Template.userGrading.helpers({
   },
 })
 
-
-
 Template.deleteAllCourseProjectsModal.onCreated(function deleteModalOnCreated() {
   toastr.options = {
     closeButton: false,
