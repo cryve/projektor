@@ -316,6 +316,15 @@ Template.supervisor.helpers({
     }
     return false;
   },
+  isUserCourseOwner(doc, userId){
+    console.log(doc);
+    const course = Courses.findOne(doc.courseId);
+
+    if(course && lodash.includes(course.owner, userId)){
+      return true;
+    }
+    return false;
+  }
 });
 
 Template.supervisor.onCreated(function supervisorOnCreated() {

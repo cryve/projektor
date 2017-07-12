@@ -282,7 +282,7 @@
 
 
 <template name="addCourse">
-  {{#if $and editActive (hasPermissions 'manageCourses' currentDoc) (isUserInGroup currentDoc currentUser._id) }}
+  {{#if $and editActive (hasPermissions 'manageCourses' currentDoc) ($or(isUserInGroup currentDoc.supervisors currentUser._id) (isUserInGroup currentDoc.team currentUser._id)) }}
     {{#autoForm id="addCourse" schema=addCourseSchema type="method" meteormethod=(getMethodString currentCollection._name "addCourse") doc=currentDoc }}
     <div class="form-group">
       {{> afFieldInput name="courseId" type="select2" options=courseList placeholder="Kurs auswählen" allowClear=true}}
@@ -296,12 +296,12 @@
   {{ else }}
     {{#if currentDoc.courseId}}
       {{courseName currentDoc.courseId}}
-      {{#if $and (hasPermissions 'manageCourses' currentDoc) (isUserInGroup currentDoc.supervisors currentUser._id) }}
+      {{#if $and (hasPermissions 'manageCourses' currentDoc) ($or(isUserInGroup currentDoc.supervisors currentUser._id) (isUserInGroup currentDoc.team currentUser._id)) }}
         <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-course"></span></a>
         <a href="#"><span class="glyphicon glyphicon-minus text-danger btn-delete-course"></span></a>
       {{/if}}
     {{else}}
-      {{#if $and (hasPermissions 'manageCourses' currentDoc) (isUserInGroup currentDoc.supervisors currentUser._id) }}
+      {{#if $and (hasPermissions 'manageCourses' currentDoc) ($or(isUserInGroup currentDoc.supervisors currentUser._id) (isUserInGroup currentDoc.team currentUser._id))}}
         <a href="#"><span class="text-primary btn-edit-course"><em>Kurs Eintragen</em> <span class="glyphicon glyphicon-pencil"></span></span></a>
       {{/if}}
     {{/if}}
@@ -341,7 +341,9 @@
       <h4 class="media-heading">
         <a href="{{pathFor 'userProfile' userId=this.userId uniqueName=(getEmailName this.userId) }}">{{user.profile.fullname}}</a>
         {{#if $and ($neq this.userId currentUser._id) (hasPermissions 'manageMembers' currentDoc) }}
-          <a href="#"><span class="glyphicon glyphicon-minus text-danger btn-delete-supervisor"></span></a>
+          {{#unless isUserCourseOwner currentDoc this.userId}}
+            <a href="#"><span class="glyphicon glyphicon-minus text-danger btn-delete-supervisor"></span></a>
+          {{/unless}}
         {{else}}
           {{#if showLeaveButton }}
             <a href="#"><span class="glyphicon glyphicon-minus text-danger show-leave-modal"></span></a>
