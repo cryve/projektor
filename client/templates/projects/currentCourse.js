@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import { XlsFiles } from 'meteor/projektor:courses';
 import { Courses } from 'meteor/projektor:courses';
 import { Projects } from 'meteor/projektor:projects';
-import { Drafts } from 'meteor/projektor:projects';
 import { courseOwnerSchema } from '/lib/collections/schemas.js';
 import { Template } from 'meteor/templating';
 import { insertNewCourseProjectDraft, leaveCourse, createAndInsertCourseSpreadsheet } from '/lib/methods.js';
@@ -203,7 +202,7 @@ Template.currentCourse.events({
     if (Meteor.user() && Meteor.user().profile && Meteor.user().profile.drafts) {
       lodash.forEach(Meteor.user().profile.drafts, function(value) {
         if (value.draftId && (value.courseId == currentDoc._id)) {
-          lastDraft = Drafts.findOne(value.draftId);
+          lastDraft = Projects.findOne(value.draftId);
         }
       });
     }

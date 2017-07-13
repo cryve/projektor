@@ -56,11 +56,10 @@ Template.navigationBar.events({
 
     Session.set('result', 'null');
     if (!currentDraftId) {
-      currentDraftId = Projects.insertEmptyDraft.call((err, res) => {
+      currentDraftId = Projects.insertNewDraft.call((err, res) => {
         if (err) {
-          if (err.error === 'drafts.insertNew.unauthorized') {
+          if (err.error === 'projects.insertNewDraft.notLoggedIn') {
             FlowRouter.go('loginPage');
-            alert('Bitte melde dich an, um ein neues Projekt zu erstellen.');
           } else {
             alert(err);
           }
@@ -80,7 +79,7 @@ Template.navigationBar.events({
     if (Meteor.user()) {
       console.log(currentDraftId);
 
-      FlowRouter.go('newProject', { draftId: currentDraftId });
+      FlowRouter.go('newProject', { projectId: currentDraftId });
       console.log(FlowRouter.current());
     }
   },

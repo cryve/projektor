@@ -20,7 +20,7 @@ Package.onUse(function(api) {
 Package.onTest(function(api) {
   api.use('projektor:projects');
 
-  api.use(['projektor:users', 'ecmascript', 'random', 'practicalmeteor:mocha']);
+  api.use(['projektor:users', 'ecmascript', 'random', 'practicalmeteor:mocha', 'mdg:validation-error']);
 
   api.mainModule('lib/methods.tests.js');
 });

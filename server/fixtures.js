@@ -64,6 +64,10 @@ Factory.define('project', Projects, {
   //   //wholeName: faker.name.findName(),
   // }),
   // ownerRole: () => faker.name.jobTitle(),
+  state: {
+    draft: () => faker.random.boolean(),
+    public: () => faker.random.boolean(),
+  },
   permissions: {
     editInfos: () => [faker.random.arrayElement(sampleUsers)._id],
     manageMembers: () => [faker.random.arrayElement(sampleUsers)._id],

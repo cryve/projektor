@@ -1,6 +1,5 @@
 import { Template } from 'meteor/templating';
 import { Projects } from 'meteor/projektor:projects';
-import { Drafts } from 'meteor/projektor:projects';
 import { Courses } from 'meteor/projektor:courses';
 import toastr from 'toastr';
 import lodash from 'lodash';
@@ -34,10 +33,8 @@ Template.editableProject.onCreated(function() {
     let projectSubHandle;
     if (FlowRouter.getParam('projectId')) {
       projectSubHandle = this.subscribe('projects.details.single', FlowRouter.getParam('projectId'));
-    } else if (FlowRouter.getParam('draftId')) {
-      projectSubHandle = this.subscribe('singleDraft', FlowRouter.getParam('draftId'));
     }
-    this.projectSubReady.set(projectSubHandle.ready());
+    this.projectSubReady.set(projectSubHandle && projectSubHandle.ready());
   });
 });
 
@@ -51,30 +48,23 @@ Template.editableProject.helpers({
     if (!user) {
       return false;
     }
-    const draftId = FlowRouter.getParam('draftId');
-    const projectId = FlowRouter.getParam('projectId');
-    if (draftId) {
-      const draft = Drafts.findOne(draftId);
-      if (!draft) {
-        return false;
-      }
-      return lodash.find(user.profile.drafts, function(userDraft) {
+    const project = Projects.findOne(FlowRouter.getParam('projectId'));
+    if (!project) {
+      return false;
+    } else if (project.state.draft) {
+      const draftInCurrentUsersDraft = lodash.find(user.profile.drafts, function(userDraft) {
         return userDraft.draftId === draftId;
       });
-    } else if (projectId) {
-      const project = Projects.findOne(projectId);
-      if (!project) {
+      if(!draftInCurrentUsersDraft) {
         return false;
       }
-      return true;
     }
-    return false;
+    return true;
   },
   project() {
     console.log(FlowRouter.current());
-    const draftId = FlowRouter.getParam('draftId');
     const projectId = FlowRouter.getParam('projectId');
-    return Projects.findOne(projectId) || Drafts.findOne(draftId) || {};
+    return Projects.findOne(projectId);
   },
   enterProject() {
     const enterCheck = Courses.findOne(this.courseId);
@@ -119,9 +109,6 @@ Template.editableProject.helpers({
     return Session.get('currentCourse');
   },
   getCollection() {
-    if (this.isNewProject) {
-      return Drafts;
-    }
     return Projects;
   },
   suggestedCourses() {
@@ -139,7 +126,7 @@ Template.editableProject.helpers({
 
 Template.editableProject.events({
   'click #btn-publish-draft' (event) {
-    const newId = Projects.publishDraft.call({
+    const newId = Projects.makePublic.call({
       draftId: this._id,
     }, (err, res) => {
       if (err) {
@@ -165,7 +152,6 @@ Template.editableProject.events({
     Session.set('result', 'null');
   },
   'click #btn-delete-draft' (event) {
-    // Drafts.remove(this._id);
     deleteDraft.call({
       draftId: this._id,
     }, (err, res) => {
