@@ -1,15 +1,13 @@
 import { Template } from 'meteor/templating';
 import lodash from 'lodash';
 import { Images } from 'meteor/projektor:files';
-import { Courses } from 'meteor/projektor:courses';
 import { ProjectFiles } from 'meteor/projektor:files';
-import { deleteEditableArrayItem, removeCourseFromProject } from '/lib/methods.js';
+import { deleteEditableArrayItem } from '/lib/methods.js';
 import { memberSchema } from '/lib/collections/schemas.js';
 import { jobSchema } from '/lib/collections/schemas.js';
 import { contactSchema } from '/lib/collections/schemas.js';
 import { teamCommSchema } from '/lib/collections/schemas.js';
 import { supervisorSchema } from '/lib/collections/schemas.js';
-import { addCourseSchema } from '/lib/collections/schemas.js';
 import Users from 'meteor/projektor:users';
 
 import './project_edit.html';
@@ -30,51 +28,11 @@ const isUserAdminMember = (team, userId) => {
     return member.userId == userId;
   });
   if (member && member.permissions.editInfos && member.permissions.manageMembers
-    && member.permissions.manageCourses && member.permissions.deleteProject) {
+    && member.permissions.deleteProject) {
     return true;
   }
   return false;
 };
-
-Template.addCourse.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
-});
-
-Template.addCourse.helpers({
-  editActive () {
-    return Template.instance().editActive.get();
-  },
-  addCourseSchema () {
-    return addCourseSchema;
-  },
-  courseName(courseId) {
-    const course = Courses.findOne(courseId);
-    if (course) {
-      return `${course.courseName} ${course.courseSemester} ${course.studyCourse}`;
-    }
-  },
-});
-
-Template.addCourse.events({
-  'click .btn-abort-course' (event) {
-    Template.instance().editActive.set(false);
-  },
-  'click .btn-edit-course' (event) {
-    event.preventDefault();
-    Template.instance().editActive.set(true);
-  },
-  'click .btn-delete-course' (event) {
-    event.preventDefault();
-    removeCourseFromProject.call({
-      collectionName: this.currentCollection._name,
-      projectId: this.currentDoc._id,
-    }, (err, res) => {
-      if (err) {
-        alert(err);
-      }
-    });
-  },
-});
 
 Template.addMember.onCreated(function() {
   this.editActive = new ReactiveVar(false);
@@ -189,9 +147,6 @@ Template.member.helpers({
   teamUserCanManageMembersField () {
     return `team.${this.slot}.permissions.manageMembers`;
   },
-  teamUserCanManageCoursesField () {
-    return `team.${this.slot}.permissions.manageCourses`;
-  },
   teamUserCanDeleteProjectField () {
     return `team.${this.slot}.permissions.deleteProject`;
   },
@@ -256,7 +211,7 @@ Template.leaveGroupModal.helpers({
     const project = Mongo.Collection.get(this.collectionName).findOne(this.docId);
     const adminMembers = lodash.filter(project.team, function(member) {
       return member.permissions.editInfos && member.permissions.manageMembers
-        && member.permissions.manageCourses && member.permissions.deleteProject;
+        && member.permissions.deleteProject;
     });
     if (this.group == 'team') {
       if (isUserAdminMember(project.team, this.userId) && adminMembers.length === 1
@@ -588,9 +543,6 @@ Template.editDeadline.helpers({
     return Template.instance().editActive.get();
   },
   requiredPermissions() {
-    if (this.currentDoc && this.currentDoc.courseId) {
-      return 'editInfos,manageCourses';
-    }
     return 'editInfos';
   },
 });

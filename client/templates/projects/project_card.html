@@ -1,58 +1,36 @@
 <template name="projectCard">
   {{#with projectCard}}
-    <div class="panel panel-default coverless-card" id="{{#unless checkIfCourse}}card{{else}}cardCourse{{/unless}}">
+    <div class="panel panel-default coverless-card" id="card">
       <figure class="front" >
-      {{#unless checkIfCourse}}
         {{>projectCardCover imgId=coverImg}}
-      {{/unless}}
-      <div class="panel-body {{#unless checkIfCourse}}coverless-card-body{{else}} coverless-card-bodyCourse{{/unless}}">
-        <div class="{{#unless checkIfCourse}}coverless-card-title{{else}}coverless-card-titleCourse{{/unless}}">
-          {{> projectCardTitle _id=_id title=title checkIfCourse=checkIfCourse subtitle=subtitle subtitleLines=2 }}
+      <div class="panel-body coverless-card-body">
+        <div class="coverless-card-title">
+          {{> projectCardTitle _id=_id title=title subtitle=subtitle subtitleLines=2 }}
         </div>
-        <hr class="hr-top" style="{{#if checkIfCourse}}margin-top:20px{{/if}}">
+        <hr class="hr-top">
         <ul class="member-icons list-inline">
         {{#unless team}}
           <li>
             <img class="img-circle img-circle-transparent" rel="tooltip" title="Keine Mitglieder" src={{getAvatarURL 0 "avatar20"}}>
           </li>
         {{/unless}}
-        {{#if $and team ($not checkIfCourse)}}
+        {{#if team}}
           {{#each member in team}}
             {{#if $lt @index (itemsToShow team.length 6 1)}}
               {{>projectCardMemberItem userId=member.userId }}
             {{/if}}
           {{/each}}
-        {{else}}
-          {{#if $and team checkIfCourse}}
-            {{#each member in team}}
-              {{#if $lt @index (itemsToShow team.length 5 1)}}
-                {{>projectCardMemberItem userId=member.userId }}
-              {{/if}}
-            {{/each}}
-          {{/if}}
         {{/if}}
-          {{#if $and ($not checkIfCourse) (itemsRemaining team.length 6 1)}}
+          {{#if itemsRemaining team.length 6 1}}
             <li class="remaining-member">
               <a class="text-info" href="{{pathFor 'projectDetails' projectId=_id projectTitle=(encodeUrlString title)}}">
-                <div class="text-center{{#unless checkIfCourse}} bg-info circle20-remaining-members {{/unless}}">
+                <div class="text-center bg-info circle20-remaining-members">
                   <span>
                     <em class="remaining-size">+{{itemsRemaining team.length 6 1}}</em>
                   </span>
                 </div>
               </a>
             </li>
-          {{else}}
-            {{#if $and checkIfCourse (itemsRemaining team.length 5 1)}}
-              <li class="remaining-member">
-                <a class="text-info" href="{{pathFor 'projectDetails' projectId=_id projectTitle=(encodeUrlString title)}}">
-                  <div class="text-center{{#unless checkIfCourse}} bg-info circle20-remaining-members {{/unless}}">
-                    <span>
-                      <em class="remaining-size">+{{itemsRemaining team.length 5 1}}</em>
-                    </span>
-                  </div>
-                </a>
-              </li>
-            {{/if}}
           {{/if}}
         </ul>
         <hr class="hr-bottom">
@@ -62,19 +40,14 @@
         {{>projectCardFooter beginning=beginning deadline=deadline}}
       </div> <!-- /.panel-footer -->
       </figure>
-      {{#unless checkIfCourse}}
       <figure class="back">
-        <div class="panel-body {{#unless checkIfCourse}} coverless-card-body {{else}} coverless-card-bodyCourse {{/unless}}">
-          {{#unless checkIfCourse}}
-            {{>projectCardJobs jobs=jobs expandable=false}}
-          {{/unless}}
-
+        <div class="panel-body coverless-card-body">
+          {{>projectCardJobs jobs=jobs expandable=false}}
         </div>
         <div class="panel-footer panel-footerBack">
           <a href="{{pathFor 'projectDetails' projectId=_id projectTitle=(encodeUrlString title)}}"> &gt;&gt; Zum Projekt &lt;&lt; </a>
         </div> <!-- /.panel-footer -->
       </figure>
-      {{/unless}}
     </div> <!-- /.panel project card -->
   {{/with}}
 </template>
@@ -84,10 +57,10 @@
 </template>
 
 <template name="projectCardTitle">
-  <p class="{{#unless checkIfCourse}}title-ellipses{{else}}title-ellipses-course{{/unless}} line-clamp-2">
+  <p class="title-ellipses line-clamp-2">
      <a href="{{pathFor 'projectDetails' projectId=_id projectTitle=(encodeUrlString title)}}" class="{{#if subtitle}}title-1row{{else}}title-2row{{/if}}">{{title}}</a>
   </p>
-  {{#if $and ($not checkIfCourse) subtitle}}
+  {{#if subtitle}}
      <small class="subtitle-ellipses line-clamp-2">{{subtitle}}</small>
   {{/if}}
 </template>

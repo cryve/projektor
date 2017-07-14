@@ -5,14 +5,6 @@
     {{else}}
       {{#if canShow}}
         {{#with project}}
-          {{#if $eq previousRoute "course"}}
-            <ol class="breadcrumb">
-              <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
-              <li><a href="{{pathFor 'courses'}}">Meine Kurse</a></li>
-              <li><a href="{{pathFor 'course' courseId=getCourseId courseName=(encodeUrlString courseProjekt)}}">{{courseProjekt}}</a></li>
-              <li class="active">{{this.title}}</li>
-            </ol>
-          {{else}}
             {{#if $eq previousRoute "userProfile"}}
               <ol class="breadcrumb">
                 <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
@@ -32,7 +24,6 @@
                 </ol>
               {{/if}}
             {{/if}}
-          {{/if}}
           <div class="row">
             <div class="col-lg-12">
               <h1 class="page-header">
@@ -80,9 +71,6 @@
             </div> <!-- /.col-md-8 -->
 
             <div class="col-lg-4">
-              {{#if $and enterProject ($and memberCheck supervisorCheck)}}
-                <button class="btn btn-primary" id="btn-enter-project">Kursprojekt beitreten</button>
-              {{/if}}
                   <div class="panel panel-default">
                     <div class="panel-heading">
                       <span class="panel-title">Team</span>
@@ -141,8 +129,6 @@
                     </div>
                     <div class="panel-body">
                       <dl class="dl">
-                        <dt>Kurs</dt>
-                        <dd>{{> addCourse currentDoc=this courseList=suggestedCourses currentCollection=getCollection }}</dd>
                         <dt>Projektanlass</dt>
                         <dd>{{>editOccasions currentDoc=this currentCollection=getCollection}}</dd>
                         <dt>Projektbeginn</dt>
@@ -194,33 +180,6 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
           <button id="btn-delete" type="button" class="btn btn-danger">Projekt entgültig löschen</button>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal Delete Project -->
-</template>
-
-<template name="enterProjectModal">
-  <div id="enterProjectModal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Projekt beitreten</h4>
-        </div>
-        <div class="modal-body">
-          <p>Möchtest du dem Kursprojekt <strong>{{docTitle}}</strong> beitreten?</p>
-          <div class="alert alert-warning" role="alert">
-            Wenn du diesem Krusprojekt beitreten möchtest, benötigst du den zugehörigen Einschreibeschlüssel!
-          </div>
-          <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Einschreibeschlüssel:</span>
-            <input type="text" class="form-control" id="modalInputKey" placeholder="Enter here" aria-describedby="basic-addon1">
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
-          <button id="btn-enter" type="button" class="btn btn-primary">Projekt beitreten</button>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

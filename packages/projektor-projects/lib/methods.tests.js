@@ -82,7 +82,6 @@ describe('Project.insertNewDraft', function() {
     chai.assert.deepEqual(project.permissions, {
       editInfos: [creatorUserId],
       manageMembers: [creatorUserId],
-      manageCourses: [creatorUserId],
       deleteProject: [creatorUserId],
     }, 'creator user has all permissions');
     chai.assert.deepEqual(project.team, [{
@@ -91,7 +90,6 @@ describe('Project.insertNewDraft', function() {
       permissions: {
         editInfos: true,
         manageMembers: true,
-        manageCourses: true,
         deleteProject: true,
       },
     }], 'creator user is team member with all permissions');
@@ -136,7 +134,6 @@ describe('Projects.makePublic', function() {
       permissions: {
         editInfos: [creatorUserId],
         manageMembers: [creatorUserId],
-        manageCourses: [creatorUserId],
         deleteProject: [creatorUserId],
       },
       team: [{
@@ -145,7 +142,6 @@ describe('Projects.makePublic', function() {
         permissions: {
           editInfos: true,
           manageMembers: true,
-          manageCourses: true,
           deleteProject: true,
         },
       }],
@@ -198,7 +194,6 @@ describe('Projects.delete', function() {
       permissions: {
         editInfos: [creatorUserId],
         manageMembers: [creatorUserId],
-        manageCourses: [creatorUserId],
         deleteProject: [creatorUserId],
       },
       team: [{
@@ -207,7 +202,6 @@ describe('Projects.delete', function() {
         permissions: {
           editInfos: true,
           manageMembers: true,
-          manageCourses: true,
           deleteProject: true,
         },
       }],

@@ -68,18 +68,13 @@ Users.setDraftIdInProfile = new ValidatedMethod({
       type: String,
       regEx: SimpleSchema.RegEx.Id,
     },
-    courseId: {
-      type: String,
-      regEx: SimpleSchema.RegEx.Id,
-      optional: true,
-    },
   }).validator(),
-  run({ userId, draftId, courseId }) {
+  run({ userId, draftId }) {
     if (userId !== this.userId) {
       throw new Meteor.Error('users.addDraftId.unauthorized',
       'You cannot add draft to profile that is not yours');
     }
-    Meteor.users.update(userId, { $addToSet: { 'profile.drafts': { courseId, draftId } } });
+    Meteor.users.update(userId, { $addToSet: { 'profile.drafts': { draftId } } });
   },
 });
 

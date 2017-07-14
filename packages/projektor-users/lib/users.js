@@ -59,11 +59,6 @@ const userProfileSchema = new SimpleSchema({
     optional: true,
   },
   'drafts.$': Object,
-  'drafts.$.courseId': {
-    type: String,
-    regEx: SimpleSchema.RegEx.Id,
-    optional: true,
-  },
   'drafts.$.draftId': {
     type: String,
     regEx: SimpleSchema.RegEx.Id,
@@ -123,14 +118,6 @@ if (Meteor.isServer) {
   });
   Meteor.publish('usersAll', function usersAllPublication() {
     return Users.find({});
-  });
-  Meteor.publish('usersCourseAll', function usersAllPublication() {
-    return Users.find({}, {
-      fields: {
-        _id: 1,
-        'profile.role': 1,
-      },
-    });
   });
   Meteor.publish('users.profile.single', function usersProfileSinglePublication(userId) {
     if (!this.userId) {

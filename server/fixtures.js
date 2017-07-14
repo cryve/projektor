@@ -71,7 +71,6 @@ Factory.define('project', Projects, {
   permissions: {
     editInfos: () => [faker.random.arrayElement(sampleUsers)._id],
     manageMembers: () => [faker.random.arrayElement(sampleUsers)._id],
-    manageCourses: () => [faker.random.arrayElement(sampleUsers)._id],
     deleteProject: () => [faker.random.arrayElement(sampleUsers)._id],
   },
   team: () => _.times(_.random(maxSizeTeam), i => ({
@@ -80,7 +79,6 @@ Factory.define('project', Projects, {
     permissions: {
       editInfos: faker.random.boolean(),
       manageMembers: faker.random.boolean(),
-      manageCourses: faker.random.boolean(),
       deleteProject: faker.random.boolean(),
     },
   })),

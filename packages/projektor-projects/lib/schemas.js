@@ -16,19 +16,10 @@ export const projectSchema = new SimpleSchema({
     type: String,
     regEx: SimpleSchema.RegEx.Id,
   },
-  'permissions.manageCourses': Array,
-  'permissions.manageCourses.$': {
-    type: String,
-    regEx: SimpleSchema.RegEx.Id,
-  },
   'permissions.deleteProject': Array,
   'permissions.deleteProject.$': {
     type: String,
     regEx: SimpleSchema.RegEx.Id,
-  },
-  courseId: {
-    type: String,
-    optional: true,
   },
   title: {
     type: String,
@@ -112,7 +103,6 @@ export const projectSchema = new SimpleSchema({
   'team.$.permissions': Object,
   'team.$.permissions.editInfos': Boolean,
   'team.$.permissions.manageMembers': Boolean,
-  'team.$.permissions.manageCourses': Boolean,
   'team.$.permissions.deleteProject': Boolean,
   teamCommunication: {
     type: Array,
@@ -182,7 +172,6 @@ export const memberSchema = new SimpleSchema({
   'member.permissions': Object,
   'member.permissions.editInfos': Boolean,
   'member.permissions.manageMembers': Boolean,
-  'member.permissions.manageCourses': Boolean,
   'member.permissions.deleteProject': Boolean,
 }, { tracker: Tracker });
 

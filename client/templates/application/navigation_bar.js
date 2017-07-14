@@ -13,25 +13,14 @@ Template.navigationBar.helpers({
     return Session.get('result');
   },
   isDraftRendered() {
-    let check = false;
-    if (Meteor.user() && Meteor.user().profile && Meteor.user().profile.drafts) {
-      lodash.forEach(Meteor.user().profile.drafts, function(value) {
-        if (value.draftId && !value.courseId) {
-          console.log(FlowRouter.getParam('draftId'));
-          console.log(FlowRouter.current());
-          console.log(this);
-          check = FlowRouter.getParam('draftId');
-          return false;
-        }
-      });
-    }
-    return check;
+    const project = Projects.findOne(FlowRouter.getParam('projectId'));
+    return project && project.state.draft;
   },
   checkIfDraft() {
     let check = false;
     if (Meteor.user() && Meteor.user().profile && Meteor.user().profile.drafts) {
       lodash.forEach(Meteor.user().profile.drafts, function(value) {
-        if (value.draftId && !value.courseId) {
+        if (value.draftId) {
           check = true;
           return false;
         }
@@ -48,7 +37,7 @@ Template.navigationBar.events({
     // Go to a not finished draft if exists, else go to new draft
     if (Meteor.user() && Meteor.user().profile && Meteor.user().profile.drafts) {
       lodash.forEach(Meteor.user().profile.drafts, function(value) {
-        if (value.draftId && !value.courseId) {
+        if (value.draftId) {
           currentDraftId = value.draftId;
         }
       });

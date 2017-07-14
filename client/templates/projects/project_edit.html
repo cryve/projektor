@@ -12,7 +12,6 @@
               {{> afFieldInput name="member.role" type="text" placeholder="Aufgaben im Projekt"}}
               <p>{{> afFieldInput name="member.permissions.editInfos" type="boolean-checkbox"}}</p>
               <p>{{> afFieldInput name="member.permissions.manageMembers" type="boolean-checkbox"}}</p>
-              <p>{{> afFieldInput name="member.permissions.manageCourses" type="boolean-checkbox"}}</p>
               <p>{{> afFieldInput name="member.permissions.deleteProject" type="boolean-checkbox"}}</p>
             </div>
             <div class="form-group">
@@ -51,7 +50,6 @@
               {{#if $neq this.userId currentUser._id}}
                 <p>{{> afFieldInput name=teamUserCanEditInfosField type="boolean-checkbox"}}</p>
                 <p>{{> afFieldInput name=teamUserCanManageMembersField type="boolean-checkbox"}}</p>
-                <p>{{> afFieldInput name=teamUserCanManageCoursesField type="boolean-checkbox"}}</p>
                 <p>{{> afFieldInput name=teamUserCanDeleteProjectField type="boolean-checkbox"}}</p>
               {{/if}}
             </div>
@@ -260,8 +258,6 @@
         {{/if}}
       </li>
     {{/if}}
-
-
 </template>
 
 <template name="addJob">
@@ -278,33 +274,6 @@
           </div>
         {{/autoForm}}
       {{/if}}
-  {{/if}}
-</template>
-
-
-<template name="addCourse">
-  {{#if $and editActive (hasPermissions 'manageCourses' currentDoc) (isUserInGroup currentDoc currentUser._id) }}
-    {{#autoForm id="addCourse" schema=addCourseSchema type="method" meteormethod=(getMethodString currentCollection._name "addCourse") doc=currentDoc }}
-    <div class="form-group">
-      {{> afFieldInput name="courseId" type="select2" options=courseList placeholder="Kurs auswählen" allowClear=true}}
-    </div>
-    <div class="form-group">
-      <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
-      <button type="reset" class="btn btn-default btn-abort-course"><span class="glyphicon glyphicon-remove"></span></button>
-    </div>
-    {{/autoForm}}
-  {{ else }}
-    {{#if currentDoc.courseId}}
-      {{courseName currentDoc.courseId}}
-      {{#if $and (hasPermissions 'manageCourses' currentDoc) (isUserInGroup currentDoc.supervisors currentUser._id) }}
-        <a href="#"><span class="glyphicon glyphicon-pencil text-primary btn-edit-course"></span></a>
-        <a href="#"><span class="glyphicon glyphicon-minus text-danger btn-delete-course"></span></a>
-      {{/if}}
-    {{else}}
-      {{#if $and (hasPermissions 'manageCourses' currentDoc) (isUserInGroup currentDoc.supervisors currentUser._id) }}
-        <a href="#"><span class="text-primary btn-edit-course"><em>Kurs Eintragen</em> <span class="glyphicon glyphicon-pencil"></span></span></a>
-      {{/if}}
-    {{/if}}
   {{/if}}
 </template>
 

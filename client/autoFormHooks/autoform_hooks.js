@@ -2,8 +2,6 @@ import lodash from 'lodash';
 
 AutoForm.addHooks([
   'editTitle',
-  'addCourse',
-  'course',
   'notesBox',
   // "addMember",
   'addContact',
@@ -25,25 +23,6 @@ AutoForm.addHooks([
 });
 
 AutoForm.addHooks([
-  'editDeadlineCourse',
-], {
-  onSuccess(formType, result) {
-    this.template.parent().deadline.set(false);
-  },
-});
-
-AutoForm.addHooks([
-  'updateCourse',
-], {
-  onSuccess(formType, result) {
-    this.template.parent().editCourse.set(false);
-    this.template.parent().editActive.set(false);
-  },
-});
-
-AutoForm.addHooks([
-  'addCourseOwner',
-  'addCourse',
   'addMember',
   'addSupervisor',
   'addJob',

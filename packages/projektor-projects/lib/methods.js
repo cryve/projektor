@@ -33,7 +33,6 @@ Projects.insertNewDraft = new ValidatedMethod({
       permissions: {
         editInfos: [this.userId],
         manageMembers: [this.userId],
-        manageCourses: [this.userId],
         deleteProject: [this.userId],
       },
       team: [{
@@ -42,7 +41,6 @@ Projects.insertNewDraft = new ValidatedMethod({
         permissions: {
           editInfos: true,
           manageMembers: true,
-          manageCourses: true,
           deleteProject: true,
         },
       }],
@@ -64,7 +62,6 @@ Projects.makePublic = new ValidatedMethod({
     const project = Projects.findOne(projectId);
     if (!lodash.includes(project.permissions.editInfos, this.userId)
     || !lodash.includes(project.permissions.manageMembers, this.userId)
-    || !lodash.includes(project.permissions.manageCourses, this.userId)
     || !lodash.includes(project.permissions.deleteProject, this.userId)) {
       throw new Meteor.Error('projects.makePublic.unauthorized',
         'Cannot publish draft that is not yours');
@@ -131,12 +128,6 @@ Projects.updateEditableInfoInProject = new ValidatedMethod({
       throw new Meteor.Error('projects.updateEditableInfo.unauthorized',
       'You are not allowed to edit this info field of the project');
     }
-    if (project.courseId && modifier.$set.deadline) {
-      if (!lodash.includes(project.permissions.manageCourses, this.userId)) {
-        throw new Meteor.Error('projects.updateEditableInfo.unauthorized',
-        'You are not allowed to edit course infos in this project');
-      }
-    }
     Projects.update({ _id }, modifier);
   },
 });
@@ -150,10 +141,6 @@ Projects.addSupervisorToProject = new ValidatedMethod({
       || !lodash.includes(project.permissions.editInfos, this.userId)) {
       throw new Meteor.Error('projects.addMember.unauthorized',
       'You are not allowed to add a supervisor to this project');
-    }
-    if (project.courseId && !lodash.includes(project.permissions.manageCourses, this.userId)) {
-      throw new Meteor.Error('projects.addMember.unauthorized',
-      'You are not allowed to add a supervisor to this course project');
     }
     const user = Users.findOne(supervisor.userId);
     supervisor.role = user.profile.title;

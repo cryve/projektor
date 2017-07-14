@@ -1,5 +1,4 @@
 import { Meteor } from 'meteor/meteor';
-import { Courses, XlsFiles } from 'meteor/projektor:courses';
 import lodash from 'lodash';
 import 'meteor/projektor:projects';
 import { Accounts } from 'meteor/accounts-base';
@@ -80,6 +79,4 @@ Meteor.startup(function() {
       lang: 'de',
     };
   });
-  XlsFiles.remove({});
-  Courses.remove({});
 });

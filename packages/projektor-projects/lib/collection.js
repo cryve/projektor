@@ -10,6 +10,7 @@ export const Projects = new Mongo.Collection('projects');
 
 Projects.memberFields = {
   _id: 1,
+  state: 1,
   createdAt: 1,
   isNewProject: 1,
   permissions: 1,
@@ -20,7 +21,6 @@ Projects.memberFields = {
   media: 1,
   deadline: 1,
   beginning: 1,
-  courseId: 1,
   pdfs: 1,
   notes: 1,
   tags: 1,
@@ -60,6 +60,7 @@ if (Meteor.isServer) {
     return Projects.find({ _id: projectId }, {
       fields: {
         _id: 1,
+        state: 1,
         createdAt: 1,
         title: 1,
         subtitle: 1,
