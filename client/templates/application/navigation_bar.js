@@ -17,16 +17,10 @@ Template.navigationBar.helpers({
     return project && project.state.draft;
   },
   checkIfDraft() {
-    let check = false;
-    if (Meteor.user() && Meteor.user().profile && Meteor.user().profile.drafts) {
-      lodash.forEach(Meteor.user().profile.drafts, function(value) {
-        if (value.draftId) {
-          check = true;
-          return false;
-        }
-      });
+    if (Meteor.user() && Meteor.user().profile.draftId) {
+      return true;
     }
-    return check;
+    return false;
   },
 });
 

@@ -54,6 +54,11 @@ const userProfileSchema = new SimpleSchema({
   'links.$': Object,
   'links.$.medium': String,
   'links.$.approach': String,
+  draftId: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Id,
+    optional: true,
+  },
   drafts: {
     type: Array,
     optional: true,

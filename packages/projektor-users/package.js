@@ -15,3 +15,11 @@ Package.onUse(function(api) {
 
   api.mainModule('lib/main.js', ['client', 'server']);
 });
+
+Package.onTest(function(api) {
+  api.use('projektor:users');
+
+  api.use(['ecmascript', 'random', 'practicalmeteor:mocha']);
+
+  api.mainModule('lib/methods.tests.js');
+});

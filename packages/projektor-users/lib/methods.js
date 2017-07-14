@@ -112,3 +112,21 @@ Users.userAvatar = new ValidatedMethod({
     Meteor.users.update({ _id: userId }, { $set: { 'profile.avatar': imageId } });
   },
 });
+
+Users.unsetDraftId = new ValidatedMethod({
+  name: 'unsetDraftId',
+  validate: new SimpleSchema({
+    userId: {
+      type: String,
+      regEx: SimpleSchema.RegEx.Id,
+    },
+  }).validator(),
+  run({ userId }) {
+    if (!this.userId) {
+      throw new Meteor.Error('users.unsetDraftId.notLoggedIn', 'Cannot unset draft id when your are not logged in');
+    } else if (this.userId != userId) {
+      throw new Meteor.Error('users.unsetDraftId.unauthorized', 'Cannot unset draft id in user profile that is not yours');
+    }
+    Users.update(userId, { $unset: { 'profile.draftId': '' } });
+  }
+});

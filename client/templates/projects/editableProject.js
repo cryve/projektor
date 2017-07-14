@@ -123,8 +123,13 @@ Template.editableProject.events({
     }, (err, res) => {
       if (err) {
         alert(err);
-      } else {
-        alert('Dein Entwurf wurde gelöscht!');
+      }
+    });
+    Users.unsetDraftId.call({
+      userId: Meteor.userId,
+    }, (err, res) => {
+      if (err) {
+        alert(err);
       }
     });
     FlowRouter.go('landingPage');
