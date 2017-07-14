@@ -19,8 +19,7 @@ Projects.insertNewDraft = new ValidatedMethod({
       throw new Meteor.Error('projects.insertNewDraft.notLoggedIn',
         'Cannot insert new project draft because you are not logged in');
     }
-    console.log(Meteor.user());
-    var draftsFromUser = Meteor.user().profile.drafts;
+    const draftsFromUser = Meteor.user().profile.drafts;
     if (draftsFromUser && draftsFromUser.length > 0) {
       throw new Meteor.Error('projects.insertNewDraft.alreadyExists');
     }
@@ -74,15 +73,22 @@ Projects.makePublic = new ValidatedMethod({
   },
 });
 
-Projects.deleteProject = new ValidatedMethod({
-  name: 'projects.deleteProjects',
+Projects.delete = new ValidatedMethod({
+  name: 'projects.delete',
   validate: new SimpleSchema({
-    projectId: String,
+    projectId: {
+      type: String,
+      regEx: SimpleSchema.RegEx.Id,
+    },
   }).validator(),
   run({ projectId }) {
+    if (!this.userId) {
+      throw new Meteor.Error('projects.delete.notLoggedIn',
+        'Cannot delete project draft because you are not logged in');
+    }
     const project = Projects.findOne(projectId);
     if (!lodash.includes(project.permissions.deleteProject, this.userId)) {
-      throw new Meteor.Error('projects.deleteProject.unauthorized',
+      throw new Meteor.Error('projects.delete.unauthorized',
       'Cannot delete project that is not yours');
     }
     Projects.remove(projectId);

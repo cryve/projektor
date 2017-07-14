@@ -4,7 +4,6 @@ import { Courses } from 'meteor/projektor:courses';
 import toastr from 'toastr';
 import lodash from 'lodash';
 import 'toastr/build/toastr.css';
-import { deleteDraft } from '/lib/methods.js';
 import { joinCourseProject } from '/lib/methods.js';
 import './editableProject.html';
 
@@ -62,7 +61,6 @@ Template.editableProject.helpers({
     return true;
   },
   project() {
-    console.log(FlowRouter.current());
     const projectId = FlowRouter.getParam('projectId');
     return Projects.findOne(projectId);
   },
@@ -135,8 +133,8 @@ Template.editableProject.events({
         toastr.success('Projekt erfolgreich erstellt!');
       }
     });
-    deleteDraft.call({
-      draftId: this._id,
+    Projects.delete.call({
+      projectId: this._id,
     }, (err, res) => {
       if (err) {
         alert(err);
@@ -152,8 +150,8 @@ Template.editableProject.events({
     Session.set('result', 'null');
   },
   'click #btn-delete-draft' (event) {
-    deleteDraft.call({
-      draftId: this._id,
+    Projects.delete.call({
+      projectId: this._id,
     }, (err, res) => {
       if (err) {
         alert(err);
@@ -195,7 +193,7 @@ Template.editableProject.events({
 });
 Template.deleteProjectModal.events({
   'click #btn-delete'(event) {
-    Projects.deleteProject.call({
+    Projects.delete.call({
       projectId: this.docId,
     }, (err, res) => {
       if (err) {
