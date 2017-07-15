@@ -27,15 +27,7 @@ Template.navigationBar.helpers({
 Template.navigationBar.events({
   'click .create-project-btn' (event) {
     Session.set('previousRoute', FlowRouter.getRouteName());
-    let currentDraftId;
-    // Go to a not finished draft if exists, else go to new draft
-    if (Meteor.user() && Meteor.user().profile && Meteor.user().profile.drafts) {
-      lodash.forEach(Meteor.user().profile.drafts, function(value) {
-        if (value.draftId) {
-          currentDraftId = value.draftId;
-        }
-      });
-    }
+    let currentDraftId = Meteor.user() && Meteor.user().profile.draftId;
 
     Session.set('result', 'null');
     if (!currentDraftId) {
@@ -50,9 +42,9 @@ Template.navigationBar.events({
       });
 
       if (Meteor.user()) {
-        Users.setDraftIdInProfile.call({
-          userId: Meteor.userId(),
-          draftId: currentDraftId }, (err, res) => {
+        Users.setDraftId.call({
+          draftId: currentDraftId,
+        }, (err, res) => {
           if (err) {
             alert(err);
           }

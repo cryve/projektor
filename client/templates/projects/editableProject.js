@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating';
 import { Projects } from 'meteor/projektor:projects';
+import Users from 'meteor/projektor:users';
 import toastr from 'toastr';
 import lodash from 'lodash';
 import 'toastr/build/toastr.css';
@@ -40,21 +41,15 @@ Template.editableProject.helpers({
     return Meteor.loggingIn() || !projectSubReady;
   },
   canShow() {
-    const user = Meteor.user();
-    if (!user) {
+    if (!Meteor.user()) {
       return false;
     }
     const projectId = FlowRouter.getParam('projectId');
     const project = Projects.findOne(projectId);
     if (!project) {
       return false;
-    } else if (project.state.draft) {
-      const draftInCurrentUsersDraft = lodash.find(user.profile.drafts, function(userDraft) {
-        return userDraft.draftId === projectId;
-      });
-      if(!draftInCurrentUsersDraft) {
-        return false;
-      }
+    } else if (project.state.draft && projectId !== Meteor.user().profile.draftId) {
+      return false;
     }
     return true;
   },
@@ -98,7 +93,7 @@ Template.editableProject.helpers({
 
 Template.editableProject.events({
   'click #btn-publish-draft' (event) {
-    const newId = Projects.makePublic.call({
+    Projects.makePublic.call({
       projectId: this._id,
     }, (err, res) => {
       if (err) {
@@ -107,14 +102,12 @@ Template.editableProject.events({
         toastr.success('Projekt erfolgreich erstellt!');
       }
     });
-    Projects.delete.call({
-      projectId: this._id,
-    }, (err, res) => {
+    Users.unsetDraftId.call({}, (err, res) => {
       if (err) {
         alert(err);
       }
     });
-    FlowRouter.go('projectDetails', { projectId: newId, projectTitle: encodeURIComponent(this.title) });
+    FlowRouter.go('projectDetails', { projectId: this._id, projectTitle: encodeURIComponent(this.title) });
     Session.set('result', 'null');
   },
   'click #btn-delete-draft' (event) {
@@ -125,9 +118,7 @@ Template.editableProject.events({
         alert(err);
       }
     });
-    Users.unsetDraftId.call({
-      userId: Meteor.userId,
-    }, (err, res) => {
+    Users.unsetDraftId.call({}, (err, res) => {
       if (err) {
         alert(err);
       }

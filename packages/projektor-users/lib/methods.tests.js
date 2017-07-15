@@ -22,36 +22,57 @@ Factory.define('user', Users, {
     studyCourseId: () => faker.random.number(),
     departmentId: () => faker.random.number(),
     facultyId: () => faker.random.number(),
-    draftId: () => Random.id(),
+    // draftId: () => Random.id(),
     // aboutMe: () => faker.lorem.sentences(),
     // skills: () => [faker.name.jobArea(), faker.name.jobArea(), faker.name.jobArea(), faker.name.jobArea(), faker.name.jobArea()],
     // avatar: () => false,
   },
 });
 
-describe('Store/remove project draft in profile', function() {
+describe('Store/remove users project draft id in profile', function() {
   beforeEach(function() {
     sampleUserId = Factory.create('user')._id;
   });
-  it('should not remove project draft id from foreign user', function() {
+  afterEach(function() {
+    Users.remove(sampleUserId);
+  });
+  it('should not store draft id in profile when logged out', function() {
     let context = {};
-    const args = { userId: sampleUserId };
+    const args = { draftId: Random.id() };
+    chai.assert.throws(() => {
+      Users.setDraftId._execute(context, args);
+    }, Meteor.Error, `users.setDraftId.notLoggedIn`);
+
+    const user = Users.findOne(sampleUserId);
+    chai.assert.isUndefined(user.profile.draftId);
+  });
+  it('should store draft id in profile when logged in', function() {
+    const draftId = Random.id();
+
+    const context = { userId: sampleUserId };
+    const args = { draftId };
+    Users.setDraftId._execute(context, args);
+
+    const user = Users.findOne(sampleUserId);
+    chai.assert.equal(user.profile.draftId, draftId);
+  });
+  it('should not remove draft id from profile when logged out', function() {
+    Users.update(sampleUserId, { $set: { 'profile.draftId': Random.id() } });
+
+    const context = {};
+    const args = {};
     chai.assert.throws(() => {
       Users.unsetDraftId._execute(context, args);
     }, Meteor.Error, `users.unsetDraftId.notLoggedIn`);
 
-    context = { userId: Random.id() };
-    chai.assert.throws(() => {
-      Users.unsetDraftId._execute(context, args);
-    }, Meteor.Error, `users.unsetDraftId.unauthorized`);
-
     const user = Users.findOne(sampleUserId);
     chai.assert.isDefined(user.profile.draftId);
   });
-  it('should remove project draft id from profile', function() {
-    const context = { userId: sampleUserId };
-    const args = { userId: sampleUserId };
+  it('should remove project draft id from profile when logged in', function() {
+    Users.update(sampleUserId, { $set: { 'profile.draftId': Random.id() } });
 
+    const context = { userId: sampleUserId };
+    const args = {};
     Users.unsetDraftId._execute(context, args);
 
     const sampleUser = Users.findOne(sampleUserId);

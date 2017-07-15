@@ -59,16 +59,6 @@ const userProfileSchema = new SimpleSchema({
     regEx: SimpleSchema.RegEx.Id,
     optional: true,
   },
-  drafts: {
-    type: Array,
-    optional: true,
-  },
-  'drafts.$': Object,
-  'drafts.$.draftId': {
-    type: String,
-    regEx: SimpleSchema.RegEx.Id,
-    optional: true,
-  },
 });
 
 

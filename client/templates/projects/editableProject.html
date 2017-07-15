@@ -58,7 +58,7 @@
                       </div> -->
                       <br>
                       {{#if hasPermissions 'deleteProject' this }}
-                        {{#if this.isNewProject}}
+                        {{#if this.state.draft}}
                           <button id="btn-delete-draft" class="btn btn-default">Verwerfen</button>
                           <button id="btn-publish-draft" class="btn btn-primary">Projekt erstellen</button>
                         {{else}}
