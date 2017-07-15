@@ -1,4 +1,4 @@
-body{
+body {
   background: #FAFAFA;  /* fallback for old browsers */
   margin-bottom: 60px;
 }
@@ -10,7 +10,6 @@ textarea {
 .breadcrumb {
   background-color:white;
 }
-
 
 #loader {
   position: fixed;

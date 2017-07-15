@@ -1,49 +1,20 @@
 .coverless-card-title {
    height: 78px;
 }
-.panel-right{
+.panel-right {
   position: absolute;
   left:92.5%;
   top:3%;
   color: white;
 }
 
-.cover-card-title {
-  height: 62px;
-}
-.fa-ellipsis-cursor{
+.fa-ellipsis-cursor {
   cursor:pointer;
 }
-.expandable-content {
-  position: absolute;
-  top: 201px;
-  left: 16.5px;
-  background-color: white;
-  width: 260px;
-  height: 169px;
-  padding: 15px;
-  -webkit-transition: all 0.3s linear 0s;
-  -moz-transition: all 0.3s linear 0s;
-  -ms-transition: all 0.3s linear 0s;
-  -o-transition: all 0.3s linear 0s;
-  transition: all 0.3s linear 0s;
-}
 
-/*.expandable:hover {
-  display: block;
-  height: 160px;
-}*/
-
-/*.expandable:hover .expandable-content  {
-  top: 101px;
-}*/
 #tags-color{
   background-color: #5cb85c;
-  line-height: :2.3;
-}
-
-.panel-body.cover-card-body {
-  height: 200px;
+  line-height: 2.3;
 }
 
 .front .panel-body.coverless-card-body {
@@ -78,12 +49,8 @@
   margin-bottom: 0;
 }
 
-.panel-footerBack{
+.panel-footerBack {
   text-align: center;
-}
-
-.jobs-expanded {
-  display: block;
 }
 
 .remaining-member {
@@ -99,11 +66,6 @@
   margin-bottom: 10px;
 }
 
-/*.cover-card-title {
-  position: absolute;
-  z-index: 7;
-}*/
-
 .jobs-box > .expandable {
   padding-top: 15px;
   padding-bottom: 5px;
@@ -115,37 +77,6 @@
   -ms-transition: all 0.3s linear 0s;
   -o-transition: all 0.3s linear 0s;
   transition: all 0.3s linear 0s;
-}
-
-.expandable-trigger:hover + .expandable-content .expandable {
-  height: 157px;
-}
-
-.expandable-trigger:hover + .expandable-content {
-  top: 126px;
-}
-
-/*.expandable-trigger:hover + .expandable-content .testTrigger {
-  position:relative;
-  z-index: 2;
-}*/
-
-.expandable-trigger:hover + .expandable-content .card {
-  position: relative;
-}
-
-.expandable-trigger:hover {
-  height: 225px;
-  z-index: 2;
-}
-
-.expandable-trigger {
-  height: 85px;
-  width: 230px;
-  bottom: 109px;
-  /*background-color: yellow;*/
-  position: absolute;
-  z-index: 2;
 }
 
 .jobs-box-header {
@@ -163,17 +94,10 @@
   text-decoration: none;
 }
 
-.remaining-size{
+.remaining-size {
   font-size:12px;
 }
 
-.circle30-remaining-members {
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
-  /*vertical-align: middle;*/
-}
 .circle20-remaining-members {
   border-radius: 50%;
   width: 20px;
@@ -203,18 +127,12 @@
   -ms-hyphens: auto;
   hyphens: auto;
 }
-.subtitle-2row {
-  word-wrap: break-word;
-  -webkit-hyphens: auto;
-  -ms-hyphens: auto;
-  hyphens: auto;
-  z-index: -100;
-}
 
 .hr-top {
   margin-bottom: 7px;
 }
-hr{
+
+hr {
   margin-top:40px;
 }
 
@@ -223,141 +141,23 @@ hr{
   margin-bottom:10px;
 }
 
-.member-icons-box {
-  position: absolute;
-  top: -30px;
-  right: 0px;
-  padding: 5px;
-  background-color: white;
-  border-top-left-radius: 2px;
-}
-
 .member-icons {
   margin: 0;
-}
-
-.panel-header.cover {
-  position: relative;
-  /*display: block;*/
-  height: 200px;
-  /*background-color: grey;*/
-}
-
-.cover > img {
-  height: 200px;
 }
 
 .panel-body h3 {
   margin-top: 0;
 }
 
-/*.expandable-content > h3 {
-  margin-top: 0;
-}*/
-
-.post-module {
-  position: relative;
-  z-index: 1;
-  display: block;
-  background: #ffffff;
-  min-width: 270px;
-  height: 470px;
-  -webkit-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.15);
-  -moz-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.15);
-  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.15);
-  -webkit-transition: all 0.3s linear 0s;
-  -moz-transition: all 0.3s linear 0s;
-  -ms-transition: all 0.3s linear 0s;
-  -o-transition: all 0.3s linear 0s;
-  transition: all 0.3s linear 0s;
-}
-
-
-.post-module .thumbnailCover img {
-  display: block;
-  width: 100%;
-  margin-left: auto;
-    margin-right: auto;
-  -webkit-transition: all 0.3s linear 0s;
-  -moz-transition: all 0.3s linear 0s;
-  -ms-transition: all 0.3s linear 0s;
-  -o-transition: all 0.3s linear 0s;
-  transition: all 0.3s linear 0s;
-}
-
-
-.post-module .post-content {
-  position: absolute;
-  bottom: 0;
-  background: #ffffff;
-  width: 100%;
-  padding: 30px;
-
-}
-.post-module .post-content .category {
-  position: absolute;
-  top: -15px;
-  right: 0px;
-  border-top:1px;
-  box-shadow: inset 0px 0.5px 0px #bcbcbc;
-  background: rgb(235, 235, 235);
-  padding: 5px 7.5px;
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-
-
-.post-module .post-content .sub_title {
-  margin: 0;
-  padding: 0 0 20px;
-  color: #727272;
-  font-size: 20px;
-  font-weight: 400;
-}
-.post-module .post-content .description {
-  display: none;
-  color: #666666;
-  font-size: 14px;
-  line-height: 1.8em;
-}
-
-.hover .post-content .description {
-  display: block !important;
-  height: auto !important;
-  opacity: 1 !important;
-}
-
-.post-module .post-content .description2 {
-  color: #666666;
-  font-size: 14px;
-  line-height: 1.8em;
-}
-
-.hover .post-content .description2 {
-  display: block !important;
-  height: auto !important;
-  opacity: 1 !important;
-}
-
-.header-image{
+.header-image {
   height:165px;
   background-repeat: no-repeat;
   background-position: top center;
   background-size: cover;
-
 }
 
-.img-circle-transparent{
+.img-circle-transparent {
   opacity: 0.3;
-}
-
-.containerFlip {
-  position: relative;
-  perspective: 800px;
-  height: 480px;
 }
 
 #card {
@@ -383,14 +183,6 @@ hr{
   background-repeat: no-repeat;
 }
 
-/*#card .front {
-  background-color: white;
-}*/
-/*
-#card .front .panel-body{
-  padding-top:165px;
-}*/
-
 #card .back {
   background: white;
   transform: rotateY( 180deg );
@@ -400,10 +192,6 @@ hr{
 #card.flipped {
   transform: rotateY( -180deg );
   -webkit-transform: rotateY( -180deg );
-}
-
-.noCover{
-  background-color:#D6E3FF;
 }
 
 .title-ellipses {
@@ -419,8 +207,7 @@ hr{
   -webkit-box-orient: vertical;
 }
 
-.title-ellipses:after
-{
+.title-ellipses:after {
 	content    : '   ';
   color: #337ab7;
 	text-align : right;
@@ -433,8 +220,7 @@ hr{
 	background : linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 75%);
 }
 
-.line-clamp-2
-{
+.line-clamp-2 {
 	-webkit-line-clamp : 2;
   color: #337ab7;
 	height             : calc(1.2em * 1.2 * 2);

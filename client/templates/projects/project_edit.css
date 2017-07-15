@@ -3,10 +3,10 @@
 .table-cell { display: table-cell; }
 .table-body { display: table-row-group }
 
-#uploadAlert{
+#uploadAlert {
   display:none;
 }
 
-#uploadSuccess{
+#uploadSuccess {
   display:none;
 }

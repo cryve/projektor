@@ -7,3 +7,9 @@ body {
 .navbar-inverse .navbar-brand {
   color: white;
 }
+
+.containerFlip {
+  position: relative;
+  perspective: 800px;
+  height: 480px;
+}
