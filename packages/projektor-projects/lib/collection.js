@@ -1,7 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { Index } from 'meteor/easy:search';
-import { ElasticSearchEngine } from 'meteor/easysearch:elasticsearch';
 import SimpleSchema from 'simpl-schema';
 import { projectSchema } from './schemas.js';
 
@@ -101,112 +99,6 @@ if (Meteor.isServer) {
   });
 }
 
-export const ProjectsIndex = new Index({
-  collection: Projects,
-  fields: ['title', 'subtitle', 'description', 'jobs.joblabel', 'tags', 'occasions', 'team.userName'],
-  /* defaultSearchOptions: {
-    sortBy: 'relevance',
-  },*/
-  engine: new ElasticSearchEngine({
-    /* sort: function (searchObject, options) {
-      const sortBy = options.search.props.sortBy
-      console.log(sortBy);
-      // return a mongo sort specifier
-      if ('relevance' === sortBy) {
-        return ["_score"];
-
-      } else if ('newest' === sortBy) {
-        return  [{"deadline" : "desc"}];
-
-      } else if ('bestScore' === sortBy) {
-        return [{"deadline" : "asc"}];
-
-      } else {
-        throw new Meteor.Error('Invalid sort by prop passed')
-      }
-    },*/
-    // client: { host: 'http://dev.projektor.mt.haw-hamburg.de:9200', log: 'trace' },
-    query: (searchObject) => {
-      if (searchObject.title) {
-        const finalQuery = { bool: { must: [] } };
-        let words = searchObject.title,
-          wordArray = words.split(' ');
-        _.each(wordArray, function(word) {
-          const queryInput = {
-            bool: {
-              should: [{
-                multi_match: {
-                  query: word,
-                  fields: ['title', 'subtitle', 'description', 'jobs.joblabel', 'tags', 'occasions', 'team.userName'],
-                },
-              }, {
-                regexp: {
-                  title: {
-                    value: `.*${word}.*`,
-                    boost: 1.2,
-                  },
-                } }, {
-                  regexp: {
-                    subtitle: {
-                      value: `.*${word}.*`,
-                      boost: 1.2,
-                    },
-                  },
-                }, {
-                  regexp: {
-                    description: {
-                      value: `.*${word}.*`,
-                      boost: 1.2,
-                    },
-                  },
-                }, {
-                  regexp: {
-                    'jobs.joblabel': {
-                      value: `.*${word}.*`,
-                      boost: 1.2,
-                    },
-                  },
-                }, {
-                  regexp: {
-                    tags: {
-                      value: `.*${word}.*`,
-                      boost: 1.2,
-                    },
-                  },
-                }, {
-                  regexp: {
-                    occasions: {
-                      value: `.*${word}.*`,
-                      boost: 1.2,
-                    },
-                  },
-                }, {
-                  regexp: {
-                    'team.userName': {
-                      value: `.*${word}.*`,
-                      boost: 1.2,
-                    },
-                  } },
-              ],
-              minimum_should_match: 1,
-            },
-          };
-          finalQuery.bool.must.push(queryInput);
-        });
-        return finalQuery;
-      }
-    },
-    body: (body) => {
-      body._source = ['_id'];
-      delete body.fields;
-      delete body.sort;
-      return body;
-    },
-    getElasticSearchDoc: (doc, fields) => {
-      return doc;
-    },
-  }),
-});
 
 Projects.attachSchema(new SimpleSchema({
   createdAt: {
