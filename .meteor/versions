@@ -105,6 +105,7 @@ peppelg:bootstrap-3-modal@1.0.4
 percolate:find-from-publication@0.1.0
 projektor:core@0.0.1
 projektor:files@0.0.1
+projektor:gallery@0.0.1
 projektor:lib@0.0.1
 projektor:projects@0.0.1
 projektor:studies@0.0.1

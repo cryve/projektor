@@ -4,21 +4,9 @@ import { Images } from 'meteor/projektor:files';
 import Users from 'meteor/projektor:users';
 import toastr from 'toastr';
 
-import { updateGalleryItem } from '/lib/methods.js';
+import { updateItem } from './methods.js';
 
 import './image_upload_crop.html';
-
-Template.uploadedFilesCrop.onCreated(function uploadedFilesCropOnCreated() {
-  this.autorun(() => {
-    this.subscribe('files.images.all');
-  });
-});
-
-Template.uploadedFilesCrop.helpers({
-  uploadedFilesCrop () {
-    return Images.find();
-  },
-});
 
 Template.uploadFormCrop.onCreated(function () {
   this.currentUploadCrop = new ReactiveVar(false);
@@ -88,9 +76,8 @@ Template.uploadFormCrop.events({
                   }
                 });
               }
-              updateGalleryItem.call({
+              updateItem.call({
                 projectId: template.data.projectId,
-                collectionName: collection._name,
                 itemIndex: parseInt(currentSlot),
                 newItemType: 'image',
                 imageId: fileObj._id,
@@ -118,9 +105,8 @@ Template.uploadFormCrop.events({
                   }
                 });
               }
-              updateGalleryItem.call({
+              updateItem.call({
                 projectId: template.data.projectId,
-                collectionName: collection._name,
                 itemIndex: parseInt(currentSlot),
                 newItemType: 'image',
                 imageId: fileObj._id,
@@ -171,8 +157,5 @@ Template.fileCrop.onCreated(function fileCropOnCreated() {
 Template.fileCrop.helpers({
   imageFile () {
     return Images.findOne();
-  },
-  videoFile () {
-    return Videos.findOne();
   },
 });

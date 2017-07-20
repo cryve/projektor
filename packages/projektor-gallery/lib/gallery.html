@@ -148,7 +148,7 @@
 <template name="setVideoLink">
   <button id="video-link-button" class="btn btn-primary">Video Link</button>
   {{#if editActive }}
-    {{#autoForm id="setVideoLink" type="method-update" singleMethodArgument=true meteormethod=(getMethodString collection._name "setGalleryItemVideoUrl") doc=doc collection=collection setArrayItems=true}}
+    {{#autoForm id="setVideoLink" type="method-update" singleMethodArgument=true meteormethod="gallery.setItemVideoUrl" doc=doc collection=collection setArrayItems=true}}
       <div class="form-group" id="video-link-position">
         {{> afFieldInput name=videoLinkField type="text" placeholder="Video Link hinzufügen" }}
       </div>

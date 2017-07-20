@@ -1,8 +1,10 @@
-import { Images } from 'meteor/projektor:files';
 import { Template } from 'meteor/templating';
-import { deleteImageFromProject, initGallery, setCoverImg, setGalleryItemImageId, setGalleryItemType, removeCoverImg } from '/lib/methods.js';
+import { ReactiveVar } from 'meteor/reactive-var';
+import { deleteImage, initialize, setCoverImage, setItemImageId, setItemType, removeCoverImage } from './methods.js';
 
+import './image_upload_crop.js';
 import './gallery.html';
+
 Template.setVideoLink.onCreated(function() {
   this.editActive = new ReactiveVar(false);
 });
@@ -60,9 +62,9 @@ Template.deleteImageButton.events({
     const collection = template.data.collection;
     const projectId = template.data.projectId;
     if (currentArray && currentArray[currentSlot].id
-       && (currentArray[currentSlot].type == 'image')) {
+       && (currentArray[currentSlot].type === 'image')) {
     // Images.remove({_id: currentArray[currentSlot].id});
-      deleteImageFromProject.call({
+      deleteImage.call({
         imageId: currentArray[currentSlot].id,
         projectId,
       }, (err, res) => {
@@ -71,7 +73,7 @@ Template.deleteImageButton.events({
         }
       });
     }
-    if (currentCover == currentArray[currentSlot].id) {
+    if (currentCover === currentArray[currentSlot].id) {
       currentArray[currentSlot].id = null;
       let newCoverImage = null;
 
@@ -81,10 +83,8 @@ Template.deleteImageButton.events({
           break;
         }
       }
-    //  collection.update( { _id: template.data.projectId }, { $set: { 'coverImg': newCoverImage }} );
       if (newCoverImage) {
-        setCoverImg.call({
-          collectionName: collection._name,
+        setCoverImage.call({
           projectId: template.data.projectId,
           galleryItemIndex: parseInt(currentSlot),
           imageId: newCoverImage,
@@ -94,8 +94,7 @@ Template.deleteImageButton.events({
           }
         });
       } else {
-        removeCoverImg.call({
-          collectionName: collection._name,
+        removeCoverImage.call({
           projectId: template.data.projectId,
         }, (err, res) => {
           if (err) {
@@ -104,8 +103,7 @@ Template.deleteImageButton.events({
         });
       }
     }
-    setGalleryItemType.call({
-      collectionName: collection._name,
+    setItemType.call({
       itemType: 'null',
       projectId: template.data.projectId,
       itemIndex: parseInt(currentSlot),
@@ -114,8 +112,7 @@ Template.deleteImageButton.events({
         alert(err);
       }
     });
-    setGalleryItemImageId.call({
-      collectionName: collection._name,
+    setItemImageId.call({
       imageId: 'null',
       projectId: template.data.projectId,
       itemIndex: parseInt(currentSlot),
@@ -141,12 +138,9 @@ Template.setTitleImageButton.helpers({
 
 Template.setTitleImageButton.events({
   'click #title-image-button' (event, template) {
-    const target = event.target;
-    const currentArray = template.data.media;
     const currentSlot = template.data.slot;
     const collection = template.data.collection;
-    setCoverImg.call({
-      collectionName: collection._name,
+    setCoverImage.call({
       projectId: template.data.projectId,
       galleryItemIndex: parseInt(currentSlot),
       imageId: 'empty',
@@ -191,7 +185,6 @@ Template.wholeGallery.onCreated(function() {
 
 Template.wholeGallery.helpers({
   getVideoImage(id) {
-    const currentArray = this.currentDoc.media;
     const url = id;
     const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
     const match = url.match(regExp);
@@ -240,10 +233,7 @@ Template.wholeGallery.events({
   'click #edit-gallery-button' (event) {
     if (!this.currentDoc.media) {
       Session.set('slot', 0);
-      // this.currentCollection.update(this.currentDoc._id, {$set: {media: mediaEmpty}});
-      // this.currentCollection.update(this.currentDoc._id, {$set: {coverImg: null}});
-      initGallery.call({
-        collection: this.currentCollection._name,
+      initialize.call({
         projectId: this.currentDoc._id,
       }, (err, res) => {
         if (err) {

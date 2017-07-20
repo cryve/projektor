@@ -1,7 +1,3 @@
-<template name="uploadImageCrop">
-  {{> uploadFormCrop uploadSlot=uploadSlot}}
-</template>
-
 <template name="uploadFormCrop">
   {{#with currentUploadCrop}}
     Uploading <b>{{file.name}}</b>:
@@ -30,21 +26,6 @@
     {{/if}}
     <!--<input id="fileInput" type="file" />-->
   {{/with}}
-</template>
-
-<template name="uploadedFilesCrop">
-  {{#if uploadedFilesCrop.count}}
-    <ul>
-      {{#each file in uploadedFilesCrop.each}}
-        <li>
-          <a href="{{file.link}}?download=true" id="imageLink" download="{{file.name}}">{{file.name}}</a>
-
-        </li>
-      {{/each}}
-    </ul>
-  {{else}}
-    <div>No files uploaded, yet</div>
-  {{/if}}
 </template>
 
 <template name='fileCrop'>
