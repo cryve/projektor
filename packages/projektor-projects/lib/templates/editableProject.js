@@ -1,9 +1,11 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { ReactiveVar } from 'meteor/reactive-var';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Projects } from 'meteor/projektor:projects';
 import Users from 'meteor/projektor:users';
 import toastr from 'toastr';
 import lodash from 'lodash';
-import 'toastr/build/toastr.css';
 import './editableProject.html';
 
 
@@ -60,7 +62,7 @@ Template.editableProject.helpers({
   memberCheck() {
     let check = true;
     lodash.forEach(this.team, function(member) {
-      if (member.userId == Meteor.userId()) {
+      if (member.userId === Meteor.userId()) {
         check = false;
         return false;
       }
@@ -70,7 +72,7 @@ Template.editableProject.helpers({
   supervisorCheck() {
     let check = true;
     lodash.forEach(this.supervisors, function(supervisor) {
-      if (supervisor.userId == Meteor.userId()) {
+      if (supervisor.userId === Meteor.userId()) {
         check = false;
         return false;
       }

@@ -1,13 +1,14 @@
 import { Template } from 'meteor/templating';
 import lodash from 'lodash';
-import { Images } from 'meteor/projektor:files';
-import { ProjectFiles } from 'meteor/projektor:files';
-import { deleteEditableArrayItem } from '/lib/methods.js';
-import { memberSchema } from '/lib/collections/schemas.js';
-import { jobSchema } from '/lib/collections/schemas.js';
-import { contactSchema } from '/lib/collections/schemas.js';
-import { teamCommSchema } from '/lib/collections/schemas.js';
-import { supervisorSchema } from '/lib/collections/schemas.js';
+import { Images, ProjectFiles } from 'meteor/projektor:files';
+import { deleteEditableArrayItem } from 'meteor/projektor:projects/lib/methods.js';
+import {
+  memberSchema,
+  jobSchema,
+  contactSchema,
+  teamCommSchema,
+  supervisorSchema,
+ } from 'meteor/projektor:projects/lib/schemas.js';
 import Users from 'meteor/projektor:users';
 
 import './project_edit.html';
@@ -168,8 +169,7 @@ Template.member.events({
   'click .btn-delete-member' (event) {
     event.preventDefault();
     deleteEditableArrayItem.call({
-      collectionName: this.currentCollection._name,
-      docId: this.currentDoc._id,
+      projectId: this.currentDoc._id,
       arrayField: 'team',
       item: { userId: this.userId, role: this.role },
     }, (err, res) => {
@@ -232,8 +232,7 @@ Template.leaveGroupModal.events({
   'click #leave'(event) {
     event.preventDefault();
     deleteEditableArrayItem.call({
-      collectionName: this.collectionName,
-      docId: this.docId,
+      projectId: this.docId,
       arrayField: this.group,
       item: { userId: this.userId, role: this.userRole },
     }, (err, res) => {
@@ -285,8 +284,7 @@ Template.supervisor.events({
   'click .btn-delete-supervisor'(event) {
     event.preventDefault();
     deleteEditableArrayItem.call({
-      collectionName: this.currentCollection._name,
-      docId: this.currentDoc._id,
+      projectId: this.currentDoc._id,
       arrayField: 'supervisors',
       item: { userId: this.userId, role: this.role },
     }, (err, res) => {
@@ -341,8 +339,7 @@ Template.contactItem.events({
   'click .btn-delete-contact' (event) {
     event.preventDefault();
     deleteEditableArrayItem.call({
-      collectionName: this.currentCollection._name,
-      docId: this.currentDoc._id,
+      projectId: this.currentDoc._id,
       arrayField: 'contacts',
       item: { medium: this.medium, approach: this.approach },
     }, (err, res) => {
@@ -494,8 +491,7 @@ Template.jobItem.events({
   'click .btn-delete-job' (event) {
     event.preventDefault();
     deleteEditableArrayItem.call({
-      collectionName: this.currentCollection._name,
-      docId: this.currentDoc._id,
+      projectId: this.currentDoc._id,
       arrayField: 'jobs',
       item: { joblabel: this.jobLabel },
     }, (err, res) => {
@@ -645,8 +641,7 @@ Template.editTeamCommItem.helpers({
 Template.editTeamCommItem.events({
   'click .btn-delete-teamcomm' (event) {
     deleteEditableArrayItem.call({
-      collectionName: this.currentCollection._name,
-      docId: this.currentDoc._id,
+      projectId: this.currentDoc._id,
       arrayField: 'teamCommunication',
       item: { medium: this.medium, url: this.url, isPrivate: this.isPrivate },
     }, (err, res) => {

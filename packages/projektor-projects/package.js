@@ -19,6 +19,12 @@ Package.onUse(function(api) {
     'lib/templates/project_card.css',
     'lib/templates/project_card.html',
     'lib/templates/project_card.js',
+    'lib/templates/project_edit.css',
+    'lib/templates/project_edit.html',
+    'lib/templates/project_edit.js',
+    'lib/templates/editableProject.css',
+    'lib/templates/editableProject.html',
+    'lib/templates/editableProject.js',
   ], 'client');
 
   api.mainModule('lib/main.js', ['client', 'server']);
