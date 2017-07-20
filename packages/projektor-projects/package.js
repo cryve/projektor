@@ -10,9 +10,16 @@ Package.onUse(function(api) {
   const packages = [
     'projektor:core@0.0.1',
     'projektor:users@0.0.1',
+    'projektor:files@0.0.1',
   ];
 
   api.use(packages);
+
+  api.addFiles([
+    'lib/templates/project_card.css',
+    'lib/templates/project_card.html',
+    'lib/templates/project_card.js',
+  ], 'client');
 
   api.mainModule('lib/main.js', ['client', 'server']);
 });

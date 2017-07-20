@@ -234,24 +234,3 @@ Projects.updateEditableSupervisorNotesInProject = new ValidatedMethod({
     Projects.update({ _id }, modifier);
   },
 });
-
-Projects.projektsetGalleryItemVideoUrl = new ValidatedMethod({
-  name: 'projects.setGalleryItemVideoUrl',
-  validate: new SimpleSchema({
-    _id: String,
-    modifier: {
-      type: Object,
-      blackbox: true,
-    },
-  }).validator(),
-  run({ modifier, _id }) {
-    const project = Projects.findOne(_id);
-    if (!lodash.includes(project.permissions.editInfos, this.userId)) {
-      throw new Meteor.Error('projects.setGalleryItemVideoUrl.unauthorized',
-      'You are not allowed to edit gallery of this project');
-    }
-    return Projects.update({
-      _id,
-    }, modifier);
-  },
-});

@@ -3,7 +3,6 @@ import { Images } from 'meteor/projektor:files';
 import { Projects } from 'meteor/projektor:projects';
 import { deleteAvatarFromUser } from '/lib/methods.js';
 import './user-profile.html';
-import '../projects/project_card.js';
 import Users from 'meteor/projektor:users';
 
 Template.userProfile.onCreated(function userProfileOnCreated() {
