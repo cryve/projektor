@@ -73,5 +73,16 @@ Package.onUse(function(api) {
 
   api.imply(packages);
 
-  api.mainModule('lib/core.js');
+  api.addFiles([
+    'lib/core.js',
+    'lib/ui_modules.js',
+  ]);
+
+  api.export('Projektor');
+});
+
+Package.onTest(function(api) {
+  api.use(['projektor:lib', 'ecmascript', 'random', 'practicalmeteor:mocha', 'mdg:validation-error']);
+
+  api.mainModule('tests/ui_modules.tests.js');
 });

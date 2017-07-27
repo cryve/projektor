@@ -15,5 +15,10 @@ Package.onUse(function(api) {
 
   api.imply(packages);
 
+  api.addFiles([
+    'lib/client/ui_modules.html',
+    'lib/client/ui_modules.js',
+  ], 'client');
+
   api.mainModule('lib/layout.js', 'client');
 });

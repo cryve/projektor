@@ -1,3 +1,142 @@
+<template name="gallery">
+  <div class="row">
+    {{> uiModules zone="galleryPreview" }}
+  </div> <!-- ./row -->
+  <div class="row">
+    {{> uiModules zone="galleryThumbs" }}
+  </div> <!-- ./row -->
+</template>
+
+<template name="largeView">
+  <div class="col-sm-12">
+    {{#if $and getEditMode (hasPermissions 'editInfos' currentDoc)}}
+      {{#if currentDoc.media}}
+        {{> uploadFormCrop slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection
+        type="gallery"
+        }}
+        {{> setVideoLink slot=slot media=currentDoc.media
+        doc=currentDoc
+        projectId=currentDoc._id collection=currentCollection reactiveVar = reactiveVar }}
+        {{#if getRefreshPreview}}
+          {{#if $eq getMediaType "URL"}}
+            {{> deleteImageButton slot=slot media=currentDoc.media projectId=currentDoc._id  collection=currentCollection }}
+            {{> video slot=slot media=currentDoc.media projectId=currentDoc._id collection=currentCollection}}
+          {{else}}
+            {{#if $eq currentDoc.coverImg selectedMediumId}}
+              {{> deleteImageButton slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection }}
+              {{> titleImage coverImg=currentDoc.coverImg}}
+            {{else}}
+              {{#if selectedMediumId}}
+                {{> deleteImageButton slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
+                {{> setTitleImageButton slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
+                {{> galleryPreview selectedMediumId}}
+              {{else}}
+                {{> previewPlaceholder}}
+              {{/if}}
+            {{/if}}
+          {{/if}}
+        {{else}}
+          {{#if $eq getFirstMediaType "image"}}
+            {{#if $eq currentDoc.coverImg null}}
+              {{> previewPlaceholder}}
+            {{else}}
+              {{#if $eq currentDoc.coverImg selectedMediumId}}
+                  {{> deleteImageButton slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
+                  {{> galleryPreview selectedMediumId}}
+              {{else}}
+                {{> deleteImageButton slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection }}
+                {{> setTitleImageButton slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
+                {{> galleryPreview selectedMediumId}}
+              {{/if}}
+            {{/if}}
+          {{else}}
+            {{#if $eq getFirstMediaType "URL"}}
+              {{> deleteImageButton slot=slot media=currentDoc.media projectId=currentDoc._id  collection=currentCollection }}
+              {{> video slot=slot media=currentDoc.media projectId=currentDoc._id collection=currentCollection}}
+            {{else}}
+              {{> previewPlaceholder}}
+            {{/if}}
+          {{/if}}
+        {{/if}}
+      {{/if}}
+    {{else}}
+      {{#if currentDoc.media}}
+        {{#if getRefreshPreview}}
+          {{#if $eq getMediaType "URL"}}
+              {{> video slot=slot media=currentDoc.media projectId=currentDoc._id collection=currentCollection}}
+          {{else}}
+            {{#if $eq getMediaType "image"}}
+              {{> galleryPreview selectedMediumId}}
+            {{/if}}
+          {{/if}}
+        {{else}}
+          {{#if $eq getFirstMediaType "image"}}
+            {{> galleryPreview selectedMediumId}}
+          {{else}}
+            {{#if $eq getFirstMediaType "URL"}}
+              {{> video slot=slot media=currentDoc.media projectId=currentDoc._id collection=currentCollection}}
+            {{/if}}
+          {{/if}}
+        {{/if}}
+      {{/if}}
+    {{/if}}
+  </div> <!-- ./col-sm-12 -->
+</template>
+
+<template name="thumbs">
+  <div class="col-sm-12">
+    {{#if $and getEditMode (hasPermissions 'editInfos' currentDoc)}}
+      <ul class="list-inline thumbnails thumbnailsJustify">
+      {{#each image in currentDoc.media}}
+        <div class="mergeInputImage ">
+          {{#if $eq image.type null}}
+            <li>
+              <button data-value="{{image.id}}" data-slot={{@index}} type="button" class="edit_button">
+                <div class="well thumbnail-placeholder"></div>
+              </button>
+            </li>
+          {{else}}
+            {{#if $eq image.type "URL"}}
+              <li>
+                <button data-value="{{image.id}}" data-slot={{@index}} type="button" class="edit_button ">
+                  <img class="img-responsive videoImage "  src= {{getVideoImage image.id}}>
+                </button>
+              </li>
+            {{else}}
+              <li>
+                <button data-value="{{image.id}}" data-slot={{@index}} type="button" class="edit_button ">
+                  <img class="img-responsive "  src= {{getImgURL image.id "thumbnail115"}} alt="">
+                </button>
+              </li>
+            {{/if}}
+          {{/if}}
+        </div>
+      {{/each}}
+    </ul>
+    {{else}}
+    <ul class="list-inline thumbnails">
+      {{#each image in currentDoc.media}}
+        {{#if $eq image.type "image" }}
+          <li>
+            <button data-value="{{image.id}}" data-slot={{@index}} type="button" class="edit_button ">
+              <img class="img-responsive" src= {{getImgURL image.id "thumbnail115"}} alt="">
+            </button>
+          </li>
+        {{else}}
+          {{#if $eq image.type "URL"}}
+            <li>
+              <button data-value="{{image.id}}" data-slot={{@index}} type="button" class="edit_button ">
+                <img class="img-responsive videoImage "  src= {{getVideoImage image.id}}>
+              </button>
+            </li>
+          {{/if}}
+        {{/if}}
+      {{/each}}
+      </ul>
+    {{/if}}
+  </div>
+</template>
+
 <template name="wholeGallery">
   <div class="panel-header">
     <div class="row">
@@ -15,14 +154,14 @@
                 {{> deleteImageButton slot=slot media=currentDoc.media projectId=currentDoc._id  collection=currentCollection }}
                 {{> video slot=slot media=currentDoc.media projectId=currentDoc._id collection=currentCollection}}
               {{else}}
-                {{#if $eq currentDoc.coverImg result}}
+                {{#if $eq currentDoc.coverImg selectedMediumId}}
                   {{> deleteImageButton slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection }}
                   {{> titleImage coverImg=currentDoc.coverImg}}
                 {{else}}
-                  {{#if result}}
+                  {{#if selectedMediumId}}
                     {{> deleteImageButton slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
                     {{> setTitleImageButton slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
-                    {{> galleryPreview result}}
+                    {{> galleryPreview selectedMediumId}}
                   {{else}}
                     {{> previewPlaceholder}}
                   {{/if}}
@@ -33,13 +172,13 @@
                 {{#if $eq currentDoc.coverImg null}}
                   {{> previewPlaceholder}}
                 {{else}}
-                  {{#if $eq currentDoc.coverImg result}}
+                  {{#if $eq currentDoc.coverImg selectedMediumId}}
                       {{> deleteImageButton slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
-                      {{> galleryPreview result}}
+                      {{> galleryPreview selectedMediumId}}
                   {{else}}
                     {{> deleteImageButton slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection }}
                     {{> setTitleImageButton slot=slot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
-                    {{> galleryPreview result}}
+                    {{> galleryPreview selectedMediumId}}
                   {{/if}}
                 {{/if}}
               {{else}}
@@ -59,12 +198,12 @@
                   {{> video slot=slot media=currentDoc.media projectId=currentDoc._id collection=currentCollection}}
               {{else}}
                 {{#if $eq getMediaType "image"}}
-                  {{> galleryPreview result}}
+                  {{> galleryPreview selectedMediumId}}
                 {{/if}}
               {{/if}}
             {{else}}
               {{#if $eq getFirstMediaType "image"}}
-                {{> galleryPreview result}}
+                {{> galleryPreview selectedMediumId}}
               {{else}}
                 {{#if $eq getFirstMediaType "URL"}}
                   {{> video slot=slot media=currentDoc.media projectId=currentDoc._id collection=currentCollection}}
@@ -166,26 +305,18 @@
 
 
 <template name="setTitleImageButton">
-
-      <button id="title-image-button" class="btn btn-primary">Titelbild</button>
-
+  <button id="title-image-button" class="btn btn-primary">Titelbild</button>
 </template>
 
 <template name="deleteImageButton">
-
-      <button id="delete-image-button" class="btn btn-primary">Löschen</button>
-
+  <button id="delete-image-button" class="btn btn-primary">Löschen</button>
 </template>
 
 <template name="titleImage">
-
-      <img class="img-responsive" src={{getImgURL this.coverImg "preview"}} alt="">
-
+  <img class="img-responsive" src={{getImgURL this.coverImg "preview"}} alt="">
 </template>
 
 
 <template name="galleryPreview">
-
-    <img class="img-responsive" src={{getImgURL result "preview"}} alt="">
-
+  <img class="img-responsive" src={{getImgURL selectedMediumId "preview"}} alt="">
 </template>

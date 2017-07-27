@@ -9,8 +9,8 @@ Template.navigationBar.onCreated(function navigationBarOnCreated() {
 });
 
 Template.navigationBar.helpers({
-  result() {
-    return Session.get('result');
+  selectedMediumId() {
+    return Session.get('selectedMediumId');
   },
   isDraftRendered() {
     const project = Projects.findOne(FlowRouter.getParam('projectId'));
@@ -29,7 +29,7 @@ Template.navigationBar.events({
     Session.set('previousRoute', FlowRouter.getRouteName());
     let currentDraftId = Meteor.user() && Meteor.user().profile.draftId;
 
-    Session.set('result', 'null');
+    Session.set('selectedMediumId', 'null');
     if (!currentDraftId) {
       currentDraftId = Projects.insertNewDraft.call((err, res) => {
         if (err) {

@@ -65,8 +65,8 @@ Template.registerHelper('encodeUrlString', function(string) {
 
 });*/
 
-Template.registerHelper('log', (data) => {
-  console.log(data);
+Template.registerHelper('log', (data, description) => {
+  console.log(description, data);
 });
 
 Template.registerHelper('getMethodString', (collectionName, methodName) => `${collectionName}.${methodName}`);

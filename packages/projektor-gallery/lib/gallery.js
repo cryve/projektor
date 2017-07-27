@@ -1,5 +1,7 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { Projects } from 'meteor/projektor:projects';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 import { deleteImage, initialize, setCoverImage, setItemImageId, setItemType, removeCoverImage } from './methods.js';
 
 import './image_upload_crop.js';
@@ -122,7 +124,7 @@ Template.deleteImageButton.events({
       }
     });
     Template.instance().setEmptyPreview.set(true);
-    Session.set('result', undefined);
+    Session.set('selectedMediumId', undefined);
   },
 });
 
@@ -157,8 +159,8 @@ Template.galleryPreview.helpers({
   getValue() {
     return Template.instance().valuePreview.get();
   },
-  result() {
-    return Session.get('result');
+  selectedMediumId() {
+    return Session.get('selectedMediumId');
   },
 });
 
@@ -172,6 +174,10 @@ Template.galleryPreview.helpers({
 });*/
 
 Template.wholeGallery.onCreated(function() {
+  // const projectId = FlowRouter.getParam('projectId');
+  // const project = Projects.findOne(projectId);
+  // this.currentDoc = project;
+  // this.currentCollection = Projects;
   this.editMode = new ReactiveVar(false);
   this.refreshPreview = new ReactiveVar(false);
   this.finishedMode = new ReactiveVar(false);
@@ -179,11 +185,17 @@ Template.wholeGallery.onCreated(function() {
   this.autorun(() => {
     console.log(self);
     console.log(Template.currentData());
-    this.subscribe('files.images.gallery', Template.currentData().currentDoc.media);
+    this.subscribe('files.images.gallery', Template.currentData().media);
   });
 });
 
 Template.wholeGallery.helpers({
+  currentDoc() {
+    return this;
+  },
+  currentCollection() {
+    return Projects;
+  },
   getVideoImage(id) {
     const url = id;
     const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
@@ -194,7 +206,7 @@ Template.wholeGallery.helpers({
   },
   getMediaType() {
     const slot = Session.get('slot');
-    return this.currentDoc.media[slot].type;
+    return this.media[slot].type;
   },
   getEditMode() {
     return Template.instance().editMode.get();
@@ -205,22 +217,22 @@ Template.wholeGallery.helpers({
   getFinishedMode() {
     return Template.instance().finishedMode.get();
   },
-  result() {
-    return Session.get('result');
+  selectedMediumId() {
+    return Session.get('selectedMediumId');
   },
   slot() {
     return Session.get('slot');
   },
   getFirstMediaType() {
-    Session.set('result', 'null');
-    if (this.currentDoc && this.currentDoc.media) {
-      for (let i = 0; i < this.currentDoc.media.length; i++) {
-        if (this.currentDoc.media[i].type == 'image') {
-          // console.log(this.currentDoc.media[i].id);
+    Session.set('selectedMediumId', 'null');
+    if (this.media) {
+      for (let i = 0; i < this.media.length; i++) {
+        if (this.media[i].type == 'image') {
+          // console.log(this.media[i].id);
           Session.set('slot', i);
-          Session.set('result', this.currentDoc.media[i].id);
+          Session.set('selectedMediumId', this.media[i].id);
           return ('image');
-        } else if (this.currentDoc.media[i].type == 'URL') {
+        } else if (this.media[i].type == 'URL') {
           Session.set('slot', i);
           return ('URL');
         }
@@ -231,10 +243,10 @@ Template.wholeGallery.helpers({
 
 Template.wholeGallery.events({
   'click #edit-gallery-button' (event) {
-    if (!this.currentDoc.media) {
+    if (!this.media) {
       Session.set('slot', 0);
       initialize.call({
-        projectId: this.currentDoc._id,
+        projectId: this._id,
       }, (err, res) => {
         if (err) {
           alert(err);
@@ -252,11 +264,33 @@ Template.wholeGallery.events({
   },
   'click .edit_button'(event) {
     const target = event.target;
-    const result = event.currentTarget.dataset.value;
+    const selectedMediumId = event.currentTarget.dataset.value;
     const slot = event.currentTarget.dataset.slot;
-    console.log(`${result} ${slot}`);
+    console.log(`${selectedMediumId} ${slot}`);
     Template.instance().refreshPreview.set(true);
-    Session.set('result', result);
+    Session.set('selectedMediumId', selectedMediumId);
     Session.set('slot', slot);
+  },
+});
+
+Template.largeView.helpers({
+  getFirstMediaType() {
+    Session.set('selectedMediumId', 'null');
+    if (this.media) {
+      for (let i = 0; i < this.media.length; i++) {
+        if (this.media[i].type == 'image') {
+          // console.log(this.media[i].id);
+          Session.set('slot', i);
+          Session.set('selectedMediumId', this.media[i].id);
+          return ('image');
+        } else if (this.media[i].type == 'URL') {
+          Session.set('slot', i);
+          return ('URL');
+        }
+      }
+    }
+  },
+  selectedMediumId() {
+    return Session.get('selectedMediumId');
   },
 });

@@ -79,8 +79,8 @@ Template.editableProject.helpers({
     });
     return check;
   },
-  result() {
-    return Session.get('result');
+  selectedMediumId() {
+    return Session.get('selectedMediumId');
   },
   previousRoute() {
     return Session.get('previousRoute');
@@ -110,7 +110,7 @@ Template.editableProject.events({
       }
     });
     FlowRouter.go('projectDetails', { projectId: this._id, projectTitle: encodeURIComponent(this.title) });
-    Session.set('result', 'null');
+    Session.set('selectedMediumId', 'null');
   },
   'click #btn-delete-draft' (event) {
     Projects.delete.call({
@@ -126,7 +126,7 @@ Template.editableProject.events({
       }
     });
     FlowRouter.go('landingPage');
-    Session.set('result', 'null');
+    Session.set('selectedMediumId', 'null');
   },
   'click #btn-show-delete-project'(event) {
     Modal.show('deleteProjectModal', {
@@ -150,7 +150,7 @@ Template.deleteProjectModal.events({
         alert(err);
       } else {
         FlowRouter.go('landingPage');
-        Session.set('result', 'null');
+        Session.set('selectedMediumId', 'null');
         Modal.hide();
       }
     });

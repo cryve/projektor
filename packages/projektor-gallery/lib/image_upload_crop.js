@@ -123,7 +123,7 @@ Template.uploadFormCrop.events({
                 console.log("Storing image with URL " + fileObj._id + " in slot: " + currentSlot);
                 collection.update( { _id: template.data.projectId }, { $set: { 'media': currentArray }} );*/
             }
-            Session.set('result', fileObj._id);
+            Session.set('selectedMediumId', fileObj._id);
           } else {
             alert(`File "${fileObj.name}" successfully uploaded`);
             console.log(`Storing image with URL ${fileObj._id}`);
