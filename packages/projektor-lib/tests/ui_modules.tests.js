@@ -1,15 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 import { chai } from 'meteor/practicalmeteor:chai';
-import { ValidatedMethod } from 'meteor/mdg:validated-method';
-import ValidationError from 'meteor/mdg:validation-error'
-import { Random } from 'meteor/random';
 import lodash from 'lodash';
 
 describe('Projektor.modules', function() {
   beforeEach(function() {
     // Reset all existing zones
     lodash.forEach(Projektor.modules, (value, key) => {
-      console.log(value, key);
       if (!lodash.isFunction(value)) {
         lodash.unset(Projektor.modules, key);
       }
@@ -76,6 +72,50 @@ describe('Projektor.modules', function() {
     });
     chai.assert.isFunction(Projektor.modules.create, 'create has not been overwritten');
     chai.assert.isFunction(Projektor.modules.add, 'create has not been overwritten');
+  });
+
+  it('should only add to existing zone', function() {
+    const zone = 'sampleZone';
+    const module = {
+      template: 'sampleModuleTemplate',
+    };
+
+    chai.assert.throws(() => {
+      Projektor.modules.add(zone, module);
+    }, Meteor.Error, 'Projektor.modules.add.noZone');
+  });
+
+  it('should not create zone with invalid name argument', function() {
+    const invalidZones = ['', {}, [], 123];
+
+    lodash.forEach(invalidZones, function(zone) {
+      chai.assert.throws(() => {
+        Projektor.modules.create(zone);
+      }, Meteor.Error, 'Projektor.modules.create.invalidName');
+    });
+  });
+
+  it('should not add invalid modules', function() {
+    const zone = 'sampleZone';
+    Projektor.modules.create(zone);
+
+    const invalidModules = [
+      '',
+      {},
+      123,
+      { invalidKey: 'test' },
+      { template: '' },
+      { template: {} },
+      { template: 123 },
+    ];
+    lodash.forEach(invalidModules, function(module) {
+      const invalidArgs = [module, [module, module]];
+      lodash.forEach(invalidArgs, function(invalidArg) {
+        chai.assert.throws(() => {
+          Projektor.modules.add(zone, invalidArg);
+        }, Meteor.Error, 'Projektor.modules.add.invalidModule');
+      });
+    });
   });
 
   it('should deliver modules from a zone');
