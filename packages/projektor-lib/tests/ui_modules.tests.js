@@ -118,7 +118,17 @@ describe('Projektor.modules', function() {
     });
   });
 
-  it('should deliver modules from a zone');
+  it('should deliver modules from a zone', function() {
+    const zone = 'sampleZone';
+    const modules = [
+      { template: 'firstSampleModuleTemplate' },
+      { template: 'secondSampleModuleTemplate' },
+    ];
+    Projektor.modules.create(zone);
+    Projektor.modules.add(zone, modules);
+
+    chai.assert.deepEqual(Projektor.modules.getModulesFromZone(zone), modules);
+  });
   it('should remove a module from a zone');
   it('should remove multiple modules from a zone');
 });

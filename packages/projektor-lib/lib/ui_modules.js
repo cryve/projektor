@@ -51,3 +51,7 @@ Projektor.modules.add = (zone, module) => {
     Projektor.modules[zone].push(module);
   }
 };
+
+Projektor.modules.getModulesFromZone = (zone) => {
+  return Projektor.modules[zone];
+};
