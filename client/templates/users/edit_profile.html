@@ -1,5 +1,5 @@
 <template name="editAboutMe">
-  {{#if $and editActive ($eq currentUser._id currentDoc._id) }}
+  {{#if $and isEditing ($eq currentUser._id currentDoc._id) }}
     {{#autoForm id="editAboutMe" type="method-update" singleMethodArgument=true meteormethod="users.updateEditable" doc=currentDoc collection=currentCollection }}
     <div class="form-group">
       {{> afFieldInput name="profile.aboutMe" type="textarea" rows=6 placeholder="Schreibe etwas über dich" }}
@@ -24,7 +24,7 @@
 </template>
 
 <template name="editSkills">
-  {{#if $and editActive ($eq currentUser._id currentDoc._id) }}
+  {{#if $and isEditing ($eq currentUser._id currentDoc._id) }}
     {{#autoForm id="editSkills" type="method-update" singleMethodArgument=true meteormethod="users.updateEditable" doc=currentDoc collection=currentCollection }}
     <div class="form-group">
       {{> afFieldInput name="profile.skills" type="tags" maxTags=20 maxChars=20 trimValue=true placeholder="Tags eingeben" }}
@@ -52,7 +52,7 @@
   {{#if $eq currentUser._id currentDoc._id }}
     <li>
       <button id="btn-add-contact" class="btn btn-primary btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
-      {{#if editActive }}
+      {{#if isEditing }}
         {{#autoForm id="addContactUser" schema=contactSchema type="method" meteormethod=(getMethodString currentCollection._name "addContact") doc=currentDoc}}
           <div class="form-group">
             {{> afFieldInput name="contact.medium" type="select2" options=mediumOptions placeholder="Neues Kommunikationsmittel hinzufügen" }}
@@ -70,7 +70,7 @@
 
 <template name="contactItemUser">
   <li>
-    {{#if $and editActive ($eq currentUser._id currentDoc._id) }}
+    {{#if $and isEditing ($eq currentUser._id currentDoc._id) }}
       {{#autoForm id="contactItemUser" type="method-update" singleMethodArgument=true meteormethod="users.updateEditable" doc=currentDoc collection=currentCollection setArrayItems=true}}
         {{> afFieldInput name=contactMediumField type="select2" options=mediumOptions placeholder="Kontaktmittel auswählen" }}
         {{> afFieldInput name=contactApproachField type="text" options=mediumOptions placeholder="Details zur Kontaktaufnahme"}}
@@ -93,7 +93,7 @@
   {{#if $eq currentUser._id currentDoc._id }}
     <li>
       <button id="btn-add-link" class="btn btn-primary btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
-      {{#if editActive }}
+      {{#if isEditing }}
         {{#autoForm id="addLink" schema=linkSchema type="method" meteormethod=(getMethodString currentCollection._name "addLink") doc=currentDoc}}
           <div class="form-group">
             {{> afFieldInput name="link.medium" type="select2" options=mediumOptions placeholder="Neues Kommunikationsmittel hinzufügen" }}
@@ -111,7 +111,7 @@
 
 <template name="linkItem">
   <li>
-    {{#if $and editActive ($eq currentUser._id currentDoc._id) }}
+    {{#if $and isEditing ($eq currentUser._id currentDoc._id) }}
       {{#autoForm id="linkItem" type="method-update" singleMethodArgument=true meteormethod="users.updateEditable" doc=currentDoc collection=currentCollection setArrayItems=true}}
         {{> afFieldInput name=linkMediumField type="select2" options=mediumOptions placeholder="Kontaktmittel auswählen" }}
         {{> afFieldInput name=linkApproachField type="text" options=mediumOptions placeholder="Details zur Kontaktaufnahme"}}

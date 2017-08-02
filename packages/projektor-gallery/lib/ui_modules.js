@@ -10,5 +10,5 @@
 //   template: "gallery",
 // });
 Projektor.modules.add("projectContent", {
-  template: "wholeGallery",
+  template: "gallery",
 });

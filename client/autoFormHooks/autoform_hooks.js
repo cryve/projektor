@@ -13,11 +13,11 @@ AutoForm.addHooks([
   'editOccasions',
   'editDeadline',
   'editBeginning',
-  'setVideoLink',
+  'editYoutubeUrl',
   'editAboutMe',
 ], {
   onSuccess(formType, result) {
-    this.template.parent().editActive.set(false);
+    this.template.parent().isEditing.set(false);
     // this.template.parent().deadline.set(false);
   },
 });
@@ -39,7 +39,7 @@ AutoForm.addHooks([
   },
 });
 
-AutoForm.addHooks(['setVideoLink'], {
+AutoForm.addHooks(['editYoutubeUrl'], {
   before: {
     'method-update'(doc) {
       const key = _.keys(doc.$set)[0];
@@ -101,6 +101,6 @@ AutoForm.addHooks([
     },
   },
   onSuccess(formType, result) {
-    this.template.parent().editActive.set(false);
+    this.template.parent().isEditing.set(false);
   },
 });

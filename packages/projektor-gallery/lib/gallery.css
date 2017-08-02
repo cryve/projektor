@@ -1,38 +1,38 @@
-.thumbnails {
+.thumbs {
   display: flex;
 }
 
-.thumbnail-placeholder {
+.thumb-placeholder {
   height: 65px;
   width: 115px;
   max-height: auto;
   max-width: 100%;
 }
 
-.thumbnailsJustify {
+.thumbs-justified {
     display: flex;
     justify-content: space-between;
 }
 
-.preview-placeholder {
+.well-preview-placeholder {
   height: 500px;
   width: 750px;
 }
 
-.edit_button {
+.btn-edit-medium {
   border:none;
   background:none;
   position: relative;
   left:10px;
 }
-.videoImage {
+.img-video-preview {
   width:115px;
   height: 65px;
 }
-#video-link-button {
+#btn-set-video {
   position: relative;
 }
-#video-link-position {
+#form-controls-youtube-url {
   position: relative;
 }
 #title-image-button {

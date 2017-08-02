@@ -36,13 +36,13 @@ const isUserAdminMember = (team, userId) => {
 };
 
 Template.addMember.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
+  this.isEditing = new ReactiveVar(false);
   this.subscribe('users.list.all');
 });
 
 Template.addMember.helpers({
-  editActive () {
-    return Template.instance().editActive.get();
+  isEditing () {
+    return Template.instance().isEditing.get();
   },
   memberSchema () {
     return memberSchema;
@@ -51,21 +51,21 @@ Template.addMember.helpers({
 
 Template.addMember.events({
   'click #btn-add-member' (event) {
-    Template.instance().editActive.set(true);
+    Template.instance().isEditing.set(true);
   },
   'click .btn-abort-adding' (event) {
-    Template.instance().editActive.set(false);
+    Template.instance().isEditing.set(false);
   },
 });
 
 Template.addSupervisor.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
+  this.isEditing = new ReactiveVar(false);
   this.subscribe('users.list.all');
 });
 
 Template.addSupervisor.helpers({
-  editActive () {
-    return Template.instance().editActive.get();
+  isEditing () {
+    return Template.instance().isEditing.get();
   },
   supervisorSchema () {
     return supervisorSchema;
@@ -74,15 +74,15 @@ Template.addSupervisor.helpers({
 
 Template.addSupervisor.events({
   'click #btn-add-supervisor' (event) {
-    Template.instance().editActive.set(true);
+    Template.instance().isEditing.set(true);
   },
   'click .btn-abort-adding' (event) {
-    Template.instance().editActive.set(false);
+    Template.instance().isEditing.set(false);
   },
 });
 
 Template.notesBoxSupervisors.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
+  this.isEditing = new ReactiveVar(false);
 });
 
 Template.notesBoxSupervisors.helpers({
@@ -98,25 +98,25 @@ Template.notesBoxSupervisors.helpers({
       return check;
     }
   },
-  editActive() {
-    return Template.instance().editActive.get();
+  isEditing() {
+    return Template.instance().isEditing.get();
   },
 });
 
 Template.notesBoxSupervisors.events({
   'click .btn-edit-description' (event) {
     event.preventDefault();
-    console.log(Template.instance().editActive.get());
-    Template.instance().editActive.set(true);
-    console.log(Template.instance().editActive.get());
+    console.log(Template.instance().isEditing.get());
+    Template.instance().isEditing.set(true);
+    console.log(Template.instance().isEditing.get());
   },
   'click .btn-abort-editing' (event) {
-    Template.instance().editActive.set(false);
+    Template.instance().isEditing.set(false);
   },
 });
 
 Template.member.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
+  this.isEditing = new ReactiveVar(false);
   this.autorun(() => {
     this.subscribe('users.profile.single', Template.currentData().userId);
     this.subscribe('files.images.avatar', Template.currentData().userId);
@@ -133,8 +133,8 @@ Template.member.helpers({
     const image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
     return (image && image.versions[version]) ? image.link(version) : `/img/${version}.jpg`;
   },
-  editActive () {
-    return Template.instance().editActive.get();
+  isEditing () {
+    return Template.instance().isEditing.get();
   },
   teamUserIdField () {
     return `team.${this.slot}.userId`;
@@ -180,10 +180,10 @@ Template.member.events({
   },
   'click .btn-edit-member' (event) {
     event.preventDefault();
-    Template.instance().editActive.set(true);
+    Template.instance().isEditing.set(true);
   },
   'click .btn-abort-editing' (event) {
-    Template.instance().editActive.set(false);
+    Template.instance().isEditing.set(false);
   },
   'click .show-leave-modal'(event) {
     event.preventDefault();
@@ -307,12 +307,12 @@ Template.supervisor.events({
 });
 
 Template.contactItem.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
+  this.isEditing = new ReactiveVar(false);
 });
 
 Template.contactItem.helpers({
-  editActive() {
-    return Template.instance().editActive.get();
+  isEditing() {
+    return Template.instance().isEditing.get();
   },
   contactMediumField () {
     return `contacts.${this.slot}.medium`;
@@ -350,20 +350,20 @@ Template.contactItem.events({
   },
   'click .btn-edit-contact' (event) {
     event.preventDefault();
-    Template.instance().editActive.set(true);
+    Template.instance().isEditing.set(true);
   },
   'click .btn-abort-editing' (event) {
-    Template.instance().editActive.set(false);
+    Template.instance().isEditing.set(false);
   },
 });
 
 Template.addContact.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
+  this.isEditing = new ReactiveVar(false);
 });
 
 Template.addContact.helpers({
-  editActive () {
-    return Template.instance().editActive.get();
+  isEditing () {
+    return Template.instance().isEditing.get();
   },
   contactSchema () {
     return contactSchema;
@@ -385,80 +385,80 @@ Template.addContact.helpers({
 
 Template.addContact.events({
   'click #btn-add-contact' (event) {
-    Template.instance().editActive.set(true);
+    Template.instance().isEditing.set(true);
   },
   'click .btn-abort-adding' (event) {
-    Template.instance().editActive.set(false);
+    Template.instance().isEditing.set(false);
   },
 });
 
 Template.editTitle.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
+  this.isEditing = new ReactiveVar(false);
 });
 
 Template.editTitle.helpers({
-  editActive () {
-    return Template.instance().editActive.get();
+  isEditing () {
+    return Template.instance().isEditing.get();
   },
 });
 
 Template.editTitle.events({
   'click .btn-edit-title' (event) {
     event.preventDefault();
-    Template.instance().editActive.set(true);
+    Template.instance().isEditing.set(true);
   },
   'click .btn-abort-editing' (event) {
-    Template.instance().editActive.set(false);
+    Template.instance().isEditing.set(false);
   },
 });
 
 Template.editDescription.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
+  this.isEditing = new ReactiveVar(false);
 });
 
 Template.editDescription.helpers({
-  editActive () {
-    return Template.instance().editActive.get();
+  isEditing () {
+    return Template.instance().isEditing.get();
   },
 });
 
 Template.editDescription.events({
   'click .btn-edit-description' (event) {
     event.preventDefault();
-    Template.instance().editActive.set(true);
+    Template.instance().isEditing.set(true);
   },
   'click .btn-abort-editing' (event) {
-    Template.instance().editActive.set(false);
+    Template.instance().isEditing.set(false);
   },
 });
 
 Template.editTags.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
+  this.isEditing = new ReactiveVar(false);
 });
 
 Template.editTags.helpers({
-  editActive () {
-    return Template.instance().editActive.get();
+  isEditing () {
+    return Template.instance().isEditing.get();
   },
 });
 
 Template.editTags.events({
   'click .btn-edit-tags' (event) {
     event.preventDefault();
-    Template.instance().editActive.set(true);
+    Template.instance().isEditing.set(true);
   },
   'click .btn-abort-editing' (event) {
-    Template.instance().editActive.set(false);
+    Template.instance().isEditing.set(false);
   },
 });
 
 Template.addJob.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
+  this.isEditing = new ReactiveVar(false);
 });
 
 Template.addJob.helpers({
-  editActive () {
-    return Template.instance().editActive.get();
+  isEditing () {
+    return Template.instance().isEditing.get();
   },
   jobSchema () {
     return jobSchema;
@@ -467,20 +467,20 @@ Template.addJob.helpers({
 
 Template.addJob.events({
   'click #btn-add-job' (event) {
-    Template.instance().editActive.set(true);
+    Template.instance().isEditing.set(true);
   },
   'click .btn-abort-adding' (event) {
-    Template.instance().editActive.set(false);
+    Template.instance().isEditing.set(false);
   },
 });
 
 Template.jobItem.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
+  this.isEditing = new ReactiveVar(false);
 });
 
 Template.jobItem.helpers({
-  editActive() {
-    return Template.instance().editActive.get();
+  isEditing() {
+    return Template.instance().isEditing.get();
   },
   jobLabelField () {
     return `jobs.${this.slot}.joblabel`;
@@ -502,41 +502,41 @@ Template.jobItem.events({
   },
   'click .btn-edit-job' (event) {
     event.preventDefault();
-    Template.instance().editActive.set(true);
+    Template.instance().isEditing.set(true);
   },
   'click .btn-abort-editing' (event) {
     event.preventDefault();
-    Template.instance().editActive.set(false);
+    Template.instance().isEditing.set(false);
   },
 });
 
 Template.editOccasions.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
+  this.isEditing = new ReactiveVar(false);
 });
 
 Template.editOccasions.helpers({
-  editActive () {
-    return Template.instance().editActive.get();
+  isEditing () {
+    return Template.instance().isEditing.get();
   },
 });
 
 Template.editOccasions.events({
   'click .btn-edit-occasions' (event) {
     event.preventDefault();
-    Template.instance().editActive.set(true);
+    Template.instance().isEditing.set(true);
   },
   'click .btn-abort-editing' (event) {
-    Template.instance().editActive.set(false);
+    Template.instance().isEditing.set(false);
   },
 });
 
 Template.editDeadline.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
+  this.isEditing = new ReactiveVar(false);
 });
 
 Template.editDeadline.helpers({
-  editActive () {
-    return Template.instance().editActive.get();
+  isEditing () {
+    return Template.instance().isEditing.get();
   },
   requiredPermissions() {
     return 'editInfos';
@@ -546,40 +546,40 @@ Template.editDeadline.helpers({
 Template.editDeadline.events({
   'click .btn-edit-deadline' (event) {
     event.preventDefault();
-    Template.instance().editActive.set(true);
+    Template.instance().isEditing.set(true);
   },
   'click .btn-abort-editing' (event) {
-    Template.instance().editActive.set(false);
+    Template.instance().isEditing.set(false);
   },
 });
 
 Template.editBeginning.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
+  this.isEditing = new ReactiveVar(false);
 });
 
 Template.editBeginning.helpers({
-  editActive () {
-    return Template.instance().editActive.get();
+  isEditing () {
+    return Template.instance().isEditing.get();
   },
 });
 
 Template.editBeginning.events({
   'click .btn-edit-beginning' (event) {
     event.preventDefault();
-    Template.instance().editActive.set(true);
+    Template.instance().isEditing.set(true);
   },
   'click .btn-abort-editing' (event) {
-    Template.instance().editActive.set(false);
+    Template.instance().isEditing.set(false);
   },
 });
 
 Template.editTeamCommunication.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
+  this.isEditing = new ReactiveVar(false);
 });
 
 Template.editTeamCommunication.helpers({
-  editActive () {
-    return Template.instance().editActive.get();
+  isEditing () {
+    return Template.instance().isEditing.get();
   },
   isTeamMember(userId, team) {
     let isMember = false;
@@ -595,10 +595,10 @@ Template.editTeamCommunication.helpers({
 Template.editTeamCommunication.events({
   'click .btn-edit-teamcomm' (event) {
     event.preventDefault();
-    Template.instance().editActive.set(true);
+    Template.instance().isEditing.set(true);
   },
   'click .btn-abort-editing' (event) {
-    Template.instance().editActive.set(false);
+    Template.instance().isEditing.set(false);
   },
 });
 
@@ -653,12 +653,12 @@ Template.editTeamCommItem.events({
 });
 
 Template.addTeamCommItem.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
+  this.isEditing = new ReactiveVar(false);
 });
 
 Template.addTeamCommItem.helpers({
-  editActive () {
-    return Template.instance().editActive.get();
+  isEditing () {
+    return Template.instance().isEditing.get();
   },
   teamCommSchema () {
     return teamCommSchema;
@@ -688,10 +688,10 @@ Template.addTeamCommItem.helpers({
 
 Template.addTeamCommItem.events({
   'click .btn-add-teamcomm' (event) {
-    Template.instance().editActive.set(true);
+    Template.instance().isEditing.set(true);
   },
   'click .btn-abort-adding' (event) {
-    Template.instance().editActive.set(false);
+    Template.instance().isEditing.set(false);
   },
 });
 

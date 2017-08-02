@@ -7,52 +7,52 @@ import { deleteEditableArrayItem } from '/lib/methods.js';
 import './edit_profile.html';
 
 Template.editAboutMe.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
+  this.isEditing = new ReactiveVar(false);
 });
 
 Template.editAboutMe.helpers({
-  editActive () {
-    return Template.instance().editActive.get();
+  isEditing () {
+    return Template.instance().isEditing.get();
   },
 });
 
 Template.editAboutMe.events({
   'click .btn-edit-description' (event) {
     event.preventDefault();
-    Template.instance().editActive.set(true);
+    Template.instance().isEditing.set(true);
   },
   'click .btn-abort-editing' (event) {
-    Template.instance().editActive.set(false);
+    Template.instance().isEditing.set(false);
   },
 });
 
 Template.editSkills.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
+  this.isEditing = new ReactiveVar(false);
 });
 
 Template.editSkills.helpers({
-  editActive () {
-    return Template.instance().editActive.get();
+  isEditing () {
+    return Template.instance().isEditing.get();
   },
 });
 
 Template.editSkills.events({
   'click .btn-edit-tags' (event) {
     event.preventDefault();
-    Template.instance().editActive.set(true);
+    Template.instance().isEditing.set(true);
   },
   'click .btn-abort-editing' (event) {
-    Template.instance().editActive.set(false);
+    Template.instance().isEditing.set(false);
   },
 });
 
 Template.contactItemUser.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
+  this.isEditing = new ReactiveVar(false);
 });
 
 Template.contactItemUser.helpers({
-  editActive() {
-    return Template.instance().editActive.get();
+  isEditing() {
+    return Template.instance().isEditing.get();
   },
   contactMediumField () {
     return `profile.contacts.${this.slot}.medium`;
@@ -91,20 +91,20 @@ Template.contactItemUser.events({
   },
   'click .btn-edit-contact' (event) {
     event.preventDefault();
-    Template.instance().editActive.set(true);
+    Template.instance().isEditing.set(true);
   },
   'click .btn-abort-editing' (event) {
-    Template.instance().editActive.set(false);
+    Template.instance().isEditing.set(false);
   },
 });
 
 Template.addContactUser.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
+  this.isEditing = new ReactiveVar(false);
 });
 
 Template.addContactUser.helpers({
-  editActive () {
-    return Template.instance().editActive.get();
+  isEditing () {
+    return Template.instance().isEditing.get();
   },
   contactSchema () {
     return contactSchema;
@@ -126,20 +126,20 @@ Template.addContactUser.helpers({
 
 Template.addContactUser.events({
   'click #btn-add-contact' (event) {
-    Template.instance().editActive.set(true);
+    Template.instance().isEditing.set(true);
   },
   'click .btn-abort-adding' (event) {
-    Template.instance().editActive.set(false);
+    Template.instance().isEditing.set(false);
   },
 });
 
 Template.linkItem.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
+  this.isEditing = new ReactiveVar(false);
 });
 
 Template.linkItem.helpers({
-  editActive() {
-    return Template.instance().editActive.get();
+  isEditing() {
+    return Template.instance().isEditing.get();
   },
   linkMediumField () {
     return `profile.links.${this.slot}.medium`;
@@ -178,20 +178,20 @@ Template.linkItem.events({
   },
   'click .btn-edit-contact' (event) {
     event.preventDefault();
-    Template.instance().editActive.set(true);
+    Template.instance().isEditing.set(true);
   },
   'click .btn-abort-editing' (event) {
-    Template.instance().editActive.set(false);
+    Template.instance().isEditing.set(false);
   },
 });
 
 Template.addLink.onCreated(function() {
-  this.editActive = new ReactiveVar(false);
+  this.isEditing = new ReactiveVar(false);
 });
 
 Template.addLink.helpers({
-  editActive () {
-    return Template.instance().editActive.get();
+  isEditing () {
+    return Template.instance().isEditing.get();
   },
   linkSchema () {
     return linkSchema;
@@ -213,9 +213,9 @@ Template.addLink.helpers({
 
 Template.addLink.events({
   'click #btn-add-link' (event) {
-    Template.instance().editActive.set(true);
+    Template.instance().isEditing.set(true);
   },
   'click .btn-abort-adding' (event) {
-    Template.instance().editActive.set(false);
+    Template.instance().isEditing.set(false);
   },
 });

@@ -5,7 +5,7 @@
         <button id="btn-add-member" class="btn btn-primary btn-lg btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
       </div>
       <div class="media-body">
-        {{#if editActive}}
+        {{#if isEditing}}
           {{#autoForm id="addMember" schema=memberSchema type="method" meteormethod="projects.addMember" doc=currentDoc }}
             <div class="form-group">
               {{> afFieldInput name="member.userId" type="select2" options=(suggestedUsers exclude=currentDoc.team) placeholder="Neues Mitglied auswählen" allowClear=true}}
@@ -34,7 +34,7 @@
     </div>
     <div class="media-body">
         {{log this}}
-        {{#if $and editActive (hasPermissions 'editInfos,manageMembers' currentDoc) }}
+        {{#if $and isEditing (hasPermissions 'editInfos,manageMembers' currentDoc) }}
           {{#autoForm id="member" type="method-update" singleMethodArgument=true meteormethod="projects.updateMember" doc=currentDoc collection=currentCollection setArrayItems=true}}
             <div class="form-group">
               <h4 class="media-heading">
@@ -110,7 +110,7 @@
 
 <template name="contactItem">
   <li>
-    {{#if $and editActive (hasPermissions 'editInfos' currentDoc) }}
+    {{#if $and isEditing (hasPermissions 'editInfos' currentDoc) }}
       {{#autoForm id="contactItem" type="method-update" singleMethodArgument=true meteormethod="projects.updateEditableInfo" doc=currentDoc collection=currentCollection setArrayItems=true}}
         {{> afFieldInput name=contactMediumField type="select2" options=mediumOptions placeholder="Kontaktmittel auswählen" }}
         {{> afFieldInput name=contactApproachField type="text" options=mediumOptions placeholder="Details zur Kontaktaufnahme"}}
@@ -133,7 +133,7 @@
   {{#if hasPermissions 'editInfos' currentDoc }}
     <li>
       <button id="btn-add-contact" class="btn btn-primary btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
-      {{#if editActive }}
+      {{#if isEditing }}
         {{#autoForm id="addContact" schema=contactSchema type="method" meteormethod="projects.addContact" doc=currentDoc}}
           <div class="form-group">
             {{> afFieldInput name="contact.medium" type="select2" options=mediumOptions placeholder="Neues Kommunikationsmittel hinzufügen" }}
@@ -150,7 +150,7 @@
 </template>
 
 <template name="editTitle">
-  {{#if $and editActive (hasPermissions 'editInfos' currentDoc) }}
+  {{#if $and isEditing (hasPermissions 'editInfos' currentDoc) }}
     {{#autoForm id="editTitle" type="method-update" singleMethodArgument=true meteormethod="projects.updateEditableInfo" doc=currentDoc collection=currentCollection }}
     <div class="form-group">
       {{> afFieldInput name="title" type="text" placeholder="Titel deines Projekts" }}
@@ -178,7 +178,7 @@
 </template>
 
 <template name="editDescription">
-  {{#if $and editActive (hasPermissions 'editInfos' currentDoc) }}
+  {{#if $and isEditing (hasPermissions 'editInfos' currentDoc) }}
     {{#autoForm id="editDescription" type="method-update" singleMethodArgument=true meteormethod="projects.updateEditableInfo" doc=currentDoc collection=currentCollection }}
     <div class="form-group">
       {{> afFieldInput name="description" type="textarea" rows=6 placeholder="Beschreibung deines Projekts" }}
@@ -216,7 +216,7 @@
 </template>
 
 <template name="editTags">
-  {{#if $and editActive (hasPermissions 'editInfos' currentDoc) }}
+  {{#if $and isEditing (hasPermissions 'editInfos' currentDoc) }}
     {{#autoForm id="editTags" type="method-update" singleMethodArgument=true meteormethod="projects.updateEditableInfo" doc=currentDoc collection=currentCollection  }}
     <div class="form-group">
       {{> afFieldInput name="tags" type="tags" maxTags=10 maxChars=20 trimValue=true placeholder="Tags eingeben" }}
@@ -241,7 +241,7 @@
 </template>
 
 <template name="jobItem">
-    {{#if $and editActive (hasPermissions 'editInfos' currentDoc) }}
+    {{#if $and isEditing (hasPermissions 'editInfos' currentDoc) }}
       {{#autoForm id="jobItem" type="method-update" singleMethodArgument=true meteormethod="projects.updateEditableInfo" doc=currentDoc collection=currentCollection setArrayItems=true}}
         {{> afFieldInput name=jobLabelField type="text" placeholder="Gesuchte Fähigkeit" }}
         <div class="form-group">
@@ -263,7 +263,7 @@
 <template name="addJob">
   {{#if hasPermissions 'editInfos' currentDoc }}
       <button id="btn-add-job" class="btn btn-primary btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
-      {{#if editActive }}
+      {{#if isEditing }}
         {{#autoForm id="addJob" schema=jobSchema type="method" meteormethod="projects.addJob" doc=currentDoc}}
           <div class="form-group">
             {{> afFieldInput name="job.joblabel" type="text" placeholder="Gesuchte Fähigkeit hinzufügen" }}
@@ -278,7 +278,7 @@
 </template>
 
 <template name="editOccasions">
-  {{#if $and editActive (hasPermissions 'editInfos' currentDoc) }}
+  {{#if $and isEditing (hasPermissions 'editInfos' currentDoc) }}
     {{#autoForm id="editOccasions" type="method-update" singleMethodArgument=true meteormethod="projects.updateEditableInfo" doc=currentDoc collection=currentCollection }}
       <div class="form-group">
         {{> afFieldInput name="occasions" type="tags" maxTags=10 maxChars=30 trimValue=true placeholder="Kurs, Projektschein oder sonstige Motivation" }}
@@ -332,7 +332,7 @@
         <button id="btn-add-supervisor" class="btn btn-primary btn-lg btn-round"><span class="text-center glyphicon glyphicon-plus"></span></button>
       </div>
       <div class="media-body">
-        {{#if editActive}}
+        {{#if isEditing}}
           {{#autoForm id="addSupervisor" schema=supervisorSchema type="method" meteormethod="projects.addSupervisor" doc=currentDoc}}
             <div class="form-group">
               {{> afFieldInput name="supervisor.userId" type="select2" options=(suggestedUsers exclude=currentDoc.supervisors role="Mitarbeiter") placeholder="Neuen Betreuer auswählen" allowClear=true}}
@@ -349,7 +349,7 @@
 </template>
 
 <template name="editDeadline">
-  {{#if $and editActive (hasPermissions requiredPermissions currentDoc)}}
+  {{#if $and isEditing (hasPermissions requiredPermissions currentDoc)}}
     {{#autoForm id="editDeadline" type="method-update" singleMethodArgument=true meteormethod="projects.updateEditableInfo" doc=currentDoc collection=currentCollection }}
       <div class="form-group">
         {{> afFieldInput name="deadline" type="bootstrap-datepicker" placeholder="Deadline" }}
@@ -374,7 +374,7 @@
 </template>
 
 <template name="editBeginning">
-  {{#if $and editActive (hasPermissions 'editInfos' currentDoc) }}
+  {{#if $and isEditing (hasPermissions 'editInfos' currentDoc) }}
     {{#autoForm id="editBeginning" type="method-update" singleMethodArgument=true meteormethod="projects.updateEditableInfo" doc=currentDoc collection=currentCollection }}
       <div class="form-group">
         {{> afFieldInput name="beginning" type="bootstrap-datepicker" placeholder="Projekt Beginn" }}
@@ -399,7 +399,7 @@
 </template>
 
 <template name="editTeamCommunication">
-  {{#if $and editActive (hasPermissions 'editInfos' currentDoc) }}
+  {{#if $and isEditing (hasPermissions 'editInfos' currentDoc) }}
     <div class="table table-striped">
       <div class="table-body">
         {{#each item in currentDoc.teamCommunication}}
