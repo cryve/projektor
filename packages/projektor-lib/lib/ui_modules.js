@@ -2,7 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import lodash from 'lodash';
 
 /**
- * Template modules let you insert templates in specific zones in the app's layout.
+ * @summary Template modules let you insert templates in specific zones in the app's layout.
+ * @locus Anywhere
  * @namespace Projektor.modules
  */
 Projektor.modules = {};
@@ -19,7 +20,6 @@ const throwErrorIfReservedZoneName = (functionName, zoneName, errorMessageAppend
 * @locus Anywhere
 * @param {string} zone The name of the new zone, should be prefixed with package-name (like "my-package.my-zone") to avoid naming conflicts
 */
-
 Projektor.modules.createZone = (zone) => {
   if (!zone || typeof zone !== 'string') {
     throw new Meteor.Error('Projektor.modules.createZone.invalidName',
@@ -36,6 +36,13 @@ Projektor.modules.createZone = (zone) => {
   Projektor.modules[zone] = [];
 };
 
+/**
+* @summary Adds a template module to a template zone
+* @locus Anywhere
+* @param {string} zone The name of an existing zone add to
+* @param {Object} module The module object
+* @param {string} module.template The name of the template to add
+*/
 Projektor.modules.add = (zone, module) => {
   if (typeof Projektor.modules[zone] === 'undefined') {
     throw new Meteor.Error('Projektor.modules.add.noZone',
@@ -63,12 +70,24 @@ Projektor.modules.add = (zone, module) => {
   }
 };
 
+/**
+ * @summary Retrieve an array containing all modules for a zone
+ * @locus Anywhere
+ * @param {string} zone - The name of the zone
+ * @returns {Object[]} Returns a sorted array of the zone's modules
+ */
 Projektor.modules.getModulesFromZone = (zone) => {
   throwErrorIfReservedZoneName('getModulesFromZone', zone);
 
   return Projektor.modules[zone];
 };
 
+/**
+ * @summary Removes a module from a zone
+  * @locus Anywhere
+ * @param {string} zone - The name of the zone
+ * @param {string} template - The name of the template to remove
+ */
 Projektor.modules.remove = (zone, template) => {
   throwErrorIfReservedZoneName('remove', zone);
 
