@@ -1,6 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 import lodash from 'lodash';
 
+/**
+ * Template modules let you insert templates in specific zones in the app's layout.
+ * @namespace Projektor.modules
+ */
 Projektor.modules = {};
 
 const throwErrorIfReservedZoneName = (functionName, zoneName, errorMessageAppendix) => {
@@ -9,6 +13,12 @@ const throwErrorIfReservedZoneName = (functionName, zoneName, errorMessageAppend
       `This name is reserved to the ${zoneName}-function. ${errorMessageAppendix}`);
   }
 };
+
+/**
+* @summary Creates a new template zone
+* @locus Anywhere
+* @param {string} zone The name of the new zone, should be prefixed with package-name (like "my-package.my-zone") to avoid naming conflicts
+*/
 
 Projektor.modules.createZone = (zone) => {
   if (!zone || typeof zone !== 'string') {
