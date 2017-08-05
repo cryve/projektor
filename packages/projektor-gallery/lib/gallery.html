@@ -8,121 +8,53 @@
 </template>
 
 <template name="gallery">
-  <div class="panel-header">
-    <div class="row">
-      <div class="col-sm-12">
-        {{#if $and isEditing (hasPermissions 'editInfos' currentDoc)}}
-          {{#if currentDoc.media}}
-            {{> uploadFormCrop slot=selectedSlot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection
-            type="gallery"
-            }}
-            {{> youtubeUrlEditable slot=selectedSlot media=currentDoc.media
-            doc=currentDoc
-            projectId=currentDoc._id collection=currentCollection reactiveVar = reactiveVar }}
-            {{#if editMediumButtonWasClickedAtLeastOnce}}
-              {{#if $eq mediumType "URL"}}
-                {{> deleteImageButton slot=selectedSlot media=currentDoc.media projectId=currentDoc._id  collection=currentCollection }}
-                {{> largeViewEmbeddedVideo slot=selectedSlot media=currentDoc.media projectId=currentDoc._id collection=currentCollection}}
-              {{else}}
-                {{#if $eq currentDoc.coverImg selectedMediumId}}
-                  {{> deleteImageButton slot=selectedSlot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection }}
-                  {{> largeViewCoverImage coverImg=currentDoc.coverImg}}
-                {{else}}
-                  {{#if selectedMediumId}}
-                    {{> deleteImageButton slot=selectedSlot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
-                    {{> coverImageButton slot=selectedSlot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
-                    {{> largeViewImage selectedMediumId}}
-                  {{else}}
-                    {{> largeViewPlaceholder}}
-                  {{/if}}
-                {{/if}}
-              {{/if}}
+  <div class="row">
+    <div class="col-sm-12">
+      {{#if $and isEditing (hasPermissions 'editInfos' currentDoc)}}
+        {{#if media}}
+          {{> uploadFormCrop slot=selectedSlot media=media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection type="gallery" }}
+          {{> youtubeUrlEditable slot=selectedSlot media=media doc=currentDoc projectId=currentDoc._id collection=currentCollection }}
+          {{#if $eq mediumType "URL"}}
+            {{> deleteImageButton slot=selectedSlot media=media projectId=currentDoc._id  collection=currentCollection }}
+            {{> largeViewEmbeddedVideo slot=selectedSlot media=media projectId=currentDoc._id collection=currentCollection}}
+          {{else}}
+            {{#if $eq currentDoc.coverImg selectedMediumId}}
+              {{> deleteImageButton slot=selectedSlot media=media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection }}
+              {{> largeViewCoverImage coverImg=currentDoc.coverImg}}
             {{else}}
-              {{#if $eq selectFirstEmptySlotAndGetMediumType "image"}}
-                {{#if $eq currentDoc.coverImg null}}
-                  {{> largeViewPlaceholder}}
-                {{else}}
-                  {{#if $eq currentDoc.coverImg selectedMediumId}}
-                      {{> deleteImageButton slot=selectedSlot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
-                      {{> largeViewImage selectedMediumId}}
-                  {{else}}
-                    {{> deleteImageButton slot=selectedSlot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection }}
-                    {{> coverImageButton slot=selectedSlot media=currentDoc.media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
-                    {{> largeViewImage selectedMediumId}}
-                  {{/if}}
-                {{/if}}
-              {{else}}
-                {{#if $eq selectFirstEmptySlotAndGetMediumType "URL"}}
-                  {{> deleteImageButton slot=selectedSlot media=currentDoc.media projectId=currentDoc._id  collection=currentCollection }}
-                  {{> largeViewEmbeddedVideo slot=selectedSlot media=currentDoc.media projectId=currentDoc._id collection=currentCollection}}
-                {{else}}
-                  {{> largeViewPlaceholder}}
-                {{/if}}
-              {{/if}}
-            {{/if}}
-          {{/if}}
-        {{else}}
-          {{#if currentDoc.media}}
-            {{#if editMediumButtonWasClickedAtLeastOnce}}
-              {{#if $eq mediumType "URL"}}
-                  {{> largeViewEmbeddedVideo slot=selectedSlot media=currentDoc.media projectId=currentDoc._id collection=currentCollection}}
-              {{else}}
-                {{#if $eq mediumType "image"}}
-                  {{> largeViewImage selectedMediumId}}
-                {{/if}}
-              {{/if}}
-            {{else}}
-              {{#if $eq selectFirstEmptySlotAndGetMediumType "image"}}
+              {{#if selectedMediumId}}
+                {{> deleteImageButton slot=selectedSlot media=media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
+                {{> coverImageButton slot=selectedSlot media=media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
                 {{> largeViewImage selectedMediumId}}
               {{else}}
-                {{#if $eq selectFirstEmptySlotAndGetMediumType "URL"}}
-                  {{> largeViewEmbeddedVideo slot=selectedSlot media=currentDoc.media projectId=currentDoc._id collection=currentCollection}}
-                {{/if}}
+                {{> largeViewPlaceholder}}
               {{/if}}
             {{/if}}
           {{/if}}
         {{/if}}
-      </div>
-    </div>
-  </div> <!-- /.panel-header -->
-  <div class="panel-body">
-    <div class="row">
-      <div class="col-sm-12">
-          {{#if $and isEditing (hasPermissions 'editInfos' currentDoc)}}
-            <ul class="list-inline thumbs thumbs-justified">
-            {{#each image in currentDoc.media}}
-              <div class="mergeInputImage ">
-                {{#if $eq image.type null}}
-                  <li>
-                    <button data-value="{{image.id}}" data-slot={{@index}} type="button" class="btn-edit-medium">
-                      <div class="well thumb-placeholder"></div>
-                    </button>
-                  </li>
-                {{else}}
-                  {{#if $eq image.type "URL"}}
-                    <li>
-                      <button data-value="{{image.id}}" data-slot={{@index}} type="button" class="btn-edit-medium ">
-                        <img class="img-responsive img-video-preview "  src= {{videoPreviewImage image.id}}>
-                      </button>
-                    </li>
-                  {{else}}
-                    <li>
-                      <button data-value="{{image.id}}" data-slot={{@index}} type="button" class="btn-edit-medium ">
-                        <img class="img-responsive" src= {{getImgURL image.id "thumbnail115"}} alt="">
-                      </button>
-                    </li>
-                  {{/if}}
-                {{/if}}
-              </div>
-            {{/each}}
-          </ul>
+      {{else}}
+        {{#if media}}
+          {{#if $eq mediumType "URL"}}
+            {{> largeViewEmbeddedVideo slot=selectedSlot media=media projectId=currentDoc._id collection=currentCollection}}
           {{else}}
-          <ul class="list-inline thumbs">
-            {{#each image in currentDoc.media}}
-              {{#if $eq image.type "image" }}
+            {{#if $eq mediumType "image"}}
+              {{> largeViewImage selectedMediumId}}
+            {{/if}}
+          {{/if}}
+        {{/if}}
+      {{/if}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+        {{#if $and isEditing (hasPermissions 'editInfos' currentDoc)}}
+          <ul class="list-inline thumbs thumbs-justified">
+          {{#each image in media}}
+            <div class="mergeInputImage ">
+              {{#if $eq image.type null}}
                 <li>
-                  <button data-value="{{image.id}}" data-slot={{@index}} type="button" class="btn-edit-medium ">
-                    <img class="img-responsive" src= {{getImgURL image.id "thumbnail115"}} alt="">
+                  <button data-value="{{image.id}}" data-slot={{@index}} type="button" class="btn-edit-medium">
+                    <div class="well thumb-placeholder"></div>
                   </button>
                 </li>
               {{else}}
@@ -132,26 +64,51 @@
                       <img class="img-responsive img-video-preview "  src= {{videoPreviewImage image.id}}>
                     </button>
                   </li>
+                {{else}}
+                  <li>
+                    <button data-value="{{image.id}}" data-slot={{@index}} type="button" class="btn-edit-medium ">
+                      <img class="img-responsive" src= {{getImgURL image.id "thumbnail115"}} alt="">
+                    </button>
+                  </li>
                 {{/if}}
               {{/if}}
-            {{/each}}
-            </ul>
-          {{/if}}
-        {{#if hasPermissions 'editInfos' currentDoc }}
-          {{#if isEditing }}
-            <button id="btn-finish-editing" class="btn btn-primary navbar-btn navbar-right">Fertig</button>
-          {{else}}
-            <button id="edit-gallery-button" class="btn btn-primary navbar-btn navbar-right">Gallerie bearbeiten</button>
-          {{/if}}
+            </div>
+          {{/each}}
+        </ul>
+        {{else}}
+        <ul class="list-inline thumbs">
+          {{#each image in media}}
+            {{#if $eq image.type "image" }}
+              <li>
+                <button data-value="{{image.id}}" data-slot={{@index}} type="button" class="btn-edit-medium ">
+                  <img class="img-responsive" src= {{getImgURL image.id "thumbnail115"}} alt="">
+                </button>
+              </li>
+            {{else}}
+              {{#if $eq image.type "URL"}}
+                <li>
+                  <button data-value="{{image.id}}" data-slot={{@index}} type="button" class="btn-edit-medium ">
+                    <img class="img-responsive img-video-preview "  src= {{videoPreviewImage image.id}}>
+                  </button>
+                </li>
+              {{/if}}
+            {{/if}}
+          {{/each}}
+          </ul>
         {{/if}}
-      </div> <!-- /.col-sm-12 gallery thumbs -->
-    </div> <!-- /.row -->
-  </div>
+      {{#if hasPermissions 'editInfos' currentDoc }}
+        {{#if isEditing }}
+          <button id="btn-finish-editing" class="btn btn-primary navbar-btn navbar-right">Fertig</button>
+        {{else}}
+          <button id="edit-gallery-button" class="btn btn-primary navbar-btn navbar-right">Gallerie bearbeiten</button>
+        {{/if}}
+      {{/if}}
+    </div> <!-- /.col-sm-12 gallery thumbs -->
+  </div> <!-- /.row -->
 </template>
 
 <template name="largeViewEmbeddedVideo">
-  <iframe width="750" height="500" src={{youtubeUrl}}>
-  </iframe>
+  <iframe width="750" height="500" src={{youtubeUrl}}></iframe>
 </template>
 
 <template name="youtubeUrlEditable">

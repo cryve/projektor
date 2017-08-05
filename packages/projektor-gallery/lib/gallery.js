@@ -132,7 +132,6 @@ Template.gallery.onCreated(function() {
   // this.currentDoc = project;
   // this.currentCollection = Projects;
   this.isEditing = new ReactiveVar(false);
-  this.editMediumButtonWasClickedAtLeastOnce = new ReactiveVar(false);
   this.autorun(() => {
     this.subscribe('files.images.gallery', Template.currentData().media);
   });
@@ -159,30 +158,11 @@ Template.gallery.helpers({
   isEditing() {
     return Template.instance().isEditing.get();
   },
-  editMediumButtonWasClickedAtLeastOnce() {
-    return Template.instance().editMediumButtonWasClickedAtLeastOnce.get();
-  },
   selectedMediumId() {
     return Session.get('selectedMediumId');
   },
   selectedSlot() {
     return Session.get('selectedSlot');
-  },
-  selectFirstEmptySlotAndGetMediumType() {
-    Session.set('selectedMediumId', 'null');
-    if (this.media) {
-      for (let i = 0; i < this.media.length; i++) {
-        if (this.media[i].type == 'image') {
-          // console.log(this.media[i].id);
-          Session.set('selectedSlot', i);
-          Session.set('selectedMediumId', this.media[i].id);
-          return ('image');
-        } else if (this.media[i].type == 'URL') {
-          Session.set('selectedSlot', i);
-          return ('URL');
-        }
-      }
-    }
   },
 });
 
@@ -206,7 +186,6 @@ Template.gallery.events({
   'click .btn-edit-medium'(event) {
     const selectedMediumId = event.currentTarget.dataset.value;
     const slot = event.currentTarget.dataset.slot;
-    Template.instance().editMediumButtonWasClickedAtLeastOnce.set(true);
     Session.set('selectedMediumId', selectedMediumId);
     Session.set('selectedSlot', slot);
   },
