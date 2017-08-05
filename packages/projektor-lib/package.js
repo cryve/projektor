@@ -20,6 +20,7 @@ Package.onUse(function(api) {
     'blaze-html-templates', // Compile HTML templates into reactive UI with Meteor Blaze
     'session',  // Session variable
     'jquery',  // Manipulate the DOM using CSS selectors
+    'dynamic-import', // Runtime support for Meteor 1.5 dynamic import(...) syntax
 
     // Third-party packages
     'accounts-password@1.3.6', // Password support for accounts
