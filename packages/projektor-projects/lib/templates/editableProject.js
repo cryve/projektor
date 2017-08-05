@@ -8,7 +8,6 @@ import toastr from 'toastr';
 import lodash from 'lodash';
 import './editableProject.html';
 
-Template.registerHelper('getMethodString', (projectsWins) => 'Nonono');
 
 Template.editableProject.onCreated(function() {
   toastr.options = {

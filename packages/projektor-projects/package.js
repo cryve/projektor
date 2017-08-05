@@ -11,7 +11,6 @@ Package.onUse(function(api) {
     'projektor:core@0.0.1',
     'projektor:users@0.0.1',
     'projektor:files@0.0.1',
-    'aldeed:autoform@5.0.0',
   ];
 
   api.use(packages);
