@@ -38,7 +38,7 @@
                 {{/if}}
               {{/if}}
             {{else}}
-              {{#if $eq selectFirstEmptySlotAndGetMediumType "image"}}
+              {{#if $eq selectFirstSlotWithMediumAndGetMediumType "image"}}
                 {{#if $eq currentDoc.coverImg null}}
                   {{> largeViewPlaceholder}}
                 {{else}}
@@ -52,7 +52,7 @@
                   {{/if}}
                 {{/if}}
               {{else}}
-                {{#if $eq selectFirstEmptySlotAndGetMediumType "URL"}}
+                {{#if $eq selectFirstSlotWithMediumAndGetMediumType "URL"}}
                   {{> deleteImageButton slot=selectedSlot media=currentDoc.media projectId=currentDoc._id  collection=currentCollection }}
                   {{> largeViewEmbeddedVideo slot=selectedSlot media=currentDoc.media projectId=currentDoc._id collection=currentCollection}}
                 {{else}}
@@ -72,10 +72,10 @@
                 {{/if}}
               {{/if}}
             {{else}}
-              {{#if $eq selectFirstEmptySlotAndGetMediumType "image"}}
+              {{#if $eq selectFirstSlotWithMediumAndGetMediumType "image"}}
                 {{> largeViewImage selectedMediumId}}
               {{else}}
-                {{#if $eq selectFirstEmptySlotAndGetMediumType "URL"}}
+                {{#if $eq selectFirstSlotWithMediumAndGetMediumType "URL"}}
                   {{> largeViewEmbeddedVideo slot=selectedSlot media=currentDoc.media projectId=currentDoc._id collection=currentCollection}}
                 {{/if}}
               {{/if}}

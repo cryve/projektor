@@ -10,6 +10,7 @@ const packages = [
   'projektor:users@0.0.1',
   'projektor:projects@0.0.1',
   'projektor:files@0.0.1',
+  'aldeed:autoform@5.0.0',
 ];
 
 Package.onUse(function(api) {
@@ -35,5 +36,5 @@ Package.onTest(function(api) {
   api.use(['projektor:gallery', 'ecmascript', 'random', 'practicalmeteor:mocha', 'mdg:validation-error']);
 
   api.mainModule('tests/ui_modules.tests.js');
-  
+
 });

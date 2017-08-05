@@ -168,12 +168,11 @@ Template.gallery.helpers({
   selectedSlot() {
     return Session.get('selectedSlot');
   },
-  selectFirstEmptySlotAndGetMediumType() {
+  selectFirstSlotWithMediumAndGetMediumType() {
     Session.set('selectedMediumId', 'null');
     if (this.media) {
       for (let i = 0; i < this.media.length; i++) {
         if (this.media[i].type == 'image') {
-          // console.log(this.media[i].id);
           Session.set('selectedSlot', i);
           Session.set('selectedMediumId', this.media[i].id);
           return ('image');
