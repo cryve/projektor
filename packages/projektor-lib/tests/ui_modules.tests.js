@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { chai } from 'meteor/practicalmeteor:chai';
+import { assert } from 'chai';
 import lodash from 'lodash';
 
 describe('Projektor.modules', function() {
@@ -13,27 +13,28 @@ describe('Projektor.modules', function() {
   });
 
   it('should have function: create', function() {
-    chai.assert.isFunction(Projektor.modules.createZone, 'has create function');
+    assert.isFunction(Projektor.modules.createZone, 'has create function');
   });
 
   it('should have function: add', function() {
-    chai.assert.isFunction(Projektor.modules.add, 'has add function');
+    assert.isFunction(Projektor.modules.add, 'has add function');
   });
 
   it('should create zone', function() {
     const zone = 'sampleZone';
     Projektor.modules.createZone(zone);
-    chai.assert.isArray(Projektor.modules[zone], 'zone has been created');
+    assert.isArray(Projektor.modules[zone], 'zone has been created');
   });
 
   it('should add module to existing zone', function() {
     const zone = 'sampleZone';
     Projektor.modules[zone] = [];
     const module = {
-      template: 'sampleModuleTemplate'
+      template: 'sampleModuleTemplate',
+      position: 10,
     };
     Projektor.modules.add(zone, module);
-    chai.assert.deepEqual(Projektor.modules[zone][0], module, 'module was added to zone');
+    assert.deepEqual(Projektor.modules[zone][0], module, 'module was added to zone');
   });
 
   it('should add multiple modules to zone', function() {
@@ -41,18 +42,39 @@ describe('Projektor.modules', function() {
     Projektor.modules[zone] = [];
 
     const modules = [
-      { template: 'firstTemplate' },
-      { template: 'secondTemplate' },
+      { template: 'firstTemplate', position: 5 },
+      { template: 'secondTemplate', position: 10 },
     ];
     Projektor.modules.add(zone, modules);
 
-    chai.assert.deepEqual(Projektor.modules[zone], modules, 'modules were added to zone');
+    assert.deepEqual(Projektor.modules[zone], modules, 'modules were added to zone');
+  });
+
+  it('should not add module when position already occupied', function() {
+    const zone = 'sampleZone';
+    Projektor.modules[zone] = [];
+    const firstModule = {
+      template: 'sampleModuleTemplate',
+      position: 10,
+    };
+    const secondModule = firstModule;
+    Projektor.modules.add(zone, firstModule);
+    assert.throws(() => {
+      Projektor.modules.add(zone, secondModule);
+    }, Meteor.Error, 'Projektor.modules.add.positionOccupied');
+
+    const thirdModule = firstModule;
+    thirdModule.position = 50;
+    const fourthModule = thirdModule;
+    assert.throws(() => {
+      Projektor.modules.add(zone, [thirdModule, fourthModule]);
+    }, Meteor.Error, 'Projektor.modules.add.positionOccupied');
   });
 
   it('should not overwrite existing zone', function() {
     const zone = 'sampleZone';
     Projektor.modules[zone] = [];
-    chai.assert.throws(() => {
+    assert.throws(() => {
       Projektor.modules.createZone(zone);
     }, Meteor.Error, 'Projektor.modules.createZone.alreadyExists');
   });
@@ -64,7 +86,7 @@ describe('Projektor.modules', function() {
       lodash.forEach(reservedNames, function(reservedName) {
         const zone = reservedName;
         const module = { template: 'sampleTemplate' };
-        chai.assert.throws(() => {
+        assert.throws(() => {
           Projektor.modules[functionName](zone, module);
         }, Meteor.Error, `Projektor.modules.${functionName}.reservedName`,
           `throws Error: Projektor.modules.${functionName}.reservedName`);
@@ -76,7 +98,7 @@ describe('Projektor.modules', function() {
       assertThrowsReservedNameError(functionName, reservedNames);
     });
     lodash.forEach(functionNames, function(functionName) {
-      chai.assert.isFunction(Projektor.modules[functionName], `${functionName} has not been overwritten`);
+      assert.isFunction(Projektor.modules[functionName], `${functionName} has not been overwritten`);
     });
   });
 
@@ -86,7 +108,7 @@ describe('Projektor.modules', function() {
       template: 'sampleModuleTemplate',
     };
 
-    chai.assert.throws(() => {
+    assert.throws(() => {
       Projektor.modules.add(zone, module);
     }, Meteor.Error, 'Projektor.modules.add.noZone');
   });
@@ -95,7 +117,7 @@ describe('Projektor.modules', function() {
     const invalidZones = ['', {}, [], 123];
 
     lodash.forEach(invalidZones, function(zone) {
-      chai.assert.throws(() => {
+      assert.throws(() => {
         Projektor.modules.createZone(zone);
       }, Meteor.Error, 'Projektor.modules.createZone.invalidName');
     });
@@ -113,26 +135,38 @@ describe('Projektor.modules', function() {
       { template: '' },
       { template: {} },
       { template: 123 },
+      { template: 'validTemplate', position: 'invalidPosition' },
+      { template: 'validTemplate', position: {} },
+      { template: 'validTemplate', position: () => 4 },
     ];
     lodash.forEach(invalidModules, function(module) {
       const invalidArgs = [module, [module, module]];
       lodash.forEach(invalidArgs, function(invalidArg) {
-        chai.assert.throws(() => {
+        assert.throws(() => {
           Projektor.modules.add(zone, invalidArg);
         }, Meteor.Error, 'Projektor.modules.add.invalidModule');
       });
     });
   });
 
-  it('should deliver modules from a zone', function() {
+  it('should deliver modules from a zone in correct order', function() {
     const zone = 'sampleZone';
-    const modules = [
-      { template: 'firstSampleModuleTemplate' },
-      { template: 'secondSampleModuleTemplate' },
+    const modulesUnordered = [
+      { template: 'firstSampleModuleTemplate', position: 1 },
+      { template: 'firstSampleModuleTemplateWithoutPosition' },
+      { template: 'thirdSampleModuleTemplate', position: 3 },
+      { template: 'secondSampleModuleTemplateWithoutPosition' },
+      { template: 'secondSampleModuleTemplate', position: 2 },
     ];
-    Projektor.modules[zone] = modules;
-
-    chai.assert.deepEqual(Projektor.modules.getModulesFromZone(zone), modules);
+    Projektor.modules[zone] = modulesUnordered;
+    const modulesOrdered = [
+      { template: 'firstSampleModuleTemplate', position: 1 },
+      { template: 'secondSampleModuleTemplate', position: 2 },
+      { template: 'thirdSampleModuleTemplate', position: 3 },
+      { template: 'firstSampleModuleTemplateWithoutPosition' },
+      { template: 'secondSampleModuleTemplateWithoutPosition' },
+    ];
+    assert.sameDeepOrderedMembers(Projektor.modules.getModulesFromZone(zone), modulesOrdered);
   });
   it('should remove a module from a zone', function() {
     const zone = 'sampleZone';
@@ -142,14 +176,14 @@ describe('Projektor.modules', function() {
 
     Projektor.modules.remove(zone, firstModule.template);
 
-    chai.assert.deepEqual(Projektor.modules[zone], [secondModule]);
+    assert.deepEqual(Projektor.modules[zone], [secondModule]);
   });
 
   it('should only remove from valid zones', function() {
     const invalidZones = ['', {}, [], 123];
 
     lodash.forEach(invalidZones, function(zone) {
-      chai.assert.throws(() => {
+      assert.throws(() => {
         Projektor.modules.createZone(zone);
       }, Meteor.Error, 'Projektor.modules.createZone.invalidName');
     });

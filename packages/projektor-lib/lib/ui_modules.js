@@ -18,7 +18,8 @@ const throwErrorIfReservedZoneName = (functionName, zoneName, errorMessageAppend
 /**
 * @summary Creates a new template zone
 * @locus Anywhere
-* @param {string} zone The name of the new zone, should be prefixed with package-name (like "my-package.my-zone") to avoid naming conflicts
+* @param {string} zone The name of the new zone, should be prefixed with
+* package-name (like "my-package.my-zone") to avoid naming conflicts
 */
 Projektor.modules.createZone = (zone) => {
   if (!zone || typeof zone !== 'string') {
@@ -40,8 +41,9 @@ Projektor.modules.createZone = (zone) => {
 * @summary Adds a template module to a template zone
 * @locus Anywhere
 * @param {string} zone The name of an existing zone add to
-* @param {Object} module The module object
+* @param {Object|Object[]} module The module object or an array of module objects
 * @param {string} module.template The name of the template to add
+* @param {number} [module.position] The position of the template inside the zone
 */
 Projektor.modules.add = (zone, module) => {
   if (typeof Projektor.modules[zone] === 'undefined') {
@@ -56,21 +58,40 @@ Projektor.modules.add = (zone, module) => {
       throw new Meteor.Error('Projektor.modules.add.invalidModule',
         'This module is missing a valid "template" property');
     }
+    if (moduleToCheck.position && typeof moduleToCheck.position !== 'number') {
+      throw new Meteor.Error('Projektor.modules.add.invalidModule',
+        'The position of the module must be of type "number"');
+    }
+  };
+
+  const throwErrorIfPositionOccupied = (moduleToCheck) => {
+    const moduleWithSamePosition = lodash.find(Projektor.modules[zone],
+      lodash.matchesProperty('position', moduleToCheck.position));
+    if (moduleWithSamePosition) {
+      throw new Meteor.Error('Projektor.modules.add.positionOccupied',
+        `This position inside the zone ${zone} is already taken by the module
+          with template ${moduleWithSamePosition.template}`);
+    }
   };
 
   if (Array.isArray(module)) {
     const modules = module;
     lodash.forEach(modules, (singleModule) => {
       throwErrorIfInvalidModule(singleModule);
+      throwErrorIfPositionOccupied(singleModule);
       Projektor.modules[zone].push(singleModule);
     });
   } else {
     throwErrorIfInvalidModule(module);
+    throwErrorIfPositionOccupied(module);
     Projektor.modules[zone].push(module);
   }
 };
 
 /**
+ * Retrieve an array containing all modules for a zone sorted by their
+ * position number (increasing). Modules without specified position are appended
+ * last in the order they were added.
  * @summary Retrieve an array containing all modules for a zone
  * @locus Anywhere
  * @param {string} zone - The name of the zone
@@ -78,8 +99,7 @@ Projektor.modules.add = (zone, module) => {
  */
 Projektor.modules.getModulesFromZone = (zone) => {
   throwErrorIfReservedZoneName('getModulesFromZone', zone);
-
-  return Projektor.modules[zone];
+  return lodash.sortBy(Projektor.modules[zone], 'position');
 };
 
 /**
@@ -91,7 +111,6 @@ Projektor.modules.getModulesFromZone = (zone) => {
 Projektor.modules.remove = (zone, template) => {
   throwErrorIfReservedZoneName('remove', zone);
 
-  Projektor.modules[zone] = lodash.reject(Projektor.modules[zone], (module) => {
-    return module.template === template;
-  });
+  Projektor.modules[zone] = lodash.reject(Projektor.modules[zone],
+    module => module.template === template);
 };
