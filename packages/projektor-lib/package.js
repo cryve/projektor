@@ -76,6 +76,7 @@ Package.onUse(function(api) {
 
   api.addFiles([
     'lib/core.js',
+    'lib/collections.js',
     'lib/ui_modules.js',
   ]);
 
@@ -83,7 +84,8 @@ Package.onUse(function(api) {
 });
 
 Package.onTest(function(api) {
-  api.use(['projektor:lib', 'ecmascript', 'random', 'practicalmeteor:mocha', 'mdg:validation-error']);
+  api.use('projektor:lib');
+  api.use(['ecmascript', 'random', 'practicalmeteor:mocha', 'mdg:validation-error']);
 
-  api.mainModule('tests/ui_modules.tests.js');
+  api.mainModule('lib/lib.tests.js');
 });
