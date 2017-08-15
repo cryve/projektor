@@ -6,33 +6,6 @@ import { projectSchema } from './schemas.js';
 
 export const Projects = new Mongo.Collection('projects');
 
-Projects.memberFields = {
-  _id: 1,
-  state: 1,
-  createdAt: 1,
-  isNewProject: 1,
-  permissions: 1,
-  title: 1,
-  subtitle: 1,
-  description: 1,
-  coverImg: 1,
-  media: 1,
-  deadline: 1,
-  beginning: 1,
-  pdfs: 1,
-  notes: 1,
-  tags: 1,
-  team: 1,
-  supervisors: 1,
-  jobs: 1,
-  contacts: 1,
-  teamCommunication: 1,
-  occasions: 1,
-};
-
-Projects.supervisorFields = Projects.memberFields;
-Projects.supervisorFields.notes = 1;
-
 if (Meteor.isServer) {
   Meteor.publish('projectsAll', function projectsAllPublication() {
     if (!this.userId) {
@@ -81,10 +54,7 @@ if (Meteor.isServer) {
     if (!this.userId) {
       return this.ready();
     }
-    // TODO: publish supervisorFields only for project supervisors
-    return Projects.find(projectId, {
-      fields: Projects.supervisorFields,
-    });
+    return Projects.find(projectId);
   });
   Meteor.publish('userProjects', function userProjectsPublication(userId) {
     new SimpleSchema({
@@ -93,9 +63,7 @@ if (Meteor.isServer) {
         regEx: SimpleSchema.RegEx.Id,
       },
     }).validate({ userId });
-    return Projects.find({ team: { $elemMatch: { userId } } }, {
-      fields: Projects.memberFields,
-    });
+    return Projects.find({ team: { $elemMatch: { userId } } });
   });
 }
 
