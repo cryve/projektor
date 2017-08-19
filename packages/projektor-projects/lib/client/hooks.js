@@ -2,9 +2,8 @@ import lodash from 'lodash';
 
 AutoForm.addHooks([
   'editTitle',
-  'notesBox',
-  // "addMember",
   'addContact',
+  'member',
   'supervisor',
   'contactItem',
   'editDescription',
@@ -14,11 +13,9 @@ AutoForm.addHooks([
   'editDeadline',
   'editBeginning',
   'editYoutubeUrl',
-  'editAboutMe',
 ], {
   onSuccess(formType, result) {
     this.template.parent().isEditing.set(false);
-    // this.template.parent().deadline.set(false);
   },
 });
 
@@ -28,8 +25,6 @@ AutoForm.addHooks([
   'addJob',
   'addContact',
   'addTeamCommItem',
-  'addContactUser',
-  'addLink',
 ], {
   before: {
     method(doc) {
@@ -60,25 +55,10 @@ AutoForm.addHooks([
   'contactItem',
   'jobItem',
   'editTeamCommItem',
-  'contactItemUser',
-  'linkItem',
 ], {
   before: {
     'method-update'(doc) {
       delete doc.$unset;
-      return doc;
-    },
-  },
-});
-
-AutoForm.addHooks(['editAboutMe'], {
-  before: {
-    'method-update'(doc) {
-      // Workaround for autoform behavior of unsetting entire profile object
-      // Allow $unset only for aboutMe field
-      if (doc.$unset) {
-        doc.$unset = { 'profile.aboutMe': '' };
-      }
       return doc;
     },
   },
@@ -97,10 +77,8 @@ AutoForm.addHooks([
           return regExpMemberRoleKey.test(key);
         });
       }
+      console.log(doc);
       return doc;
     },
-  },
-  onSuccess(formType, result) {
-    this.template.parent().isEditing.set(false);
   },
 });

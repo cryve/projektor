@@ -81,40 +81,6 @@ Template.addSupervisor.events({
   },
 });
 
-Template.notesBoxSupervisors.onCreated(function() {
-  this.isEditing = new ReactiveVar(false);
-});
-
-Template.notesBoxSupervisors.helpers({
-  supervisorNotes(currentDoc) {
-    if (currentDoc && currentDoc.supervisors) {
-      let check = false;
-      lodash.forEach(currentDoc.supervisors, function(supervisor) {
-        if (supervisor.userId == Meteor.userId()) {
-          check = true;
-          return false;
-        }
-      });
-      return check;
-    }
-  },
-  isEditing() {
-    return Template.instance().isEditing.get();
-  },
-});
-
-Template.notesBoxSupervisors.events({
-  'click .btn-edit-description' (event) {
-    event.preventDefault();
-    console.log(Template.instance().isEditing.get());
-    Template.instance().isEditing.set(true);
-    console.log(Template.instance().isEditing.get());
-  },
-  'click .btn-abort-editing' (event) {
-    Template.instance().isEditing.set(false);
-  },
-});
-
 Template.member.onCreated(function() {
   this.isEditing = new ReactiveVar(false);
   this.autorun(() => {

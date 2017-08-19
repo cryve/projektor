@@ -16,6 +16,7 @@ Package.onUse(function(api) {
   api.use(packages);
 
   api.addFiles([
+    'lib/client/hooks.js',
     'lib/templates/project_card.css',
     'lib/templates/project_card.html',
     'lib/templates/project_card.js',

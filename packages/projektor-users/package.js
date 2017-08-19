@@ -13,6 +13,8 @@ Package.onUse(function(api) {
 
   api.use(packages);
 
+  api.addFiles('lib/client/hooks.js', 'client');
+
   api.mainModule('lib/main.js', ['client', 'server']);
 });
 

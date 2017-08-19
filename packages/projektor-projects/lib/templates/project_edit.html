@@ -202,19 +202,6 @@
     {{/if}}
 </template>
 
-<template name="notesBoxSupervisors">
-  {{#if supervisorNotes currentDoc}}
-    {{#autoForm id="notesBox" type="method-update" autosave=true singleMethodArgument=true meteormethod="projects.updateEditableSupervisorNotes" doc=currentDoc collection=currentCollection }}
-      <div class="form-group">
-        {{> afFieldInput name="notes" type="textarea" rows=6 placeholder="Deine Notizen zum Projekt" }}
-      </div>
-      <div class="form-group">
-        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
-      </div>
-    {{/autoForm}}
-  {{/if}}
-</template>
-
 <template name="editTags">
   {{#if $and isEditing (hasPermissions 'editInfos' currentDoc) }}
     {{#autoForm id="editTags" type="method-update" singleMethodArgument=true meteormethod="projects.updateEditableInfo" doc=currentDoc collection=currentCollection  }}
