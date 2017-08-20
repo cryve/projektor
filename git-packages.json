@@ -1,0 +1,10 @@
+{
+  "projektor:gallery": {
+    "git": "git@github.com:cryve/projektor-gallery.git",
+    "version": "v0.1.0"
+  },
+  "projektor:click-counter": {
+    "git": "git@github.com:cryve/projektor-click-counter.git",
+    "version": "v0.1.0"
+  }
+}
