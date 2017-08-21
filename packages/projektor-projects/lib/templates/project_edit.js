@@ -85,7 +85,6 @@ Template.member.onCreated(function() {
   this.isEditing = new ReactiveVar(false);
   this.autorun(() => {
     this.subscribe('users.profile.single', Template.currentData().userId);
-    this.subscribe('files.images.avatar', Template.currentData().userId);
   });
   this.subscribe('users.list.all');
 });
@@ -93,11 +92,6 @@ Template.member.onCreated(function() {
 Template.member.helpers({
   user() {
     return Users.findOne(this.userId);
-  },
-  getAvatarURL (userId, version) {
-    const user = Users.findOne({ _id: userId });
-    const image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
-    return (image && image.versions[version]) ? image.link(version) : `/img/${version}.jpg`;
   },
   isEditing () {
     return Template.instance().isEditing.get();
@@ -214,11 +208,6 @@ Template.supervisor.helpers({
   user() {
     return Users.findOne(this.userId);
   },
-  getAvatarURL (userId, version) {
-    const user = Users.findOne({ _id: userId });
-    const image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
-    return (image && image.versions[version]) ? image.link(version) : `/img/${version}.jpg`;
-  },
   supervisorIdField () {
     return `supervisors.${this.slot}.userId`;
   },
@@ -242,7 +231,6 @@ Template.supervisor.helpers({
 Template.supervisor.onCreated(function supervisorOnCreated() {
   this.autorun(() => {
     this.subscribe('users.profile.single', Template.currentData().userId);
-    this.subscribe('files.images.avatar', Template.currentData().userId);
   });
 });
 

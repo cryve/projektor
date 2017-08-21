@@ -8,12 +8,7 @@ Images.imageRemove = new ValidatedMethod({
     imageId: String,
   }).validator(),
   run({ imageId }) {
-    // TODO: Authorization check, allowed only with editInfos permission for project
-    // const image = Images.findOne(imageId);
-    // if (image.userId != Meteor.userId()){
-    //   throw new Meteor.Error("imageRemove.unauthorized",
-    //   "Cannot delete Image from this Project");
-    // }
+    // TODO: this method should be callable only from server
     Images.remove({ _id: imageId });
   },
 });

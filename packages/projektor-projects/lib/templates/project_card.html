@@ -11,7 +11,7 @@
         <ul class="member-icons list-inline">
         {{#unless team}}
           <li>
-            <img class="img-circle img-circle-transparent" rel="tooltip" title="Keine Mitglieder" src={{getAvatarURL 0 "avatar20"}}>
+            {{> avatar imgClass="img-circle-transparent" tooltip="Keine Mitglieder" version="avatar20" }}
           </li>
         {{/unless}}
         {{#if team}}
@@ -68,7 +68,7 @@
 <template name="projectCardMemberItem">
   <li>
     <a href="{{pathFor 'userProfile' userId=this.userId uniqueName=(getEmailName this.userId) }}">
-      <img class="img-circle" rel="tooltip" title="{{user.profile.fullname}}" src={{getAvatarURL this.userId "avatar20"}}>
+      {{> avatar tooltip=user.profile.fullname userId=user._id version="avatar20" }}
     </a>
   </li>
 </template>

@@ -50,21 +50,6 @@ Template.registerHelper('encodeUrlString', function(string) {
   return encodeURIComponent(string);
 });
 
-// Template.registerHelper("getAvatarURL", (userId, version) => {
-//   //this.subscribe("files.images.all");
-//   //this.subscribe("usersAll");
-//   var user = Users.findOne({_id: userId});
-//   var image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
-//   return (image && image.versions[version]) ? image.link(version) : "/img/"+version+".jpg";
-// });
-
-/* Template.registerHelper("getAvatarCardURL", (userId, version) => {
-  var user = Users.findOne({_id: userId});
-  var image = user.profile.avatar && Images.findOne(user.profile.avatar);
-  return (image && image.versions[version]) ? image.link(version) : "/img/defaultCardMini.jpg";
-
-});*/
-
 Template.registerHelper('log', (data, description) => {
   console.log(description, data);
 });

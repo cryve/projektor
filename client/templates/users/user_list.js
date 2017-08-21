@@ -74,11 +74,6 @@ Template.loadUser.onCreated(function loadUserOnCreated() {
 });
 
 Template.loadUser.helpers({
-  getAvatarURL (userId, version) {
-    const user = Users.findOne({ _id: userId });
-    const image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
-    return (image && image.versions[version]) ? image.link(version) : `/img/${version}.jpg`;
-  },
   documents () {
     const skip = Template.instance().data * 50;
     $('#loader').css({ display: 'none' });
@@ -90,17 +85,11 @@ Template.loadUser.helpers({
 Template.userListItem.onCreated(function userListItemOnCreated() {
   this.autorun(() => {
     this.subscribe('users.profile.single', Template.currentData().userId);
-    this.subscribe('files.images.avatar', Template.currentData().userId);
   });
 });
 
 Template.userListItem.helpers({
   user() {
     return Users.findOne(this.userId);
-  },
-  avatarURL() {
-    const user = Users.findOne({ _id: this.userId });
-    const image = user && user.profile.avatar && Images.findOne(user.profile.avatar);
-    return (image && image.versions.avatar50) ? image.link('avatar50') : '/img/avatar50.jpg';
   },
 });

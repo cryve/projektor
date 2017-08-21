@@ -1,0 +1,7 @@
+<template name="avatar">
+  {{#if tooltip}}
+    <img class="img-circle {{imgClass}}" src={{avatarUrl}} rel="tooltip" title={{tooltip}}>
+  {{else}}
+    <img class="img-circle {{imgClass}}" src={{avatarUrl}}>
+  {{/if}}
+</template>

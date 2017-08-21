@@ -29,7 +29,7 @@
   <li class="media">
     <div class="media-left">
       <a href="{{pathFor 'userProfile' userId=this.userId uniqueName=(getEmailName this.userId) }}">
-        <img class="media-object img-circle" src="{{getAvatarURL this.userId "avatar50"}}" alt="...">
+        {{> avatar imgClass="media-object" userId=this.userId version="avatar50" }}
       </a>
     </div>
     <div class="media-body">
@@ -293,7 +293,7 @@
   <li class="media">
     <div class="media-left">
       <a href="{{pathFor 'userProfile' userId=this.userId uniqueName=(getEmailName this.userId) }}">
-        <img class="media-object img-circle" src="{{getAvatarURL this.userId "avatar50"}}" alt="Profilbild {{user.profile.fullname}}">
+        {{> avatar imgClass="media-object" userId=this.userId version="avatar50" }}
       </a>
     </div>
     <div class="media-body">

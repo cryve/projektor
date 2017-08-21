@@ -1,10 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { FilesCollection } from 'meteor/ostrio:files';
 import { check } from 'meteor/check';
-import { publishComposite } from 'meteor/reywood:publish-composite';
 import lodash from 'lodash';
 import SimpleSchema from 'simpl-schema';
-import Users from 'meteor/projektor:users';
 
 const isImageMime = (mimeType) => mimeType.indexOf('image') === 0;
 
@@ -322,28 +320,6 @@ if (Meteor.isServer) {
         versions: 1,
       },
     });
-  });
-  Meteor.publishComposite('files.images.avatar', function filesImagesAvatarPublication(userId) {
-    new SimpleSchema({
-      userId: { type: String, regEx: SimpleSchema.RegEx.Id },
-    }).validate({ userId });
-    return {
-      find() {
-        return Users.find(userId, { fields: { 'profile.avatar': 1 } });
-      },
-      children: [{
-        find(user) {
-          return Images.collection.find(user.profile.avatar, {
-            fields: {
-              extension: 1,
-              _downloadRoute: 1,
-              _collectionName: 1,
-              versions: 1,
-            },
-          });
-        },
-      }],
-    };
   });
   Meteor.publish("files.images.gallery", function filesImagesGalleryPublication(media) {
     if (!this.userId) {

@@ -1,22 +1,9 @@
 import { Template } from 'meteor/templating';
-import { Images } from 'meteor/projektor:files';
-import Users from 'meteor/projektor:users';
 import './login_dropdown.html';
-
-Template.loginDropdown.onCreated(function() {
-  this.autorun(() => {
-    this.subscribe('files.images.avatar', Meteor.userId());
-  });
-});
 
 Template.loginDropdown.helpers(_.extend(LDAP.formHelpers, {
   loggingIn() {
 	   return Meteor.loggingIn();
-  },
-  getAvatarURL (userId, version) {
-    const user = Users.findOne({ _id: userId });
-    const image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
-    return (image && image.versions[version]) ? image.link(version) : `/img/${version}.jpg`;
   },
 }));
 

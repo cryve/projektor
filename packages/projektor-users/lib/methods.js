@@ -1,5 +1,6 @@
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { Meteor } from 'meteor/meteor';
+import { Images } from 'meteor/projektor:files';
 import SimpleSchema from 'simpl-schema';
 import Users from './users';
 
@@ -118,4 +119,21 @@ Users.unsetDraftId = new ValidatedMethod({
     }
     Users.update(this.userId, { $unset: { 'profile.draftId': '' } });
   }
+});
+
+Users.deleteAvatarFromUser = new ValidatedMethod({
+  name: 'users.deleteAvatarFromUser',
+  validate: new SimpleSchema({
+    userId: String,
+  }).validator(),
+  run({ userId }) {
+    if (userId !== this.userId) {
+      throw new Meteor.Error('users.deleteAvatarFromUser.unauthorized',
+      'You cannot delete avatar from profile that is not yours');
+    }
+
+    const user = Users.findOne(userId);
+    Images.remove({ _id: user.profile.avatar });
+    Users.update({ _id: user._id }, { $unset: { 'profile.avatar': '' } });
+  },
 });

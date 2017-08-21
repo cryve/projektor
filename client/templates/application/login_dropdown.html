@@ -2,10 +2,11 @@
   <li class="dropdown">
     <a class="dropdown-toggle" href="#" data-toggle="dropdown">
       {{#unless currentUser}}
-        <img class="img-circle navbar-avatar" src="/img/avatar30.jpg">
+        {{> avatar imgClass="navbar-avatar" version="avatar30" }}
         Anmelden <span class="caret"></span>
       {{else}}
-        <img class="img-circle navbar-avatar" src="{{getAvatarURL currentUser._id "avatar30"}}"> {{currentUser.profile.firstname}} <span class="caret"></span>
+        {{> avatar imgClass="navbar-avatar" userId=currentUser._id version="avatar30" }}
+        {{currentUser.profile.firstname}} <span class="caret"></span>
       {{/unless}}
     </a>
     <ul class="dropdown-menu login-dropdown">

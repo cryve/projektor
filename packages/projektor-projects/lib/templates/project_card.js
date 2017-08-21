@@ -26,11 +26,6 @@ Template.projectCard.helpers({
   projectCard() {
     return Projects.findOne(this.projectId);
   },
-  getAvatarURL (userId, version) {
-    const user = Users.findOne({ _id: userId });
-    const image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
-    return (image && image.versions[version]) ? image.link(version) : `/img/${version}.jpg`;
-  },
   itemsToShow(totalItems, maxItems, placeholderItems) {
     return (totalItems <= maxItems) ? totalItems : maxItems - placeholderItems;
   },
@@ -90,18 +85,12 @@ Template.projectCardCover.helpers({
 Template.projectCardMemberItem.onCreated(function projectCardMemberItemOnCreated() {
   this.autorun(() => {
     this.subscribe('users.list.single', Template.currentData().userId);
-    this.subscribe('files.images.avatar', Template.currentData().userId);
   });
 });
 
 Template.projectCardMemberItem.helpers({
   user() {
     return Users.findOne(this.userId);
-  },
-  getAvatarURL (userId, version) {
-    const user = Users.findOne(userId);
-    const image = user && user.profile && Images.findOne(user.profile.avatar);
-    return (image && image.versions[version]) ? image.link(version) : `/img/${version}.jpg`;
   },
 });
 

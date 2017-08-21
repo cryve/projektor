@@ -12,18 +12,12 @@ Template.userProfile.onCreated(function userProfileOnCreated() {
     this.subscribe('users.profile.single', userId);
     this.subscribe('userProjects', userId);
     this.subscribe('singleStudyInfo', userId);
-    this.subscribe('files.images.avatar', userId);
   });
 });
 
 Template.userProfile.helpers({
   user() {
     return Users.findOne(FlowRouter.getParam('userId'));
-  },
-  getAvatarURL (userId, version) {
-    const user = Users.findOne({ _id: userId });
-    const image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
-    return (image && image.versions[version]) ? image.link(version) : `/img/${version}.jpg`;
   },
   userProjects() {
     return Projects.find({ team: { $elemMatch: { userId: this._id } } }, { sort: { createdAt: -1 } });

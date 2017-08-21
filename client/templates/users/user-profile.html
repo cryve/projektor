@@ -12,7 +12,7 @@
           Avatar löschen
         </button>
       {{/if}}
-      <img src= {{getAvatarURL this._id "avatar50"}} />
+      {{> avatar userId=this._id version="avatar50" }}
       <h1>{{this.profile.fullname}}<br><small>{{this.profile.title}}</small></h1>
       {{#if this.profile.studyCourseId}}
         <p>{{studyCourseName this.profile.studyCourseId this.profile.departmentId this.profile.facultyId}}</p>
