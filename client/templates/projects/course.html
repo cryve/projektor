@@ -1,5 +1,6 @@
+<!-- Template zum Anzeigen der Kursverwaltung, in der die Kurse aufgelistet, erstellt und beigetretet werden kann. -->
 <template name="course">
-  {{#onlyIfLoggedIn}}
+  {{#onlyIfLoggedIn}} <!--siehe course_list.html zeile 5-->
     <ol class="breadcrumb">
       <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>
       <li class="active">Meine Kurse</li>
@@ -14,6 +15,7 @@
     <br>
     {{#if $and editActive ($eq currentUser.profile.role "Mitarbeiter") }}
       <!-- {{#autoForm id="editTitle" type="update" doc=currentDoc collection=currentCollection }} -->
+      <!-- erstellen der Inhalte zum erstellen eines Kurses-->
       {{#autoForm id="course" type="method" meteormethod=(getMethodString getCollection._name "insert") doc=this collection=getCollection }}
       <div class="form-group">
         {{> afFieldInput name="courseName" type="text" placeholder="Kursname hinzufügen" }}
@@ -49,7 +51,7 @@
         <div class="modal-body">
           <p>Möchtest du den Kurs <strong>{{docTitle}}</strong> beitreten?</p>
           <div class="alert alert-warning" role="alert">
-            Wenn du diesen Krus beitreten möchtest, benötigst du den zugehörigen Einschreibeschlüssel!
+            Wenn du diesem Krus beitreten möchtest, benötigst du den zugehörigen Einschreibeschlüssel!
           </div>
           {{#autoForm id="addCourseToCourse" schema=addCourseToCourseSchema type="method" meteormethod=(getMethodString getCollection._name "addCourse") doc=this.currentDoc }}
             <div class="form-group">

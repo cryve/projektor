@@ -10,8 +10,8 @@ import { enterCourse } from '/lib/methods.js';
 
 Template.course.onCreated (function courseOnCreated() {
   this.subscribe('courses');
+  //Reaktive Variable zum ein- oder ausblenden von Inhalten, wird fast als globale variable genutzt in den HTML-Templates
   this.editActive = new ReactiveVar(false);
-
 });
 
 Template.course.helpers({
@@ -43,7 +43,6 @@ Template.course.events({
   },
   'click .btn-enter-course'(event) {
     event.preventDefault();
-    console.log(this);
     Modal.show('enterCourseModal', {
       docId: this._id,
     });
@@ -72,6 +71,7 @@ Template.enterCourseModal.onCreated(function() {
 });
 
 Template.enterCourseModal.helpers({
+  //ruft das addCourseToCouseSchema aus der schemas.js auf
   addCourseToCourseSchema () {
     return addCourseToCourseSchema;
   },
@@ -81,6 +81,7 @@ Template.enterCourseModal.helpers({
   currentDoc(){
     return Courses.find();
   },
+  //erstellt ein Array mit allen Kursen, in denen der Nutzer selbst noch kein Mitglied ist.
   suggestedCourses() {
     const courses = Courses.find();
     const courseList = [' '];

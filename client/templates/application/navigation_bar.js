@@ -17,7 +17,7 @@ Template.navigationBar.helpers({
     let check = false;
     if (Meteor.user() && Meteor.user().profile && Meteor.user().profile.drafts) {
       lodash.forEach(Meteor.user().profile.drafts, function(value) {
-        if (value.draftId && !value.courseId) {
+        if (value.draftId && !value.courseId) {   // es wird geguckt ob der eingeloggte Nutzer kein Draft Projekt offen hat und das es kein Kurs Projekt ist.
           check = FlowRouter.getParam('draftId');
           return false;
         }
@@ -29,7 +29,7 @@ Template.navigationBar.helpers({
     let check = false;
     if (Meteor.user() && Meteor.user().profile && Meteor.user().profile.drafts) {
       lodash.forEach(Meteor.user().profile.drafts, function(value) {
-        if (value.draftId && !value.courseId) {
+        if (value.draftId && !value.courseId) { // wie in Zeile 20
           check = true;
           return false;
         }
@@ -46,7 +46,7 @@ Template.navigationBar.events({
     // Go to a not finished draft if exists, else go to new draft
     if (Meteor.user() && Meteor.user().profile && Meteor.user().profile.drafts) {
       lodash.forEach(Meteor.user().profile.drafts, function(value) {
-        if (value.draftId && !value.courseId) {
+        if (value.draftId && !value.courseId) { //wie in Zeile 20
           currentDraftId = value.draftId;
         }
       });

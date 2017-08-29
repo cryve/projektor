@@ -106,6 +106,7 @@ Template.currentCourse.helpers({
   courseOwnerSchema() {
     return courseOwnerSchema;
   },
+  //helper zum erstellen eines Arrays in denen alle Professoren aufgelistet werden, außer denen die schon im Kurs als Betreuer eingetragen sind.
   suggestedUsers(settings) {
     const users = Meteor.users.find(settings.hash.role ? { 'profile.role': settings.hash.role } : {});
     let userList = [' '];
@@ -127,7 +128,7 @@ Template.currentCourse.helpers({
     }
     return userList;
   },
-
+  // Helper zum gucken ob ein Kursprojekt vorhanden ist
   isCourseProject() {
     const ownersAsSupervisors = [];
     lodash.forEach(this.owner, function(ownerId) {
@@ -143,6 +144,7 @@ Template.currentCourse.helpers({
     return true;
   },
 
+  // es wird geguckt ob nur noch ein Betreuer im Kurs ist
   isLastOwner() {
     const course = Courses.findOne(this._id);
     if (course && course.owner && course.owner.length > 1) {
@@ -150,7 +152,7 @@ Template.currentCourse.helpers({
     }
     return true;
   },
-
+  // Helper zum gucken ob der eingeloggte Nutzer ein Kurspojekt draft noch offen hat
   checkIfDraft() {
     let check = false;
     const currentDoc = this;
@@ -176,12 +178,6 @@ Template.currentCourse.events({
   'click #btn-edit-course' (event) {
     event.preventDefault();
     Modal.show('editCourse', {
-      courseId: this._id,
-    });
-  },
-  'click #btn-assess-project' (event) {
-    event.preventDefault();
-    Modal.show('assessProjectModal', {
       courseId: this._id,
     });
   },
@@ -237,6 +233,7 @@ Template.currentCourse.events({
       Template.instance().selfEntering.set(true);
     }
   },
+  //Aktivieren/deaktivieren der Selbsteinschreibung
   'click .btn-toggle'(event) {
     event.stopPropagation();
     setSelfEnter.call({
@@ -258,6 +255,7 @@ Template.currentCourse.events({
     // Go to a not finished draft if exists, else go to new draft
     let lastDraft;
     const currentDoc = this;
+    //hat der Nutzer ein Kurs draft Projekt noch offen?
     if (Meteor.user() && Meteor.user().profile && Meteor.user().profile.drafts) {
       lodash.forEach(Meteor.user().profile.drafts, function(value) {
         if (value.draftId && (value.courseId == currentDoc._id)) {
@@ -270,6 +268,7 @@ Template.currentCourse.events({
     if (lastDraft && lastDraft._id) {
       draftId = lastDraft._id;
     } else {
+      //erstellen eines neuen Kurs draft Projekt
       draftId = insertEmptyCourseDraft.call({
         courseId: this._id,
       }, (err, res) => {
@@ -282,6 +281,7 @@ Template.currentCourse.events({
           }
         }
       });
+      //id des draft Documents wird in das Document des erstellers gespeichert
       setDraftIdInProfile.call({
         userId: Meteor.userId(),
         draftId,
@@ -302,6 +302,7 @@ Template.userGrading.onCreated(function userGradingOnCreated(){
 })
 
 Template.userGrading.helpers({
+  //Anzeigen der Benotung des Studenten
   userGrade(){
     console.log(FlowRouter.getParam('courseId'));
     const projects = Projects.find({ courseId: FlowRouter.getParam('courseId'), team: { $elemMatch: { userId: Meteor.userId() } } })
@@ -342,6 +343,7 @@ Template.deleteAllCourseProjectsModal.onCreated(function deleteModalOnCreated() 
 });
 
 Template.deleteAllCourseProjectsModal.events({
+  //Button zum löschen aller Projekte
   'click #btn-delete'(event) {
     deleteAllProjects.call({
       courseId: this.courseId,
@@ -410,6 +412,7 @@ Template.leaveCourseModal.events({
 });
 
 Template.deleteCourseModal.events({
+  //Button zum Löschen des Kurses
   "click #btn-delete"(event) {
     deleteCourse.call({
       courseId: this.docId,

@@ -1,5 +1,8 @@
+<!-- Dieses HTML-Template rendert die Mitgliederliste.
+{{ .... }} sind Spacebars (Erklärung in der Bacheloarbeit im Kapitel "Meteor"). Alle Funktionen/Helpers die in dieser Datei aufgerufen werden, werden in der course_list.js ausgeführt,
+sollte diese Funktion nicht gefunden werden, steht diese in den Global-Helpers. -->
 <template name="courseList">
-  {{#onlyIfLoggedIn}}
+  {{#onlyIfLoggedIn}} <!-- Spacebar zum Ausführen der integrierten Meteor Funktion zum checken, ob ein Nutzer eingelogt ist, damit der den Inhalt dieses Templates sehen darf-->
     {{#if canShow}}
     <ol class="breadcrumb">
       <li><a href="{{pathFor 'landingPage'}}">Startseite</a></li>

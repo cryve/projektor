@@ -5,6 +5,8 @@
  - http://blazejs.org/api/templates.html#Template-registerHelper
 */
 
+/*Global-Helpers sind globale Funktionen, welche von jedem anderen HTML-Template aufgerufen werden können, um
+bestimmte Daten zu erhalten oder zu formatieren*/
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Studies } from '/lib/collections/studies.js';
@@ -20,9 +22,7 @@ Template.registerHelper('releaseDate', (date) => {
 });
 
 Template.registerHelper('getUsername', (userId) => {
-  // console.log(userId);
   const user = Meteor.users.findOne({ _id: userId });
-  // console.log(user.emails[0].address);
   return user && user.emails[0].address;
 });
 
@@ -57,20 +57,6 @@ Template.registerHelper('encodeUrlString', function(string) {
   return encodeURIComponent(string);
 });
 
-// Template.registerHelper("getAvatarURL", (userId, version) => {
-//   //this.subscribe("files.images.all");
-//   //this.subscribe("usersAll");
-//   var user = Meteor.users.findOne({_id: userId});
-//   var image = user && (user.profile.avatar && Images.findOne(user.profile.avatar));
-//   return (image && image.versions[version]) ? image.link(version) : "/img/"+version+".jpg";
-// });
-
-/* Template.registerHelper("getAvatarCardURL", (userId, version) => {
-  var user = Meteor.users.findOne({_id: userId});
-  var image = user.profile.avatar && Images.findOne(user.profile.avatar);
-  return (image && image.versions[version]) ? image.link(version) : "/img/defaultCardMini.jpg";
-
-});*/
 
 Template.registerHelper('log', (data) => {
   console.log(data);
@@ -78,29 +64,6 @@ Template.registerHelper('log', (data) => {
 
 Template.registerHelper('getMethodString', (collectionName, methodName) => `${collectionName}.${methodName}`);
 
-// Template.registerHelper("studyCourseName", (studyCourseId, departmentId, facultyId) => {
-//   //this.subscribe("studies");
-//   const studyCourse = Studies.findOne({ $and: [
-//     { "studyCourseId": studyCourseId },
-//     { "departmentId": departmentId },
-//     { "facultyId": facultyId }
-//   ]});
-//   return studyCourse && studyCourse.studyCourseName;
-// });
-
-// Template.registerHelper("departmentName", (departmentId) => {
-//   //this.subscribe("studies");
-//   const studyCourse = Studies.findOne({ "departmentId": departmentId });
-//   return studyCourse && studyCourse.departmentName;
-// });
-
-// Template.registerHelper("facultyName", (facultyId) => {
-//   //this.subscribe("studies");
-//   console.log(facultyId);
-//   const studyCourse = Studies.findOne({ "facultyId": facultyId });
-//   console.log(studyCourse);
-//   return studyCourse && studyCourse.facultyName;
-// });
 
 Template.registerHelper('isUserInGroup', (group, userId) => {
   let foundUser = false;

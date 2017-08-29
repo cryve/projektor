@@ -760,11 +760,13 @@ Template.addTeamCommItem.events({
 
 Template.projectFileUpload.onCreated(function () {
   this.currentUpload = new ReactiveVar(false);
+  console.log(this);
   if (this && this.data.currentDoc && this.data.currentDoc.isNewProject && this.data.currentDoc.pdfs && this.data.currentDoc._id){
     this.autorun(() => {
       this.subscribe('files.draftFiles.single', this.data.currentDoc._id);
     });
   } else if(this && this.data.currentDoc && this.data.currentDoc._id && this.data.currentDoc.pdfs && !this.data.currentDoc.isNewProject) {
+    console.log("test1");
     this.autorun(() => {
       this.subscribe('files.projectFiles.single', this.data.currentDoc._id);
     });
