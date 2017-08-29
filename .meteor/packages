@@ -5,13 +5,9 @@
 # but you can also edit it by hand.
 
 
-############## Projektor Core Packages ##############
-
-projektor:lib
+############## Projektor Core ##############
 projektor:core
-projektor:users
-projektor:files
-projektor:projects
-projektor:studies
+
+############## Projektor Feature Plugins ##############
 projektor:gallery
 projektor:click-counter

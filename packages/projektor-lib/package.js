@@ -78,7 +78,7 @@ Package.onUse(function(api) {
     'lib/core.js',
     'lib/collections.js',
     'lib/ui_modules.js',
-  ]);
+  ], ['client', 'server']);
 
   api.export('Projektor');
 });
