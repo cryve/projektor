@@ -106,10 +106,10 @@ peerlibrary:data-lookup@0.1.0
 peerlibrary:reactive-field@0.1.0
 peppelg:bootstrap-3-modal@1.0.4
 percolate:find-from-publication@0.1.0
-projektor:click-counter@0.0.1
+projektor:click-counter@0.1.0
 projektor:core@0.0.1
 projektor:files@0.0.1
-projektor:gallery@0.0.1
+projektor:gallery@0.0.2
 projektor:lib@0.0.1
 projektor:projects@0.0.1
 projektor:studies@0.0.1

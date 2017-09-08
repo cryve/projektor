@@ -22,6 +22,7 @@ Package.onUse(function(api) {
   api.addFiles([
     'lib/client/ui_modules.html',
     'lib/client/ui_modules.js',
+    'lib/client/global_helpers.js',
   ], 'client');
 
   api.mainModule('lib/layout.js', 'client');

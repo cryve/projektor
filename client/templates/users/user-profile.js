@@ -11,7 +11,7 @@ Template.userProfile.onCreated(function userProfileOnCreated() {
     const userId = FlowRouter.getParam('userId');
     this.subscribe('users.profile.single', userId);
     this.subscribe('userProjects', userId);
-    this.subscribe('singleStudyInfo', userId);
+    this.subscribe('studies');
   });
 });
 

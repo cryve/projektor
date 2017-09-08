@@ -1,7 +1,7 @@
 Package.describe({
   name: 'projektor:gallery',
   summary: 'Image and video gallery to showcase work-in-progress',
-  version: '0.0.1',
+  version: '0.0.2',
 });
 
 

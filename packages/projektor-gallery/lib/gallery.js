@@ -30,8 +30,7 @@ Template.youtubeUrlEditable.events({
 
 Template.largeViewEmbeddedVideo.helpers({
   youtubeUrl() {
-    const slot = Session.get('selectedSlot');
-    return this.media[slot].id;
+    return this.media[this.slot].id;
   },
 });
 
@@ -101,7 +100,6 @@ Template.deleteImageButton.events({
       }
     });
     Template.instance().setEmptyPreview.set(true);
-    Session.set('selectedMediumId', undefined);
   },
 });
 
@@ -120,18 +118,13 @@ Template.coverImageButton.events({
   },
 });
 
-Template.largeViewImage.helpers({
-  selectedMediumId() {
-    return Session.get('selectedMediumId');
-  },
-});
-
 Template.gallery.onCreated(function() {
   // const projectId = FlowRouter.getParam('projectId');
   // const project = Projects.findOne(projectId);
   // this.currentDoc = project;
   // this.currentCollection = Projects;
   this.isEditing = new ReactiveVar(false);
+  this.selectedSlot = new ReactiveVar(0);
   this.autorun(() => {
     this.subscribe('files.images.gallery', Template.currentData().media);
   });
@@ -152,24 +145,26 @@ Template.gallery.helpers({
     return newUrl;
   },
   mediumType() {
-    const slot = Session.get('selectedSlot');
+    // const slot = Session.get('selectedSlot');
+    const slot = Template.instance().selectedSlot.get();
     return this.media[slot].type;
   },
   isEditing() {
     return Template.instance().isEditing.get();
   },
   selectedMediumId() {
-    return Session.get('selectedMediumId');
+    console.log(this.media[Template.instance().selectedSlot.get()].id);
+    return this.media[Template.instance().selectedSlot.get()].id;
   },
   selectedSlot() {
-    return Session.get('selectedSlot');
+    return Template.instance().selectedSlot.get();
   },
 });
 
 Template.gallery.events({
   'click #edit-gallery-button' () {
     if (!this.media) {
-      Session.set('selectedSlot', 0);
+      Template.instance().selectedSlot.set(0);
       initialize.call({
         projectId: this._id,
       }, (err) => {
@@ -184,9 +179,7 @@ Template.gallery.events({
     Template.instance().isEditing.set(false);
   },
   'click .btn-edit-medium'(event) {
-    const selectedMediumId = event.currentTarget.dataset.value;
     const slot = event.currentTarget.dataset.slot;
-    Session.set('selectedMediumId', selectedMediumId);
-    Session.set('selectedSlot', slot);
+    Template.instance().selectedSlot.set(slot);
   },
 });

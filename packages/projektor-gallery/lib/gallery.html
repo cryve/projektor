@@ -22,10 +22,10 @@
               {{> deleteImageButton slot=selectedSlot media=media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection }}
               {{> largeViewCoverImage coverImg=currentDoc.coverImg}}
             {{else}}
-              {{#if selectedMediumId}}
+              {{#if selectedMediumId }}
                 {{> deleteImageButton slot=selectedSlot media=media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
                 {{> coverImageButton slot=selectedSlot media=media projectId=currentDoc._id coverImg=currentDoc.coverImg collection=currentCollection}}
-                {{> largeViewImage selectedMediumId}}
+                {{> largeViewImage imageId=selectedMediumId}}
               {{else}}
                 {{> largeViewPlaceholder}}
               {{/if}}
@@ -38,7 +38,7 @@
             {{> largeViewEmbeddedVideo slot=selectedSlot media=media projectId=currentDoc._id collection=currentCollection}}
           {{else}}
             {{#if $eq mediumType "image"}}
-              {{> largeViewImage selectedMediumId}}
+              {{> largeViewImage imageId=selectedMediumId }}
             {{/if}}
           {{/if}}
         {{/if}}
@@ -145,5 +145,5 @@
 
 
 <template name="largeViewImage">
-  <img class="img-responsive" src={{getImgURL selectedMediumId "preview"}} alt="">
+  <img class="img-responsive" src={{getImgURL imageId "preview"}} alt="">
 </template>

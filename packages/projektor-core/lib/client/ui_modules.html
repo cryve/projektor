@@ -1,8 +1,6 @@
 <template name="uiModules">
   <div class="{{zone}}">
-    {{log this "uiModules context"}}
     {{#each uiModule in getUiModules zone}}
-      {{log this "uiModules#each"}}
       {{>Template.dynamic template=uiModule.template data=this.data}}
     {{/each}}
   </div>

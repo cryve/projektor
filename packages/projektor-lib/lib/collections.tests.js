@@ -39,4 +39,22 @@ describe('Projektor Collection API', function() {
       TestCollection.addField(existingField);
     }, Meteor.Error, 'null.addField.alreadyExists');
   });
+  it('should add fields with default value to existing documents', function() {
+    let existingDocument = {
+      existingField: 'test',
+    };
+    const existingDocumentId = TestCollection.insert(existingDocument);
+
+    const defaultField = {
+      name: 'defaultField',
+      schema: {
+        type: String,
+        defaultValue: 'default-test',
+      },
+    };
+    TestCollection.addField(defaultField);
+
+    existingDocument = TestCollection.findOne(existingDocumentId);
+    assert.equal(existingDocument.defaultField, 'default-test');
+  })
 });
