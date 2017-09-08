@@ -1,6 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import lodash from 'lodash';
 
+// Partially inspired by Telescope code base: https://github.com/VulcanJS/Vulcan/blob/legacy/packages/telescope-lib/lib/modules.js
+
 /**
  * @summary Template modules let you insert templates in specific zones in the app's layout.
  * @locus Anywhere

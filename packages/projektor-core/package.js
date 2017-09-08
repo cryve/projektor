@@ -1,3 +1,5 @@
+// Partially inspired by Telescope code base: https://github.com/VulcanJS/Vulcan/blob/legacy/packages/telescope-core/package.js
+
 Package.describe({
   name: 'projektor:core',
   summary: 'Projektor core libraries',
