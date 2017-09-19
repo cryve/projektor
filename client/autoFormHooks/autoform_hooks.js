@@ -69,7 +69,7 @@ AutoForm.addHooks([
   'saveGrading',      //<-------------------------
 ], {
   before: {
-    method(doc) {,
+    method(doc) {
       doc.docId = this.docId;
       return doc;
     },
