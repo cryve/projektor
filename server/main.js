@@ -89,7 +89,7 @@ Meteor.startup(function() {
     };
   });
   XlsFiles.remove({});
-  Courses.remove({});
+  // Courses.remove({});
   Studies.remove({});
 
   fs = require('fs');

@@ -3,8 +3,8 @@ import faker from 'faker';
 import { Projects } from '/lib/collections/projects.js';
 faker.locale = 'de';
 /* Set amount of sample docs */
-const sampleCountUsers = 20;
-const sampleCountProjects = 12;
+const sampleCountUsers = 0;
+const sampleCountProjects = 0;
 
 /* Set field limits */
 const maxSizeTeam = 10;
@@ -17,8 +17,8 @@ const maxSizeSupervisors = 5;
 const maxSizeProfileContacts = 5;
 
 /* Clear databases */
-Meteor.users.remove({});
-Projects.remove({});
+//Meteor.users.remove({});
+//Projects.remove({});
 /* Create possible values */
 const sampleUserRoles = ['Student', 'Mitarbeiter'];
 const sampleUserTitles = ['Student', 'Professur', 'Lehrkraft', 'Akadem. Mitarbeiter/in', 'Vertretungsprofessur'];
