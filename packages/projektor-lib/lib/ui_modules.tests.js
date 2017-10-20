@@ -12,8 +12,8 @@ describe('Projektor.modules', function() {
     });
   });
 
-  it('should have function: create', function() {
-    assert.isFunction(Projektor.modules.createZone, 'has create function');
+  it('should have function to create new zone', function() {
+    assert.isFunction(Projektor.modules.createZone, 'has createZone function');
   });
 
   it('should have function: add', function() {
