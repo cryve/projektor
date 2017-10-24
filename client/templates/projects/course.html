@@ -51,7 +51,7 @@
         <div class="modal-body">
           <p>Möchtest du den Kurs <strong>{{docTitle}}</strong> beitreten?</p>
           <div class="alert alert-warning" role="alert">
-            Wenn du diesem Krus beitreten möchtest, benötigst du den zugehörigen Einschreibeschlüssel!
+            Wenn du diesem Kurs beitreten möchtest, benötigst du den zugehörigen Einschreibeschlüssel!
           </div>
           {{#autoForm id="addCourseToCourse" schema=addCourseToCourseSchema type="method" meteormethod=(getMethodString getCollection._name "addCourse") doc=this.currentDoc }}
             <div class="form-group">
